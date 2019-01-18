@@ -17,6 +17,7 @@ RSpec.describe Bar, type: :model do
 
   it { is_expected.to validate_inclusion_of(:placement).in_array(%w(top bottom)) }
   it { is_expected.to validate_inclusion_of(:template_enabled).in_array(%w(global homepage collection product)) }
+  it { is_expected.to validate_inclusion_of(:background_image_repeat).in_array(%w(no-repeat repeat-x repeat-y repeat space))}
 
   context 'when not valid url' do
     it 'with space' do
@@ -27,4 +28,6 @@ RSpec.describe Bar, type: :model do
       expect(FactoryBot.build(:bar, url: 'no dot com')).to_not be_valid
     end
   end
+
+  it { is_expected.to belong_to(:shop) }
 end
