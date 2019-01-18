@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190117051757) do
+ActiveRecord::Schema.define(version: 20190118173100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bars", force: :cascade do |t|
+    t.bigint "shop_id"
+    t.string "title", null: false
+    t.text "content", default: "", null: false
+    t.string "position", default: "fixed", null: false
+    t.string "location", default: "top", null: false
+    t.string "url"
+    t.boolean "is_new_tab_url", default: false, null: false
+    t.string "text_color", default: "#ffffff", null: false
+    t.string "bg_color", default: "#2d3436", null: false
+    t.string "template_enabled", default: "global", null: false
+    t.boolean "has_close_button", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_bars_on_shop_id"
+  end
 
   create_table "shops", force: :cascade do |t|
     t.string "shopify_domain", null: false
@@ -23,4 +40,5 @@ ActiveRecord::Schema.define(version: 20190117051757) do
     t.index ["shopify_domain"], name: "index_shops_on_shopify_domain", unique: true
   end
 
+  add_foreign_key "bars", "shops"
 end
