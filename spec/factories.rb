@@ -17,8 +17,8 @@ FactoryBot.define do
   factory :bar do
     title "FooBar Project"
     content "Lorem ipsum"
-    position "fixed"
-    location "top"
+    is_sticky true
+    placement "top"
     url nil
     is_new_tab_url false
     text_color "#ffffff"

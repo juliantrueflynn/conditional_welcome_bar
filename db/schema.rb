@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.bigint "shop_id"
     t.string "title", null: false
     t.text "content", default: "", null: false
-    t.string "position", default: "fixed", null: false
-    t.string "location", default: "top", null: false
     t.string "url"
+    t.string "placement", default: "top", null: false
+    t.boolean "is_sticky", default: true, null: false
     t.boolean "is_new_tab_url", default: false, null: false
     t.string "text_color", default: "#ffffff", null: false
-    t.string "background_color", default: "#2d3436"
     t.string "template_enabled", default: "global", null: false
     t.boolean "has_close_button", default: true, null: false
+    t.string "background_color", default: "#2d3436"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["shop_id"], name: "index_bars_on_shop_id"
