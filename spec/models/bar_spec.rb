@@ -5,7 +5,6 @@ RSpec.describe Bar, type: :model do
 
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :content }
-  it { is_expected.to validate_presence_of :bg_color }
   it { is_expected.to validate_presence_of :template_enabled }
 
   it { is_expected.to_not allow_value(nil).for(:content)}

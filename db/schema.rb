@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.string "url"
     t.boolean "is_new_tab_url", default: false, null: false
     t.string "text_color", default: "#ffffff", null: false
-    t.string "bg_color", default: "#2d3436", null: false
+    t.string "background_color", default: "#2d3436"
     t.string "template_enabled", default: "global", null: false
     t.boolean "has_close_button", default: true, null: false
     t.datetime "created_at", null: false

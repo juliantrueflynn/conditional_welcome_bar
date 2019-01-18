@@ -6,7 +6,6 @@ class Bar < ApplicationRecord
     :position,
     :location,
     :text_color,
-    :bg_color,
     :template_enabled
   validates_inclusion_of :position, in: %w(fixed static)
   validates_inclusion_of :location, in: %w(top bottom)

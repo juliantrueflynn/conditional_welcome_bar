@@ -22,7 +22,7 @@ FactoryBot.define do
     url nil
     is_new_tab_url false
     text_color "#ffffff"
-    bg_color "#2d3436"
+    background_color "#2d3436"
     template_enabled "global"
     has_close_button true
     shop
