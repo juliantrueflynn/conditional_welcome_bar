@@ -2,6 +2,16 @@ FactoryBot.define do
   factory :shop do
     shopify_domain 'jiffywelcomebar'
     shopify_token 'token'
+
+    factory :shop_with_bars do
+      transient do
+        bars_count { 3 }
+      end
+
+      after(:create) do |shop, evaluator|
+        create_list(:bar, evaluator.bars_count, shop: shop)
+      end
+    end
   end
 
   factory :bar do
