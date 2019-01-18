@@ -18,4 +18,14 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to validate_inclusion_of(:position).in_array(%w(fixed static)) }
   it { is_expected.to validate_inclusion_of(:location).in_array(%w(top bottom)) }
   it { is_expected.to validate_inclusion_of(:template_enabled).in_array(%w(global homepage collection product)) }
+
+  context 'when not valid url' do
+    it 'with space' do
+      expect(FactoryBot.build(:bar, url: 'url space.com')).to_not be_valid
+    end
+
+    it 'no tld' do
+      expect(FactoryBot.build(:bar, url: 'no dot com')).to_not be_valid
+    end
+  end
 end
