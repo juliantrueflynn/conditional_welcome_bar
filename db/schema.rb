@@ -30,10 +30,12 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.string "padding_bottom"
     t.string "padding_left"
     t.string "text_align", default: "center"
+    t.float "text_opacity", default: 1.0
     t.string "font_color", default: "#ffffff", null: false
     t.string "font_size"
-    t.string "background_image"
+    t.float "background_opacity", default: 1.0
     t.string "background_color", default: "#2d3436"
+    t.string "background_image"
     t.string "background_image_repeat", default: "no-repeat"
     t.string "background_image_size_x", default: "auto"
     t.string "background_image_size_y", default: "auto"

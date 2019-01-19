@@ -13,9 +13,11 @@ FactoryBot.define do
     padding_bottom nil
     padding_left nil
     text_align 'center'
+    text_opacity 1
     font_color "#ffffff"
     font_size nil
     background_color '#2d3436'
+    background_opacity 1
     background_image nil
     background_image_repeat 'no-repeat'
     background_image_size_x nil
