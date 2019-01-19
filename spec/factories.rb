@@ -6,9 +6,15 @@ FactoryBot.define do
     placement "top"
     url nil
     is_new_tab_url false
-    font_color "#ffffff"
     template_enabled "global"
     has_close_button true
+    padding_top nil
+    padding_right nil
+    padding_bottom nil
+    padding_left nil
+    text_align 'center'
+    font_color "#ffffff"
+    font_size nil
     background_color '#2d3436'
     background_image nil
     background_image_repeat 'no-repeat'

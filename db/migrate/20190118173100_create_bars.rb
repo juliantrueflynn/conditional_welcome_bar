@@ -8,9 +8,15 @@ class CreateBars < ActiveRecord::Migration[5.1]
       t.string :placement, default: 'top', null: false
       t.boolean :is_sticky, default: true, null: false
       t.boolean :is_new_tab_url, default: false, null: false
-      t.string :font_color, default: '#ffffff', null: false
       t.string :template_enabled, default: 'global', null: false
       t.boolean :has_close_button, default: true, null: false
+      t.string :padding_top
+      t.string :padding_right
+      t.string :padding_bottom
+      t.string :padding_left
+      t.string :text_align, default: 'center'
+      t.string :font_color, default: '#ffffff', null: false
+      t.string :font_size
       t.string :background_image
       t.string :background_color, default: '#2d3436'
       t.string :background_image_repeat, default: 'no-repeat'
