@@ -33,4 +33,16 @@ class Bar < ApplicationRecord
     greater_than_or_equal_to: 0,
     allow_nil: true
   validates :url, url: true, allow_nil: true
+
+  def self.to_decimal(integer)
+    return 1.0 if integer > 100
+    return 0.0 if integer < 0
+    integer.to_f / 100
+  end
+
+  def opacity(integer, param)
+    decimal = Bar.to_decimal(integer)
+    update_attribute(param, decimal)
+    self
+  end
 end

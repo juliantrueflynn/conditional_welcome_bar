@@ -56,4 +56,21 @@ RSpec.describe Bar, type: :model do
   end
 
   it { is_expected.to belong_to(:shop) }
+
+  context 'integer to decimal' do
+    it '.to_decimal valid' do
+      expect(Bar.to_decimal(58)).to eq(0.58)
+      expect(Bar.to_decimal(85)).to eq(0.85)
+      expect(Bar.to_decimal(100)).to eq(1.0)
+      expect(Bar.to_decimal(-1)).to eq(0.0)
+    end
+
+    it '#opacity for :background_opacity' do
+      expect(FactoryBot.build(:bar).opacity(95, :background_opacity).background_opacity).to eq(0.95)
+    end
+
+    it '#opacity for :text_opacity' do
+      expect(FactoryBot.build(:bar).opacity(59, :text_opacity).text_opacity).to eq(0.59)
+    end
+  end
 end
