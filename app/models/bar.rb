@@ -35,6 +35,13 @@ class Bar < ApplicationRecord
     allow_nil: true
   validates :url, url: true, allow_nil: true
 
+  scope :with_active, -> { where(is_active: true) }
+
+  def self.by_domain_and_active(domain)
+    shop = Shop.find_by(shopify_domain: domain)
+    with_active.find_by(shop_id: shop)
+  end
+
   def self.to_decimal(integer)
     return 1.0 if integer > 100
     return 0.0 if integer < 0
