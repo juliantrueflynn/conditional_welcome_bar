@@ -57,19 +57,29 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to belong_to(:shop) }
 
   context 'integer to decimal' do
-    it '.to_decimal valid' do
-      expect(Bar.to_decimal(58)).to eq(0.58)
-      expect(Bar.to_decimal(85)).to eq(0.85)
-      expect(Bar.to_decimal(100)).to eq(1.0)
-      expect(Bar.to_decimal(-1)).to eq(0.0)
-    end
-
     it '#opacity for :background_opacity' do
       expect(FactoryBot.build(:bar).opacity(95, :background_opacity).background_opacity).to eq(0.95)
     end
 
     it '#opacity for :text_opacity' do
       expect(FactoryBot.build(:bar).opacity(59, :text_opacity).text_opacity).to eq(0.59)
+    end
+  end
+
+  context 'when :is_active updated' do
+    let!(:bars) { FactoryBot.create(:shop_with_bars).bars }
+
+    before { bars.first.update_columns(is_active: true) }
+
+    it 'one :is_active true at time' do
+      bars.last.update(is_active: true)
+      expect(bars.first.is_active).to be false
+    end
+
+    it 'when :is_active false' do
+      bars.last.update(is_active: false)
+      expect(bars.first.is_active).to be true
+      expect(bars.last.is_active).to be false
     end
   end
 end

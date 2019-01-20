@@ -58,4 +58,14 @@ class Bar < ApplicationRecord
     update_attribute(param, decimal)
     self
   end
+
+  after_update_commit :update_other_active_bars_to_inactive
+
+  private
+
+  def update_other_active_bars_to_inactive
+    return unless is_active?
+    is_actives = shop.bars.where.not(id: id)
+    is_actives.each { |bar| bar.update_column(:is_active, false) }
+  end
 end
