@@ -1,14 +1,13 @@
 const { shop } = window.Shopify || {};
 const apiHostname = 'conditionalwelcomebar.ngrok.io';
+const apiUrl = `https://${apiHostname}/api`;
 const shopDomain = shop.replace('.myshopify.com', '');
 
-appendStylesheet(`https://${apiHostname}/css/welcomeBar.css`);
+appendStylesheet(`//${apiHostname}/css/welcomeBar.css`);
 
 insertWelcomeBar();
 
-fetchBar();
-
-getCurrentTemplate();
+fetchBarsIndex();
 
 function getCurrentTemplate() {
   const path = window.location.pathname;
@@ -27,7 +26,7 @@ function getCurrentTemplate() {
   return template;
 }
 
-function fetchBar() {
+function fetchBarsIndex() {
   const request = new XMLHttpRequest();
 
   request.onreadystatechange = function() {
@@ -35,8 +34,8 @@ function fetchBar() {
       console.log(this.responseText);
     }
   };
-  
-  request.open('GET', `https://${apiHostname}/api/bars/${shopDomain}`);
+
+  request.open('GET', `${apiUrl}/shops/${shopDomain}/active_bars`);
   request.send();
 }
 
