@@ -4,9 +4,7 @@ RSpec.describe Bar, type: :model do
   it { expect(FactoryBot.build(:bar)).to be_valid }
 
   it { is_expected.to validate_presence_of :title }
-  it { is_expected.to validate_presence_of :content }
   it { is_expected.to validate_presence_of :template_enabled }
-  it { is_expected.to_not allow_value(nil).for(:content)}
   it { is_expected.to_not allow_value(nil).for(:is_active)}
   it { is_expected.to_not allow_value(nil).for(:is_sticky)}
   it { is_expected.to_not allow_value(nil).for(:is_new_tab_url) }

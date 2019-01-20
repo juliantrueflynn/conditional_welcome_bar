@@ -6,10 +6,10 @@ class Bar < ApplicationRecord
   belongs_to :shop
 
   validates_presence_of :title,
-    :content,
     :placement,
     :font_color,
     :template_enabled
+  validates_length_of :content, minimum: 0, allow_nil: false
   validates_inclusion_of :placement, in: %w(top bottom)
   validates_inclusion_of :is_active, in: [true, false]
   validates_inclusion_of :is_sticky, in: [true, false]
