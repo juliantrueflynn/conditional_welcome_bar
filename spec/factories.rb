@@ -30,8 +30,8 @@ FactoryBot.define do
   end
 
   factory :shop do
-    shopify_domain 'jiffywelcomebar'
-    shopify_token 'token'
+    shopify_domain { "#{Faker::Internet.unique.domain_word}.myshopify.com" }
+    shopify_token { SecureRandom.hex(10) }
 
     factory :shop_with_bars do
       transient do
