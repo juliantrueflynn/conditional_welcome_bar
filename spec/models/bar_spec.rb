@@ -40,7 +40,10 @@ RSpec.describe Bar, type: :model do
   end
 
   it { is_expected.to validate_inclusion_of(:placement).in_array(%w(top bottom)) }
-  it { is_expected.to validate_inclusion_of(:template_enabled).in_array(%w(global homepage collection product)) }
+  it do
+    is_expected.to validate_inclusion_of(:template_enabled)
+      .in_array(%w(global homepage collection product cart))
+  end
   it { is_expected.to validate_inclusion_of(:background_image_repeat).in_array(%w(no-repeat repeat-x repeat-y repeat space))}
   it { is_expected.to validate_inclusion_of(:text_align).in_array(%w(center left right)) }
 

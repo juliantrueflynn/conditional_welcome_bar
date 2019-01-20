@@ -8,6 +8,25 @@ insertWelcomeBar();
 
 fetchBar();
 
+getCurrentTemplate();
+
+function getCurrentTemplate() {
+  const path = window.location.pathname;
+  let template;
+
+  if (path === '/') {
+    template = 'homepage';
+  } else if (path === '/cart') {
+    template = 'cart';
+  } else if (path.indexOf('/products/') !== -1) {
+    template = 'product';
+  } else if (path.indexOf('/collections/') !== -1) {
+    template = 'collection';
+  }
+
+  return template;
+}
+
 function fetchBar() {
   const request = new XMLHttpRequest();
 
@@ -20,12 +39,6 @@ function fetchBar() {
   request.open('GET', `https://${apiHostname}/api/bars/${shopDomain}`);
   request.send();
 }
-
-// TODO: Model: fetch rails api
-
-// TODO: Controller: set conditional vars for view
-
-// TODO: View: set HTML from controller
 
 function insertWelcomeBar() {
   const body = document.getElementsByTagName('body')[0];
