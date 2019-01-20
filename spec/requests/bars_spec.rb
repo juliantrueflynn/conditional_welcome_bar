@@ -32,7 +32,7 @@ RSpec.describe 'Bars', type: :request do
     let!(:bar) { FactoryBot.attributes_for(:bar) }
     let!(:shop) { Shop.last }
 
-    it 'valid attributes' do
+    it 'when valid attributes' do
       expect {
         post "#{ENV['API_URL']}/api/shops/#{shop.id}/bar", params: { bar: bar }
       }.to change(Bar, :count).by(1)
@@ -50,10 +50,17 @@ RSpec.describe 'Bars', type: :request do
     let!(:attributes) { { title: 'Updated' } }
     let!(:bar) { FactoryBot.create(:bar) }
 
-    it do
+    it 'when valid attributes' do
       patch "#{ENV['API_URL']}/api/bars/#{bar.id}", params: { bar: attributes }
       bar.reload
       expect(bar.title).to eq(attributes[:title])
+    end
+
+    it 'when not valid attributes' do
+      invalid_params = { title: '' }
+      patch "#{ENV['API_URL']}/api/bars/#{bar.id}", params: { bar: invalid_params }
+      bar.reload
+      expect(bar.title).to_not eq(invalid_params[:title])
     end
   end
 
