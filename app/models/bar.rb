@@ -37,9 +37,14 @@ class Bar < ApplicationRecord
 
   scope :with_active, -> { where(is_active: true) }
 
-  def self.by_domain_and_active(domain)
-    shop = Shop.find_by(shopify_domain: domain)
-    with_active.find_by(shop_id: shop)
+  def self.by_domain_name_and_active(domain)
+    shop = Shop.by_domain_name(domain)
+    with_active.find_by_shop_id(shop)
+  end
+
+  def self.with_domain_name(domain)
+    shop = Shop.by_domain_name(domain)
+    where(shop_id: shop)
   end
 
   def self.to_decimal(integer)
