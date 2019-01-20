@@ -8,14 +8,30 @@ class Api::BarsController < ApplicationController
   def show
   end
 
+  def create
+    shop = Shop.find_by(id: params[:shop_id])
+    @bar = shop.bars.new(bar_params)
+
+    if @bar.save
+      render 'api/bars/show'
+    else
+      render json: @bar.errors.full_messages, status: 422
+    end
+  end
+
   def update
+    if @bar.update(bar_params)
+      render 'api/bars/show'
+    else
+      render json: @bar.errors.full_messages, status: 422
+    end
   end
 
   def destroy
     if @bar && @bar.destroy
-      render json: @bar
+      render 'api/bars/show'
     else
-      render json: ['not found']
+      render json: ['not found'], status: 404
     end
   end
 
@@ -26,6 +42,32 @@ class Api::BarsController < ApplicationController
   end
 
   def bar_params
-    params.require(:bar).permit(:id, :hostname)
+    params.require(:bar).permit(
+      :title,
+      :content,
+      :padding_top,
+      :padding_bottom,
+      :padding_right,
+      :padding_left,
+      :has_close_button,
+      :url,
+      :is_active,
+      :is_new_tab_url,
+      :is_sticky,
+      :placement,
+      :template_enabled,
+      :font_color,
+      :font_family,
+      :font_size,
+      :text_opacity,
+      :text_align,
+      :background_opacity,
+      :background_image,
+      :background_image_repeat,
+      :background_image_size_x,
+      :background_image_size_y,
+      :background_image_position_x,
+      :background_image_position_y
+    )
   end
 end

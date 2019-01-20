@@ -27,12 +27,35 @@ RSpec.describe 'Bars', type: :request do
     end
   end
 
+  describe "CREATE /bar" do
+    before { login }
+    let!(:bar) { FactoryBot.attributes_for(:bar) }
+
+    it do
+      expect {
+        shop = Shop.all.sample
+        post "#{ENV['API_URL']}/api/shops/#{shop.id}/bar", params: { bar: bar }
+      }.to change(Bar, :count).by(1)
+    end
+  end
+
+  describe "UPDATE /bar/:id" do
+    let!(:attributes) { { title: 'Updated' } }
+    let!(:bar) { FactoryBot.create(:bar) }
+
+    it do
+      patch "#{ENV['API_URL']}/api/bars/#{bar.id}", params: { bar: attributes }
+      bar.reload
+      expect(bar.title).to eq(attributes[:title])
+    end
+  end
+
   describe "DELETE /bar/:id" do
     let!(:bar) { FactoryBot.create(:bar) }
 
     it 'change count' do
-      destroy_api_url = "#{ENV['API_URL']}/api/bars/#{bar.id}"
-      expect { delete destroy_api_url }.to change { Bar.count }.by(-1)
+      api_url = "#{ENV['API_URL']}/api/bars/#{bar.id}"
+      expect { delete api_url }.to change(Bar, :count).by(-1)
     end
   end
 end
