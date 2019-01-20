@@ -65,6 +65,7 @@ class Bar < ApplicationRecord
 
   def update_other_active_bars_to_inactive
     return unless is_active?
+    return if shop.bars.length <= 1
     is_actives = shop.bars.where.not(id: id)
     is_actives.each { |bar| bar.update_column(:is_active, false) }
   end
