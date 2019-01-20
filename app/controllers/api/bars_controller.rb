@@ -1,6 +1,6 @@
 class Api::BarsController < ApplicationController
   def index
-    @bars = Bar.with_domain_name(params[:shopify_domain])
+    @bars = Bar.with_domain_name(params[:hostname])
   end
 
   def show
@@ -10,5 +10,11 @@ class Api::BarsController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def bar_params
+    params.require(:bar).permit(:id, :hostname)
   end
 end

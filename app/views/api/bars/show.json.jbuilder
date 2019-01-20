@@ -1,0 +1,1 @@
+json.(@bar, *@bar.attributes.keys)
