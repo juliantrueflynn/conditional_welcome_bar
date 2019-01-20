@@ -30,12 +30,19 @@ RSpec.describe 'Bars', type: :request do
   describe "CREATE /bar" do
     before { login }
     let!(:bar) { FactoryBot.attributes_for(:bar) }
+    let!(:shop) { Shop.last }
 
-    it do
+    it 'valid attributes' do
       expect {
-        shop = Shop.all.sample
         post "#{ENV['API_URL']}/api/shops/#{shop.id}/bar", params: { bar: bar }
       }.to change(Bar, :count).by(1)
+    end
+
+    it 'when not valid attributes' do
+      expect {
+        invalid_params = { bar: { title: 'Fail' } }
+        post "#{ENV['API_URL']}/api/shops/#{shop.id}/bar", params: invalid_params
+      }.to_not change(Bar, :count)
     end
   end
 
