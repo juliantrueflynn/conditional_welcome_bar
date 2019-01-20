@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :bar do
     title "FooBar Project"
     content "Lorem ipsum"
+    is_active true
     is_sticky true
     placement "top"
     url nil
@@ -16,6 +17,7 @@ FactoryBot.define do
     text_opacity 1
     font_color "#ffffff"
     font_size nil
+    font_family 'inherit'
     background_color '#2d3436'
     background_opacity 1
     background_image nil

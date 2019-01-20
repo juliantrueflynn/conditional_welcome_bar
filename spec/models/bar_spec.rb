@@ -7,6 +7,7 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to validate_presence_of :content }
   it { is_expected.to validate_presence_of :template_enabled }
   it { is_expected.to_not allow_value(nil).for(:content)}
+  it { is_expected.to_not allow_value(nil).for(:is_active)}
   it { is_expected.to_not allow_value(nil).for(:is_sticky)}
   it { is_expected.to_not allow_value(nil).for(:is_new_tab_url) }
   it { is_expected.to_not allow_value(nil).for(:has_close_button) }
