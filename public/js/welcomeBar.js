@@ -31,12 +31,26 @@ function fetchBarsIndex() {
 
   request.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
-      console.log(this.responseText);
+      const response = JSON.parse(this.responseText);
+      const bar = getBarFromResponse(response);
     }
   };
 
   request.open('GET', `${apiUrl}/shops/${shopDomain}/active_bars`);
   request.send();
+}
+
+function getBarFromResponse(response) {
+  const template = getCurrentTemplate();
+
+  const bars = response.filter(({ templateEnabled }) => (
+    templateEnabled === 'global' || templateEnabled === template
+  ));
+
+  console.log(bars);
+  console.log(bars[0]);
+
+  return bars[0];
 }
 
 function insertWelcomeBar() {
