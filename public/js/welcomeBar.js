@@ -1,9 +1,25 @@
 const { shop } = window.Shopify || {};
 const apiHostname = 'conditionalwelcomebar.ngrok.io';
+const shopDomain = shop.replace('.myshopify.com', '');
 
 appendStylesheet(`https://${apiHostname}/css/welcomeBar.css`);
 
 insertWelcomeBar();
+
+fetchBar();
+
+function fetchBar() {
+  const request = new XMLHttpRequest();
+
+  request.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      console.log(this.responseText);
+    }
+  };
+  
+  request.open('GET', `https://${apiHostname}/api/bars/${shopDomain}`);
+  request.send();
+}
 
 // TODO: Model: fetch rails api
 
