@@ -60,7 +60,6 @@
       return template;
     },
     render: function (props) {
-      console.log(props);
       const body = document.getElementsByTagName('body')[0];
       const container = document.createElement('div');
 
@@ -96,19 +95,42 @@
       let bar = document.createElement('div');
 
       if (props.url) {
+        const widthClassName = props.isFullWidthLink ? 'w-100' : 'w-auto';
         container.classList.add('cw-bar__linkable');
+        container.classList.add(`cw-bar__linkable--${widthClassName}`);
+        
         bar = document.createElement('a');
         bar.href = props.url;
       }
 
-      bar.classList.add('cw-bar__body');
+      if (props.url && props.isNewTablUrl) {
+        bar.target = '_blank';
+      }
+
+      bar.classList.add('cw-bar__content');
       bar.style.paddingTop = props.paddingTop || '10px';
       bar.style.paddingBottom = props.paddingBottom || '10px';
       bar.style.paddingLeft = props.paddingLeft || '15px';
       bar.style.paddingRight = props.paddingRight || '15px';
+
       bar.innerHTML = props.content;
 
-      container.appendChild(bar);
+      const row = document.createElement('div');
+      row.classList.add('cw-bar__row');
+
+      row.appendChild(bar);
+
+      if (props.hasCloseButton) {
+        const buttonClose = document.createElement('button');
+        buttonClose.classList.add('cw-bar__button');
+        buttonClose.classList.add('cw-bar__button--close');
+        buttonClose.ariaLabel = 'Close bar';
+        buttonClose.type = 'button';
+        buttonClose.innerHTML = '&times;';
+        row.appendChild(buttonClose);
+      }
+
+      container.appendChild(row);
       body.insertBefore(container, body.firstChild);
     }
   };

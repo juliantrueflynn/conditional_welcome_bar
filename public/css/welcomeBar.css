@@ -16,6 +16,21 @@
   bottom: 0;
 }
 
+.cw-bar__row {
+  position: relative;
+}
+
 .cw-bar a.cw-bar__body {
+  color: inherit;
+}
+
+.cw-bar__button--close {
+  outline: 0;
+  background-color: transparent;
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   color: inherit;
 }
