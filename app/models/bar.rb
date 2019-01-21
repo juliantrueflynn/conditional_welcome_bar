@@ -37,6 +37,10 @@ class Bar < ApplicationRecord
 
   scope :with_active, -> { where(is_active: true) }
 
+  def self.with_template_enabled(template_enabled)
+    where(template_enabled: template_enabled)
+  end
+
   def self.by_domain_name_and_active(domain)
     shop = Shop.by_domain_name(domain)
     with_active.find_by_shop_id(shop)
@@ -59,14 +63,33 @@ class Bar < ApplicationRecord
     self
   end
 
-  after_update_commit :update_other_active_bars_to_inactive
+  def update_is_active_false
+    update_columns(is_active: false)
+  end
+
+  after_update_commit :is_active_toggle_for_template_enabled
 
   private
 
-  def update_other_active_bars_to_inactive
+  def is_active_toggle_for_template_enabled
     return unless is_active?
-    return if shop.bars.length <= 1
-    is_actives = shop.bars.where.not(id: id)
-    is_actives.each { |bar| bar.update_column(:is_active, false) }
+    return unless saved_change_to_is_active?
+    return update_is_active_for_all_templates if template_enabled === 'global'
+    update_is_active_for_match_template
+  end
+
+  def update_is_active_for_all_templates
+    bars_active_without_current.each(&:update_is_active_false)
+  end
+
+  def update_is_active_for_match_template
+    bars_active_without_current
+      .with_template_enabled(template_enabled)
+      .or(bars_active_without_current.with_template_enabled('global'))
+      .each(&:update_is_active_false)
+  end
+
+  def bars_active_without_current
+    shop.bars.with_active.where.not(id: id)
   end
 end

@@ -72,17 +72,36 @@ RSpec.describe Bar, type: :model do
   context 'when :is_active updated' do
     let!(:bars) { FactoryBot.create(:shop_with_bars).bars }
 
-    before { bars.first.update_columns(is_active: true) }
+    before do
+      bars.first.update_columns(is_active: true)
+      bars.second.update_columns(template_enabled: 'homepage', is_active: true)
+    end
 
-    it 'one :is_active true at time' do
+    it 'when :is_active true' do
       bars.last.update(is_active: true)
       expect(bars.first.is_active).to be false
+      expect(bars.second.is_active).to be false
+      expect(bars.last.is_active).to be true
     end
 
     it 'when :is_active false' do
+      bars.last.update_columns(is_active: false)
       bars.last.update(is_active: false)
       expect(bars.first.is_active).to be true
       expect(bars.last.is_active).to be false
+    end
+
+    it 'when :is_active true and not :template_enabled global' do
+      bars.last.update(is_active: true, template_enabled: 'homepage')
+      expect(bars.first.is_active).to be false
+      expect(bars.last.is_active).to be true
+    end
+
+    it 'when :is_active true and no matching :template_enabled' do
+      bars.first.update_columns(template_enabled: 'cart')
+      bars.last.update(is_active: true, template_enabled: 'homepage')
+      expect(bars.first.is_active).to be true
+      expect(bars.last.is_active).to be true
     end
   end
 end

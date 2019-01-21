@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :bar do
     title "FooBar Project"
     content "Lorem ipsum"
-    is_active true
+    is_active false
     is_sticky true
     placement "top"
     url nil
@@ -34,6 +34,16 @@ FactoryBot.define do
     shopify_token { SecureRandom.hex(10) }
 
     factory :shop_with_bars do
+      transient do
+        bars_count { 3 }
+      end
+
+      after(:create) do |shop, evaluator|
+        create_list(:bar, evaluator.bars_count, shop: shop)
+      end
+    end
+
+    factory :shop_bars_mixed_templates do
       transient do
         bars_count { 3 }
       end
