@@ -8,14 +8,14 @@ class Bar < ApplicationRecord
   validates_presence_of :title,
     :placement,
     :font_color,
-    :template_enabled
+    :page_template
   validates_length_of :content, minimum: 0, allow_nil: false
   validates_inclusion_of :placement, in: %w(top bottom)
   validates_inclusion_of :is_active, in: [true, false]
   validates_inclusion_of :is_sticky, in: [true, false]
   validates_inclusion_of :is_new_tab_url, in: [true, false]
   validates_inclusion_of :has_close_button, in: [true, false]
-  validates_inclusion_of :template_enabled,
+  validates_inclusion_of :page_template,
     in: %w(global homepage collection product cart)
   validates_inclusion_of :background_image_repeat,
     in: %w(no-repeat repeat-x repeat-y repeat space)
@@ -37,8 +37,8 @@ class Bar < ApplicationRecord
 
   scope :with_active, -> { where(is_active: true) }
 
-  def self.with_template_enabled(template_enabled)
-    where(template_enabled: template_enabled)
+  def self.with_page_template(page_template)
+    where(page_template: page_template)
   end
 
   def self.by_domain_name_and_active(domain)
@@ -67,14 +67,14 @@ class Bar < ApplicationRecord
     update_columns(is_active: false)
   end
 
-  after_update_commit :is_active_toggle_for_template_enabled
+  after_update_commit :is_active_toggle_for_page_template
 
   private
 
-  def is_active_toggle_for_template_enabled
+  def is_active_toggle_for_page_template
     return unless is_active?
     return unless saved_change_to_is_active?
-    return update_is_active_for_all_templates if template_enabled === 'global'
+    return update_is_active_for_all_templates if page_template === 'global'
     update_is_active_for_match_template
   end
 
@@ -84,8 +84,8 @@ class Bar < ApplicationRecord
 
   def update_is_active_for_match_template
     bars_active_without_current
-      .with_template_enabled(template_enabled)
-      .or(bars_active_without_current.with_template_enabled('global'))
+      .with_page_template(page_template)
+      .or(bars_active_without_current.with_page_template('global'))
       .each(&:update_is_active_false)
   end
 

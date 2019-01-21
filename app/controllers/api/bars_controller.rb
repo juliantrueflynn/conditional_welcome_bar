@@ -55,7 +55,7 @@ class Api::BarsController < ApplicationController
       :is_new_tab_url,
       :is_sticky,
       :placement,
-      :template_enabled,
+      :page_template,
       :font_color,
       :font_family,
       :font_size,

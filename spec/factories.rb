@@ -7,7 +7,7 @@ FactoryBot.define do
     placement "top"
     url nil
     is_new_tab_url false
-    template_enabled "global"
+    page_template "global"
     has_close_button true
     padding_top nil
     padding_right nil
