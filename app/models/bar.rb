@@ -1,5 +1,6 @@
 class Bar < ApplicationRecord
   PX_REGEX = /\d+(\.\d+)?px/
+  SCRUB_PARAMS = %w(id title created_at updated_at shop_id is_active).freeze
 
   mount_uploader :background_image, BackgroundUploader
 
