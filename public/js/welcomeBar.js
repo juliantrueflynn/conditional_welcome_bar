@@ -58,14 +58,39 @@
     
       return template;
     },
-    render: function (barProps) {
-      console.log(barProps);
+    render: function (props) {
+      console.log(props);
       api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
 
       const body = document.getElementsByTagName('body')[0];
       const bar = document.createElement('div');
       bar.classList.add('cw-bar');
-      bar.innerHTML = barProps.content;
+      bar.id = `cwBar${props.id}`;
+
+      bar.style.fontSize = props.fontSize;
+      bar.style.color = props.fontColor;
+      bar.style.paddingTop = props.paddingTop || '10px';
+      bar.style.paddingBottom = props.paddingBottom || '10px';
+      bar.style.paddingLeft = props.paddingLeft || '15px';
+      bar.style.paddingRight = props.paddingRight || '15px';
+      bar.style.textAlign = props.textAlign;
+      bar.style.backgroundColor = props.backgroundColor;
+
+      if (props.backgroundImage) {
+        bar.style.backgroundImage = `url(${props.backgroundImage})`;
+        bar.style.backgroundRepeat = props.backgroundImageRepeat;
+        bar.style.backgroundPositionX = props.backgroundImagePositionX;
+        bar.style.backgroundPositionY = props.backgroundImagePositionY;
+
+        let imageSize = props.backgroundImageSizeX;
+        if (props.backgroundImageSizeY) {
+          imageSize += ` ${props.backgroundImageSizeY}`;
+        }
+
+        bar.style.backgroundSize = imageSize;
+      }
+
+      bar.innerHTML = props.content;
       body.insertBefore(bar, body.firstChild);
     }
   };
