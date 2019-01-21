@@ -1,3 +1,21 @@
 .cw-bar {
-  z-index: 9999;
+  z-index: 999;
+}
+
+.cw-bar__fixed {
+  position: fixed;
+  right: 0;
+  left: 0;
+}
+
+.cw-bar__fixed--top {
+  top: 0;
+}
+
+.cw-bar__fixed--bottom {
+  bottom: 0;
+}
+
+.cw-bar a.cw-bar__body {
+  color: inherit;
 }

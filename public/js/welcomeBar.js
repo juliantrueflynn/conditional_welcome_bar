@@ -7,6 +7,8 @@
 
   const api = {
     init: function () {
+      api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
+
       api.fetchBarsIndex(function (res) {
         const bar = api.getBarFromResponse(res);
         api.render(bar);
@@ -14,8 +16,7 @@
     },
     fetchBarsIndex: function (callback) {
       const xhr = new XMLHttpRequest();
-      const { shop } = window.Shopify || {};
-      const shopDomain = shop.replace('.myshopify.com', '');
+      const shopDomain = window.Shopify.shop.replace('.myshopify.com', '');
     
       xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -60,38 +61,55 @@
     },
     render: function (props) {
       console.log(props);
-      api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
-
       const body = document.getElementsByTagName('body')[0];
-      const bar = document.createElement('div');
-      bar.classList.add('cw-bar');
-      bar.id = `cwBar${props.id}`;
+      const container = document.createElement('div');
 
-      bar.style.fontSize = props.fontSize;
-      bar.style.color = props.fontColor;
-      bar.style.paddingTop = props.paddingTop || '10px';
-      bar.style.paddingBottom = props.paddingBottom || '10px';
-      bar.style.paddingLeft = props.paddingLeft || '15px';
-      bar.style.paddingRight = props.paddingRight || '15px';
-      bar.style.textAlign = props.textAlign;
-      bar.style.backgroundColor = props.backgroundColor;
+      container.classList.add('cw-bar');
+      container.classList.add(`cw-bar__${props.id}`);
+      container.classList.add(`cw-bar__template-${api.getCurrentTemplate()}`);
+
+      if (props.isSticky) {
+        container.classList.add('cw-bar__fixed');
+        container.classList.add(`cw-bar__fixed--${props.placement}`);
+      }
+
+      container.style.fontSize = props.fontSize;
+      container.style.color = props.fontColor;
+      container.style.textAlign = props.textAlign;
+      container.style.backgroundColor = props.backgroundColor;
 
       if (props.backgroundImage) {
-        bar.style.backgroundImage = `url(${props.backgroundImage})`;
-        bar.style.backgroundRepeat = props.backgroundImageRepeat;
-        bar.style.backgroundPositionX = props.backgroundImagePositionX;
-        bar.style.backgroundPositionY = props.backgroundImagePositionY;
+        container.classList.add('cw-bar__imageable');
+        container.style.backgroundImage = `url(${props.backgroundImage})`;
+        container.style.backgroundRepeat = props.backgroundImageRepeat;
+        container.style.backgroundPositionX = props.backgroundImagePositionX;
+        container.style.backgroundPositionY = props.backgroundImagePositionY;
 
         let imageSize = props.backgroundImageSizeX;
         if (props.backgroundImageSizeY) {
           imageSize += ` ${props.backgroundImageSizeY}`;
         }
 
-        bar.style.backgroundSize = imageSize;
+        container.style.backgroundSize = imageSize;
       }
 
+      let bar = document.createElement('div');
+
+      if (props.url) {
+        container.classList.add('cw-bar__linkable');
+        bar = document.createElement('a');
+        bar.href = props.url;
+      }
+
+      bar.classList.add('cw-bar__body');
+      bar.style.paddingTop = props.paddingTop || '10px';
+      bar.style.paddingBottom = props.paddingBottom || '10px';
+      bar.style.paddingLeft = props.paddingLeft || '15px';
+      bar.style.paddingRight = props.paddingRight || '15px';
       bar.innerHTML = props.content;
-      body.insertBefore(bar, body.firstChild);
+
+      container.appendChild(bar);
+      body.insertBefore(container, body.firstChild);
     }
   };
 
