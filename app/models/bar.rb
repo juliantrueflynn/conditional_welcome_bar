@@ -15,6 +15,7 @@ class Bar < ApplicationRecord
   validates_inclusion_of :is_active, in: [true, false]
   validates_inclusion_of :is_sticky, in: [true, false]
   validates_inclusion_of :is_new_tab_url, in: [true, false]
+  validates_inclusion_of :is_full_width_link, in: [true, false]
   validates_inclusion_of :has_close_button, in: [true, false]
   validates_inclusion_of :page_template,
     in: %w(global homepage collection product cart)
