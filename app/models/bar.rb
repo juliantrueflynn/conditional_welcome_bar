@@ -58,10 +58,6 @@ class Bar < ApplicationRecord
     self
   end
 
-  def update_is_active_false
-    update_columns(is_active: false)
-  end
-
   after_update_commit :is_active_toggle_for_page_template
 
   private
@@ -74,14 +70,16 @@ class Bar < ApplicationRecord
   end
 
   def update_is_active_for_all_templates
-    bars_active_without_current.each(&:update_is_active_false)
+    bars_active_without_current.each do |bar|
+      bar.update_columns(is_active: false)
+    end
   end
 
   def update_is_active_for_match_template
     bars_active_without_current
       .with_page_template(page_template)
       .or(bars_active_without_current.with_page_template('global'))
-      .each(&:update_is_active_false)
+      .each { |bar| bar.update_columns(is_active: false) }
   end
 
   def bars_active_without_current
