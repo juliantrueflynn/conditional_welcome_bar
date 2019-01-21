@@ -41,11 +41,6 @@ class Bar < ApplicationRecord
     where(page_template: page_template)
   end
 
-  def self.by_domain_name_and_active(domain)
-    shop = Shop.by_domain_name(domain)
-    with_active.find_by_shop_id(shop)
-  end
-
   def self.with_domain_name(domain)
     shop = Shop.by_domain_name(domain)
     where(shop_id: shop)
