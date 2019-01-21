@@ -7,10 +7,12 @@
 
   const api = {
     init: function () {
-      api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
-      api.fetchBarsIndex();
+      api.fetchBarsIndex(function (res) {
+        const bar = api.getBarFromResponse(res);
+        api.render(bar);
+      });
     },
-    fetchBarsIndex: function () {
+    fetchBarsIndex: function (callback) {
       const xhr = new XMLHttpRequest();
       const { shop } = window.Shopify || {};
       const shopDomain = shop.replace('.myshopify.com', '');
@@ -18,8 +20,7 @@
       xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
           const response = JSON.parse(this.responseText);
-          const bar = api.getBarFromResponse(response);
-          api.insertWelcomeBar(bar);
+          callback(response);
         }
       };
 
@@ -27,14 +28,9 @@
       xhr.send();
     },
     getBarFromResponse: function (response) {
-      const template = api.getCurrentTemplate();
-    
       const bars = response.filter(({ pageTemplate }) => (
-        pageTemplate === 'global' || pageTemplate === template
+        pageTemplate === 'global' || pageTemplate === api.getCurrentTemplate()
       ));
-    
-      console.log(bars);
-      console.log(bars[0]);
 
       return bars[0];
     },
@@ -62,11 +58,14 @@
     
       return template;
     },
-    insertWelcomeBar: function () {
+    render: function (barProps) {
+      console.log(barProps);
+      api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
+
       const body = document.getElementsByTagName('body')[0];
       const bar = document.createElement('div');
       bar.classList.add('cw-bar');
-      bar.innerHTML = 'WELCOME BAR HERE';
+      bar.innerHTML = barProps.content;
       body.insertBefore(bar, body.firstChild);
     }
   };
