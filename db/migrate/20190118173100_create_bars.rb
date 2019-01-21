@@ -8,6 +8,7 @@ class CreateBars < ActiveRecord::Migration[5.1]
       t.string :url
       t.string :placement, default: 'top', null: false
       t.boolean :is_sticky, default: true, null: false
+      t.boolean :is_full_width_link, default: true, null: false
       t.boolean :is_new_tab_url, default: false, null: false
       t.string :page_template, default: 'global', null: false
       t.boolean :has_close_button, default: true, null: false
