@@ -10,7 +10,7 @@
       api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
       api.fetchBarsIndex();
     },
-    fetchBarsIndex: function (apiPath) {
+    fetchBarsIndex: function () {
       const xhr = new XMLHttpRequest();
       const { shop } = window.Shopify || {};
       const shopDomain = shop.replace('.myshopify.com', '');
@@ -29,8 +29,8 @@
     getBarFromResponse: function (response) {
       const template = api.getCurrentTemplate();
     
-      const bars = response.filter(({ templateEnabled }) => (
-        templateEnabled === 'global' || templateEnabled === template
+      const bars = response.filter(({ pageTemplate }) => (
+        pageTemplate === 'global' || pageTemplate === template
       ));
     
       console.log(bars);
