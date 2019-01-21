@@ -29,9 +29,16 @@
       xhr.send();
     },
     getBarFromResponse: function (response) {
-      const bars = response.filter(({ pageTemplate }) => (
-        pageTemplate === 'global' || pageTemplate === api.getCurrentTemplate()
-      ));
+      const bars = response.filter(function (bar) {
+        const template = api.getCurrentTemplate();
+        const storageKey = `cw_bar_hide_${bar.id}_${template}`;
+        const isHidden = window.localStorage.getItem(storageKey);
+
+        return (
+          (bar.pageTemplate === 'global' || bar.pageTemplate === template)
+          && !isHidden
+        );
+      });
 
       return bars[0];
     },
@@ -59,10 +66,15 @@
     
       return template;
     },
+    onCloseClick: function (barId) {
+      const template = api.getCurrentTemplate();
+      window.localStorage.setItem(`cw_bar_hide_${barId}_${template}`, true);
+    },
     render: function (props) {
       const body = document.getElementsByTagName('body')[0];
       const container = document.createElement('div');
 
+      container.id = `cwBar${props.id}`;
       container.classList.add('cw-bar');
       container.classList.add(`cw-bar__${props.id}`);
       container.classList.add(`cw-bar__template-${api.getCurrentTemplate()}`);
@@ -121,13 +133,21 @@
       row.appendChild(bar);
 
       if (props.hasCloseButton) {
+        const buttonCloseWrapper = document.createElement('div');
         const buttonClose = document.createElement('button');
-        buttonClose.classList.add('cw-bar__button');
-        buttonClose.classList.add('cw-bar__button--close');
-        buttonClose.ariaLabel = 'Close bar';
+
+        buttonClose.setAttribute('aria-label', 'Close bar');
         buttonClose.type = 'button';
         buttonClose.innerHTML = '&times;';
-        row.appendChild(buttonClose);
+        buttonClose.addEventListener('click', function () {
+          api.onCloseClick(props.id);
+          container.style.display = 'none';
+        });
+
+        buttonCloseWrapper.classList.add('cw-bar__close');
+        buttonCloseWrapper.style.paddingRight = props.paddingRight || '15px';
+        buttonCloseWrapper.appendChild(buttonClose);
+        row.appendChild(buttonCloseWrapper);
       }
 
       container.appendChild(row);
