@@ -46,6 +46,14 @@
     return elem;
   }
 
+  function appendStylesheet() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = `//${API_HOSTNAME}/css/welcomeBar.css`;
+    document.head.appendChild(link);
+  }
+
   function style(node, styles) {
     return styles && Object.keys(styles)
       .filter(key => styles[key]).forEach((key) => {
@@ -75,10 +83,14 @@
     return template;
   }
 
+  function getStorageKey(barId) {
+    return `cw_bar_hide_${barId}_${getCurrentTemplate()}`;
+  }
+
   const api = {
     bar: {},
     init: function () {
-      api.appendStylesheet();
+      appendStylesheet();
 
       api.fetchBarsIndex(function (res) {
         api.bar = api.getBarFromResponse(res);
@@ -105,7 +117,7 @@
     getBarFromResponse: function (response) {
       const bars = response.filter(function (bar) {
         const template = getCurrentTemplate();
-        const isHidden = window.localStorage.getItem(api.getStorageKey(bar.id));
+        const isHidden = window.localStorage.getItem(getStorageKey(bar.id));
 
         return (
           (bar.pageTemplate === 'global' || bar.pageTemplate === template)
@@ -115,20 +127,10 @@
 
       return bars[0];
     },
-    appendStylesheet: function () {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = `//${API_HOSTNAME}/css/welcomeBar.css`;
-      document.head.appendChild(link);
-    },
-    getStorageKey: function (barId) {
-      return `cw_bar_hide_${barId}_${getCurrentTemplate()}`;
-    },
     handleCloseClick: function (e) {
       const container = e.target.parentElement.parentElement.parentElement;
       container.style.display = 'none';
-      window.localStorage.setItem(api.getStorageKey(api.bar.id), true);
+      window.localStorage.setItem(getStorageKey(api.bar.id), true);
     },
     render: function (props) {
       const image = props.backgroundImage;
@@ -164,20 +166,18 @@
       });
 
       let contentElSelector = props.url ? 'a' : 'div';
-      const contentWrapper = createElement(contentElSelector, {
+      const contentBody = createElement(contentElSelector, {
         style: { padding: `${props.paddingY} ${props.paddingX}` },
         classList: ['cw-bar__content'],
         href: props.url,
         target: props.isNewTablUrl,
       });
 
-      contentWrapper.append(props.content);
-
       const row = createElement('div', {
         classList: ['cw-bar__row'],
       });
 
-      row.append(contentWrapper);
+      row.append(contentBody);
 
       if (props.hasCloseButton) {
         const buttonCloseWrapper = createElement('div', {
@@ -196,6 +196,7 @@
         row.append(buttonCloseWrapper);
       }
 
+      contentBody.append(props.content);
       container.append(row);
       document.body.insertBefore(container, document.body.firstChild);
 
