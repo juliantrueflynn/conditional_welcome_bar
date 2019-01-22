@@ -75,16 +75,26 @@
       container.style.display = 'none';
       window.localStorage.setItem(api.getStorageKey(api.bar.id), true);
     },
+    classList: function (node, classNames) {
+      return classNames.forEach((className) => {
+        node.classList.add(className);
+      });
+    },
     render: function (props) {
       const container = document.createElement('div');
       container.id = `cwBar${props.id}`;
-      container.classList.add('cw-bar');
-      container.classList.add(`cw-bar__template-${api.getCurrentTemplate()}`);
 
-      if (props.isSticky) {
-        container.classList.add('cw-bar__fixed');
-        container.classList.add(`cw-bar__fixed--${props.placement}`);
-      }
+      const fullWidthClass = props.isFullWidthLink ? 'w-100' : 'w-auto';
+
+      api.classList(container, [
+        'cw-bar',
+        `cw-bar__template-${api.getCurrentTemplate()}`,
+        props.isSticky && 'cw-bar__fixed',
+        props.isSticky && `cw-bar__fixed--${props.placement}`,
+        props.backgroundImage && 'cw-bar__imageable',
+        props.url && 'cw-bar__linkable',
+        props.url && `cw-bar__linkable--${fullWidthClass}`,
+      ]);
 
       container.style.fontSize = props.fontSize;
       container.style.color = props.fontColor;
@@ -92,7 +102,6 @@
       container.style.backgroundColor = props.backgroundColor;
 
       if (props.backgroundImage) {
-        container.classList.add('cw-bar__imageable');
         container.style.backgroundImage = `url(${props.backgroundImage})`;
         container.style.backgroundRepeat = props.backgroundImageRepeat;
         container.style.backgroundPositionX = props.backgroundImagePositionX;
@@ -109,10 +118,6 @@
       let content = document.createElement('div');
 
       if (props.url) {
-        const widthClassName = props.isFullWidthLink ? 'w-100' : 'w-auto';
-        container.classList.add('cw-bar__linkable');
-        container.classList.add(`cw-bar__linkable--${widthClassName}`);
-        
         content = document.createElement('a');
         content.href = props.url;
       }
@@ -121,13 +126,13 @@
         content.target = '_blank';
       }
 
-      content.classList.add('cw-bar__content');
+      api.classList(content, ['cw-bar__content']);
       content.style.padding = `${props.paddingY} ${props.paddingX}`;
 
       content.innerHTML = props.content;
 
       const row = document.createElement('div');
-      row.classList.add('cw-bar__row');
+      api.classList(row, ['cw-bar__row']);
 
       row.appendChild(content);
 
@@ -140,7 +145,7 @@
         buttonClose.innerHTML = '&times;';
         buttonClose.addEventListener('click', api.handleCloseClick);
 
-        buttonCloseWrapper.classList.add('cw-bar__close');
+        api.classList(buttonCloseWrapper, ['cw-bar__close']);
         buttonCloseWrapper.style.paddingRight = props.paddingX;
         buttonCloseWrapper.appendChild(buttonClose);
         row.appendChild(buttonCloseWrapper);
