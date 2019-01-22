@@ -6,6 +6,7 @@
   const API_URL = `https://${API_HOSTNAME}`;
 
   const api = {
+    bar: {},
     init: function () {
       api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
 
@@ -13,6 +14,7 @@
         const bar = api.getBarFromResponse(res);
 
         if (bar) {
+          api.bar = bar;
           api.render(bar);
         }
       });
@@ -34,8 +36,7 @@
     getBarFromResponse: function (response) {
       const bars = response.filter(function (bar) {
         const template = api.getCurrentTemplate();
-        const storageKey = `cw_bar_hide_${bar.id}_${template}`;
-        const isHidden = window.localStorage.getItem(storageKey);
+        const isHidden = window.localStorage.getItem(api.getStorageKey(bar.id));
 
         return (
           (bar.pageTemplate === 'global' || bar.pageTemplate === template)
@@ -69,17 +70,22 @@
     
       return template;
     },
-    onCloseClick: function (barId) {
-      const template = api.getCurrentTemplate();
-      window.localStorage.setItem(`cw_bar_hide_${barId}_${template}`, true);
+    getStorageKey: function (barId) {
+      return `cw_bar_hide_${barId}_${api.getCurrentTemplate()}`;
+    },
+    handleCloseClick: function (e) {
+      const container = e.target.parentElement.parentElement.parentElement;
+      container.style.display = 'none';
+      window.localStorage.setItem(api.getStorageKey(api.bar.id), true);
     },
     render: function (props) {
       const body = document.getElementsByTagName('body')[0];
+      const template = api.getCurrentTemplate();
       const container = document.createElement('div');
       container.id = `cwBar${props.id}`;
       container.classList.add('cw-bar');
       container.classList.add(`cw-bar__${props.id}`);
-      container.classList.add(`cw-bar__template-${api.getCurrentTemplate()}`);
+      container.classList.add(`cw-bar__template-${template}`);
 
       if (props.isSticky) {
         container.classList.add('cw-bar__fixed');
@@ -106,33 +112,33 @@
         container.style.backgroundSize = imageSize;
       }
 
-      let bar = document.createElement('div');
+      let content = document.createElement('div');
 
       if (props.url) {
         const widthClassName = props.isFullWidthLink ? 'w-100' : 'w-auto';
         container.classList.add('cw-bar__linkable');
         container.classList.add(`cw-bar__linkable--${widthClassName}`);
         
-        bar = document.createElement('a');
-        bar.href = props.url;
+        content = document.createElement('a');
+        content.href = props.url;
       }
 
       if (props.url && props.isNewTablUrl) {
-        bar.target = '_blank';
+        content.target = '_blank';
       }
 
-      bar.classList.add('cw-bar__content');
-      bar.style.paddingTop = props.paddingTop;
-      bar.style.paddingBottom = props.paddingBottom;
-      bar.style.paddingLeft = props.paddingLeft;
-      bar.style.paddingRight = props.paddingRight;
+      content.classList.add('cw-bar__content');
+      content.style.paddingTop = props.paddingTop;
+      content.style.paddingBottom = props.paddingBottom;
+      content.style.paddingLeft = props.paddingLeft;
+      content.style.paddingRight = props.paddingRight;
 
-      bar.innerHTML = props.content;
+      content.innerHTML = props.content;
 
       const row = document.createElement('div');
       row.classList.add('cw-bar__row');
 
-      row.appendChild(bar);
+      row.appendChild(content);
 
       if (props.hasCloseButton) {
         const buttonCloseWrapper = document.createElement('div');
@@ -141,10 +147,7 @@
         buttonClose.setAttribute('aria-label', 'Close bar');
         buttonClose.type = 'button';
         buttonClose.innerHTML = '&times;';
-        buttonClose.addEventListener('click', function () {
-          api.onCloseClick(props.id);
-          container.style.display = 'none';
-        });
+        buttonClose.addEventListener('click', api.handleCloseClick);
 
         buttonCloseWrapper.classList.add('cw-bar__close');
         buttonCloseWrapper.style.paddingRight = props.paddingRight;
