@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.boolean "is_new_tab_url", default: false, null: false
     t.string "page_template", default: "global", null: false
     t.boolean "has_close_button", default: true, null: false
-    t.string "padding_top"
-    t.string "padding_right"
-    t.string "padding_bottom"
-    t.string "padding_left"
+    t.string "padding_top", default: "10px", null: false
+    t.string "padding_right", default: "15px", null: false
+    t.string "padding_bottom", default: "10px", null: false
+    t.string "padding_left", default: "15px", null: false
     t.string "text_align", default: "center"
     t.float "text_opacity", default: 1.0
     t.string "font_color", default: "#ffffff", null: false
