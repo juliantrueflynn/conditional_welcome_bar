@@ -8,14 +8,13 @@
   const api = {
     bar: {},
     init: function () {
-      api.appendStylesheet(`//${API_HOSTNAME}/css/welcomeBar.css`);
+      api.appendStylesheet();
 
       api.fetchBarsIndex(function (res) {
-        const bar = api.getBarFromResponse(res);
+        api.bar = api.getBarFromResponse(res);
 
-        if (bar) {
-          api.bar = bar;
-          api.render(bar);
+        if (api.bar) {
+          api.render(api.bar);
         }
       });
     },
@@ -46,14 +45,12 @@
 
       return bars[0];
     },
-    appendStylesheet: function (hrefPathname) {
-      const head = document.getElementsByTagName('head')[0];
+    appendStylesheet: function () {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.type = 'text/css';
-      link.href = hrefPathname;
-    
-      head.appendChild(link);
+      link.href = `//${API_HOSTNAME}/css/welcomeBar.css`;
+      document.head.appendChild(link);
     },
     getCurrentTemplate: function () {
       let template;
@@ -79,13 +76,11 @@
       window.localStorage.setItem(api.getStorageKey(api.bar.id), true);
     },
     render: function (props) {
-      const body = document.getElementsByTagName('body')[0];
-      const template = api.getCurrentTemplate();
       const container = document.createElement('div');
       container.id = `cwBar${props.id}`;
       container.classList.add('cw-bar');
       container.classList.add(`cw-bar__${props.id}`);
-      container.classList.add(`cw-bar__template-${template}`);
+      container.classList.add(`cw-bar__template-${api.getCurrentTemplate()}`);
 
       if (props.isSticky) {
         container.classList.add('cw-bar__fixed');
@@ -156,7 +151,12 @@
       }
 
       container.appendChild(row);
-      body.insertBefore(container, body.firstChild);
+      document.body.insertBefore(container, document.body.firstChild);
+
+      if (props.isSticky) {
+        const height = container.getBoundingClientRect().height;
+        document.body.setAttribute('style', `margin-top: ${height}`);
+      }
     }
   };
 
