@@ -123,10 +123,7 @@
       }
 
       content.classList.add('cw-bar__content');
-      content.style.paddingTop = props.paddingTop;
-      content.style.paddingBottom = props.paddingBottom;
-      content.style.paddingLeft = props.paddingLeft;
-      content.style.paddingRight = props.paddingRight;
+      content.style.padding = `${props.paddingY} ${props.paddingX}`;
 
       content.innerHTML = props.content;
 
@@ -145,7 +142,7 @@
         buttonClose.addEventListener('click', api.handleCloseClick);
 
         buttonCloseWrapper.classList.add('cw-bar__close');
-        buttonCloseWrapper.style.paddingRight = props.paddingRight;
+        buttonCloseWrapper.style.paddingRight = props.paddingX;
         buttonCloseWrapper.appendChild(buttonClose);
         row.appendChild(buttonCloseWrapper);
       }
