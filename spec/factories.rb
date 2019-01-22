@@ -9,10 +9,10 @@ FactoryBot.define do
     is_new_tab_url false
     page_template "global"
     has_close_button true
-    padding_top nil
-    padding_right nil
-    padding_bottom nil
-    padding_left nil
+    padding_top '10px'
+    padding_right '15px'
+    padding_bottom '10px'
+    padding_left '15px'
     text_align 'center'
     text_opacity 1
     font_color "#ffffff"

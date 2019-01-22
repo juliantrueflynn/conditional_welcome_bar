@@ -73,7 +73,7 @@
     render: function (props) {
       const body = document.getElementsByTagName('body')[0];
       const container = document.createElement('div');
-
+      console.log(props)
       container.id = `cwBar${props.id}`;
       container.classList.add('cw-bar');
       container.classList.add(`cw-bar__${props.id}`);
