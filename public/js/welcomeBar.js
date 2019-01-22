@@ -75,6 +75,11 @@
       container.style.display = 'none';
       window.localStorage.setItem(api.getStorageKey(api.bar.id), true);
     },
+    style: function (node, style) {
+      return Object.keys(style).filter(key => style[key]).forEach((key) => {
+        node.style[key] = style[key];
+      });
+    },
     classList: function (node, classNames) {
       return classNames.forEach((className) => {
         node.classList.add(className);
@@ -84,8 +89,6 @@
       const container = document.createElement('div');
       container.id = `cwBar${props.id}`;
 
-      const fullWidthClass = props.isFullWidthLink ? 'w-100' : 'w-auto';
-
       api.classList(container, [
         'cw-bar',
         `cw-bar__template-${api.getCurrentTemplate()}`,
@@ -93,27 +96,28 @@
         props.isSticky && `cw-bar__fixed--${props.placement}`,
         props.backgroundImage && 'cw-bar__imageable',
         props.url && 'cw-bar__linkable',
-        props.url && `cw-bar__linkable--${fullWidthClass}`,
+        props.url && props.isFullWidthLink && 'cw-bar__linkable--w-100',
+        props.url && !props.isFullWidthLink && 'cw-bar__linkable--w-auto',
       ]);
 
-      container.style.fontSize = props.fontSize;
-      container.style.color = props.fontColor;
-      container.style.textAlign = props.textAlign;
-      container.style.backgroundColor = props.backgroundColor;
-
-      if (props.backgroundImage) {
-        container.style.backgroundImage = `url(${props.backgroundImage})`;
-        container.style.backgroundRepeat = props.backgroundImageRepeat;
-        container.style.backgroundPositionX = props.backgroundImagePositionX;
-        container.style.backgroundPositionY = props.backgroundImagePositionY;
-
-        let imageSize = props.backgroundImageSizeX;
-        if (props.backgroundImageSizeY) {
-          imageSize += ` ${props.backgroundImageSizeY}`;
-        }
-
-        container.style.backgroundSize = imageSize;
+      const backgroundImage = props.backgroundImage;
+      
+      let imageSize = props.backgroundImageSizeX;
+      if (props.backgroundImageSizeY) {
+        imageSize += ` ${props.backgroundImageSizeY}`;
       }
+
+      api.style(container, {
+        fontSize: props.fontSize,
+        color: props.fontColor,
+        textAlign: props.textAlign,
+        backgroundColor: props.backgroundColor,
+        backgroundImage: backgroundImage && `url(${props.backgroundImage})`,
+        backgroundRepeat: backgroundImage && props.backgroundImageRepeat,
+        backgroundPositionX: backgroundImage && props.backgroundImagePositionX,
+        backgroundPositionY: backgroundImage && props.backgroundImagePositionY,
+        backgroundSize: backgroundImage && imageSize,
+      });
 
       let content = document.createElement('div');
 
@@ -127,7 +131,7 @@
       }
 
       api.classList(content, ['cw-bar__content']);
-      content.style.padding = `${props.paddingY} ${props.paddingX}`;
+      api.style(content, { padding: `${props.paddingY} ${props.paddingX}` });
 
       content.innerHTML = props.content;
 
@@ -146,7 +150,7 @@
         buttonClose.addEventListener('click', api.handleCloseClick);
 
         api.classList(buttonCloseWrapper, ['cw-bar__close']);
-        buttonCloseWrapper.style.paddingRight = props.paddingX;
+        api.style(buttonCloseWrapper, { paddingRight: props.paddingX });
         buttonCloseWrapper.appendChild(buttonClose);
         row.appendChild(buttonCloseWrapper);
       }
