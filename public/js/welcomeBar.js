@@ -79,7 +79,6 @@
       const container = document.createElement('div');
       container.id = `cwBar${props.id}`;
       container.classList.add('cw-bar');
-      container.classList.add(`cw-bar__${props.id}`);
       container.classList.add(`cw-bar__template-${api.getCurrentTemplate()}`);
 
       if (props.isSticky) {
@@ -152,12 +151,10 @@
 
       if (props.isSticky) {
         const height = container.getBoundingClientRect().height;
-        document.body.setAttribute('style', `margin-top: ${height}`);
+        document.body.setAttribute('style', `margin-top: ${height}px`);
       }
     }
   };
-
-  window.welcomeBarAPI = api;
 
   api.init();
 })();
