@@ -23,10 +23,8 @@ class Bar < ApplicationRecord
     in: %w(no-repeat repeat-x repeat-y repeat space)
   validates_inclusion_of :text_align, in: %w(center left right), allow_nil: true
   validates_format_of :font_size, with: PX_REGEX, allow_nil: true
-  validates_format_of :padding_top, with: PX_REGEX, allow_nil: true
-  validates_format_of :padding_right, with: PX_REGEX, allow_nil: true
-  validates_format_of :padding_bottom, with: PX_REGEX, allow_nil: true
-  validates_format_of :padding_left, with: PX_REGEX, allow_nil: true
+  validates_format_of :padding_y, with: PX_REGEX, allow_nil: true
+  validates_format_of :padding_x, with: PX_REGEX, allow_nil: true
   validates_numericality_of :text_opacity,
     less_than_or_equal_to: 1,
     greater_than_or_equal_to: 0,

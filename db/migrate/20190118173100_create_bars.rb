@@ -12,10 +12,8 @@ class CreateBars < ActiveRecord::Migration[5.1]
       t.boolean :is_new_tab_url, default: false, null: false
       t.string :page_template, default: 'global', null: false
       t.boolean :has_close_button, default: true, null: false
-      t.string :padding_top, default: '10px', null: false
-      t.string :padding_right, default: '15px', null: false
-      t.string :padding_bottom, default: '10px', null: false
-      t.string :padding_left, default: '15px', null: false
+      t.string :padding_y, default: '10px', null: false
+      t.string :padding_x, default: '15px', null: false
       t.string :text_align, default: 'center'
       t.float :text_opacity, default: 1.0
       t.string :font_color, default: '#ffffff', null: false

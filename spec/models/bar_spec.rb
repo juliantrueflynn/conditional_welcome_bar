@@ -11,20 +11,14 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to_not allow_value(nil).for(:is_full_width_link) }
   it { is_expected.to_not allow_value(nil).for(:has_close_button) }
   it { is_expected.to allow_value('15px').for(:font_size) }
-  it { is_expected.to allow_value('15px').for(:padding_top) }
-  it { is_expected.to allow_value('15px').for(:padding_right) }
-  it { is_expected.to allow_value('15px').for(:padding_bottom) }
-  it { is_expected.to allow_value('15px').for(:padding_left) }
+  it { is_expected.to allow_value('15px').for(:padding_y) }
+  it { is_expected.to allow_value('15px').for(:padding_x) }
   it { is_expected.to allow_value('15.5px').for(:font_size) }
-  it { is_expected.to allow_value('15.5px').for(:padding_top) }
-  it { is_expected.to allow_value('15.5px').for(:padding_right) }
-  it { is_expected.to allow_value('15.5px').for(:padding_bottom) }
-  it { is_expected.to allow_value('15.5px').for(:padding_left) }
+  it { is_expected.to allow_value('15.5px').for(:padding_y) }
+  it { is_expected.to allow_value('15.5px').for(:padding_x) }
   it { is_expected.to_not allow_value(15).for(:font_size) }  
-  it { is_expected.to_not allow_value(15).for(:padding_top) }
-  it { is_expected.to_not allow_value(15).for(:padding_right) }
-  it { is_expected.to_not allow_value(15).for(:padding_bottom) }
-  it { is_expected.to_not allow_value(15).for(:padding_left) }
+  it { is_expected.to_not allow_value(15).for(:padding_y) }
+  it { is_expected.to_not allow_value(15).for(:padding_x) }
   it { is_expected.to validate_length_of(:content).is_at_least(0) }
 
   it do
