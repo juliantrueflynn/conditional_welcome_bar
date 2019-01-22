@@ -11,7 +11,10 @@
 
       api.fetchBarsIndex(function (res) {
         const bar = api.getBarFromResponse(res);
-        api.render(bar);
+
+        if (bar) {
+          api.render(bar);
+        }
       });
     },
     fetchBarsIndex: function (callback) {
@@ -73,7 +76,6 @@
     render: function (props) {
       const body = document.getElementsByTagName('body')[0];
       const container = document.createElement('div');
-      console.log(props)
       container.id = `cwBar${props.id}`;
       container.classList.add('cw-bar');
       container.classList.add(`cw-bar__${props.id}`);
@@ -120,10 +122,10 @@
       }
 
       bar.classList.add('cw-bar__content');
-      bar.style.paddingTop = props.paddingTop || '10px';
-      bar.style.paddingBottom = props.paddingBottom || '10px';
-      bar.style.paddingLeft = props.paddingLeft || '15px';
-      bar.style.paddingRight = props.paddingRight || '15px';
+      bar.style.paddingTop = props.paddingTop;
+      bar.style.paddingBottom = props.paddingBottom;
+      bar.style.paddingLeft = props.paddingLeft;
+      bar.style.paddingRight = props.paddingRight;
 
       bar.innerHTML = props.content;
 
@@ -145,7 +147,7 @@
         });
 
         buttonCloseWrapper.classList.add('cw-bar__close');
-        buttonCloseWrapper.style.paddingRight = props.paddingRight || '15px';
+        buttonCloseWrapper.style.paddingRight = props.paddingRight;
         buttonCloseWrapper.appendChild(buttonClose);
         row.appendChild(buttonCloseWrapper);
       }
