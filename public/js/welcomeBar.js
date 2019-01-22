@@ -1,3 +1,28 @@
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('append')) {
+      return;
+    }
+    Object.defineProperty(item, 'append', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function append() {
+        var argArr = Array.prototype.slice.call(arguments),
+          docFrag = document.createDocumentFragment();
+        
+        argArr.forEach(function (argItem) {
+          var isNode = argItem instanceof Node;
+          docFrag.appendChild(
+            isNode ? argItem : document.createTextNode(String(argItem))
+          );
+        });
+        
+        this.appendChild(docFrag);
+      }
+    });
+  });
+})([Element.prototype, Document.prototype, DocumentFragment.prototype]);
 
 (function () {
   'use strict';
@@ -144,16 +169,15 @@
         classList: ['cw-bar__content'],
         href: props.url,
         target: props.isNewTablUrl,
-        innerHTML: props.content,
       });
 
-      contentWrapper.appendChild(props.content);
+      contentWrapper.append(props.content);
 
       const row = createElement('div', {
         classList: ['cw-bar__row'],
       });
 
-      row.appendChild(contentWrapper);
+      row.append(contentWrapper);
 
       if (props.hasCloseButton) {
         const buttonCloseWrapper = createElement('div', {
@@ -168,11 +192,11 @@
         });
 
         buttonClose.addEventListener('click', api.handleCloseClick);
-        buttonCloseWrapper.appendChild(buttonClose);
-        row.appendChild(buttonCloseWrapper);
+        buttonCloseWrapper.append(buttonClose);
+        row.append(buttonCloseWrapper);
       }
 
-      container.appendChild(row);
+      container.append(row);
       document.body.insertBefore(container, document.body.firstChild);
 
       if (props.isSticky) {
