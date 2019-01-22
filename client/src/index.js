@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '@shopify/polaris/styles.css';
-import { AppProvider } from '@shopify/polaris';
 import * as serviceWorker from './serviceWorker';
-
+import { AppProvider } from '@shopify/polaris';
+import '@shopify/polaris/styles.css';
 import App from './App';
 
 ReactDOM.render(
