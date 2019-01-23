@@ -4,8 +4,7 @@ import loggerMiddleware from 'redux-logger';
 import rootReducer from '../reducers'
 
 const configureStore = (preloadedState = {}) => {
-  const middlewares = [loggerMiddleware, thunkMiddleware]
-  const middlewareEnhancer = applyMiddleware(...middlewares)
+  const middlewareEnhancer = applyMiddleware(thunkMiddleware, loggerMiddleware);
 
   return createStore(rootReducer, preloadedState, middlewareEnhancer);
 }
