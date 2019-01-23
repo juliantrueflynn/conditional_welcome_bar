@@ -1,7 +1,6 @@
 import { actionTypes, actionCreator } from '../util/actionsUtil';
 
 export const SESSION = actionTypes('SESSION');
-export const BAR_CREATE = actionTypes('BAR_CREATE');
 export const BAR_UPDATE = actionTypes('BAR_UPDATE');
 export const BAR_DESTROY = actionTypes('BAR_DESTROY');
 
@@ -9,12 +8,6 @@ export const updateSession = {
   request: session => actionCreator(SESSION.REQUEST, { session }),
   receive: session => actionCreator(SESSION.RECEIVE, { session }),
   failure: errors => actionCreator(SESSION.FAILURE, { errors }),
-};
-
-export const createBar = {
-  request: bar => actionCreator(BAR_CREATE.REQUEST, { bar }),
-  receive: bar => actionCreator(BAR_CREATE.RECEIVE, { bar }),
-  failure: errors => actionCreator(BAR_CREATE.FAILURE, { errors }),
 };
 
 export const updateBar = {
