@@ -1,16 +1,30 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Route, withRouter, Redirect } from 'react-router-dom';
 import Session from '../components/Session';
 
 export const routesConfig = [
   {
     path: '/login',
-    component: Session
+    component: Session,
+    isAuth: true,
   }
 ];
 
-export function RouteWithSubRoutes(route) {
-  return (    
+const mapStateToProps = state => ({
+  isLoggedIn: !!state.session,
+});
+
+const RouteSubRoutes = (route) => {
+  if (route.isAuth && route.isLoggedIn) {
+    return <Redirect to="/" />;
+  }
+
+  if (route.isProtected && !route.isLoggedIn) {
+    return <Redirect to="/login" />;
+  }
+
+  return (
     <Route
       path={route.path}
       render={props => (
@@ -19,3 +33,5 @@ export function RouteWithSubRoutes(route) {
     />
   );
 };
+
+export const RouteWithSubRoutes = withRouter(connect(mapStateToProps, null)(RouteSubRoutes));
