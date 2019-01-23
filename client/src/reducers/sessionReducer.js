@@ -1,6 +1,6 @@
 import { SESSION } from '../actions';
 
-const _defaultState = {};
+const _defaultState = null;
 
 const sessionReducer = (state = _defaultState, action) => {
   Object.freeze(state);
