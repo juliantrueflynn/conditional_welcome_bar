@@ -7,7 +7,7 @@ const sessionReducer = (state = _defaultState, action) => {
 
   switch (action.type) {
     case SESSION:
-      return action.session;
+      return { ...action.session };
     default:
       return state;
   }
