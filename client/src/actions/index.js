@@ -1,4 +1,5 @@
 import { actionTypes, actionCreator } from '../util/actionsUtil';
+import { apiCreate } from '../util/apiUtil';
 
 export const SESSION = actionTypes('SESSION');
 export const BAR_UPDATE = actionTypes('BAR_UPDATE');
@@ -20,4 +21,22 @@ export const destroyBar = {
   request: bar => actionCreator(BAR_DESTROY.REQUEST, { bar }),
   receive: bar => actionCreator(BAR_DESTROY.RECEIVE, { bar }),
   failure: errors => actionCreator(BAR_DESTROY.FAILURE, { errors }),
+};
+
+export const signUp = session => dispatch => {
+  dispatch(updateSession.request(session));
+
+  return apiCreate(`/login`, session).then(
+    json => {
+      console.log('thenjson', json);
+      return dispatch(updateSession.receive(json))
+    },
+    errors => {
+      console.log('thenerr', errors);
+      return dispatch(updateSession.failure(errors));
+    }
+  ).catch(errors => {
+    console.log('errors', errors);
+    return dispatch(updateSession.failure(errors))
+  })
 };
