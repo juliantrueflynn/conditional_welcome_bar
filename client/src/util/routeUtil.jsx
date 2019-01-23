@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Redirect } from 'react-router-dom';
-import Session from '../components/Session';
+import SessionContainer from '../containers/SessionContainer';
 
 export const routesConfig = [
   {
     path: '/login',
-    component: Session,
+    component: SessionContainer,
     isAuth: true,
   }
 ];

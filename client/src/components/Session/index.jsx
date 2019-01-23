@@ -4,6 +4,7 @@ import {
   Page,
   Card,
   Button,
+  Form,
   FormLayout,
   TextField,
 } from '@shopify/polaris';
@@ -11,11 +12,16 @@ import {
 class Session extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      first: '',
-      last: '',
-      email: '',
-    };
+    this.state = { shop: '' };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const { signUp } = this.props;
+    const { shop } = this.state;
+    signUp({ shop });
   }
 
   valueUpdater(field) {
@@ -31,36 +37,16 @@ class Session extends Component {
             description="A sample form using Polaris components."
           >
             <Card sectioned>
-              <FormLayout>
-                <FormLayout.Group>
+              <Form onSubmit={this.handleSubmit}>
+                <FormLayout>
                   <TextField
-                    value={this.state.first}
-                    label="First Name"
-                    placeholder="Tom"
-                    onChange={this.valueUpdater('first')}
+                    value={this.state.shop}
+                    placeholder="example.myshopify.com"
+                    onChange={this.valueUpdater('shop')}
                   />
-                  <TextField
-                    value={this.state.last}
-                    label="Last Name"
-                    placeholder="Ford"
-                    onChange={this.valueUpdater('last')}
-                  />
-                </FormLayout.Group>
-                <TextField
-                  value={this.state.email}
-                  label="Email"
-                  placeholder="example@email.com"
-                  onChange={this.valueUpdater('email')}
-                />
-                <TextField
-                  multiline
-                  label="How did you hear about us?"
-                  placeholder="Website, ads, email, etc."
-                  value={this.state.autoGrow}
-                  onChange={this.valueUpdater('autoGrow')}
-                />
-                <Button primary>Submit</Button>
-              </FormLayout>
+                  <Button primary>Install</Button>
+                </FormLayout>
+              </Form>
             </Card>
           </Layout.AnnotatedSection>
         </Layout>
