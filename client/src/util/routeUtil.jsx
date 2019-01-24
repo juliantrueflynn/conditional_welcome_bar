@@ -7,7 +7,7 @@ export const routesConfig = [
   {
     path: '/login',
     component: SessionContainer,
-    isAuth: true,
+    // isAuth: true,
   }
 ];
 
