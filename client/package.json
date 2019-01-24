@@ -7,6 +7,7 @@
     "history": "^4.7.2",
     "humps": "^2.0.1",
     "lodash.merge": "^4.6.1",
+    "query-string": "^6.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
