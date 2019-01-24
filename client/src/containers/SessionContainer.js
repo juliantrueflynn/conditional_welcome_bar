@@ -5,6 +5,7 @@ import { signUp } from '../actions';
 
 const mapStateToProps = state => ({
   session: state.session,
+  isLoading: state.isLoading.session,
 });
 
 const mapDispatchToProps = dispatch => ({
