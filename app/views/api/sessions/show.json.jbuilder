@@ -1,0 +1,1 @@
+json.(@shop, :id, :shopify_domain)

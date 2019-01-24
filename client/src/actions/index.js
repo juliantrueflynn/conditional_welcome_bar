@@ -33,17 +33,15 @@ export const destroyBar = {
 export const fetchBarsIndex = shop => dispatch => {
   dispatch(fetchBars.request(shop));
 
-  return apiFetch(`shops/${shop}/bars`).then(
-    json => dispatch(fetchBars.receive(json)),
-    errors => dispatch(fetchBars.failure(errors))
-  ).catch(errors => dispatch(fetchBars.failure(errors)))
+  return apiFetch(`shops/${shop}/bars`)
+    .then(json => dispatch(fetchBars.receive(json)))
+    .catch(errors => dispatch(fetchBars.failure(errors)))
 };
 
 export const signUp = session => dispatch => {
   dispatch(updateSession.request(session));
 
-  return apiCreate('login', session).then(
-    json => dispatch(updateSession.receive(json)),
-    errors => dispatch(updateSession.failure(errors))
-  ).catch(errors => dispatch(updateSession.failure(errors)))
+  return apiCreate('session', session)
+    .then(json => dispatch(updateSession.receive(json)))
+    .catch(errors => dispatch(updateSession.failure(errors)))
 };

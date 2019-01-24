@@ -1,6 +1,6 @@
 import { decamelizeKeys } from 'humps';
 
-export const fetchPromise = (url, args) => fetch(url, {
+export const fetchPromise = (url, args) => fetch(`api/${url}/`, {
   credentials: 'include',
   ...args,
 }).then(response => (

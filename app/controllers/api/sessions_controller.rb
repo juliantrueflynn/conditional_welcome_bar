@@ -11,7 +11,7 @@ class Api::SessionsController < ApplicationController
         httponly: true,
         expires: 1.day.from_now
       }
-      render json: { jwt: jwt, shop: @shop }
+      render 'api/sessions/show'
     else
       render json: ['incorrect email or password'], status: 404
     end
