@@ -1,6 +1,6 @@
 import { decamelizeKeys } from 'humps';
 
-export const fetchPromise = (url, args) => fetch(`api/${url}`, {
+export const fetchPromise = (url, args) => fetch(url, {
   credentials: 'include',
   ...args,
 }).then(response => (
@@ -25,7 +25,8 @@ export const apiCall = (method, url, props) => {
   };
 
   if (args.method === 'POST' || args.method === 'PATCH') {
-    args.body = JSON.stringify(decamelizeKeys(props, { separator: '_' }));
+    const decamelizedBody = decamelizeKeys(props, { separator: '_' });
+    args.body = JSON.stringify(decamelizedBody);
   }
 
   return fetchPromise(url, args);

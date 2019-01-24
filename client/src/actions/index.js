@@ -42,7 +42,7 @@ export const fetchBarsIndex = shop => dispatch => {
 export const signUp = session => dispatch => {
   dispatch(updateSession.request(session));
 
-  return apiCreate(`session`, session).then(
+  return apiCreate('login', session).then(
     json => dispatch(updateSession.receive(json)),
     errors => dispatch(updateSession.failure(errors))
   ).catch(errors => dispatch(updateSession.failure(errors)))

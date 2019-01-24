@@ -21,7 +21,7 @@ class Session extends Component {
 
     const { signUp } = this.props;
     const { shop } = this.state;
-    signUp({ shop });
+    signUp({ shop, utf8: "✓", topLevel: 'true' });
   }
 
   valueUpdater(field) {
