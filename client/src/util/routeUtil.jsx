@@ -1,12 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Redirect } from 'react-router-dom';
-import SessionContainer from '../containers/SessionContainer';
+import LoginContainer from '../containers/LoginContainer';
+import AdminHomeView from '../components/AdminHomeView';
 
 export const routesConfig = [
   {
     path: '/login',
-    component: SessionContainer,
+    component: LoginContainer,
+    // isAuth: true,
+  },
+  {
+    path: '/auth/shopify/callback',
+    component: AdminHomeView,
     // isAuth: true,
   }
 ];

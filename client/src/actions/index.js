@@ -2,6 +2,7 @@ import { actionTypes, actionCreator } from '../util/actionsUtil';
 import { apiCreate, apiFetch } from '../util/apiUtil';
 
 export const SESSION = actionTypes('SESSION');
+export const SHOP = actionTypes('SHOP');
 export const BAR_INDEX = actionTypes('BAR_INDEX');
 export const BAR_UPDATE = actionTypes('BAR_UPDATE');
 export const BAR_DESTROY = actionTypes('BAR_DESTROY');
@@ -10,6 +11,12 @@ export const updateSession = {
   request: session => actionCreator(SESSION.REQUEST, { session }),
   receive: session => actionCreator(SESSION.RECEIVE, { session }),
   failure: errors => actionCreator(SESSION.FAILURE, { errors }),
+};
+
+export const createShop = {
+  request: session => actionCreator(SHOP.REQUEST, { session }),
+  receive: session => actionCreator(SHOP.RECEIVE, { session }),
+  failure: errors => actionCreator(SHOP.FAILURE, { errors }),
 };
 
 export const fetchBars = {
@@ -44,4 +51,12 @@ export const signUp = session => dispatch => {
   return apiCreate('session', session)
     .then(json => dispatch(updateSession.receive(json)))
     .catch(errors => dispatch(updateSession.failure(errors)))
+};
+
+export const updateShop = session => dispatch => {
+  dispatch(createShop.request(session));
+
+  return apiCreate()
+    .then(json => dispatch(createShop.receive(json)))
+    .catch(errors => dispatch(createShop.failure(errors)));
 };
