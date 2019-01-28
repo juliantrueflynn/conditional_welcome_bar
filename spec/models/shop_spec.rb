@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'support/shopify_test_helpers'
 
 RSpec.describe Shop, type: :model do
   it { is_expected.to have_many(:bars) }

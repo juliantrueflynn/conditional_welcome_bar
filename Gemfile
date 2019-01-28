@@ -30,7 +30,6 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'shopify_app'
 gem 'foreman', '~> 0.82.0'
 gem 'valid_url'
 gem 'carrierwave', '~> 1.0'

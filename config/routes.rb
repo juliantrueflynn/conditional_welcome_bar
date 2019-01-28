@@ -9,7 +9,4 @@ Rails.application.routes.draw do
       resource :bar, only: :create
     end
   end
-
-  root :to => 'home#index'
-  mount ShopifyApp::Engine, at: '/'
 end

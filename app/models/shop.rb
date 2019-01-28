@@ -1,7 +1,7 @@
 class Shop < ActiveRecord::Base
-  include ShopifyApp::SessionStorage
-
   has_many :bars
+
+  validates_presence_of :shopify_domain, :shopify_token
 
   def self.by_domain_name(hostname)
     shopify_domain = "#{hostname}.myshopify.com"

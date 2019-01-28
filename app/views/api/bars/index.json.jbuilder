@@ -1,3 +1,3 @@
 json.array! @bars do |bar|
-  json.(bar, *bar.attributes.keys)
+  json.(bar, :id, :title, :content)
 end

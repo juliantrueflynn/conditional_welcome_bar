@@ -3,9 +3,18 @@ class Api::BarsController < ApplicationController
 
   def index
     @bars = Bar.with_domain_name(params[:shop_name])
+
+    render 'api/bars/index'
   end
 
   def show
+    @bar = Bar.find_by(id: params[:id])
+
+    if @bar
+      render 'api/bars/show'
+    else
+      render json: ['not found'], status: 404
+    end
   end
 
   def create
