@@ -1,36 +1,50 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@shopify/polaris": "^3.5.0",
-    "history": "^4.7.2",
-    "humps": "^2.0.1",
-    "lodash.merge": "^4.6.1",
-    "query-string": "^6.2.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-redux": "^6.0.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.3",
-    "redux": "^4.0.1",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
-  },
+  "name": "app",
+  "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "next build",
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js --watch server",
+    "now": "now && now alias && now rm builderbook-boilerplate --safe --yes",
+    "lint": "eslint components pages lib server",
+    "test": "mocha"
   },
-  "proxy": "http://localhost:3001",
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "@shopify/koa-shopify-auth": "^3.1.13",
+    "@shopify/polaris": "^3.5.0",
+    "@zeit/next-css": "^1.0.1",
+    "dotenv": "^6.1.0",
+    "es6-promise": "^4.2.5",
+    "isomorphic-fetch": "^2.2.1",
+    "js-cookie": "^2.2.0",
+    "knex": "^0.16.3",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.10.1",
+    "lodash": "^4.17.11",
+    "next": "^7.0.2",
+    "passport": "^0.4.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "webpack": "^4.29.0"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
+    "prettier": "^1.15.3"
+  },
+  "resolutions": {
+    "**/event-stream": "^4.0.1"
+  }
 }

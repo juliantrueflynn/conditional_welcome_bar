@@ -26,6 +26,14 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+.vscode/
+
 .env
 .rspec
 /public/uploads
+
+# Ignore for client directory
+.next
+now.json
+.coverage
+.build/*
