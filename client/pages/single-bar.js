@@ -7,7 +7,6 @@ import '@shopify/polaris/styles.css';
 import fetch from 'isomorphic-fetch';
 import ShopifyProvider from '../components/ShopifyProvider';
 import { parseShopOrigin } from '../util/apiUtil';
-import BarsList from '../components/BarsList';
 
 class Index extends React.Component {
   static propTypes = {
@@ -32,7 +31,7 @@ class Index extends React.Component {
       <ShopifyProvider>
         <Page title="Home" primaryAction={primaryAction}>
           <Layout>
-            <BarsList bars={bars} />
+            SINGLE VIEW
           </Layout>
         </Page>
       </ShopifyProvider>
@@ -42,8 +41,6 @@ class Index extends React.Component {
 
 Index.getInitialProps = async (ctx) => {
   const shopOrigin = parseShopOrigin(ctx.query.shop);
-
-  console.log(ctx.pathname);
 
   if (!shopOrigin) {
     return { bars: [] };

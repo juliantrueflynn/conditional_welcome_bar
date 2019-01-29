@@ -37,6 +37,11 @@ app.prepare().then(() => {
     }),
   );
 
+  router.get('/bars/:id', async (ctx) => {
+    await app.render(ctx.req, ctx.res, '/single-bar', ctx.query);
+    ctx.respond = false;
+  });
+
   server.use(verifyRequest());
   server.use(router.routes());
   server.use(async (ctx) => {

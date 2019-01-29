@@ -7,10 +7,12 @@ import TimeAgo from 'timeago-react';
 const BarsListItem = (props) => {
   const { id, title, content, createdAt } = props;
   const createDatetime = new Date(createdAt);
+  const accessibilityLabel = `View details for ${title}`;
+  const url = `/bars/${id}`;
 
   return (
     <div className="BarsListItem">
-      <ResourceList.Item id={id} accessibilityLabel={`View details for ${title}`}>
+      <ResourceList.Item id={id} url={url} accessibilityLabel={accessibilityLabel}>
         <div className="BarsListItem__Main">
           <h3 className="BarsListItem__Title">
             <TextStyle variation="strong">{title}</TextStyle>

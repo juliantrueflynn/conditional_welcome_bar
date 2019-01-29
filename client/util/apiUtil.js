@@ -1,3 +1,3 @@
-export const parseShopOrigin = (str) => {
+export const parseShopOrigin = (str = '') => {
   return str.replace('.myshopify.com', '');
 };
