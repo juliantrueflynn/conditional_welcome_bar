@@ -8,6 +8,8 @@ module.exports = {
   },
   plugins: ['react', 'jsx-a11y', 'import', 'prettier'],
   rules: {
+    'import/no-named-as-default': 0,
+    'import/no-named-as-default-member': 0,
     'max-len': ['error', 100],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'no-mixed-operators': 'off',
