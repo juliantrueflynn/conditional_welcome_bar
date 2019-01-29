@@ -2,11 +2,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Head from 'next/head';
-import { AppProvider, Layout, Page, EmptyState } from '@shopify/polaris';
+import { Layout, Page, EmptyState } from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
-import Cookies from 'js-cookie';
 import fetch from 'isomorphic-fetch';
+import ShopifyProvider from '../components/ShopifyProvider';
 
 class Index extends React.Component {
   static propTypes = {
@@ -21,13 +20,8 @@ class Index extends React.Component {
     bars: [],
   };
 
-  state = {
-    shopOrigin: Cookies.get('shopOrigin'),
-  };
-
   render() {
     const { bars } = this.props;
-    const { shopOrigin } = this.state;
     const primaryAction = {
       content: 'Create new bar',
     };
@@ -41,29 +35,22 @@ class Index extends React.Component {
     console.log(bars);
 
     return (
-      <React.Fragment>
-        <Head>
-          <title>Dashboard</title>
-          <meta name="description" content="description for indexing bots" />
-        </Head>
-        {/* eslint-disable-next-line no-undef */}
-        <AppProvider shopOrigin={shopOrigin} apiKey={SHOPIFY_API_KEY} forceRedirect>
-          <Page title="Home" primaryAction={primaryAction}>
-            <Layout>
-              <p>Polaris sample working!</p>
-              {(!bars || !bars.length) && (
-                <EmptyState
-                  heading="Create bar to start"
-                  action={emptyStateAction}
-                  image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
-                >
-                  <p>Create your first welcome bar!</p>
-                </EmptyState>
-              )}
-            </Layout>
-          </Page>
-        </AppProvider>
-      </React.Fragment>
+      <ShopifyProvider>
+        <Page title="Home" primaryAction={primaryAction}>
+          <Layout>
+            <p>Polaris sample working!</p>
+            {(!bars || !bars.length) && (
+              <EmptyState
+                heading="Create bar to start"
+                action={emptyStateAction}
+                image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
+              >
+                <p>Create your first welcome bar!</p>
+              </EmptyState>
+            )}
+          </Layout>
+        </Page>
+      </ShopifyProvider>
     );
   }
 }
