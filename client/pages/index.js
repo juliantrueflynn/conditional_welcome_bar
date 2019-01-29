@@ -2,10 +2,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Page, EmptyState } from '@shopify/polaris';
+import { Layout, Page } from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
 import fetch from 'isomorphic-fetch';
 import ShopifyProvider from '../components/ShopifyProvider';
+import { parseShopOrigin } from '../util/apiUtil';
+import BarsList from '../components/BarsList';
 
 class Index extends React.Component {
   static propTypes = {
@@ -25,29 +27,12 @@ class Index extends React.Component {
     const primaryAction = {
       content: 'Create new bar',
     };
-    const emptyStateAction = {
-      content: 'Create first bar',
-      // eslint-disable-next-line no-console
-      onAction: () => console.log('clicked'),
-    };
-
-    // eslint-disable-next-line no-console
-    console.log(bars);
 
     return (
       <ShopifyProvider>
         <Page title="Home" primaryAction={primaryAction}>
           <Layout>
-            <p>Polaris sample working!</p>
-            {(!bars || !bars.length) && (
-              <EmptyState
-                heading="Create bar to start"
-                action={emptyStateAction}
-                image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
-              >
-                <p>Create your first welcome bar!</p>
-              </EmptyState>
-            )}
+            <BarsList bars={bars} />
           </Layout>
         </Page>
       </ShopifyProvider>
@@ -55,9 +40,15 @@ class Index extends React.Component {
   }
 }
 
-Index.getInitialProps = async () => {
+Index.getInitialProps = async (ctx) => {
+  const shopOrigin = parseShopOrigin(ctx.query.shop);
+
+  if (!shopOrigin) {
+    return { bars: [] };
+  }
+
   // eslint-disable-next-line no-undef
-  const res = await fetch(`${API_URL}/api/shops/jiffywelcomebar/bars`);
+  const res = await fetch(`${API_URL}/api/shops/${shopOrigin}/bars`);
   const json = await res.json();
 
   return { bars: json };

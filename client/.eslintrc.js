@@ -10,6 +10,7 @@ module.exports = {
   rules: {
     'import/no-named-as-default': 0,
     'import/no-named-as-default-member': 0,
+    'import/named': 0,
     'max-len': ['error', 100],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'no-mixed-operators': 'off',
