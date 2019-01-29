@@ -39,11 +39,7 @@ const BarsList = ({ bars }) => {
 };
 
 BarsList.propTypes = {
-  bars: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-    }),
-  ),
+  bars: PropTypes.instanceOf(Array),
 };
 
 BarsList.defaultProps = {
