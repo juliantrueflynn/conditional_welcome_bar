@@ -8,7 +8,7 @@ require('isomorphic-fetch');
 
 dotenv.config();
 
-const { NODE_ENV, PORT, SHOPIFY_API_KEY, SHOPIFY_API_SECRET_KEY, PROXY_URL } = process.env;
+const { NODE_ENV, PORT, SHOPIFY_API_KEY, SHOPIFY_API_SECRET_KEY, TUNNEL_URL } = process.env;
 
 const dev = NODE_ENV !== 'production';
 const port = parseInt(PORT, 10) || 3000;
@@ -31,7 +31,30 @@ app.prepare().then(() => {
       async afterAuth(ctx) {
         const { shop, accessToken } = ctx.session;
         ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
-        console.log('on afterAuth', shop);
+
+        const scriptTagBody = JSON.stringify({
+          script_tag: {
+            event: 'onload',
+            src: `${TUNNEL_URL}/static/js/welcomeBar.js`,
+          },
+        });
+
+        const addScriptTagOptions = {
+          method: 'POST',
+          credentials: 'include',
+          body: scriptTagBody,
+          headers: {
+            'X-Shopify-Access-Token': accessToken,
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+          },
+          json: true,
+        };
+
+        const scriptTagApiUrl = `https://${shop}/admin/script_tags.json`;
+
+        await fetch(scriptTagApiUrl, addScriptTagOptions).then((response) => response.json());
+
         ctx.redirect('/');
       },
     }),
@@ -56,6 +79,6 @@ app.prepare().then(() => {
       throw err;
     }
 
-    console.log(`> Ready on ${PROXY_URL}, PORT: ${port}`); // eslint-disable-line no-console
+    console.log(`> Ready on ${TUNNEL_URL}, PORT: ${port}`); // eslint-disable-line no-console
   });
 });

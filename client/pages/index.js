@@ -35,6 +35,7 @@ class Index extends React.Component {
 Index.getInitialProps = async (ctx) => {
   const shopOrigin = parseShopOrigin(ctx.query.shop);
 
+  // eslint-disable-next-line no-console
   console.log('Index pathname', ctx.pathname);
 
   if (!shopOrigin) {
