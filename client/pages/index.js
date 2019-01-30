@@ -3,19 +3,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Page } from '@shopify/polaris';
-import '@shopify/polaris/styles.css';
 import fetch from 'isomorphic-fetch';
-import ShopifyProvider from '../components/ShopifyProvider';
 import { parseShopOrigin } from '../util/apiUtil';
 import BarsList from '../components/BarsList';
 
 class Index extends React.Component {
   static propTypes = {
-    bars: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-      }),
-    ),
+    bars: PropTypes.instanceOf(Array),
   };
 
   static defaultProps = {
@@ -29,13 +23,11 @@ class Index extends React.Component {
     };
 
     return (
-      <ShopifyProvider>
-        <Page title="Home" primaryAction={primaryAction}>
-          <Layout>
-            <BarsList bars={bars} />
-          </Layout>
-        </Page>
-      </ShopifyProvider>
+      <Page title="Home" primaryAction={primaryAction}>
+        <Layout>
+          <BarsList bars={bars} />
+        </Layout>
+      </Page>
     );
   }
 }
@@ -43,7 +35,7 @@ class Index extends React.Component {
 Index.getInitialProps = async (ctx) => {
   const shopOrigin = parseShopOrigin(ctx.query.shop);
 
-  console.log(ctx.pathname);
+  console.log('Index pathname', ctx.pathname);
 
   if (!shopOrigin) {
     return { bars: [] };

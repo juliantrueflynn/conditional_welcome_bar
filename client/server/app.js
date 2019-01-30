@@ -2,20 +2,19 @@ const Koa = require('koa');
 const next = require('next');
 const session = require('koa-session');
 const Router = require('koa-router');
-const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
-const { verifyRequest } = require('@shopify/koa-shopify-auth');
+const { default: createShopifyAuth, verifyRequest } = require('@shopify/koa-shopify-auth');
 const dotenv = require('dotenv');
 require('isomorphic-fetch');
 
 dotenv.config();
 
-const dev = process.env.NODE_ENV !== 'production';
-const port = parseInt(process.env.PORT, 10) || 3000;
+const { NODE_ENV, PORT, SHOPIFY_API_KEY, SHOPIFY_API_SECRET_KEY, PROXY_URL } = process.env;
+
+const dev = NODE_ENV !== 'production';
+const port = parseInt(PORT, 10) || 3000;
 
 const app = next({ dev });
 const handle = app.getRequestHandler();
-
-const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, PROXY_URL } = process.env;
 
 app.prepare().then(() => {
   const server = new Koa();
@@ -29,9 +28,10 @@ app.prepare().then(() => {
       apiKey: SHOPIFY_API_KEY,
       secret: SHOPIFY_API_SECRET_KEY,
       scopes: ['write_script_tags'],
-      afterAuth(ctx) {
+      async afterAuth(ctx) {
         const { shop, accessToken } = ctx.session;
         ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
+        console.log('on afterAuth', shop);
         ctx.redirect('/');
       },
     }),
@@ -56,6 +56,6 @@ app.prepare().then(() => {
       throw err;
     }
 
-    console.log(`> Ready on ${PROXY_URL}`); // eslint-disable-line no-console
+    console.log(`> Ready on ${PROXY_URL}, PORT: ${port}`); // eslint-disable-line no-console
   });
 });
