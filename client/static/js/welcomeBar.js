@@ -8,8 +8,8 @@
       enumerable: true,
       writable: true,
       value: function append() {
-        var argArr = Array.prototype.slice.call(arguments),
-          docFrag = document.createDocumentFragment();
+        var argArr = Array.prototype.slice.call(arguments);
+        var docFrag = document.createDocumentFragment();
         
         argArr.forEach(function (argItem) {
           var isNode = argItem instanceof Node;
@@ -25,8 +25,6 @@
 })([Element.prototype, Document.prototype, DocumentFragment.prototype]);
 
 (function () {
-  'use strict';
-
   const API_HOSTNAME = 'conditionalwelcomebar.ngrok.io';
   const API_URL = `https://${API_HOSTNAME}`;
 
@@ -165,7 +163,7 @@
         }
       });
 
-      let contentElSelector = props.url ? 'a' : 'div';
+      const contentElSelector = props.url ? 'a' : 'div';
       const contentBody = createElement(contentElSelector, {
         style: { padding: `${props.paddingY} ${props.paddingX}` },
         classList: ['cw-bar__content'],

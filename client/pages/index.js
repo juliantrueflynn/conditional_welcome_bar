@@ -43,7 +43,7 @@ Index.getInitialProps = async (ctx) => {
   }
 
   // eslint-disable-next-line no-undef
-  const res = await fetch(`${API_URL}/api/shops/${shopOrigin}/bars`);
+  const res = await fetch(`${TUNNEL_URL}/api/shops/${shopOrigin}/bars`);
   const json = await res.json();
 
   return { bars: json };

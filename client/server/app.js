@@ -4,11 +4,20 @@ const session = require('koa-session');
 const Router = require('koa-router');
 const { default: createShopifyAuth, verifyRequest } = require('@shopify/koa-shopify-auth');
 const dotenv = require('dotenv');
+const proxy = require('http-proxy-middleware');
+const c2k = require('koa2-connect');
 require('isomorphic-fetch');
 
 dotenv.config();
 
-const { NODE_ENV, PORT, SHOPIFY_API_KEY, SHOPIFY_API_SECRET_KEY, TUNNEL_URL } = process.env;
+const {
+  NODE_ENV,
+  PORT,
+  SHOPIFY_API_KEY,
+  SHOPIFY_API_SECRET_KEY,
+  TUNNEL_URL,
+  API_URL,
+} = process.env;
 
 const dev = NODE_ENV !== 'production';
 const port = parseInt(PORT, 10) || 3000;
@@ -22,6 +31,8 @@ app.prepare().then(() => {
 
   server.use(session(server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
+
+  server.use(c2k(proxy('/api', { target: API_URL })));
 
   server.use(
     createShopifyAuth({
@@ -67,6 +78,7 @@ app.prepare().then(() => {
 
   server.use(verifyRequest());
   server.use(router.routes());
+
   server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
