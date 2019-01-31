@@ -30,67 +30,65 @@ app.prepare().then(() => {
   const router = new Router();
 
   server.use(session(server));
+
   server.keys = [SHOPIFY_API_SECRET_KEY];
-
-  server.use(c2k(proxy('/api', { target: API_URL })));
-
-  server.use(
-    createShopifyAuth({
-      apiKey: SHOPIFY_API_KEY,
-      secret: SHOPIFY_API_SECRET_KEY,
-      scopes: ['write_script_tags'],
-      async afterAuth(ctx) {
-        const { shop, accessToken } = ctx.session;
-        ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
-
-        const scriptTagBody = JSON.stringify({
-          script_tag: {
-            event: 'onload',
-            src: `${TUNNEL_URL}/static/js/welcomeBar.js`,
-          },
-        });
-
-        const addScriptTagOptions = {
-          method: 'POST',
-          credentials: 'include',
-          body: scriptTagBody,
-          headers: {
-            'X-Shopify-Access-Token': accessToken,
-            'Content-Type': 'application/json',
-            Accept: '*/*',
-          },
-          json: true,
-        };
-
-        const scriptTagApiUrl = `https://${shop}/admin/script_tags.json`;
-
-        await fetch(scriptTagApiUrl, addScriptTagOptions).then((response) => response.json());
-
-        ctx.redirect('/');
-      },
-    }),
-  );
 
   router.get('/bars/:id', async (ctx) => {
     await app.render(ctx.req, ctx.res, '/single-bar', ctx.query);
     ctx.respond = false;
   });
 
-  server.use(verifyRequest());
-  server.use(router.routes());
+  server
+    .use(c2k(proxy('/api', { target: API_URL })))
+    .use(
+      createShopifyAuth({
+        apiKey: SHOPIFY_API_KEY,
+        secret: SHOPIFY_API_SECRET_KEY,
+        scopes: ['write_script_tags'],
+        async afterAuth(ctx) {
+          const { shop, accessToken } = ctx.session;
+          ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
 
-  server.use(async (ctx) => {
-    await handle(ctx.req, ctx.res);
-    ctx.respond = false;
-    ctx.res.statusCode = 200;
-    return false;
-  });
+          const scriptTagBody = JSON.stringify({
+            script_tag: {
+              event: 'onload',
+              src: `${TUNNEL_URL}/static/js/welcomeBar.js`,
+            },
+          });
 
-  server.listen(port, (err) => {
-    if (err) {
-      throw err;
-    }
+          const addScriptTagOptions = {
+            method: 'POST',
+            credentials: 'include',
+            body: scriptTagBody,
+            headers: {
+              'X-Shopify-Access-Token': accessToken,
+              'Content-Type': 'application/json',
+              Accept: '*/*',
+            },
+            json: true,
+          };
 
-    console.log(`> Ready on ${TUNNEL_URL}, PORT: ${port}`); // eslint-disable-line no-console
-  });
+          const scriptTagApiUrl = `https://${shop}/admin/script_tags.json`;
+
+          await fetch(scriptTagApiUrl, addScriptTagOptions).then((response) => response.json());
+
+          ctx.redirect('/');
+        },
+      }),
+    )
+    .use(verifyRequest())
+    .use(router.routes())
+    .use(async (ctx) => {
+      await handle(ctx.req, ctx.res);
+      ctx.respond = false;
+      ctx.res.statusCode = 200;
+      return false;
+    })
+    .listen(port, (err) => {
+      if (err) {
+        throw err;
+      }
+
+      console.log(`> Ready on ${TUNNEL_URL}, PORT: ${port}`); // eslint-disable-line no-console
+    });
 });
