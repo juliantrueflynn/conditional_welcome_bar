@@ -25,7 +25,9 @@ class Index extends React.Component {
     return (
       <Page title="Home" primaryAction={primaryAction}>
         <Layout>
-          <BarsList bars={bars} />
+          <Layout.Section>
+            <BarsList bars={bars} />
+          </Layout.Section>
         </Layout>
       </Page>
     );
