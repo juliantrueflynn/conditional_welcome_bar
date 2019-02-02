@@ -8,8 +8,6 @@ class Api::BarsController < ApplicationController
   end
 
   def show
-    @bar = Bar.find_by(id: params[:id])
-
     if @bar
       render 'api/bars/show'
     else
