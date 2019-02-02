@@ -34,7 +34,8 @@ app.prepare().then(() => {
   server.use(session(server));
 
   router.get('/bars/:id', async (ctx) => {
-    await app.render(ctx.req, ctx.res, '/single-bar', ctx.query);
+    const query = Object.assign({}, ctx.query, ctx.params);
+    await app.render(ctx.req, ctx.res, '/single-bar', query);
     ctx.respond = false;
   });
 

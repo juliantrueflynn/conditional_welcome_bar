@@ -21,4 +21,16 @@ class SingleBar extends React.Component {
   }
 }
 
+SingleBar.getInitialProps = async (ctx) => {
+  if (!ctx.query.id) {
+    return { bar: {} };
+  }
+
+  // eslint-disable-next-line no-undef
+  const res = await fetch(`${TUNNEL_URL}/api/bars/${ctx.query.id}`);
+  const json = await res.json();
+
+  return { bar: json };
+};
+
 export default SingleBar;
