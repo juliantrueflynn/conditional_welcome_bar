@@ -13,7 +13,7 @@ dotenv.config();
 const {
   NODE_ENV,
   PORT,
-  SHOPIFY_API_KEY,
+  SHOPIFY_API_CLIENT_KEY,
   SHOPIFY_API_SECRET_KEY,
   TUNNEL_URL,
   API_URL,
@@ -42,7 +42,7 @@ app.prepare().then(() => {
     .use(c2k(proxy('/api', { target: API_URL })))
     .use(
       createShopifyAuth({
-        apiKey: SHOPIFY_API_KEY,
+        apiKey: SHOPIFY_API_CLIENT_KEY,
         secret: SHOPIFY_API_SECRET_KEY,
         scopes: ['write_script_tags'],
         async afterAuth(ctx) {

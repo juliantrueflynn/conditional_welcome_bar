@@ -22,7 +22,7 @@ class MyApp extends App {
           <meta charSet="utf-8" />
         </Head>
         {/* eslint-disable-next-line no-undef */}
-        <AppProvider shopOrigin={shopOrigin} apiKey={SHOPIFY_API_KEY} forceRedirect>
+        <AppProvider shopOrigin={shopOrigin} apiKey={SHOPIFY_API_CLIENT_KEY} forceRedirect>
           <Component {...pageProps} />
         </AppProvider>
       </Fragment>
