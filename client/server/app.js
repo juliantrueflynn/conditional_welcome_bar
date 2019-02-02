@@ -29,9 +29,9 @@ app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
-  server.use(session(server));
-
   server.keys = [SHOPIFY_API_SECRET_KEY];
+
+  server.use(session(server));
 
   router.get('/bars/:id', async (ctx) => {
     await app.render(ctx.req, ctx.res, '/single-bar', ctx.query);
