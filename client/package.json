@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@shopify/koa-shopify-auth": "^3.1.13",
-    "@shopify/polaris": "^3.5.0",
+    "@shopify/polaris": "^3.6.0",
     "@zeit/next-css": "^1.0.1",
     "dotenv": "^6.1.0",
     "es6-promise": "^4.2.5",

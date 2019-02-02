@@ -628,10 +628,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@shopify/app-bridge@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-0.7.3.tgz#abadfa2ef6293f630764bc5ddca31750caf00f1c"
-  integrity sha512-xDkYvVvN8Gxy3JZduoT4Ohrl6fAuW+wEfhfL+qPzysu0LuJZ7CKgVCdEazPmtcI+V4GQPQLYLzcbCn3mWFU8dg==
+"@shopify/app-bridge@^1.0.3":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.0.7.tgz#d4a61d2672c496af357c86c321c6fa70e92b0377"
+  integrity sha512-/g9PXDvQK3YqzWfyXeQwxVOQaqarZukHWn8EUx0rAj8UjVRBeu2+FoZW8t9TrZAfeUUH2I4l1uWxSgLFdNQQiw==
 
 "@shopify/images@^1.1.0":
   version "1.1.5"
@@ -677,19 +677,18 @@
   resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-2.1.1.tgz#cd36eed2cfcd8c940a19487e41d8818ce2503828"
   integrity sha512-YS4g7naOOgOvGKDCgu4WomVlTtHXlTW9LxCOINKHRmYh4hJ+BtfPA/aO72p/dlpkVG3BTO8CAiSYUNjxpVNxvw==
 
-"@shopify/polaris@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-3.5.0.tgz#a868f6e4b958d5eadd44b9d901f77300e5c5e90d"
-  integrity sha512-XD5EaPPJVH2Oa3i/6/D4bvsT0vrKFlWhi3DTbs722i6gT/KHISbXKD7Ha2HAcuY1P4tCkEf8rQ65CAeJMUcEaw==
+"@shopify/polaris@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-3.6.0.tgz#6b18f1051598f1d47d5228fd15f4e294c635f86e"
+  integrity sha512-GJZznR5rHxzf87XtwwTE+oEy38C49RLsmN8BaXYVboXuI420gLfZK2jeS+s107bIQr/aXzByeWOUJ4zlBW8zTA==
   dependencies:
     "@babel/runtime" "^7.1.6"
-    "@shopify/app-bridge" "^0.7.3"
+    "@shopify/app-bridge" "^1.0.3"
     "@shopify/images" "^1.1.0"
     "@shopify/javascript-utilities" "^2.2.1"
     "@shopify/polaris-icons" "1.0.0-beta.5"
     "@shopify/polaris-tokens" "^2.1.1"
     "@shopify/react-compose" "^0.1.6"
-    "@shopify/react-html" "^3.0.3"
     "@shopify/react-utilities" "^2.0.3"
     "@types/prop-types" "^15.5.5"
     "@types/react" "^16.4.7"
@@ -709,22 +708,6 @@
   integrity sha512-VjWIg7vq4cSv1Z1H90ofThsdR0uFC8vRnOEgiBdCOb7qaKrtkWGcllBe1vk6qGLxJBZaL+YmnBXVctSp//tIqQ==
   dependencies:
     hoist-non-react-statics "^3.0.1"
-    tslib "^1.9.3"
-
-"@shopify/react-html@^3.0.3":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@shopify/react-html/-/react-html-3.0.6.tgz#49d8ba0d582eefdda027c19b49297649c24a948c"
-  integrity sha512-wFIcDYLCHDWRQ7l9CrK7IV3qXA7vzufh4dRg1bAsOmvat4d9zVHzodQ3jz5JlhEKPpbdUf0PARFBPkgezjmb5A==
-  dependencies:
-    "@shopify/react-serialize" "^1.0.8"
-    react-helmet "^5.2.0"
-
-"@shopify/react-serialize@^1.0.8":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@shopify/react-serialize/-/react-serialize-1.0.12.tgz#67967e1bcd049f85ac01291a5e80fc74f1492b06"
-  integrity sha512-5/8YNjfTXK4pSMa0pe4f5dad+aIXmtj7vp5Bwsy+EuXD3r7je0uzXMUxBpyE9RQHzSCOhJolm8dUSqr0EIn01w==
-  dependencies:
-    serialize-javascript "^1.5.0"
     tslib "^1.9.3"
 
 "@shopify/react-utilities@^2.0.3":
@@ -2090,7 +2073,7 @@ decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
 
-deep-equal@^1.0.1, deep-equal@~1.0.1:
+deep-equal@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
   integrity sha1-9dJgKStmDghO/0zbyfCK0yR0SLU=
@@ -2584,11 +2567,6 @@ execa@^0.7.0:
     p-finally "^1.0.0"
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
-
-exenv@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
-  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 expand-brackets@^2.1.4:
   version "2.1.4"
@@ -4723,7 +4701,7 @@ prop-types-exact@1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.6.2, prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@15.6.2, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -4861,16 +4839,6 @@ react-error-overlay@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
-react-helmet@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.0.tgz#a81811df21313a6d55c5f058c4aeba5d6f3d97a7"
-  integrity sha1-qBgR3yExOm1VxfBYxK66XW89l6c=
-  dependencies:
-    deep-equal "^1.0.1"
-    object-assign "^4.1.1"
-    prop-types "^15.5.4"
-    react-side-effect "^1.1.0"
-
 react-is@^16.7.0:
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.7.0.tgz#c1bd21c64f1f1364c6f70695ec02d69392f41bfa"
@@ -4880,14 +4848,6 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
-
-react-side-effect@^1.1.0:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.1.5.tgz#f26059e50ed9c626d91d661b9f3c8bb38cd0ff2d"
-  integrity sha512-Z2ZJE4p/jIfvUpiUMRydEVpQRf2f8GMHczT6qLcARmX7QRb28JDBTpnM2g/i5y/p7ZDEXYGHWg0RbhikE+hJRw==
-  dependencies:
-    exenv "^1.2.1"
-    shallowequal "^1.0.1"
 
 react-transition-group@^2.4.0:
   version "2.5.3"
@@ -5231,11 +5191,6 @@ serialize-javascript@^1.4.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.5.0.tgz#1aa336162c88a890ddad5384baebc93a655161fe"
 
-serialize-javascript@^1.5.0:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.6.1.tgz#4d1f697ec49429a847ca6f442a2a755126c4d879"
-  integrity sha512-A5MOagrPFga4YaKQSWHryl7AXvbQkEqpw4NNYMTNYUNV51bA8ABHgYFpqKx+YFFrw59xMV1qGH1R4AgoNIVgCw==
-
 set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -5280,11 +5235,6 @@ sha.js@^2.4.0, sha.js@^2.4.8:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
-
-shallowequal@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
-  integrity sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==
 
 shebang-command@^1.2.0:
   version "1.2.0"
