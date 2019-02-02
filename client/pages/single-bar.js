@@ -6,9 +6,99 @@ import { Layout, Page } from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
 
 class SingleBar extends React.Component {
+  static propTypes = {
+    bar: PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      content: PropTypes.string,
+      hasCloseButton: PropTypes.bool,
+      isActive: PropTypes.bool,
+    }),
+  };
+
+  static defaultProps = {
+    bar: {},
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: '',
+      content: '',
+      hasCloseButton: false,
+      isActive: false,
+      placement: '',
+      pageTemplate: '',
+      isSticky: true,
+      url: '',
+      isFullWidthLink: true,
+      isNewTabUrl: true,
+      paddingY: '',
+      paddingX: '',
+      fontSize: '',
+      fontColor: '',
+      fontFamily: '',
+      textOpacity: 100,
+      textAlign: '',
+      backgroundOpacity: 100,
+      backgroundColor: '',
+      backgroundImage: '',
+      backgroundImageRepeat: '',
+      backgroundImageSizeX: '',
+      backgroundImagePositionX: '',
+      backgroundImagePositionY: '',
+    };
+
+    this.handleValueChange = this.handleValueChange.bind(this);
+  }
+
+  componentDidMount() {
+    const { bar } = this.props;
+    const { ...state } = this.state;
+
+    const nextState = {};
+    Object.keys(bar).forEach((key) => {
+      nextState[key] = bar[key];
+    });
+
+    this.setState({ ...state, nextState });
+  }
+
+  handleValueChange(field) {
+    return (value) => this.setState({ [field]: value });
+  }
+
   render() {
+    const {
+      title,
+      content,
+      hasCloseButton,
+      isActive,
+      placement,
+      pageTemplate,
+      isSticky,
+      url,
+      isFullWidthLink,
+      isNewTabUrl,
+      paddingY,
+      paddingX,
+      fontSize,
+      fontColor,
+      fontFamily,
+      textOpacity,
+      textAlign,
+      backgroundOpacity,
+      backgroundColor,
+      backgroundImage,
+      backgroundImageRepeat,
+      backgroundImageSizeX,
+      backgroundImagePositionX,
+      backgroundImagePositionY,
+    } = this.state;
+    const { bar } = this.props;
     const primaryAction = {
-      content: 'Create new bar',
+      content: 'Save',
     };
 
     return (
