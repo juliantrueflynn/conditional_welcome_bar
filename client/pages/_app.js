@@ -4,6 +4,7 @@ import Head from 'next/head';
 import '@shopify/polaris/styles.css';
 import { AppProvider } from '@shopify/polaris';
 import Cookies from 'js-cookie';
+import ShopifyAppRouter from '../components/ShopifyAppRouter';
 
 class MyApp extends App {
   state = {
@@ -23,7 +24,10 @@ class MyApp extends App {
         </Head>
         {/* eslint-disable-next-line no-undef */}
         <AppProvider shopOrigin={shopOrigin} apiKey={SHOPIFY_API_CLIENT_KEY} forceRedirect>
-          <Component {...pageProps} />
+          <React.Fragment>
+            <ShopifyAppRouter />
+            <Component {...pageProps} />
+          </React.Fragment>
         </AppProvider>
       </Fragment>
     );

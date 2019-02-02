@@ -26,6 +26,7 @@
     "koa-session": "^5.10.1",
     "koa2-connect": "^1.0.2",
     "next": "^7.0.2",
+    "next-cookies": "^1.0.4",
     "passport": "^0.4.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
