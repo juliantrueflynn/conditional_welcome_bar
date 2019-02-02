@@ -8,7 +8,7 @@ const BarsListItem = (props) => {
   const { id, title, content, createdAt } = props;
   const createDatetime = new Date(createdAt);
   const accessibilityLabel = `View details for ${title}`;
-  const url = `/bars/${id}`;
+  const url = { to: { pathname: '/single-bar', query: { id } }, as: `/bars/${id}` };
 
   return (
     <div className="BarsListItem">
