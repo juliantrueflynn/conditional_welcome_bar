@@ -12,7 +12,7 @@ class SingleBar extends React.Component {
     };
 
     return (
-      <Page title="Single" primaryAction={primaryAction}>
+      <Page title="Single" forceRender primaryAction={primaryAction}>
         <Layout>
           SINGLE VIEW
         </Layout>

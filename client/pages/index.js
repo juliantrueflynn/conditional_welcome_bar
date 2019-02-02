@@ -23,7 +23,7 @@ class Index extends React.Component {
     };
 
     return (
-      <Page title="Home" primaryAction={primaryAction}>
+      <Page title="Home" forceRender primaryAction={primaryAction}>
         <Layout>
           <Layout.Section>
             <BarsList bars={bars} />
