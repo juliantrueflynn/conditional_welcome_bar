@@ -3,8 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Page } from '@shopify/polaris';
-import fetch from 'isomorphic-fetch';
-import { parseShopOrigin } from '../util/apiUtil';
+import { parseShopOrigin, apiFetch } from '../util/apiUtil';
 import BarsList from '../components/BarsList';
 
 class Index extends React.Component {
@@ -44,11 +43,9 @@ Index.getInitialProps = async (ctx) => {
     return { bars: [] };
   }
 
-  // eslint-disable-next-line no-undef
-  const res = await fetch(`${TUNNEL_URL}/api/shops/${shopOrigin}/bars`);
-  const json = await res.json();
+  const response = await apiFetch(`shops/${shopOrigin}/bars`);
 
-  return { bars: json };
+  return { bars: response };
 };
 
 export default Index;
