@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Page, Form } from '@shopify/polaris';
+import { decamelizeKeys } from 'humps';
+import { apiUpdate, apiFetch } from '../util/apiUtil';
 import SingleBarFormFields from '../components/SingleBarFormFields';
 
 class SingleBar extends React.Component {
@@ -16,6 +18,7 @@ class SingleBar extends React.Component {
     super(props);
 
     this.state = {
+      pageTitle: '',
       title: '',
       content: '',
       hasCloseButton: false,
@@ -28,7 +31,7 @@ class SingleBar extends React.Component {
       isNewTabUrl: true,
       paddingY: '',
       paddingX: '',
-      fontSize: '',
+      fontSize: 'inherit',
       fontColor: '',
       fontFamily: '',
       textOpacity: 100,
@@ -51,22 +54,30 @@ class SingleBar extends React.Component {
 
   componentDidMount() {
     const { bar } = this.props;
+    this.updateState(bar);
+  }
+
+  updateState(bar) {
     const { ...state } = this.state;
 
     const nextState = {};
     Object.keys(bar)
-      .filter((key) => bar[key])
+      .filter((key) => key !== 'createdAt' && key !== 'updatedAt' && key !== 'id' && bar[key])
       .forEach((key) => {
         nextState[key] = bar[key];
       });
 
-    this.setState({ ...state, ...nextState });
+    this.setState({ ...state, ...nextState, pageTitle: nextState.title });
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
 
+    const { bar } = this.props;
     const { ...state } = this.state;
+    const payload = decamelizeKeys(state);
+
+    apiUpdate(`bars/${bar.id}`, payload).then((json) => this.updateState(json));
   }
 
   handleValueChange(value, id) {
@@ -82,13 +93,14 @@ class SingleBar extends React.Component {
   }
 
   render() {
-    const { bar } = this.props;
+    const { pageTitle } = this.state;
     const primaryAction = {
       content: 'Save',
+      onAction: this.handleFormSubmit,
     };
 
     return (
-      <Page title={bar.title} forceRender primaryAction={primaryAction}>
+      <Page title={pageTitle} forceRender primaryAction={primaryAction}>
         <Form onSubmit={this.handleFormSubmit}>
           <SingleBarFormFields
             updateFieldValue={this.handleValueChange}
@@ -107,11 +119,9 @@ SingleBar.getInitialProps = async (ctx) => {
     return { bar: {} };
   }
 
-  // eslint-disable-next-line no-undef
-  const res = await fetch(`${TUNNEL_URL}/api/bars/${ctx.query.id}`);
-  const json = await res.json();
+  const response = await apiFetch(`bars/${ctx.query.id}`);
 
-  return { bar: json };
+  return { bar: response };
 };
 
 export default SingleBar;
