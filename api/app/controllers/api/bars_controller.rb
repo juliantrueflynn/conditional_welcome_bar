@@ -67,6 +67,7 @@ class Api::BarsController < ApplicationController
       :font_size,
       :text_opacity,
       :text_align,
+      :background_color,
       :background_opacity,
       :background_image,
       :background_image_repeat,

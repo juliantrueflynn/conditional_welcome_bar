@@ -10,6 +10,7 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to_not allow_value(nil).for(:is_new_tab_url) }
   it { is_expected.to_not allow_value(nil).for(:is_full_width_link) }
   it { is_expected.to_not allow_value(nil).for(:has_close_button) }
+  it { is_expected.to allow_value('inherit').for(:font_size) }
   it { is_expected.to allow_value('15px').for(:font_size) }
   it { is_expected.to allow_value('15px').for(:padding_y) }
   it { is_expected.to allow_value('15px').for(:padding_x) }

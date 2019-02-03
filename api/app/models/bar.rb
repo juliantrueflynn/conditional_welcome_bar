@@ -1,5 +1,5 @@
 class Bar < ApplicationRecord
-  PX_REGEX = /\d+(\.\d+)?px/
+  PX_REGEX = /\d+(\.\d+)?px|inherit/
   SCRUB_PARAMS = %w(title created_at updated_at shop_id is_active background_image).freeze
 
   mount_uploader :background_image, BackgroundUploader
@@ -33,7 +33,7 @@ class Bar < ApplicationRecord
     less_than_or_equal_to: 1,
     greater_than_or_equal_to: 0,
     allow_nil: true
-  validates :url, url: true, allow_nil: true
+  validates :url, url: true, allow_nil: true, allow_blank: true
 
   scope :with_active, -> { where(is_active: true) }
 
