@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ResourceList, TextStyle } from '@shopify/polaris';
-import '@shopify/polaris/styles.css';
 import TimeAgo from 'timeago-react';
 
 const BarsListItem = (props) => {

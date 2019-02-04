@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Page, Form } from '@shopify/polaris';
+import Router from 'next/router';
 import { decamelizeKeys } from 'humps';
 import { apiUpdate, apiFetch } from '../util/apiUtil';
 import SingleBarFormFields from '../components/SingleBarFormFields';
@@ -93,14 +94,17 @@ class SingleBar extends React.Component {
   }
 
   render() {
+    const { bar } = this.props;
     const { pageTitle } = this.state;
     const primaryAction = {
       content: 'Save',
       onAction: this.handleFormSubmit,
     };
+    const breadcrumbs = [{ content: 'Welcome Bars', onAction: () => Router.push('/') }];
+    const title = pageTitle || bar.title;
 
     return (
-      <Page title={pageTitle} forceRender primaryAction={primaryAction}>
+      <Page title={title} forceRender primaryAction={primaryAction} breadcrumbs={breadcrumbs}>
         <Form onSubmit={this.handleFormSubmit}>
           <SingleBarFormFields
             updateFieldValue={this.handleValueChange}
