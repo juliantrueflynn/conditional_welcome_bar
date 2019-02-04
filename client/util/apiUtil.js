@@ -1,7 +1,14 @@
-import { decamelizeKeys } from 'humps';
 import fetch from 'isomorphic-fetch';
+import cookies from 'next-cookies';
+import { decamelizeKeys } from 'humps';
 
-export const parseShopOrigin = (str = '') => str.replace('.myshopify.com', '');
+export const parseShopOrigin = (ctx) => {
+  const { shopOrigin } = cookies(ctx);
+  const { shop } = ctx.query;
+  const shopParsed = shop || shopOrigin;
+
+  return shopParsed.replace('.myshopify.com', '');
+};
 
 // eslint-disable-next-line no-undef
 const endpoint = (url) => `${TUNNEL_URL}/api/${url}`;
