@@ -5,6 +5,7 @@ import Router from 'next/router';
 import { decamelizeKeys } from 'humps';
 import { apiUpdate, apiFetch } from '../util/apiUtil';
 import SingleBarFormFields from '../components/SingleBarFormFields';
+import ActiveBadge from '../components/ActiveBadge';
 
 class SingleBar extends React.Component {
   static propTypes = {
@@ -95,7 +96,7 @@ class SingleBar extends React.Component {
 
   render() {
     const { bar } = this.props;
-    const { pageTitle } = this.state;
+    const { pageTitle, isActive } = this.state;
     const primaryAction = {
       content: 'Save',
       onAction: this.handleFormSubmit,
@@ -104,7 +105,13 @@ class SingleBar extends React.Component {
     const title = pageTitle || bar.title;
 
     return (
-      <Page title={title} forceRender primaryAction={primaryAction} breadcrumbs={breadcrumbs}>
+      <Page
+        title={title}
+        primaryAction={primaryAction}
+        breadcrumbs={breadcrumbs}
+        titleMetadata={<ActiveBadge isActive={isActive} />}
+        forceRender
+      >
         <Form onSubmit={this.handleFormSubmit}>
           <SingleBarFormFields
             updateFieldValue={this.handleValueChange}
