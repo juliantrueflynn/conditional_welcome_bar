@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Page, Form, hsbToHex, rgbToHsb } from '@shopify/polaris';
-import hexToRgb from 'hex-to-rgb';
+import { Page, Form } from '@shopify/polaris';
 import Router from 'next/router';
 import { decamelizeKeys } from 'humps';
+import { convertToHSBa, convertFromHSBa } from '../util/colorPickerUtil';
 import { apiUpdate, apiFetch } from '../util/apiUtil';
 import SingleBarFormFields from '../components/SingleBarFormFields';
 import ActiveBadge from '../components/ActiveBadge';
@@ -59,7 +59,7 @@ class SingleBar extends React.Component {
 
   componentDidMount() {
     const { bar } = this.props;
-    this.updateState(bar, this.convertToHSBa());
+    this.updateState(bar, convertToHSBa(bar));
   }
 
   updateState(bar, extras = {}) {
@@ -80,7 +80,7 @@ class SingleBar extends React.Component {
 
     const { bar } = this.props;
     const { textHSBa, backgroundHSBa, ...state } = this.state;
-    const nextState = { ...state, ...this.convertFromHSBa() };
+    const nextState = { ...state, ...convertFromHSBa(this.state) };
     const payload = decamelizeKeys(nextState);
 
     apiUpdate(`bars/${bar.id}`, payload).then((json) => this.updateState(json));
@@ -90,36 +90,9 @@ class SingleBar extends React.Component {
     this.setState({ [id]: value });
   }
 
-  handleColorPickerValueChange(color, type) {
-    const hslaFor = `${type}HSBa`;
-    this.setState({ [hslaFor]: color });
-  }
-
-  convertFromHSBa() {
-    const { backgroundHSBa, textHSBa } = this.state;
-    const { alpha, ...bgHSL } = backgroundHSBa;
-    const { alpha: txtAlpha, ...txtHSL } = textHSBa;
-
-    return {
-      backgroundColor: hsbToHex(txtHSL),
-      backgroundOpacity: backgroundHSBa.alpha,
-      textColor: hsbToHex(bgHSL),
-      textOpacity: textHSBa.alpha,
-    };
-  }
-
-  convertToHSBa() {
-    const { bar } = this.props;
-
-    const bgRgb = hexToRgb(bar.backgroundColor);
-    const bgHSL = rgbToHsb({ red: bgRgb[0], green: bgRgb[1], blue: bgRgb[2] });
-    const backgroundHSBa = { ...bgHSL, alpha: bar.backgroundOpacity };
-
-    const txtRgb = hexToRgb(bar.textColor);
-    const txtHSL = rgbToHsb({ red: txtRgb[0], green: txtRgb[1], blue: txtRgb[2] });
-    const textHSBa = { ...txtHSL, alpha: bar.textOpacity };
-
-    return { backgroundHSBa, textHSBa };
+  handleColorPickerValueChange(color, id) {
+    const hsbaKey = `${id}HSBa`;
+    this.setState({ [hsbaKey]: color });
   }
 
   handlePixelValueChange(field) {
