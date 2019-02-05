@@ -8,7 +8,6 @@ import {
   ChoiceList,
   Checkbox,
   ColorPicker,
-  RangeSlider,
 } from '@shopify/polaris';
 
 const SingleBarFormFields = ({
@@ -103,6 +102,7 @@ const SingleBarFormFields = ({
               value={url}
               label="URL"
               id="url"
+              type="url"
               placeholder="https://example.com"
               onChange={updateFieldValue}
             />
@@ -113,7 +113,8 @@ const SingleBarFormFields = ({
               onChange={updateFieldValue}
             />
             <Checkbox
-              label="Entire bar is link"
+              label="Is full width link?"
+              helpText="Entire welcome bar is clickable link"
               id="isFullWidthLink"
               checked={isFullWidthLink}
               onChange={updateFieldValue}
@@ -133,21 +134,25 @@ const SingleBarFormFields = ({
             />
             <Checkbox
               label="Is sticky bar"
-              helpText="Bar sticks to top/bottom on scroll"
+              helpText="Bar sticks to top/bottom of window on scroll"
               checked={isSticky}
               id="isSticky"
               onChange={updateFieldValue}
             />
-            <RangeSlider
-              label="Vertical padding"
+            <TextField
               value={paddingY}
+              label="Vertical padding"
+              helpText="Options: 'auto', 'inherit' or number px/em/%"
               id="paddingY"
+              placeholder="100px, 3em, or 50%"
               onChange={updateFieldValue}
             />
-            <RangeSlider
-              label="Horizontal padding"
+            <TextField
               value={paddingX}
+              label="Horizontal padding"
+              helpText="Options: 'auto', 'inherit' or number px/em/%"
               id="paddingX"
+              placeholder="100px, 3em, or 50%"
               onChange={updateFieldValue}
             />
             <Checkbox
@@ -180,28 +185,20 @@ const SingleBarFormFields = ({
               selected={[textAlign]}
               onChange={updateFieldValue}
             />
-            <ChoiceList
-              title="Inherit font size"
-              choices={[
-                { label: 'Use default size from page', value: true },
-                { label: 'Set custom font size', value: false },
-              ]}
-              name="fontSize"
-              selected={[fontSize]} // @TODO: Set conditional field
-              onChange={updateFieldValue}
-            />
-            <RangeSlider
-              label="Size"
+            <TextField
               value={fontSize}
+              label="Text size"
+              helpText="Options: 'inherit' or number px/em/%"
               id="fontSize"
-              onChange={updateFieldWithPixel}
+              placeholder="14px, 1em, or 120%"
+              onChange={updateFieldValue}
             />
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
       <Layout.AnnotatedSection
         title="Background styles"
-        description="Style the background and or upload an image."
+        description="Style the background and or upload an image"
       >
         <Card sectioned>
           <FormLayout>
@@ -212,50 +209,36 @@ const SingleBarFormFields = ({
               color={backgroundHSBa}
               onChange={(hsba) => updateColorPickerValue(hsba, 'background')}
             />
-            <ChoiceList
-              title="Image position vertical placement"
-              choices={[
-                { label: 'Center', value: 'center' },
-                { label: 'Use custom number', value: false }, // @TODO: Set conditional field
-              ]}
-              name="backgroundImagePositionY"
-              selected={[backgroundImagePositionY]}
+            <TextField
+              value={backgroundImagePositionY}
+              label="Image position vertical position"
+              helpText="Options: 'center' or number px/em/%"
+              id="backgroundImageSizeY"
+              placeholder="center"
               onChange={updateFieldValue}
             />
-            <ChoiceList
-              title="Image position horizontal placement"
-              choices={[
-                { label: 'Center', value: 'center' },
-                { label: 'Use custom number', value: false }, // @TODO: Set conditional field
-              ]}
-              name="backgroundImagePositionX"
-              selected={[backgroundImagePositionX]}
+            <TextField
+              value={backgroundImagePositionX}
+              label="Image position horizontal position"
+              helpText="Options: 'center' or number px/em/%"
+              id="backgroundImageSizeY"
+              placeholder="center"
               onChange={updateFieldValue}
             />
-            <ChoiceList
-              title="Image vertical size"
-              choices={[
-                { label: 'Default (auto size)', value: 'auto' },
-                { label: 'Contained image', value: 'contain' },
-                { label: 'Fit entire container', value: 'cover' },
-                { label: 'Use custom number', value: false }, // @TODO: Set conditional field
-                { label: 'Use custom percent', value: 'backgroundSizeYPixel' }, // @TODO: Set conditional field
-              ]}
-              name="backgroundImageSizeY"
-              selected={[backgroundImageSizeY]}
+            <TextField
+              value={backgroundImageSizeY}
+              label="Image vertical size"
+              helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
+              id="backgroundImageSizeY"
+              placeholder="200px, 14em, or 100%"
               onChange={updateFieldValue}
             />
-            <ChoiceList
-              title="Image horizontal size"
-              choices={[
-                { label: 'Default (auto size)', value: 'auto' },
-                { label: 'Contained image', value: 'contain' },
-                { label: 'Fit entire container', value: 'cover' },
-                { label: 'Use custom number', value: false }, // @TODO: Set conditional field
-                { label: 'Use custom percent', value: 'backgroundSizeXPercent' }, // @TODO: Set conditional field
-              ]}
-              name="backgroundImageSizeX"
-              selected={[backgroundImageSizeX]}
+            <TextField
+              value={backgroundImageSizeX}
+              label="Image horizontal size"
+              helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
+              id="backgroundImageSizeX"
+              placeholder="200px, 14em, or 100%"
               onChange={updateFieldValue}
             />
             <ChoiceList
