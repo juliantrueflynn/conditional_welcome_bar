@@ -54,16 +54,6 @@ RSpec.describe Bar, type: :model do
 
   it { is_expected.to belong_to(:shop) }
 
-  context 'integer to decimal' do
-    it '#opacity for :background_opacity' do
-      expect(FactoryBot.build(:bar).opacity(95, :background_opacity).background_opacity).to eq(0.95)
-    end
-
-    it '#opacity for :text_opacity' do
-      expect(FactoryBot.build(:bar).opacity(59, :text_opacity).text_opacity).to eq(0.59)
-    end
-  end
-
   context 'when :is_active updated' do
     let!(:bars) { FactoryBot.create(:shop_with_bars).bars }
 

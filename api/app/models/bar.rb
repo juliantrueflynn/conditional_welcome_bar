@@ -46,18 +46,6 @@ class Bar < ApplicationRecord
     where(shop_id: shop)
   end
 
-  def self.to_decimal(integer)
-    return 1.0 if integer > 100
-    return 0.0 if integer < 0
-    integer.to_f / 100
-  end
-
-  def opacity(integer, param)
-    decimal = Bar.to_decimal(integer)
-    update_attribute(param, decimal)
-    self
-  end
-
   after_update_commit :is_active_toggle_for_page_template
 
   private
