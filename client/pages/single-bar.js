@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Page, Form } from '@shopify/polaris';
+import { Page, Form, Button } from '@shopify/polaris';
 import Router from 'next/router';
 import { decamelizeKeys } from 'humps';
 import { convertToHSBa, convertFromHSBa } from '../util/colorPickerUtil';
@@ -22,6 +22,7 @@ class SingleBar extends React.Component {
 
     this.state = {
       pageTitle: '',
+      hasValuesChanged: false,
       title: '',
       content: '',
       hasCloseButton: false,
@@ -59,11 +60,11 @@ class SingleBar extends React.Component {
 
   componentDidMount() {
     const { bar } = this.props;
-    this.updateState(bar, convertToHSBa(bar));
+    this.updateBarAttributes(bar, convertToHSBa(bar));
   }
 
-  updateState(bar, extras = {}) {
-    const { textHSBa, backgroundHSBa, ...state } = this.state;
+  updateBarAttributes(bar, extras = {}) {
+    const { hasValuesChanged, textHSBa, backgroundHSBa, ...state } = this.state;
 
     const nextState = {};
     Object.keys(bar)
@@ -83,11 +84,17 @@ class SingleBar extends React.Component {
     const nextState = { ...state, ...convertFromHSBa(this.state) };
     const payload = decamelizeKeys(nextState);
 
-    apiUpdate(`bars/${bar.id}`, payload).then((json) => this.updateState(json));
+    apiUpdate(`bars/${bar.id}`, payload).then((json) => {
+      this.updateBarAttributes(json);
+      this.setState({ hasValuesChanged: false });
+    });
   }
 
   handleValueChange(value, id) {
-    this.setState({ [id]: value });
+    const { bar } = this.props;
+    const hasValuesChanged = bar[id] !== value;
+
+    this.setState({ [id]: value, hasValuesChanged });
   }
 
   handleColorPickerValueChange(color, id) {
@@ -101,10 +108,11 @@ class SingleBar extends React.Component {
 
   render() {
     const { bar } = this.props;
-    const { pageTitle, isActive } = this.state;
+    const { pageTitle, isActive, hasValuesChanged } = this.state;
     const primaryAction = {
       content: 'Save',
       onAction: this.handleFormSubmit,
+      disabled: !hasValuesChanged,
     };
     const breadcrumbs = [{ content: 'Welcome Bars', onAction: () => Router.push('/') }];
     const title = pageTitle || bar.title;
@@ -124,6 +132,9 @@ class SingleBar extends React.Component {
             updateColorPickerValue={this.handleColorPickerValueChange}
             {...this.state}
           />
+          <Button submit primary disabled={!hasValuesChanged}>
+            Save
+          </Button>
         </Form>
       </Page>
     );
