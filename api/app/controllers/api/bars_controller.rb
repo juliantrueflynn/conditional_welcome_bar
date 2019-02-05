@@ -62,7 +62,7 @@ class Api::BarsController < ApplicationController
       :is_sticky,
       :placement,
       :page_template,
-      :font_color,
+      :text_color,
       :font_family,
       :font_size,
       :text_opacity,

@@ -8,7 +8,7 @@ class Bar < ApplicationRecord
 
   validates_presence_of :title,
     :placement,
-    :font_color,
+    :text_color,
     :page_template
   validates_length_of :content, minimum: 0, allow_nil: false
   validates_inclusion_of :placement, in: %w(top bottom)

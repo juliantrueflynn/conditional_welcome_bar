@@ -152,7 +152,7 @@
         ],
         style: {
           fontSize: props.fontSize,
-          color: props.fontColor,
+          color: props.textColor,
           textAlign: props.textAlign,
           backgroundColor: props.backgroundColor,
           backgroundImage: image && `url(${props.backgroundImage})`,

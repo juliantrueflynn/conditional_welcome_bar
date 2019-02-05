@@ -16,8 +16,8 @@ class CreateBars < ActiveRecord::Migration[5.1]
       t.string :padding_x, default: '15px', null: false
       t.string :text_align, default: 'center'
       t.float :text_opacity, default: 1.0
-      t.string :font_color, default: '#ffffff', null: false
-      t.string :font_size
+      t.string :text_color, default: '#ffffff', null: false
+      t.string :font_size, default: 'inherit'
       t.string :font_family, default: 'inherit'
       t.float :background_opacity, default: 1.0
       t.string :background_color, default: '#2d3436'

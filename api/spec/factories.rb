@@ -13,7 +13,7 @@ FactoryBot.define do
     padding_x { '15px' }
     text_align { 'center' }
     text_opacity { 1 }
-    font_color { '#ffffff' }
+    text_color { '#ffffff' }
     font_size { 'inherit' }
     font_family { 'inherit' }
     background_color { '#2d3436' }

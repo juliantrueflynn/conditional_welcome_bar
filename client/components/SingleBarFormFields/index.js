@@ -31,7 +31,8 @@ const SingleBarFormFields = ({
     paddingY,
     paddingX,
     fontSize,
-    fontColor,
+    textColor,
+    textOpacity,
     fontFamily, // @TODO: Google fonts select?
     textAlign,
     backgroundColor,
@@ -165,7 +166,7 @@ const SingleBarFormFields = ({
             Text color
             <ColorPicker
               allowAlpha
-              id="fontColor"
+              id="textColor"
               color={{ hue: 120, brightness: 1, saturation: 1 }} // Temporary
               // color={fontColor}
               onChange={updateColorPickerValue}

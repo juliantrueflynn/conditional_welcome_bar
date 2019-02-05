@@ -34,7 +34,7 @@ class SingleBar extends React.Component {
       paddingY: '',
       paddingX: '',
       fontSize: 'inherit',
-      fontColor: '',
+      textColor: '',
       fontFamily: '',
       textOpacity: 100,
       textAlign: '',
