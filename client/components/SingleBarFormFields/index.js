@@ -10,12 +10,7 @@ import {
   ColorPicker,
 } from '@shopify/polaris';
 
-const SingleBarFormFields = ({
-  updateFieldValue,
-  updateFieldWithPixel,
-  updateColorPickerValue,
-  ...fieldValues
-}) => {
+const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fieldValues }) => {
   const {
     title,
     content,
@@ -263,7 +258,6 @@ const SingleBarFormFields = ({
 SingleBarFormFields.propTypes = {
   fieldValues: PropTypes.instanceOf(Object),
   updateFieldValue: PropTypes.func.isRequired,
-  updateFieldWithPixel: PropTypes.func.isRequired,
   updateColorPickerValue: PropTypes.func.isRequired,
 };
 

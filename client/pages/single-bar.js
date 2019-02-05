@@ -55,7 +55,6 @@ class SingleBar extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleColorPickerValueChange = this.handleColorPickerValueChange.bind(this);
-    this.handlePixelValueChange = this.handlePixelValueChange.bind(this);
   }
 
   componentDidMount() {
@@ -100,10 +99,6 @@ class SingleBar extends React.Component {
   handleColorPickerValueChange(color, id) {
     const hsbaKey = `${id}HSBa`;
     this.setState({ [hsbaKey]: color });
-  }
-
-  handlePixelValueChange(field) {
-    this.handlePixelValueChange(field);
   }
 
   render() {
