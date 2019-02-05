@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Page, Form } from '@shopify/polaris';
+import { Page, Form, hsbToHex, rgbToHsb } from '@shopify/polaris';
+import hexToRgb from 'hex-to-rgb';
 import Router from 'next/router';
 import { decamelizeKeys } from 'humps';
 import { apiUpdate, apiFetch } from '../util/apiUtil';
@@ -36,9 +37,9 @@ class SingleBar extends React.Component {
       fontSize: 'inherit',
       textColor: '',
       fontFamily: '',
-      textOpacity: 100,
+      textOpacity: 1.0,
       textAlign: '',
-      backgroundOpacity: 100,
+      backgroundOpacity: 1.0,
       backgroundColor: '',
       backgroundImage: '',
       backgroundImageRepeat: '',
@@ -46,8 +47,8 @@ class SingleBar extends React.Component {
       backgroundImageSizeY: '',
       backgroundImagePositionX: '',
       backgroundImagePositionY: '',
-      backgroundHSLA: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
-      textHSLA: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
+      backgroundHSBa: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
+      textHSBa: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
     };
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -58,11 +59,11 @@ class SingleBar extends React.Component {
 
   componentDidMount() {
     const { bar } = this.props;
-    this.updateState(bar);
+    this.updateState(bar, this.convertToHSBa());
   }
 
-  updateState(bar) {
-    const { textHSLA, backgroundHSLA, ...state } = this.state;
+  updateState(bar, extras = {}) {
+    const { textHSBa, backgroundHSBa, ...state } = this.state;
 
     const nextState = {};
     Object.keys(bar)
@@ -71,15 +72,16 @@ class SingleBar extends React.Component {
         nextState[key] = bar[key];
       });
 
-    this.setState({ ...state, ...nextState, pageTitle: nextState.title });
+    this.setState({ ...state, ...nextState, ...extras, pageTitle: nextState.title });
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
 
     const { bar } = this.props;
-    const { ...state } = this.state;
-    const payload = decamelizeKeys(state);
+    const { textHSBa, backgroundHSBa, ...state } = this.state;
+    const nextState = { ...state, ...this.convertFromHSBa() };
+    const payload = decamelizeKeys(nextState);
 
     apiUpdate(`bars/${bar.id}`, payload).then((json) => this.updateState(json));
   }
@@ -88,9 +90,36 @@ class SingleBar extends React.Component {
     this.setState({ [id]: value });
   }
 
-  handleColorPickerValueChange(colorState, type) {
-    const hslaFor = `${type}HSLA`;
-    this.setState({ [hslaFor]: colorState });
+  handleColorPickerValueChange(color, type) {
+    const hslaFor = `${type}HSBa`;
+    this.setState({ [hslaFor]: color });
+  }
+
+  convertFromHSBa() {
+    const { backgroundHSBa, textHSBa } = this.state;
+    const { alpha, ...bgHSL } = backgroundHSBa;
+    const { alpha: txtAlpha, ...txtHSL } = textHSBa;
+
+    return {
+      backgroundColor: hsbToHex(txtHSL),
+      backgroundOpacity: backgroundHSBa.alpha,
+      textColor: hsbToHex(bgHSL),
+      textOpacity: textHSBa.alpha,
+    };
+  }
+
+  convertToHSBa() {
+    const { bar } = this.props;
+
+    const bgRgb = hexToRgb(bar.backgroundColor);
+    const bgHSL = rgbToHsb({ red: bgRgb[0], green: bgRgb[1], blue: bgRgb[2] });
+    const backgroundHSBa = { ...bgHSL, alpha: bar.backgroundOpacity };
+
+    const txtRgb = hexToRgb(bar.textColor);
+    const txtHSL = rgbToHsb({ red: txtRgb[0], green: txtRgb[1], blue: txtRgb[2] });
+    const textHSBa = { ...txtHSL, alpha: bar.textOpacity };
+
+    return { backgroundHSBa, textHSBa };
   }
 
   handlePixelValueChange(field) {
