@@ -36,12 +36,15 @@ const SingleBarFormFields = ({
     fontFamily, // @TODO: Google fonts select?
     textAlign,
     backgroundColor,
+    backgroundOpacity,
     backgroundImage, // @TODO: Image uploader
     backgroundImageRepeat,
     backgroundImageSizeY,
     backgroundImageSizeX,
     backgroundImagePositionX,
     backgroundImagePositionY,
+    backgroundHSLA,
+    textHSLA,
   } = fieldValues;
 
   return (
@@ -167,9 +170,8 @@ const SingleBarFormFields = ({
             <ColorPicker
               allowAlpha
               id="textColor"
-              color={{ hue: 120, brightness: 1, saturation: 1 }} // Temporary
-              // color={fontColor}
-              onChange={updateColorPickerValue}
+              color={textHSLA}
+              onChange={(hsla) => updateColorPickerValue(hsla, 'text')}
             />
             <ChoiceList
               title="Alignment"
@@ -211,9 +213,8 @@ const SingleBarFormFields = ({
             <ColorPicker
               allowAlpha
               id="backgroundColor"
-              color={{ hue: 120, brightness: 1, saturation: 1 }} // Temporary
-              // color={backgroundColor}
-              onChange={updateColorPickerValue}
+              color={backgroundHSLA}
+              onChange={(hsla) => updateColorPickerValue(hsla, 'background')}
             />
             <ChoiceList
               title="Image position vertical placement"

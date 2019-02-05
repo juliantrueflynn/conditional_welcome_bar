@@ -46,6 +46,8 @@ class SingleBar extends React.Component {
       backgroundImageSizeY: '',
       backgroundImagePositionX: '',
       backgroundImagePositionY: '',
+      backgroundHSLA: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
+      textHSLA: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
     };
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -60,7 +62,7 @@ class SingleBar extends React.Component {
   }
 
   updateState(bar) {
-    const { ...state } = this.state;
+    const { textHSLA, backgroundHSLA, ...state } = this.state;
 
     const nextState = {};
     Object.keys(bar)
@@ -86,8 +88,9 @@ class SingleBar extends React.Component {
     this.setState({ [id]: value });
   }
 
-  handleColorPickerValueChange(field) {
-    // this.handleValueChange(field);
+  handleColorPickerValueChange(colorState, type) {
+    const hslaFor = `${type}HSLA`;
+    this.setState({ [hslaFor]: colorState });
   }
 
   handlePixelValueChange(field) {
