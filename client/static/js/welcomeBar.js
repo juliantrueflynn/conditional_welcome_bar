@@ -146,9 +146,9 @@
           props.isSticky && 'cw-bar__fixed',
           props.isSticky && `cw-bar__fixed--${props.placement}`,
           props.backgroundImage && 'cw-bar__imageable',
-          props.url && 'cw-bar__linkable',
-          props.url && props.isFullWidthLink && 'cw-bar__linkable--w-100',
-          props.url && !props.isFullWidthLink && 'cw-bar__linkable--w-auto',
+          !!props.url && 'cw-bar__linkable', 
+          !!props.url && props.isFullWidthLink && 'cw-bar__linkable--w-100', 
+          !!props.url && !props.isFullWidthLink && 'cw-bar__linkable--w-auto',
         ],
         style: {
           fontSize: props.fontSize,
