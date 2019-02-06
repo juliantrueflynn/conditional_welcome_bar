@@ -7,6 +7,10 @@ export const parseShopOrigin = (ctx) => {
   const { shop } = ctx.query;
   const shopParsed = shop || shopOrigin;
 
+  if (!shopParsed) {
+    return null;
+  }
+
   return shopParsed.replace('.myshopify.com', '');
 };
 
