@@ -109,7 +109,7 @@
         }
       };
 
-      xhr.open('GET', `${API_URL}/api/shops/${shopDomain}/active_bars`);
+      xhr.open('GET', `${API_URL}/api/active_bars/${shopDomain}`);
       xhr.send();
     },
     getBarFromResponse: function (response) {
