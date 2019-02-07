@@ -128,6 +128,11 @@
     handleCloseClick: function (e) {
       const container = e.target.parentElement.parentElement.parentElement;
       container.style.display = 'none';
+
+      if (api.bar.isSticky && api.bar.placement === 'top') {
+        document.body.style.marginTop = 0;
+      }
+
       window.localStorage.setItem(getStorageKey(api.bar.id), true);
     },
     render: function (props) {
