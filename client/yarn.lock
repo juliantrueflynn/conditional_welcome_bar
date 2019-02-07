@@ -662,10 +662,10 @@
     node-mocks-http "^1.5.8"
     tslib "^1.9.3"
 
-"@shopify/koa-shopify-auth@^3.1.13":
-  version "3.1.13"
-  resolved "https://registry.yarnpkg.com/@shopify/koa-shopify-auth/-/koa-shopify-auth-3.1.13.tgz#a114324a928088fab2f58c167d6a66845e45bd63"
-  integrity sha512-Ls1WUWstTm62OK7aBLtS7hSZCEFYaOQCBNMD/G+VhvRavJsEcsqC6o8ZoDx20CrZrnNsyuLkCiS5litFL2m8nA==
+"@shopify/koa-shopify-auth@^3.1.14":
+  version "3.1.14"
+  resolved "https://registry.yarnpkg.com/@shopify/koa-shopify-auth/-/koa-shopify-auth-3.1.14.tgz#b6eb4cf93ac48d5a7a2ef32216320f9554e07ac8"
+  integrity sha512-OblvhNuih0mvbHgUYs5KQQYQewgND+JLiNWohSiFx/KLl+9CNq2sKEWkPhHsvKjvWlDmNWrozSO84N0IODEw7Q==
   dependencies:
     "@shopify/jest-koa-mocks" "^2.1.0"
     nonce "^1.0.4"
@@ -3637,7 +3637,37 @@ koa2-connect@^1.0.2:
   resolved "https://registry.yarnpkg.com/koa2-connect/-/koa2-connect-1.0.2.tgz#cf196d70a4e6a055f717522768d26cdfc5396f7b"
   integrity sha1-zxltcKTmoFX3F1InaNJs38U5b3s=
 
-koa@^2.5.0, koa@^2.6.2:
+koa@^2.5.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/koa/-/koa-2.7.0.tgz#7e00843506942b9d82c6cc33749f657c6e5e7adf"
+  integrity sha512-7ojD05s2Q+hFudF8tDLZ1CpCdVZw8JQELWSkcfG9bdtoTDzMmkRF6BQBU7JzIzCCOY3xd3tftiy/loHBUYaY2Q==
+  dependencies:
+    accepts "^1.3.5"
+    cache-content-type "^1.0.0"
+    content-disposition "~0.5.2"
+    content-type "^1.0.4"
+    cookies "~0.7.1"
+    debug "~3.1.0"
+    delegates "^1.0.0"
+    depd "^1.1.2"
+    destroy "^1.0.4"
+    error-inject "^1.0.0"
+    escape-html "^1.0.3"
+    fresh "~0.5.2"
+    http-assert "^1.3.0"
+    http-errors "^1.6.3"
+    is-generator-function "^1.0.7"
+    koa-compose "^4.1.0"
+    koa-convert "^1.2.0"
+    koa-is-json "^1.0.0"
+    on-finished "^2.3.0"
+    only "~0.0.2"
+    parseurl "^1.3.2"
+    statuses "^1.5.0"
+    type-is "^1.6.16"
+    vary "^1.1.2"
+
+koa@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/koa/-/koa-2.6.2.tgz#57ba4d049b0a99cae0d594e6144e2931949a7ce1"
   integrity sha512-KdnBFhTgh9ysMMoYe4J4fLvaKjT7mF3nRYV8MjxLzx6qywFNeptqi4xevyUltg1fZl2CFJ+HeLXuCGx07Yvl/A==
@@ -3830,6 +3860,7 @@ memory-fs@^0.4.0, memory-fs@^0.4.1, memory-fs@~0.4.1:
 merge-descriptors@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
+  integrity sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=
 
 methods@^1.0.1, methods@^1.1.2:
   version "1.1.2"

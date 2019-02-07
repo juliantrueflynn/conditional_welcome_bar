@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@shopify/app-bridge": "0.7.3",
-    "@shopify/koa-shopify-auth": "^3.1.13",
+    "@shopify/koa-shopify-auth": "^3.1.14",
     "@shopify/polaris": "^3.6.0",
     "@shopify/react-shopify-app-route-propagator": "^2.0.0",
     "@zeit/next-css": "^1.0.1",
