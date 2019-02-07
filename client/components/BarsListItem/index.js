@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ResourceList, TextStyle } from '@shopify/polaris';
 import TimeAgo from 'timeago-react';
+import './styles.css';
 
 const BarsListItem = (props) => {
   const { id, title, content, createdAt } = props;
@@ -17,8 +18,10 @@ const BarsListItem = (props) => {
             <TextStyle variation="strong">{title}</TextStyle>
           </h3>
           <div className="BarsListItem__Date">
-            {'Created '}
-            <TimeAgo datetime={createDatetime} />
+            <TextStyle variation="subdued">
+              {'Created '}
+              <TimeAgo datetime={createDatetime} />
+            </TextStyle>
           </div>
         </div>
         {content}
