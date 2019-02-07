@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { AppProvider } from '@shopify/polaris';
-import LinkRouter from '../LinkRouter';
 
 const ShopifyAppProvider = ({ children, shopOrigin }) => {
   if (!shopOrigin) {
@@ -17,7 +16,6 @@ const ShopifyAppProvider = ({ children, shopOrigin }) => {
       // eslint-disable-next-line no-undef
       apiKey={SHOPIFY_API_CLIENT_KEY}
       shopOrigin={shopOrigin}
-      linkComponent={(urlProps) => <LinkRouter {...urlProps} />}
       forceRedirect
     >
       <Fragment>{children}</Fragment>
@@ -27,6 +25,11 @@ const ShopifyAppProvider = ({ children, shopOrigin }) => {
 
 ShopifyAppProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  shopOrigin: PropTypes.string,
+};
+
+ShopifyAppProvider.defaultProps = {
+  shopOrigin: '',
 };
 
 export default ShopifyAppProvider;
