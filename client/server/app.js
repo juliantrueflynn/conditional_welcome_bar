@@ -26,50 +26,54 @@ const port = parseInt(PORT, 10) || 3000;
 const app = Next({ dev });
 const handle = app.getRequestHandler();
 
-const shopifyConfig = {
-  apiKey: SHOPIFY_API_CLIENT_KEY,
-  secret: SHOPIFY_API_SECRET_KEY,
-  scopes: ['write_script_tags'],
-  afterAuth(ctx) {
-    const { shop, accessToken } = ctx.session;
-    ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
-
-    const scriptTagBody = JSON.stringify({
-      script_tag: {
-        event: 'onload',
-        src: `${TUNNEL_URL}/static/js/welcomeBar.js`,
-      },
-    });
-
-    const addScriptTagOptions = {
-      method: 'POST',
-      body: scriptTagBody,
-      headers: {
-        'X-Shopify-Access-Token': accessToken,
-        'Content-Type': 'application/json',
-        Accept: '*/*',
-      },
-      json: true,
-    };
-
-    const scriptTagApiUrl = `https://${shop}/admin/script_tags.json`;
-
-    fetch(scriptTagApiUrl, addScriptTagOptions);
-
-    ctx.redirect('/');
-  },
-};
-
 app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
+  server.use(c2k(proxy('/api', { target: API_URL, changeOrigin: true })));
   server.use(session(server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
   server.use(bodyParser());
-  server.use(c2k(proxy('/api', { target: API_URL })));
 
-  router.use('/auth', createShopifyAuth(shopifyConfig), verifyRequest());
+  server.use(
+    createShopifyAuth({
+      apiKey: SHOPIFY_API_CLIENT_KEY,
+      secret: SHOPIFY_API_SECRET_KEY,
+      scopes: ['write_script_tags'],
+      async afterAuth(ctx) {
+        const { shop, accessToken } = ctx.session;
+        ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
+
+        await fetch(`https://${shop}/admin/script_tags.json`, {
+          method: 'POST',
+          body: JSON.stringify({
+            script_tag: {
+              event: 'onload',
+              src: `${TUNNEL_URL}/static/js/welcomeBar.js`,
+            },
+          }),
+          headers: {
+            'X-Shopify-Access-Token': accessToken,
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+          },
+          json: true,
+        });
+
+        await fetch(`${TUNNEL_URL}/api/shop`, {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({ shopify_domain: shop, shopify_token: accessToken }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+
+        ctx.redirect('/');
+      },
+    }),
+  );
 
   router.get('/bars/:id', async (ctx) => {
     const query = Object.assign({}, ctx.query, ctx.params);
@@ -88,6 +92,8 @@ app.prepare().then(() => {
   });
 
   server.use(router.routes());
+
+  server.use(verifyRequest());
 
   server.listen(port, (err) => {
     if (err) {
