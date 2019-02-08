@@ -2,6 +2,7 @@ class Shop < ActiveRecord::Base
   has_many :bars
 
   validates_presence_of :shopify_domain, :shopify_token
+  validates_uniqueness_of :shopify_domain
 
   def self.by_domain_name(hostname)
     shopify_domain = "#{hostname}.myshopify.com"
