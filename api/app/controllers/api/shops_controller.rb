@@ -2,7 +2,9 @@ class Api::ShopsController < ApplicationController
   # skip_before_action :authenticate, only: :create
 
   def create
-    @shop = Shop.find_or_initialize_by(shop_params)
+    @shop = Shop.find_or_initialize_by_domain(params[:shopify_domain]) do |shop|
+      shop.shopify_token = params[:shopify_token]
+    end
 
     if @shop.save
       # jwt = Auth.issue({ shop: @shop.id })
