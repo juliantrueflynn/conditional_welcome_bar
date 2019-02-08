@@ -1,5 +1,5 @@
 class Bar < ApplicationRecord
-  PX_REGEX = /\d+(\.\d+)?px|inherit/
+  SIZE_REGEX = /\d+(\.\d+)?px|\d+(\.\d+)%?|\d+(\.\d+)em?|inherit/
   SCRUB_PARAMS = %w(title created_at updated_at shop_id is_active background_image).freeze
 
   mount_uploader :background_image, BackgroundUploader
@@ -22,9 +22,9 @@ class Bar < ApplicationRecord
   validates_inclusion_of :background_image_repeat,
     in: %w(no-repeat repeat-x repeat-y repeat space)
   validates_inclusion_of :text_align, in: %w(center left right), allow_nil: true
-  validates_format_of :font_size, with: PX_REGEX, allow_nil: true
-  validates_format_of :padding_y, with: PX_REGEX, allow_nil: true
-  validates_format_of :padding_x, with: PX_REGEX, allow_nil: true
+  validates_format_of :font_size, with: SIZE_REGEX, allow_nil: true
+  validates_format_of :padding_y, with: SIZE_REGEX, allow_nil: true
+  validates_format_of :padding_x, with: SIZE_REGEX, allow_nil: true
   validates_numericality_of :text_opacity,
     less_than_or_equal_to: 1,
     greater_than_or_equal_to: 0,
