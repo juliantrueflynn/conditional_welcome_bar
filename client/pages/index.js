@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Page } from '@shopify/polaris';
-import { parseShopOrigin, apiFetch } from '../util/apiUtil';
+import { getShopOrigin, apiFetch } from '../util/apiUtil';
 import BarsList from '../components/BarsList';
 
 class Index extends React.Component {
@@ -34,7 +34,7 @@ class Index extends React.Component {
 }
 
 Index.getInitialProps = async (ctx) => {
-  const shopOrigin = parseShopOrigin(ctx);
+  const shopOrigin = getShopOrigin(ctx);
 
   if (!shopOrigin) {
     return { bars: [] };

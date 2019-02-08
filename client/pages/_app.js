@@ -2,18 +2,24 @@ import React, { Fragment } from 'react';
 import App from 'next/app';
 import Head from 'next/head';
 import '@shopify/polaris/styles.css';
-import Cookies from 'js-cookie';
 import ShopifyAppRouter from '../components/ShopifyAppRouter';
 import ShopifyAppProvider from '../components/ShopifyAppProvider';
+import { getShopOrigin } from '../util/apiUtil';
 
 class MyApp extends App {
-  state = {
-    shopOrigin: Cookies.get('shopOrigin'),
-  };
+  static async getInitialProps({ Component, ctx }) {
+    const shopOrigin = getShopOrigin(ctx);
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, shopOrigin };
+  }
 
   render() {
-    const { Component, pageProps } = this.props;
-    const { shopOrigin } = this.state;
+    const { Component, pageProps, shopOrigin } = this.props;
 
     return (
       <Fragment>

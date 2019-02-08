@@ -2,7 +2,7 @@ class Api::BarsController < ApplicationController
   before_action :set_bar, only: [:show, :update, :destroy]
 
   def index
-    @bars = Bar.with_domain_name(params[:shop_name])
+    @bars = Bar.with_shopify_domain(params[:shopify_domain])
 
     render 'api/bars/index'
   end

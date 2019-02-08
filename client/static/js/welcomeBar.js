@@ -100,7 +100,6 @@
     },
     fetchBarsIndex: function (callback) {
       const xhr = new XMLHttpRequest();
-      const shopDomain = window.Shopify.shop.replace('.myshopify.com', '');
     
       xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -109,7 +108,7 @@
         }
       };
 
-      xhr.open('GET', `${API_URL}/api/active_bars/${shopDomain}`);
+      xhr.open('GET', `${API_URL}/api/active_bars/${window.Shopify.shop}`);
       xhr.send();
     },
     getBarFromResponse: function (response) {

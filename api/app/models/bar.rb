@@ -41,9 +41,9 @@ class Bar < ApplicationRecord
     where(page_template: page_template)
   end
 
-  def self.with_domain_name(domain)
-    shop = Shop.by_domain_name(domain)
-    where(shop_id: shop)
+  def self.with_shopify_domain(shopify_domain)
+    shop = Shop.find_by_shopify_domain(shopify_domain)
+    where(shop_id: shop) if shop
   end
 
   after_update_commit :is_active_toggle_for_page_template

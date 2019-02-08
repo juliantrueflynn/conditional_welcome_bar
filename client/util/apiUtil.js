@@ -2,16 +2,11 @@ import fetch from 'isomorphic-fetch';
 import cookies from 'next-cookies';
 import { decamelizeKeys } from 'humps';
 
-export const parseShopOrigin = (ctx) => {
+export const getShopOrigin = (ctx) => {
   const { shopOrigin } = cookies(ctx);
   const { shop } = ctx.query;
-  const shopParsed = shop || shopOrigin;
 
-  if (!shopParsed) {
-    return null;
-  }
-
-  return shopParsed.replace('.myshopify.com', '');
+  return shop || shopOrigin || null;
 };
 
 // eslint-disable-next-line no-undef
