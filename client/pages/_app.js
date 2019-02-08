@@ -4,7 +4,7 @@ import Head from 'next/head';
 import '@shopify/polaris/styles.css';
 import ShopifyAppRouter from '../components/ShopifyAppRouter';
 import ShopifyAppProvider from '../components/ShopifyAppProvider';
-import { getShopOrigin } from '../util/apiUtil';
+import { getShopOrigin, setShopOriginCookie } from '../util/apiUtil';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -14,6 +14,8 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+
+    setShopOriginCookie(ctx);
 
     return { pageProps, shopOrigin };
   }

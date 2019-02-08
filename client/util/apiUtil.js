@@ -1,12 +1,19 @@
 import fetch from 'isomorphic-fetch';
-import cookies from 'next-cookies';
+import { parseCookies, setCookie } from 'nookies';
 import { decamelizeKeys } from 'humps';
 
 export const getShopOrigin = (ctx) => {
-  const { shopOrigin } = cookies(ctx);
-  const { shop } = ctx.query;
+  const { shopOrigin } = parseCookies(ctx);
 
-  return shop || shopOrigin || null;
+  return ctx.query.shop || shopOrigin || null;
+};
+
+export const setShopOriginCookie = (ctx) => {
+  const { shopOrigin } = parseCookies(ctx);
+
+  if (!shopOrigin && ctx.query.shop) {
+    setCookie(ctx, 'shopOrigin', ctx.query.shop, { httpOnly: false });
+  }
 };
 
 // eslint-disable-next-line no-undef
