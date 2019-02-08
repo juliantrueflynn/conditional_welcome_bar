@@ -8,6 +8,10 @@ class Shop < ActiveRecord::Base
     find_by_shopify_domain(shopify_domain)
   end
 
+  def self.find_or_initialize_by_domain(shopify_domain, &block)
+    find_or_initialize_by(shopify_domain: shopify_domain, &block)
+  end
+
   after_create_commit :generate_default_bar
 
   private

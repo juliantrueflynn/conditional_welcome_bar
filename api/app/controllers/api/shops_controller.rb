@@ -2,7 +2,7 @@ class Api::ShopsController < ApplicationController
   # skip_before_action :authenticate, only: :create
 
   def create
-    @shop = Shop.new(shop_params)
+    @shop = Shop.find_or_initialize_by(shop_params)
 
     if @shop.save
       # jwt = Auth.issue({ shop: @shop.id })
