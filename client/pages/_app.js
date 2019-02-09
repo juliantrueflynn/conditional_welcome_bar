@@ -9,7 +9,7 @@ import LoadingManager from '../components/LoadingManager';
 
 class MyApp extends App {
   render() {
-    const { Component, pageProps, shopOrigin, router } = this.props;
+    const { Component, pageProps, shopOrigin } = this.props;
 
     return (
       <Fragment>
@@ -20,7 +20,7 @@ class MyApp extends App {
         </Head>
         <ShopifyAppProvider shopOrigin={shopOrigin}>
           {shopOrigin && <ShopifyAppRouter />}
-          <LoadingManager router={router.route}>
+          <LoadingManager>
             <Component {...pageProps} />
           </LoadingManager>
         </ShopifyAppProvider>

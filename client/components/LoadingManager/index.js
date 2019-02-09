@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 import {
   Loading,
   Layout,
@@ -14,7 +14,7 @@ import {
 class LoadingManager extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: true, loadingTo: props.route };
+    this.state = { isLoading: true, loadingTo: props.router.route };
   }
 
   componentDidMount() {
@@ -91,11 +91,9 @@ class LoadingManager extends React.Component {
 
 LoadingManager.propTypes = {
   children: PropTypes.node.isRequired,
-  route: PropTypes.string,
+  router: PropTypes.shape({
+    route: PropTypes.string,
+  }).isRequired,
 };
 
-LoadingManager.defaultProps = {
-  route: '',
-};
-
-export default LoadingManager;
+export default withRouter(LoadingManager);
