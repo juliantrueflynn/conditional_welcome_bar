@@ -1,15 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Router, { withRouter } from 'next/router';
-import {
-  Card,
-  Layout,
-  Loading,
-  SkeletonBodyText,
-  SkeletonDisplayText,
-  SkeletonPage,
-  TextContainer,
-} from '@shopify/polaris';
+import { Loading, SkeletonPage } from '@shopify/polaris';
+import LoadingSkeletonLayout from '../LoadingSkeletonLayout';
 
 class LoadingManager extends React.Component {
   constructor(props) {
@@ -38,48 +31,11 @@ class LoadingManager extends React.Component {
       return children;
     }
 
-    let SkeletonContent = (
-      <Fragment>
-        <Layout.Section>
-          <Card sectioned>
-            <TextContainer>
-              <SkeletonDisplayText size="small" />
-              <SkeletonBodyText />
-            </TextContainer>
-          </Card>
-        </Layout.Section>
-      </Fragment>
-    );
-
-    if (loadingTo === '/') {
-      SkeletonContent = (
-        <Fragment>
-          <Layout.Section>
-            <Card sectioned>
-              <SkeletonBodyText />
-            </Card>
-            <Card sectioned>
-              <SkeletonBodyText />
-            </Card>
-            <Card sectioned>
-              <SkeletonBodyText />
-            </Card>
-            <Card sectioned>
-              <SkeletonBodyText />
-            </Card>
-            <Card sectioned>
-              <SkeletonBodyText />
-            </Card>
-          </Layout.Section>
-        </Fragment>
-      );
-    }
-
     return (
       <Fragment>
         <Loading />
         <SkeletonPage primaryAction>
-          <Layout>{SkeletonContent}</Layout>
+          <LoadingSkeletonLayout loadingTo={loadingTo} />
         </SkeletonPage>
       </Fragment>
     );
