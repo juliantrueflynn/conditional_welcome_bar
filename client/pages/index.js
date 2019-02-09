@@ -1,37 +1,32 @@
-/* eslint react/prefer-stateless-function: 0 */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Page } from '@shopify/polaris';
 import { getShopOrigin, apiFetch } from '../util/apiUtil';
 import BarsList from '../components/BarsList';
 
-class Index extends React.Component {
-  static propTypes = {
-    bars: PropTypes.instanceOf(Array),
+const Index = ({ bars }) => {
+  const primaryAction = {
+    content: 'Create new bar',
   };
 
-  static defaultProps = {
-    bars: [],
-  };
+  return (
+    <Page title="Home" forceRender primaryAction={primaryAction}>
+      <Layout>
+        <Layout.Section>
+          <BarsList bars={bars} />
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
+};
 
-  render() {
-    const { bars } = this.props;
-    const primaryAction = {
-      content: 'Create new bar',
-    };
+Index.propTypes = {
+  bars: PropTypes.instanceOf(Array),
+};
 
-    return (
-      <Page title="Home" forceRender primaryAction={primaryAction}>
-        <Layout>
-          <Layout.Section>
-            <BarsList bars={bars} />
-          </Layout.Section>
-        </Layout>
-      </Page>
-    );
-  }
-}
+Index.defaultProps = {
+  bars: [],
+};
 
 Index.getInitialProps = async (ctx) => {
   const shopOrigin = getShopOrigin(ctx);
