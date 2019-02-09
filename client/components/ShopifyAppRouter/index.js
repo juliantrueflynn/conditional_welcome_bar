@@ -11,7 +11,7 @@ const ShopifyAppRouter = (props, context) => {
 };
 
 ShopifyAppRouter.contextTypes = {
-  polaris: PropTypes.object,
+  polaris: PropTypes.instanceOf(Object),
 };
 
 ShopifyAppRouter.propTypes = {

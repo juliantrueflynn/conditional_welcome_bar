@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import Router from 'next/router';
 import {
   Loading,
   Layout,
@@ -10,35 +11,37 @@ import {
   SkeletonPage,
 } from '@shopify/polaris';
 
-const LoadingManager = ({ isLoading, loadingTo, children }) => {
-  if (!isLoading) {
-    return <Fragment>{children}</Fragment>;
+class LoadingManager extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true, loadingTo: props.route };
   }
 
-  let SkeletonContent = (
-    <Fragment>
-      <Layout.Section>
-        <Card sectioned>
-          <SkeletonBodyText />
-        </Card>
-        <Card sectioned>
-          <SkeletonBodyText />
-        </Card>
-        <Card sectioned>
-          <SkeletonBodyText />
-        </Card>
-        <Card sectioned>
-          <SkeletonBodyText />
-        </Card>
-        <Card sectioned>
-          <SkeletonBodyText />
-        </Card>
-      </Layout.Section>
-    </Fragment>
-  );
+  componentDidMount() {
+    this.setState({ isLoading: false, loadingTo: null });
 
-  if (loadingTo !== '/') {
-    SkeletonContent = (
+    Router.events.on('routeChangeStart', (url) => {
+      this.setState({ isLoading: true, loadingTo: url });
+    });
+
+    Router.events.on('routeChangeComplete', () => {
+      this.setState({ isLoading: false, loadingTo: null });
+    });
+
+    Router.events.on('routeChangeError', () => {
+      this.setState({ isLoading: false, loadingTo: null });
+    });
+  }
+
+  render() {
+    const { children } = this.props;
+    const { isLoading, loadingTo } = this.state;
+
+    if (!isLoading) {
+      return children;
+    }
+
+    let SkeletonContent = (
       <Fragment>
         <Layout.Section>
           <Card sectioned>
@@ -50,26 +53,49 @@ const LoadingManager = ({ isLoading, loadingTo, children }) => {
         </Layout.Section>
       </Fragment>
     );
-  }
 
-  return (
-    <Fragment>
-      <Loading />
-      <SkeletonPage primaryAction>
-        <Layout>{SkeletonContent}</Layout>
-      </SkeletonPage>
-    </Fragment>
-  );
-};
+    if (loadingTo === '/') {
+      SkeletonContent = (
+        <Fragment>
+          <Layout.Section>
+            <Card sectioned>
+              <SkeletonBodyText />
+            </Card>
+            <Card sectioned>
+              <SkeletonBodyText />
+            </Card>
+            <Card sectioned>
+              <SkeletonBodyText />
+            </Card>
+            <Card sectioned>
+              <SkeletonBodyText />
+            </Card>
+            <Card sectioned>
+              <SkeletonBodyText />
+            </Card>
+          </Layout.Section>
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment>
+        <Loading />
+        <SkeletonPage primaryAction>
+          <Layout>{SkeletonContent}</Layout>
+        </SkeletonPage>
+      </Fragment>
+    );
+  }
+}
 
 LoadingManager.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  loadingTo: PropTypes.string,
+  route: PropTypes.string,
 };
 
 LoadingManager.defaultProps = {
-  loadingTo: '',
+  route: '',
 };
 
 export default LoadingManager;
