@@ -11,7 +11,6 @@ import ActiveBadge from '../components/ActiveBadge';
 class SingleBar extends React.Component {
   static propTypes = {
     bar: PropTypes.instanceOf(Object),
-    isLoading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
