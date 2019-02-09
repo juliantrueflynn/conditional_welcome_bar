@@ -2,35 +2,32 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Router, { withRouter } from 'next/router';
 import {
-  Loading,
-  Layout,
-  TextContainer,
-  SkeletonDisplayText,
-  SkeletonBodyText,
   Card,
+  Layout,
+  Loading,
+  SkeletonBodyText,
+  SkeletonDisplayText,
   SkeletonPage,
+  TextContainer,
 } from '@shopify/polaris';
 
 class LoadingManager extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isLoading: true, loadingTo: props.router.route };
+    this.handleUpdateLoading = this.handleUpdateLoading.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ isLoading: false, loadingTo: null });
+    this.handleUpdateLoading(null);
+    Router.events.on('routeChangeStart', this.handleUpdateLoading);
+    Router.events.on('routeChangeComplete', () => this.handleUpdateLoading(null));
+    Router.events.on('routeChangeError', () => this.handleUpdateLoading(null));
+  }
 
-    Router.events.on('routeChangeStart', (url) => {
-      this.setState({ isLoading: true, loadingTo: url });
-    });
-
-    Router.events.on('routeChangeComplete', () => {
-      this.setState({ isLoading: false, loadingTo: null });
-    });
-
-    Router.events.on('routeChangeError', () => {
-      this.setState({ isLoading: false, loadingTo: null });
-    });
+  handleUpdateLoading(loadingTo) {
+    const isLoading = !!loadingTo;
+    this.setState({ isLoading, loadingTo });
   }
 
   render() {
@@ -91,9 +88,7 @@ class LoadingManager extends React.Component {
 
 LoadingManager.propTypes = {
   children: PropTypes.node.isRequired,
-  router: PropTypes.shape({
-    route: PropTypes.string,
-  }).isRequired,
+  router: PropTypes.shape({ route: PropTypes.string }).isRequired,
 };
 
 export default withRouter(LoadingManager);
