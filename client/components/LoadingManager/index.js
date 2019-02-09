@@ -31,10 +31,12 @@ class LoadingManager extends React.Component {
       return children;
     }
 
+    const skeletonTitle = loadingTo === '/' ? 'Home' : null;
+
     return (
       <Fragment>
         <Loading />
-        <SkeletonPage primaryAction>
+        <SkeletonPage primaryAction title={skeletonTitle}>
           <LoadingSkeletonLayout loadingTo={loadingTo} />
         </SkeletonPage>
       </Fragment>

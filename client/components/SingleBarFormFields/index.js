@@ -25,7 +25,6 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
     paddingY,
     paddingX,
     fontSize,
-    fontFamily, // @TODO: Google fonts select?
     textAlign,
     backgroundImage, // @TODO: Image uploader
     backgroundImageRepeat,
@@ -117,7 +116,7 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
-      <Layout.AnnotatedSection title="Display styles" description="Style the overall display.">
+      <Layout.AnnotatedSection title="Display styles" description="Style the overall appearance.">
         <Card sectioned>
           <FormLayout>
             <ChoiceList
@@ -193,7 +192,7 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
       </Layout.AnnotatedSection>
       <Layout.AnnotatedSection
         title="Background styles"
-        description="Style the background and or upload an image"
+        description="Style the background and or upload an image."
       >
         <Card sectioned>
           <FormLayout>
