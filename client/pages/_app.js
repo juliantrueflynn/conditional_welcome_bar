@@ -39,7 +39,11 @@ class MyApp extends App {
         >
           {shopOrigin && <ShopifyAppRouter />}
           <LoadingManager>
-            <Component {...pageProps} toggleToast={this.handleToggleToast} />
+            <Component
+              toggleToast={this.handleToggleToast}
+              shopOrigin={shopOrigin}
+              {...pageProps}
+            />
           </LoadingManager>
         </ShopifyAppProvider>
       </Fragment>
@@ -52,7 +56,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {};
 
   if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
+    pageProps = await Component.getInitialProps(ctx, shopOrigin);
   }
 
   setShopOriginCookie(ctx);
