@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Page, Form, Button } from '@shopify/polaris';
 import Router from 'next/router';
+import { Page, Form, Button } from '@shopify/polaris';
 import { decamelizeKeys } from 'humps';
 import { convertToHSBa, convertFromHSBa } from '../util/colorPickerUtil';
 import { apiUpdate, apiFetch } from '../util/apiUtil';
@@ -78,7 +78,7 @@ class SingleBar extends React.Component {
   handleFormSubmit(e) {
     e.preventDefault();
 
-    const { bar } = this.props;
+    const { bar, toggleToast } = this.props;
     const { textHSBa, backgroundHSBa, ...state } = this.state;
     const nextState = { ...state, ...convertFromHSBa(this.state) };
     const payload = decamelizeKeys(nextState);
@@ -86,13 +86,13 @@ class SingleBar extends React.Component {
     apiUpdate(`bars/${bar.id}`, payload).then((json) => {
       this.updateBarAttributes(json);
       this.setState({ hasValuesChanged: false });
+      toggleToast('Welcome bar updated');
     });
   }
 
   handleValueChange(value, id) {
     const { bar } = this.props;
     const hasValuesChanged = bar[id] !== value;
-
     this.setState({ [id]: value, hasValuesChanged });
   }
 
