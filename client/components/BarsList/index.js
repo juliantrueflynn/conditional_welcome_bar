@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ResourceList, EmptyState, Card } from '@shopify/polaris';
 import BarsListItem from '../BarsListItem';
 
-const BarsList = ({ bars }) => {
+const BarsList = ({ bars, createWelcomeBar, isActionLoading }) => {
   const resourceName = {
     singular: 'Welcome Bar',
     plural: 'Welcome Bars',
@@ -12,13 +12,13 @@ const BarsList = ({ bars }) => {
   if (!bars || !bars.length) {
     const emptyStateAction = {
       content: 'Create first bar',
-      // eslint-disable-next-line no-console
-      onAction: () => console.log('clicked'),
+      onAction: createWelcomeBar,
+      loading: isActionLoading,
     };
 
     return (
       <EmptyState
-        heading="Create bar to start"
+        heading="Create welcome bar to start"
         action={emptyStateAction}
         image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
       >

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
 import { ResourceList, TextStyle } from '@shopify/polaris';
 import TimeAgo from 'timeago-react';
+import { navigateToBar } from '../../util/linkUtil';
 import './styles.css';
 
 class BarsListItem extends React.Component {
@@ -13,10 +13,7 @@ class BarsListItem extends React.Component {
 
   handleOnClick() {
     const { id } = this.props;
-    const pathname = '/single-bar';
-    const query = { id };
-
-    Router.push({ pathname, query }, `/bars/${id}`);
+    navigateToBar({ id });
   }
 
   render() {

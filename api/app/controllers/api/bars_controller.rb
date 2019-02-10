@@ -18,6 +18,7 @@ class Api::BarsController < ApplicationController
   def create
     shop = Shop.find_by_shopify_domain(params[:shop_domain])
     @bar = shop.bars.build
+    @bar.title = 'Example Title'
 
     if @bar.save
       render 'api/bars/show'
