@@ -2,7 +2,7 @@ class CreateBars < ActiveRecord::Migration[5.1]
   def change
     create_table :bars do |t|
       t.references :shop, foreign_key: true
-      t.string :title, null: false
+      t.string :title, default: 'Example Title', null: false
       t.text :content, default: '', null: false
       t.boolean :is_active, default: false, null: false
       t.string :url
@@ -18,7 +18,6 @@ class CreateBars < ActiveRecord::Migration[5.1]
       t.float :text_opacity, default: 1.0
       t.string :text_color, default: '#ffffff', null: false
       t.string :font_size, default: 'inherit'
-      t.string :font_family, default: 'inherit'
       t.float :background_opacity, default: 1.0
       t.string :background_color, default: '#2d3436'
       t.string :background_image

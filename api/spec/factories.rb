@@ -15,7 +15,6 @@ FactoryBot.define do
     text_opacity { 1 }
     text_color { '#ffffff' }
     font_size { 'inherit' }
-    font_family { 'inherit' }
     background_color { '#2d3436' }
     background_opacity { 1 }
     background_image { nil }

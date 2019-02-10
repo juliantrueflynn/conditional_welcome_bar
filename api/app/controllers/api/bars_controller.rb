@@ -64,7 +64,6 @@ class Api::BarsController < ApplicationController
       :placement,
       :page_template,
       :text_color,
-      :font_family,
       :font_size,
       :text_opacity,
       :text_align,
