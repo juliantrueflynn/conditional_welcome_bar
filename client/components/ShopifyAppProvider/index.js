@@ -1,8 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { AppProvider } from '@shopify/polaris';
+import { AppProvider, Toast } from '@shopify/polaris';
 
-const ShopifyAppProvider = ({ children, shopOrigin }) => {
+const ShopifyAppProvider = ({
+  children,
+  toastContent,
+  toggleToast,
+  shouldShowToast,
+  shopOrigin,
+}) => {
   if (!shopOrigin) {
     return (
       <AppProvider>
@@ -18,7 +24,10 @@ const ShopifyAppProvider = ({ children, shopOrigin }) => {
       shopOrigin={shopOrigin}
       forceRedirect
     >
-      <Fragment>{children}</Fragment>
+      <Fragment>
+        {children}
+        {shouldShowToast && <Toast content={toastContent} onDismiss={toggleToast} />}
+      </Fragment>
     </AppProvider>
   );
 };
@@ -26,6 +35,9 @@ const ShopifyAppProvider = ({ children, shopOrigin }) => {
 ShopifyAppProvider.propTypes = {
   children: PropTypes.node.isRequired,
   shopOrigin: PropTypes.string,
+  shouldShowToast: PropTypes.bool.isRequired,
+  toggleToast: PropTypes.func.isRequired,
+  toastContent: PropTypes.string.isRequired,
 };
 
 ShopifyAppProvider.defaultProps = {
