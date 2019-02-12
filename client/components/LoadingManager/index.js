@@ -31,7 +31,7 @@ class LoadingManager extends React.Component {
       return children;
     }
 
-    const skeletonTitle = loadingTo === '/' ? 'Home' : null;
+    const skeletonTitle = !loadingTo || loadingTo === '/' ? 'Home' : null;
 
     return (
       <Fragment>

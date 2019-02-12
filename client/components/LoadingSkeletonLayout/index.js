@@ -9,7 +9,7 @@ import {
 } from '@shopify/polaris';
 
 const LoadingSkeletonLayout = ({ loadingTo }) => {
-  if (loadingTo === '/') {
+  if (!loadingTo || loadingTo === '/') {
     return (
       <Layout>
         <Layout.Section>
