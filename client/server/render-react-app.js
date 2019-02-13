@@ -12,7 +12,7 @@ const renderReactApp = (ctx, next) => {
   );
 
   ctx.body = render(
-    <Html scripts={[{ path: 'bundle.js' }]} headMarkup={stylesheet}>
+    <Html scripts={[{ path: '/bundle.js' }]} headMarkup={stylesheet}>
       <StaticRouter location={ctx.url} context={{}}>
         <App />
       </StaticRouter>
