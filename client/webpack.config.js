@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const { NODE_ENV, SHOPIFY_API_CLIENT_KEY } = process.env;
+const { NODE_ENV, SHOPIFY_API_CLIENT_KEY, TUNNEL_URL } = process.env;
 
 module.exports = {
   mode: NODE_ENV === 'production' ? NODE_ENV : 'development',
@@ -26,6 +26,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.SHOPIFY_API_CLIENT_KEY': JSON.stringify(SHOPIFY_API_CLIENT_KEY),
+      'process.env.TUNNEL_URL': JSON.stringify(TUNNEL_URL),
     })
   ],
   // where webpack will output your finished bundle

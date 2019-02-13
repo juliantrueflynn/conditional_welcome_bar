@@ -4,15 +4,22 @@ import session from 'koa-session';
 import createShopifyAuth, { verifyRequest } from '@shopify/koa-shopify-auth';
 import renderReactApp from './render-react-app';
 import webpack from 'koa-webpack';
+import proxy from 'http-proxy-middleware';
+import c2k from 'koa2-connect';
 
 dotenv.config();
-const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_CLIENT_KEY } = process.env;
+const {
+  SHOPIFY_API_SECRET_KEY,
+  SHOPIFY_API_CLIENT_KEY,
+  API_URL,
+} = process.env;
 
 const app = new Koa();
 
 app.keys = [SHOPIFY_API_SECRET_KEY];
 
 app
+  .use(c2k(proxy('/api', { target: API_URL, changeOrigin: true })))
   .use(session(app))
   .use(
     createShopifyAuth({

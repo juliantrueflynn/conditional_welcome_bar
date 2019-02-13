@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { decamelizeKeys } from 'humps';
 
-// eslint-disable-next-line no-undef
+const { TUNNEL_URL } = process.env;
 const endpoint = (url) => `${TUNNEL_URL}/api/${url}`;
 
 const fetchPromise = (url, args) =>
