@@ -1,33 +1,5 @@
-## Welcome Bar Conditional - Client
-Shopify app SPA with React, Redux, Next, Koa, PostgreSQL, and Rails API.
+# Boilerplate Koa Shopify App
 
-## Contents
-- [Run locally](#run-locally)
-- [Deploy](#deploy)
-- [Built with](#built-with)
-  - [Core stack](#core-stack)
-  - [Third party APIs](#third-party-apis)
+This is an updated example of Shopify's repo for the Unite 2018 app walkthrough. I found the tutorial very helpful, but some of the instructions were outdated and or not working. This repo will serve to be a revamped version of their demo Shopify app walkthrough. Also, it will be extended to include Polaris setup. Please note: I'm in no way affiliated with Shopify.
 
-
-## Run locally
-- Clone the project and run `yarn` to add packages.
-- Before you start the app, create a `.env` file at the app and api directory roots.
-- Start the app with `yarn dev`.
-
-## Deploy
-See the [deploy section](https://github.com/builderbook/builderbook#deploy) on our main repository README.
-
-## Built with
-
-#### Core stack
-- [React](https://github.com/facebook/react)
-- Redux
-- [Next](https://github.com/zeit/next.js)
-- Koa
-- PostgreSQL
-- Rails API
-
-#### Third party APIs
-- Shopify API
-
-Check out [package.json](https://github.com/builderbook/builderbook/blob/master/boilerplate/package.json).
+View the [original repo here](https://github.com/Shopify/unite-react-node-app-workshop).
