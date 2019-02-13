@@ -1,13 +1,17 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
-import { withRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import RoutePropagator from '@shopify/react-shopify-app-route-propagator';
 
 const ShopifyAppRouter = (props, context) => {
-  const { router } = props;
+  const { location } = props;
   const { polaris } = context;
 
-  return <RoutePropagator location={router.asPath} app={polaris.appBridge} />;
+  if (!polaris || !polaris.appBridge) {
+    return null;
+  }
+
+  return <RoutePropagator location={location.pathname} app={polaris.appBridge} />;
 };
 
 ShopifyAppRouter.contextTypes = {
@@ -15,11 +19,11 @@ ShopifyAppRouter.contextTypes = {
 };
 
 ShopifyAppRouter.propTypes = {
-  router: PropTypes.instanceOf(Object),
+  location: PropTypes.instanceOf(Object),
 };
 
 ShopifyAppRouter.defaultProps = {
-  router: {},
+  location: {},
 };
 
 export default withRouter(ShopifyAppRouter);

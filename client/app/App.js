@@ -1,32 +1,36 @@
 import React from 'react';
-import { AppProvider } from '@shopify/polaris';
-import { withRouter } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import AppRoutes from './components/AppRoutes';
-import ShopifyLinkRouter from './components/ShopifyLinkRouter';
+import ShopifyAppProvider from './components/ShopifyAppProvider';
+// import LoadingManager from './components/LoadingManager';
 
 class App extends React.Component {
-  state = {
-    shopOrigin: Cookies.get('shopOrigin'),
-  };
+  constructor(props) {
+    super(props);
+    this.state = { shouldShowToast: false, toastContent: '' };
+    this.handleToggleToast = this.handleToggleToast.bind(this);
+  }
+
+  handleToggleToast(message) {
+    const { shouldShowToast } = this.state;
+    const toastContent = shouldShowToast ? '' : message;
+    this.setState({ shouldShowToast: !shouldShowToast, toastContent });
+  }
 
   render() {
-    const { history } = this.props;
-    const { shopOrigin } = this.state;
-    const { SHOPIFY_API_CLIENT_KEY } = process.env;
+    const { shouldShowToast, toastContent } = this.state;
 
     return (
-      <AppProvider
-        // eslint-disable-next-line no-undef
-        apiKey={SHOPIFY_API_CLIENT_KEY}
-        shopOrigin={shopOrigin}
-        linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
-        forceRedirect
+      <ShopifyAppProvider
+        toggleToast={this.handleToggleToast}
+        shouldShowToast={shouldShowToast}
+        toastContent={toastContent}
       >
-        <AppRoutes />
-      </AppProvider>
+        {/* <LoadingManager> */}
+          <AppRoutes />
+        {/* </LoadingManager> */}
+      </ShopifyAppProvider>
     );
   }
 }
 
-export default withRouter(App);
+export default App;
