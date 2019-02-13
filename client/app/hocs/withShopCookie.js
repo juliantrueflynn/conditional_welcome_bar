@@ -5,23 +5,32 @@ import { withCookies, Cookies } from 'react-cookie';
 
 const withShopCookie = (WrappedComponent) => {
   class WithShopCookie extends React.Component {
-    state = { shopOrigin: '' };
+    state = { shopOrigin: this.props.cookies.get('shopOrigin') };
 
     componentDidMount() {
-      const { location, cookies } = this.props;
-      const { shop } = queryString.parse(location.search);
-      const shopOriginCookie = cookies.get('shopOrigin');
-      this.setState({ shopOrigin: shopOriginCookie || shop });
-  
-      if (!shopOriginCookie) {
+      const { cookies } = this.props;
+      const { shopOrigin } = this.state;
+      const shop = this.getShopOriginByQuery();
+
+      if (!shopOrigin && shop) {
         cookies.set('shopOrigin', shop, { httpOnly: false });
+        this.setState({ shopOrigin: shop });
       }
     }
 
-    render() {
-      const { shopOrigin } = this.state;
+    getShopOriginByQuery() {
+      const { location } = this.props;
+      const { shop } = queryString.parse(location.search);
 
-      return <WrappedComponent shopOrigin={shopOrigin} {...this.props} />
+      return shop;
+    }
+
+    render() {
+      const { cookies, ...props } = this.props;
+      const { shopOrigin } = this.state;
+      const shop = shopOrigin || this.getShopOriginByQuery();
+
+      return <WrappedComponent shopOrigin={shop} {...props} />
     }
   }
 
