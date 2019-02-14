@@ -16,7 +16,7 @@ class SingleBarView extends React.Component {
   }
 
   render() {
-    const { history } = this.props;
+    const { history, toggleToast } = this.props;
     const { bar } = this.state;
 
     const breadcrumbs = [{
@@ -28,13 +28,20 @@ class SingleBarView extends React.Component {
       return null;
     }
 
-    return <SingleBarForm bar={bar} breadcrumbs={breadcrumbs} />;
+    return (
+      <SingleBarForm
+        bar={bar}
+        toggleToast={toggleToast}
+        breadcrumbs={breadcrumbs}
+      />
+    );
   }
 }
 
 SingleBarView.propTypes = {
   match: PropTypes.instanceOf(Object),
   history: PropTypes.instanceOf(Object),
+  toggleToast: PropTypes.func.isRequired,
 };
 
 export default SingleBarView;

@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { AppProvider } from '@shopify/polaris';
-import AppRoutes from './components/AppRoutes';
+import { withRouter, Switch, Route } from 'react-router-dom';
+import { AppProvider, Toast } from '@shopify/polaris';
 import ShopifyLinkRouter from './components/ShopifyLinkRouter';
+import ShopifyAppRouter from './components/ShopifyAppRouter';
+import AdminHome from './components/AdminHome';
+import SingleBarView from './components/SingleBarView';
 import withShopCookie from './hocs/withShopCookie';
 // import LoadingManager from './components/LoadingManager';
 
@@ -36,7 +38,13 @@ class App extends React.Component {
       >
         <Fragment>
           {/* <LoadingManager> */}
-            <AppRoutes />
+          <ShopifyAppRouter />
+          <Switch>
+            <Route exact path="/" component={AdminHome} />
+            <Route path="/bars/:barId" render={(route) => (
+              <SingleBarView {...route} toggleToast={this.handleToggleToast} />
+            )} />
+          </Switch>
           {/* </LoadingManager> */}
           {shouldShowToast && (
             <Toast content={toastContent} onDismiss={this.handleToggleToast} />
