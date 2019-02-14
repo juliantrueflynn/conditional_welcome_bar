@@ -1,22 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SingleBarForm from '../SingleBarForm';
 import { apiFetch } from '../../util/apiUtil';
+import LoadingManager from '../LoadingManager';
+import SingleBarForm from '../SingleBarForm';
+import withLoading from '../../hocs/withLoading';
 
 class SingleBarView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bar: {}, isLoading: true };
+    this.state = { bar: {} };
   }
 
   componentDidMount() {
-    const { match: { params } } = this.props;
+    const { match: { params }, toggleLoading } = this.props;
 
-    apiFetch(`/bars/${params.barId}`).then((bar) => this.setState({ bar }));
+    apiFetch(`/bars/${params.barId}`).then((bar) => {
+      toggleLoading();
+      this.setState({ bar });
+    });
   }
 
   render() {
-    const { history, toggleToast } = this.props;
+    const { history, toggleToast, isLoading } = this.props;
     const { bar } = this.state;
 
     const breadcrumbs = [{
@@ -24,16 +29,18 @@ class SingleBarView extends React.Component {
       onAction: () => history.push('/'),
     }];
 
-    if (!bar.id) {
+    if (!isLoading && !bar.id) {
       return null;
     }
 
     return (
-      <SingleBarForm
-        bar={bar}
-        toggleToast={toggleToast}
-        breadcrumbs={breadcrumbs}
-      />
+      <LoadingManager loadingTo="single" isLoading={isLoading}>
+        <SingleBarForm
+          bar={bar}
+          toggleToast={toggleToast}
+          breadcrumbs={breadcrumbs}
+        />
+      </LoadingManager>
     );
   }
 }
@@ -42,6 +49,8 @@ SingleBarView.propTypes = {
   match: PropTypes.instanceOf(Object),
   history: PropTypes.instanceOf(Object),
   toggleToast: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  toggleLoading: PropTypes.func.isRequired,
 };
 
-export default SingleBarView;
+export default withLoading(SingleBarView);

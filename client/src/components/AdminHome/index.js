@@ -1,17 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { Page, Layout } from '@shopify/polaris';
-import { apiCreate } from '../../util/apiUtil';
+import { apiCreate, apiFetch } from '../../util/apiUtil';
+import LoadingManager from '../LoadingManager';
 import BarsList from '../BarsList';
-import withShopCookie from '../../hocs/withShopCookie';
+import withLoading from '../../hocs/withLoading';
 
 class AdminHome extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isActionLoading: false };
+    this.state = { bars: [], isActionLoading: false };
     this.handleActionClick = this.handleActionClick.bind(this);
     this.navigateToBar = this.navigateToBar.bind(this);
+  }
+
+  componentDidMount() {
+    const { shopOrigin, toggleLoading } = this.props;
+
+    apiFetch(`shops/${shopOrigin}/bars`).then((bars) => {
+      toggleLoading();
+      this.setState({ bars });
+    });
   }
 
   handleActionClick(e) {
@@ -33,8 +42,8 @@ class AdminHome extends React.Component {
   }
 
   render() {
-    const { shopOrigin } = this.props;
-    const { isActionLoading } = this.state;
+    const { isLoading } = this.props;
+    const { bars, isActionLoading } = this.state;
 
     const primaryAction = {
       content: 'Create welcome bar',
@@ -43,19 +52,20 @@ class AdminHome extends React.Component {
     };
 
     return (
-      <Page title="Home" forceRender primaryAction={primaryAction}>
-        <Layout>
-          <Layout.Section>
-            {shopOrigin && (
+      <LoadingManager loadingTo="home" isLoading={isLoading}>
+        <Page title="Home" forceRender primaryAction={primaryAction}>
+          <Layout>
+            <Layout.Section>
               <BarsList
-                shopOrigin={shopOrigin}
+                bars={bars}
                 navigateToBar={this.navigateToBar}
                 createWelcomeBar={this.handleActionClick}
+                isLoading={isLoading}
               />
-            )}
-          </Layout.Section>
-        </Layout>
-      </Page>
+            </Layout.Section>
+          </Layout>
+        </Page>
+      </LoadingManager>
     );
   }
 }
@@ -63,10 +73,8 @@ class AdminHome extends React.Component {
 AdminHome.propTypes = {
   shopOrigin: PropTypes.string.isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  toggleLoading: PropTypes.func.isRequired,
 };
 
-AdminHome.defaultProps = {
-  shopOrigin: '',
-};
-
-export default withRouter(withShopCookie(AdminHome));
+export default withLoading(AdminHome);

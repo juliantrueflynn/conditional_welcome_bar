@@ -7,7 +7,6 @@ import ShopifyAppRouter from './components/ShopifyAppRouter';
 import AdminHome from './components/AdminHome';
 import SingleBarView from './components/SingleBarView';
 import withShopCookie from './hocs/withShopCookie';
-// import LoadingManager from './components/LoadingManager';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { shopOrigin, history } = this.props;
+    const { shopOrigin, history, location } = this.props;
     const { shouldShowToast, toastContent } = this.state;
     const { SHOPIFY_API_CLIENT_KEY } = process.env;
 
@@ -37,15 +36,20 @@ class App extends React.Component {
         forceRedirect={Boolean(shopOrigin)}
       >
         <Fragment>
-          {/* <LoadingManager> */}
-          <ShopifyAppRouter />
-          <Switch>
-            <Route exact path="/" component={AdminHome} />
-            <Route path="/bars/:barId" render={(route) => (
-              <SingleBarView {...route} toggleToast={this.handleToggleToast} />
-            )} />
-          </Switch>
-          {/* </LoadingManager> */}
+          <ShopifyAppRouter location={location} />
+          {shopOrigin && (
+            <Switch>
+              <Route exact path="/" render={(route) => (
+                <AdminHome {...route} shopOrigin={shopOrigin} />
+              )} />
+              <Route path="/bars/:barId" render={(route) => (
+                <SingleBarView
+                  {...route}
+                  toggleToast={this.handleToggleToast}
+                />
+              )} />
+            </Switch>
+          )}
           {shouldShowToast && (
             <Toast content={toastContent} onDismiss={this.handleToggleToast} />
           )}
@@ -58,6 +62,7 @@ class App extends React.Component {
 App.propTypes = {
   shopOrigin: PropTypes.string,
   history: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired,
 };
 
 App.defaultProps = {
