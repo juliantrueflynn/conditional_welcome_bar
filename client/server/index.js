@@ -6,6 +6,7 @@ import renderReactApp from './render-react-app';
 import webpack from 'koa-webpack';
 import proxy from 'http-proxy-middleware';
 import c2k from 'koa2-connect';
+import serve from 'koa-static-server';
 
 dotenv.config();
 const {
@@ -19,6 +20,7 @@ const app = new Koa();
 app.keys = [SHOPIFY_API_SECRET_KEY];
 
 app
+  .use(serve({ rootDir: 'static', rootPath: '/static' }))
   .use(c2k(proxy('/api', { target: API_URL, changeOrigin: true })))
   .use(session(app))
   .use(
