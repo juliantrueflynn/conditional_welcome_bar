@@ -1,0 +1,8 @@
+.BarsListItem__Main {
+  display: flex;
+  align-items: center;
+}
+
+.BarsListItem__Date {
+  margin-left: auto;
+}

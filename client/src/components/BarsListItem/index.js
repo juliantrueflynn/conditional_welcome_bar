@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ResourceList, TextStyle } from '@shopify/polaris';
 import TimeAgo from 'timeago-react';
-// import './styles.css';
 
 class BarsListItem extends React.Component {
   constructor(props) {

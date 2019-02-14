@@ -5,7 +5,10 @@ import BarsListItem from '../BarsListItem';
 import { apiFetch } from '../../util/apiUtil';
 
 class BarsList extends React.Component {
-  state = { bars: [] };
+  constructor(props) {
+    super(props);
+    this.state = { bars: [] };
+  }
 
   componentDidMount() {
     const { shopOrigin } = this.props;

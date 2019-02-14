@@ -4,12 +4,13 @@ import SingleBarForm from '../SingleBarForm';
 import { apiFetch } from '../../util/apiUtil';
 
 class SingleBarView extends React.Component {
-  state = { bar: {}, isLoading: true };
+  constructor(props) {
+    super(props);
+    this.state = { bar: {}, isLoading: true };
+  }
 
   componentDidMount() {
     const { match: { params } } = this.props;
-
-    console.log(params);
 
     apiFetch(`/bars/${params.barId}`).then((bar) => this.setState({ bar }));
   }

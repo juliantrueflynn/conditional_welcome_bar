@@ -5,7 +5,10 @@ import { withCookies, Cookies } from 'react-cookie';
 
 const withShopCookie = (WrappedComponent) => {
   class WithShopCookie extends React.Component {
-    state = { shopOrigin: this.props.cookies.get('shopOrigin') };
+    constructor(props) {
+      super(props);
+      this.state = { shopOrigin: props.cookies.get('shopOrigin') };
+    }
 
     componentDidMount() {
       const { cookies } = this.props;

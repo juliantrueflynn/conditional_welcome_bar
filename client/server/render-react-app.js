@@ -4,7 +4,7 @@ import { StaticRouter } from 'react-router';
 import App from '../src/App';
 
 const renderReactApp = (ctx, next) => {
-  const stylesheet = (
+  const polarisStylesheet = (
     <link
       rel="stylesheet"
       href="https://sdks.shopifycdn.com/polaris/latest/polaris.css"
@@ -12,7 +12,11 @@ const renderReactApp = (ctx, next) => {
   );
 
   ctx.body = render(
-    <Html scripts={[{ path: '/bundle.js' }]} headMarkup={stylesheet}>
+    <Html
+      scripts={[{ path: '/bundle.js' }]}
+      headMarkup={polarisStylesheet}
+      styles={[{ path: '../static/css/admin.css' }]}
+    >
       <StaticRouter location={ctx.url} context={{}}>
         <App />
       </StaticRouter>
