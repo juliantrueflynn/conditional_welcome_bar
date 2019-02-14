@@ -12,6 +12,7 @@ dotenv.config();
 const {
   SHOPIFY_API_SECRET_KEY,
   SHOPIFY_API_CLIENT_KEY,
+  TUNNEL_URL,
   API_URL,
 } = process.env;
 
@@ -28,11 +29,35 @@ app
       apiKey: SHOPIFY_API_CLIENT_KEY,
       secret: SHOPIFY_API_SECRET_KEY,
       scopes: ['write_script_tags'],
-      afterAuth(ctx) {
+      async afterAuth(ctx) {
         const { shop, accessToken } = ctx.session;
         ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
 
-        console.log('We did it!', shop, accessToken);
+        await fetch(`https://${shop}/admin/script_tags.json`, {
+          method: 'POST',
+          body: JSON.stringify({
+            script_tag: {
+              event: 'onload',
+              src: `${TUNNEL_URL}/static/js/welcomeBar.js`,
+            },
+          }),
+          headers: {
+            'X-Shopify-Access-Token': accessToken,
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+          },
+          json: true,
+        });
+
+        await fetch(`${TUNNEL_URL}/api/shop`, {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({ shopify_domain: shop, shopify_token: accessToken }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
 
         ctx.redirect('/');
       },
