@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { AppProvider } from '@shopify/polaris';
 import AppRoutes from './components/AppRoutes';
-import ShopifyAppProvider from './components/ShopifyAppProvider';
+import ShopifyLinkRouter from './components/ShopifyLinkRouter';
 import withShopCookie from './hocs/withShopCookie';
 // import LoadingManager from './components/LoadingManager';
 
@@ -22,26 +23,37 @@ class App extends React.Component {
   render() {
     const { shopOrigin, history } = this.props;
     const { shouldShowToast, toastContent } = this.state;
+    const { SHOPIFY_API_CLIENT_KEY } = process.env;
 
     return (
-      <ShopifyAppProvider
+      <AppProvider
+        apiKey={SHOPIFY_API_CLIENT_KEY}
         shopOrigin={shopOrigin}
-        history={history}
-        toggleToast={this.handleToggleToast}
-        shouldShowToast={shouldShowToast}
-        toastContent={toastContent}
+        linkComponent={(urlProps) => (
+          <ShopifyLinkRouter history={history} {...urlProps} />
+        )}
+        forceRedirect={Boolean(shopOrigin)}
       >
-        {/* <LoadingManager> */}
-          <AppRoutes />
-        {/* </LoadingManager> */}
-      </ShopifyAppProvider>
+        <Fragment>
+          {/* <LoadingManager> */}
+            <AppRoutes />
+          {/* </LoadingManager> */}
+          {shouldShowToast && (
+            <Toast content={toastContent} onDismiss={this.handleToggleToast} />
+          )}
+        </Fragment>
+      </AppProvider>
     );
   }
 }
 
-ShopifyAppProvider.propTypes = {
-  shopOrigin: PropTypes.string.isRequired,
+App.propTypes = {
+  shopOrigin: PropTypes.string,
   history: PropTypes.instanceOf(Object).isRequired,
+};
+
+App.defaultProps = {
+  shopOrigin: '',
 };
 
 export default withRouter(withShopCookie(App));
