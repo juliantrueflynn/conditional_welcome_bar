@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ResourceList, EmptyState, Card } from '@shopify/polaris';
 import BarsListItem from '../BarsListItem';
-import { apiFetch } from '../../../util/apiUtil';
+import { apiFetch } from '../../util/apiUtil';
 
 class BarsList extends React.Component {
   state = { bars: [] };

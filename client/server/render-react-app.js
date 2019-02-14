@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, Html } from '@shopify/react-html/server';
 import { StaticRouter } from 'react-router';
-import App from '../app/App';
+import App from '../src/App';
 
 const renderReactApp = (ctx, next) => {
   const stylesheet = (

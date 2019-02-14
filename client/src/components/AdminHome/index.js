@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Page, Layout } from '@shopify/polaris';
-import { apiCreate } from '../../../util/apiUtil';
+import { apiCreate } from '../../util/apiUtil';
 import BarsList from '../BarsList';
 import withShopCookie from '../../hocs/withShopCookie';
 

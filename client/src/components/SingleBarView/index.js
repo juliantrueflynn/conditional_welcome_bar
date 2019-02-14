@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SingleBarForm from '../SingleBarForm';
-import { apiFetch } from '../../../util/apiUtil';
+import { apiFetch } from '../../util/apiUtil';
 
 class SingleBarView extends React.Component {
   state = { bar: {}, isLoading: true };
@@ -22,8 +22,6 @@ class SingleBarView extends React.Component {
       content: 'Welcome Bars',
       onAction: () => history.push('/'),
     }];
-
-    console.log('RENDER', bar);
 
     if (!bar.id) {
       return null;

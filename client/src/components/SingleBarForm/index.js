@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Page, Form, Button } from '@shopify/polaris';
 import { decamelizeKeys } from 'humps';
-import { convertToHSBa, convertFromHSBa } from '../../../util/colorPickerUtil';
-import { apiUpdate } from '../../../util/apiUtil';
+import { convertToHSBa, convertFromHSBa } from '../../util/colorPickerUtil';
+import { apiUpdate } from '../../util/apiUtil';
 import SingleBarFormFields from '../SingleBarFormFields';
 import ActiveBadge from '../ActiveBadge';
 

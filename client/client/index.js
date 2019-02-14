@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { showPage } from '@shopify/react-html';
-import App from '../app/App';
+import App from '../src/App';
 
 ReactDOM.hydrate(
   <BrowserRouter>
