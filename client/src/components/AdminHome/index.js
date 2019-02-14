@@ -65,4 +65,8 @@ AdminHome.propTypes = {
   history: PropTypes.instanceOf(Object).isRequired,
 };
 
+AdminHome.defaultProps = {
+  shopOrigin: '',
+};
+
 export default withRouter(withShopCookie(AdminHome));
