@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :bars, only: [:show, :update, :destroy]
 
-    get 'active_bars/:shopify_domain', to: 'active_bars#index', **SHOP_CONSTRAINT
+    get 'active_bars/:shop_domain', to: 'active_bars#index', **SHOP_CONSTRAINT
 
     resources :shops, only: [], param: :domain, **SHOP_CONSTRAINT do
       resources :bars, only: [:index, :create]
