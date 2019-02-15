@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Layout,
@@ -26,7 +26,7 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
     paddingX,
     fontSize,
     textAlign,
-    backgroundImage, // @TODO: Image uploader
+    backgroundImage,
     backgroundImageRepeat,
     backgroundImageSizeY,
     backgroundImageSizeX,
@@ -100,19 +100,23 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
               placeholder="https://example.com"
               onChange={updateFieldValue}
             />
-            <Checkbox
-              label="Open link in new tab"
-              id="isNewTabUrl"
-              checked={isNewTabUrl}
-              onChange={updateFieldValue}
-            />
-            <Checkbox
-              label="Is full width link?"
-              helpText="Entire welcome bar is clickable link"
-              id="isFullWidthLink"
-              checked={isFullWidthLink}
-              onChange={updateFieldValue}
-            />
+            {url && (
+              <Checkbox
+                label="Open link in new tab"
+                id="isNewTabUrl"
+                checked={isNewTabUrl}
+                onChange={updateFieldValue}
+              />
+            )}
+            {url && (
+              <Checkbox
+                label="Is full width link?"
+                helpText="Entire welcome bar is clickable link"
+                id="isFullWidthLink"
+                checked={isFullWidthLink}
+                onChange={updateFieldValue}
+              />
+            )}
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
@@ -203,50 +207,54 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
               color={backgroundHSBa}
               onChange={(hsba) => updateColorPickerValue(hsba, 'background')}
             />
-            <TextField
-              value={backgroundImagePositionY}
-              label="Image position vertical position"
-              helpText="Options: 'center' or number px/em/%"
-              id="backgroundImageSizeY"
-              placeholder="center"
-              onChange={updateFieldValue}
-            />
-            <TextField
-              value={backgroundImagePositionX}
-              label="Image position horizontal position"
-              helpText="Options: 'center' or number px/em/%"
-              id="backgroundImageSizeY"
-              placeholder="center"
-              onChange={updateFieldValue}
-            />
-            <TextField
-              value={backgroundImageSizeY}
-              label="Image vertical size"
-              helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
-              id="backgroundImageSizeY"
-              placeholder="200px, 14em, or 100%"
-              onChange={updateFieldValue}
-            />
-            <TextField
-              value={backgroundImageSizeX}
-              label="Image horizontal size"
-              helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
-              id="backgroundImageSizeX"
-              placeholder="200px, 14em, or 100%"
-              onChange={updateFieldValue}
-            />
-            <ChoiceList
-              title="Image repeat"
-              choices={[
-                { label: 'Do not repeat', value: 'no-repeat' },
-                { label: 'Repeat', value: 'repeat' },
-                { label: 'Repeat vertically only', value: 'repeat-y' },
-                { label: 'Repeat horizontally only', value: 'repeat-x' },
-              ]}
-              name="backgroundImageRepeat"
-              selected={[backgroundImageRepeat]}
-              onChange={updateFieldValue}
-            />
+            {backgroundImage && (
+              <Fragment>
+                <TextField
+                  value={backgroundImagePositionY}
+                  label="Image position vertical position"
+                  helpText="Options: 'center' or number px/em/%"
+                  id="backgroundImageSizeY"
+                  placeholder="center"
+                  onChange={updateFieldValue}
+                />
+                <TextField
+                  value={backgroundImagePositionX}
+                  label="Image position horizontal position"
+                  helpText="Options: 'center' or number px/em/%"
+                  id="backgroundImageSizeY"
+                  placeholder="center"
+                  onChange={updateFieldValue}
+                />
+                <TextField
+                  value={backgroundImageSizeY}
+                  label="Image vertical size"
+                  helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
+                  id="backgroundImageSizeY"
+                  placeholder="200px, 14em, or 100%"
+                  onChange={updateFieldValue}
+                />
+                <TextField
+                  value={backgroundImageSizeX}
+                  label="Image horizontal size"
+                  helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
+                  id="backgroundImageSizeX"
+                  placeholder="200px, 14em, or 100%"
+                  onChange={updateFieldValue}
+                />
+                <ChoiceList
+                  title="Image repeat"
+                  choices={[
+                    { label: 'Do not repeat', value: 'no-repeat' },
+                    { label: 'Repeat', value: 'repeat' },
+                    { label: 'Repeat vertically only', value: 'repeat-y' },
+                    { label: 'Repeat horizontally only', value: 'repeat-x' },
+                  ]}
+                  name="backgroundImageRepeat"
+                  selected={[backgroundImageRepeat]}
+                  onChange={updateFieldValue}
+                />
+              </Fragment>
+            )}
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
