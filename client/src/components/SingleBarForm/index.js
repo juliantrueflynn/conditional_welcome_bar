@@ -127,7 +127,7 @@ class SingleBarForm extends React.Component {
 
 SingleBarForm.propTypes = {
   bar: PropTypes.instanceOf(Object).isRequired,
-  breadcrumbs: PropTypes.instanceOf(Object),
+  breadcrumbs: PropTypes.instanceOf(Object).isRequired,
   toggleToast: PropTypes.func.isRequired,
 };
 

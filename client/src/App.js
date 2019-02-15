@@ -30,29 +30,27 @@ class App extends React.Component {
       <AppProvider
         apiKey={SHOPIFY_API_CLIENT_KEY}
         shopOrigin={shopOrigin}
-        linkComponent={(urlProps) => (
-          <ShopifyLinkRouter history={history} {...urlProps} />
-        )}
+        linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
         forceRedirect={Boolean(shopOrigin)}
       >
         <Fragment>
           <ShopifyAppRouter location={location} />
           {shopOrigin && (
             <Switch>
-              <Route exact path="/" render={(route) => (
-                <AdminHome {...route} shopOrigin={shopOrigin} />
-              )} />
-              <Route path="/bars/:barId" render={(route) => (
-                <SingleBarView
-                  {...route}
-                  toggleToast={this.handleToggleToast}
-                />
-              )} />
+              <Route
+                exact
+                path="/"
+                render={(route) => <AdminHome {...route} shopOrigin={shopOrigin} />}
+              />
+              <Route
+                path="/bars/:barId"
+                render={(route) => (
+                  <SingleBarView {...route} toggleToast={this.handleToggleToast} />
+                )}
+              />
             </Switch>
           )}
-          {shouldShowToast && (
-            <Toast content={toastContent} onDismiss={this.handleToggleToast} />
-          )}
+          {shouldShowToast && <Toast content={toastContent} onDismiss={this.handleToggleToast} />}
         </Fragment>
       </AppProvider>
     );

@@ -2,19 +2,14 @@ import dotenv from 'dotenv';
 import Koa from 'koa';
 import session from 'koa-session';
 import createShopifyAuth, { verifyRequest } from '@shopify/koa-shopify-auth';
-import renderReactApp from './render-react-app';
 import webpack from 'koa-webpack';
 import proxy from 'http-proxy-middleware';
 import c2k from 'koa2-connect';
 import serve from 'koa-static-server';
+import renderReactApp from './render-react-app';
 
 dotenv.config();
-const {
-  SHOPIFY_API_SECRET_KEY,
-  SHOPIFY_API_CLIENT_KEY,
-  TUNNEL_URL,
-  API_URL,
-} = process.env;
+const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_CLIENT_KEY, TUNNEL_URL, API_URL } = process.env;
 
 const app = new Koa();
 
@@ -61,7 +56,7 @@ app
 
         ctx.redirect('/');
       },
-    })
+    }),
   )
   .use(verifyRequest())
   .use(renderReactApp)

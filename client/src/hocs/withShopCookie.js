@@ -33,7 +33,7 @@ const withShopCookie = (WrappedComponent) => {
       const { shopOrigin } = this.state;
       const shop = shopOrigin || this.getShopOriginByQuery();
 
-      return <WrappedComponent shopOrigin={shop} {...props} />
+      return <WrappedComponent shopOrigin={shop} {...props} />;
     }
   }
 

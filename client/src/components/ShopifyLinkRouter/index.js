@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ShopifyLinkRouter extends React.Component {
   constructor(props) {
@@ -23,5 +24,11 @@ class ShopifyLinkRouter extends React.Component {
     );
   }
 }
+
+ShopifyLinkRouter.propTypes = {
+  children: PropTypes.node.isRequired,
+  url: PropTypes.string.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default ShopifyLinkRouter;

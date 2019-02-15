@@ -10,12 +10,7 @@ const ShopifyAppRouter = (props, context) => {
     return null;
   }
 
-  return (
-    <RoutePropagator
-      location={location.pathname}
-      app={polaris.appBridge}
-    />
-  );
+  return <RoutePropagator location={location.pathname} app={polaris.appBridge} />;
 };
 
 ShopifyAppRouter.contextTypes = {

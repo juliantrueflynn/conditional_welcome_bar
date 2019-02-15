@@ -5,10 +5,7 @@ import App from '../src/App';
 
 const renderReactApp = (ctx, next) => {
   const polarisStylesheet = (
-    <link
-      rel="stylesheet"
-      href="https://sdks.shopifycdn.com/polaris/latest/polaris.css"
-    />
+    <link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/latest/polaris.css" />
   );
 
   ctx.body = render(
@@ -20,7 +17,7 @@ const renderReactApp = (ctx, next) => {
       <StaticRouter location={ctx.url} context={{}}>
         <App />
       </StaticRouter>
-    </Html>
+    </Html>,
   );
 
   next();

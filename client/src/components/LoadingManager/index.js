@@ -43,7 +43,7 @@ const LoadingManager = ({ children, isLoading, loadingTo }) => {
       </Card>
     </Layout.AnnotatedSection>
   ));
-  
+
   if (loadingTo === 'home') {
     SkeletonChildren = (
       <Layout.Section>

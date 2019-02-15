@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { ResourceList, EmptyState, Card } from '@shopify/polaris';
 import BarsListItem from '../BarsListItem';
 
-const BarsList = ({
-  bars,
-  createWelcomeBar,
-  isActionLoading,
-  navigateToBar,
-  isLoading,
-}) => {
+const BarsList = ({ bars, createWelcomeBar, isActionLoading, navigateToBar, isLoading }) => {
   const resourceName = {
     singular: 'Welcome Bar',
     plural: 'Welcome Bars',
@@ -38,9 +32,7 @@ const BarsList = ({
       <ResourceList
         resourceName={resourceName}
         items={bars}
-        renderItem={(bar) => (
-          <BarsListItem {...bar} navigateToBar={navigateToBar} />
-        )}
+        renderItem={(bar) => <BarsListItem {...bar} navigateToBar={navigateToBar} />}
       />
     </Card>
   );
@@ -48,6 +40,7 @@ const BarsList = ({
 
 BarsList.propTypes = {
   bars: PropTypes.instanceOf(Array).isRequired,
+  isActionLoading: PropTypes.bool.isRequired,
   createWelcomeBar: PropTypes.func.isRequired,
   navigateToBar: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,

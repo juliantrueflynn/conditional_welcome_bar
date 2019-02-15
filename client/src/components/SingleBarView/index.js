@@ -12,7 +12,10 @@ class SingleBarView extends React.Component {
   }
 
   componentDidMount() {
-    const { match: { params }, toggleLoading } = this.props;
+    const {
+      match: { params },
+      toggleLoading,
+    } = this.props;
 
     apiFetch(`/bars/${params.barId}`).then((bar) => {
       toggleLoading();
@@ -24,10 +27,7 @@ class SingleBarView extends React.Component {
     const { history, toggleToast, isLoading } = this.props;
     const { bar } = this.state;
 
-    const breadcrumbs = [{
-      content: 'Welcome Bars',
-      onAction: () => history.push('/'),
-    }];
+    const breadcrumbs = [{ content: 'Welcome Bars', onAction: () => history.push('/') }];
 
     if (!isLoading && !bar.id) {
       return null;
@@ -35,19 +35,15 @@ class SingleBarView extends React.Component {
 
     return (
       <LoadingManager loadingTo="single" isLoading={isLoading}>
-        <SingleBarForm
-          bar={bar}
-          toggleToast={toggleToast}
-          breadcrumbs={breadcrumbs}
-        />
+        <SingleBarForm bar={bar} toggleToast={toggleToast} breadcrumbs={breadcrumbs} />
       </LoadingManager>
     );
   }
 }
 
 SingleBarView.propTypes = {
-  match: PropTypes.instanceOf(Object),
-  history: PropTypes.instanceOf(Object),
+  match: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
   toggleToast: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   toggleLoading: PropTypes.func.isRequired,
