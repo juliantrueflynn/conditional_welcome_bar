@@ -9,8 +9,14 @@ import {
   Checkbox,
   ColorPicker,
 } from '@shopify/polaris';
+import FileUploadField from '../FileUploadField';
 
-const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fieldValues }) => {
+const SingleBarFormFields = ({
+  updateFieldValue,
+  updateColorPickerValue,
+  updateImageUpload,
+  ...fieldValues
+}) => {
   const {
     title,
     content,
@@ -34,6 +40,7 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
     backgroundImagePositionY,
     backgroundHSBa,
     textHSBa,
+    backgroundFile,
   } = fieldValues;
 
   return (
@@ -207,6 +214,11 @@ const SingleBarFormFields = ({ updateFieldValue, updateColorPickerValue, ...fiel
               color={backgroundHSBa}
               onChange={(hsba) => updateColorPickerValue(hsba, 'background')}
             />
+            <FileUploadField
+              updateImageUpload={updateImageUpload}
+              backgroundImage={backgroundImage}
+              backgroundFile={backgroundFile}
+            />
             {backgroundImage && (
               <Fragment>
                 <TextField
@@ -266,6 +278,7 @@ SingleBarFormFields.propTypes = {
   fieldValues: PropTypes.instanceOf(Object),
   updateFieldValue: PropTypes.func.isRequired,
   updateColorPickerValue: PropTypes.func.isRequired,
+  updateImageUpload: PropTypes.func.isRequired,
 };
 
 SingleBarFormFields.defaultProps = {
