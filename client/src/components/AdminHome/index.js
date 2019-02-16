@@ -60,6 +60,7 @@ class AdminHome extends React.Component {
                 bars={bars}
                 navigateToBar={this.navigateToBar}
                 createWelcomeBar={this.handleActionClick}
+                isActionLoading={isActionLoading}
                 isLoading={isLoading}
               />
             </Layout.Section>
