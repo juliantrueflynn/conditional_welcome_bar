@@ -49,31 +49,33 @@ class Api::BarsController < ApplicationController
   end
 
   def bar_params
-    params.require(:bar).permit(
-      :title,
-      :content,
-      :padding_y,
-      :padding_x,
-      :has_close_button,
-      :url,
-      :is_active,
-      :is_new_tab_url,
-      :is_full_width_link,
-      :is_sticky,
-      :placement,
-      :page_template,
-      :text_color,
-      :font_size,
-      :text_opacity,
-      :text_align,
-      :background_color,
-      :background_opacity,
-      :background_image,
-      :background_image_repeat,
-      :background_image_size_x,
-      :background_image_size_y,
-      :background_image_position_x,
-      :background_image_position_y
-    )
+    params
+      .fetch(:bar, {})
+      .permit(
+        :title,
+        :content,
+        :padding_y,
+        :padding_x,
+        :has_close_button,
+        :url,
+        :is_active,
+        :is_new_tab_url,
+        :is_full_width_link,
+        :is_sticky,
+        :placement,
+        :page_template,
+        :text_color,
+        :font_size,
+        :text_opacity,
+        :text_align,
+        :background_color,
+        :background_opacity,
+        :background_image,
+        :background_image_repeat,
+        :background_image_size_x,
+        :background_image_size_y,
+        :background_image_position_x,
+        :background_image_position_y
+      )
   end
 end
