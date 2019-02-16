@@ -13,6 +13,7 @@ class SingleBarForm extends React.Component {
 
     this.state = {
       pageTitle: '',
+      isUpdating: false,
       hasFormValuesChanged: false,
       title: '',
       content: '',
@@ -57,6 +58,7 @@ class SingleBarForm extends React.Component {
   getBarStateAttributes() {
     const {
       id,
+      isUpdating,
       hasFormValuesChanged,
       pageTitle,
       textHSBa,
@@ -101,12 +103,13 @@ class SingleBarForm extends React.Component {
   handleFormSubmit(e) {
     e.preventDefault();
 
+    this.setState({ isUpdating: true });
     const { bar, toggleToast } = this.props;
     const body = this.getFormData();
 
     apiUpdateBar(bar.id, body).then((json) => {
       this.updateBarAttributes(json);
-      this.setState({ hasFormValuesChanged: false });
+      this.setState({ hasFormValuesChanged: false, isUpdating: false });
       toggleToast('Welcome bar updated');
     });
   }
@@ -132,11 +135,12 @@ class SingleBarForm extends React.Component {
 
   render() {
     const { bar, breadcrumbs } = this.props;
-    const { pageTitle, isActive, hasFormValuesChanged } = this.state;
+    const { pageTitle, isActive, hasFormValuesChanged, isUpdating } = this.state;
     const primaryAction = {
       content: 'Save',
       onAction: this.handleFormSubmit,
       disabled: !hasFormValuesChanged,
+      loading: isUpdating,
     };
     const title = pageTitle || bar.title;
 
@@ -156,7 +160,7 @@ class SingleBarForm extends React.Component {
             updateImageUpload={this.handleImageUpload}
             {...this.state}
           />
-          <Button submit primary disabled={!hasFormValuesChanged}>
+          <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
             Save
           </Button>
         </Form>
