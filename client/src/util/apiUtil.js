@@ -34,6 +34,8 @@ export const apiCall = (method, url, props) => {
   return fetchPromise(url, args);
 };
 
+export const apiUpdateBar = (id, body) => fetchPromise(`bars/${id}`, { method: 'PATCH', body });
+
 export const apiFetch = (url, props = {}) => apiCall('GET', url, props);
 export const apiCreate = (url, props = {}) => apiCall('POST', url, props);
 export const apiUpdate = (url, props = {}) => apiCall('PATCH', url, props);
