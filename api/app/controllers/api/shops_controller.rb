@@ -1,5 +1,5 @@
 class Api::ShopsController < ApplicationController
-  # skip_before_action :authenticate, only: :create
+  skip_before_action :authenticate
 
   def create
     @shop = Shop.find_or_initialize_by_domain(params[:shopify_domain]) do |shop|
@@ -7,12 +7,6 @@ class Api::ShopsController < ApplicationController
     end
 
     if @shop.save
-      # jwt = Auth.issue({ shop: @shop.id })
-      # cookies.signed[:jwt] = {
-      #   value: jwt,
-      #   httponly: true,
-      #   expires: 1.day.from_now
-      # }
       render 'api/shops/show'
     else
       render json: @shop.errors.full_messages, status: 422
