@@ -16,7 +16,7 @@ const withShopCookie = (WrappedComponent) => {
       const shop = this.getShopOriginByQuery();
 
       if (!shopOrigin && shop) {
-        cookies.set('shopOrigin', shop, { httpOnly: false });
+        cookies.set('shopOrigin', shop);
         this.setState({ shopOrigin: shop });
       }
     }
