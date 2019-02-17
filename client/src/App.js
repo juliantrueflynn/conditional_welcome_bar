@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { AppProvider, Toast } from '@shopify/polaris';
+import { apiSetToken } from './util/apiUtil';
 import ShopifyLinkRouter from './components/ShopifyLinkRouter';
 import ShopifyAppRouter from './components/ShopifyAppRouter';
 import AdminHome from './components/AdminHome';
@@ -13,6 +14,11 @@ class App extends React.Component {
     super(props);
     this.state = { shouldShowToast: false, toastContent: '' };
     this.handleToggleToast = this.handleToggleToast.bind(this);
+  }
+
+  componentDidMount() {
+    const { shopOrigin } = this.props;
+    apiSetToken(shopOrigin);
   }
 
   handleToggleToast(message) {

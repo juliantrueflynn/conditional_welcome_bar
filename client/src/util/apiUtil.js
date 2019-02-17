@@ -18,12 +18,21 @@ const fetchPromise = (url, args) =>
       throw error || ['Unknown error!'];
     });
 
+const headers = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+};
+
 export const apiCall = (method, url, props) => {
+  const jwtToken = window.localStorage.getItem('jwtToken');
+
+  console.log('get token', jwtToken);
+
   const args = {
     method,
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      ...headers,
+      AUTHORIZATION: `Bearer ${jwtToken}`,
     },
   };
 
@@ -33,6 +42,12 @@ export const apiCall = (method, url, props) => {
 
   return fetchPromise(url, args);
 };
+
+export const apiSetToken = (shopOrigin) =>
+  fetchPromise(`shops/${shopOrigin}/session`, { method: 'GET', headers }).then((payload) => {
+    console.log('set token', payload.jwtToken);
+    window.localStorage.setItem('jwtToken', payload.jwtToken);
+  });
 
 export const apiUpdateBar = (id, body) => fetchPromise(`bars/${id}`, { method: 'PATCH', body });
 
