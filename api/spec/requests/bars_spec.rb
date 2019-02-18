@@ -10,7 +10,7 @@ RSpec.describe 'Bars', type: :request do
     { HTTP_AUTHORIZATION: "Bearer #{jwt}" }
   end
 
-  describe "GET /bars" do
+  describe 'GET /bars' do
     let!(:path) { "#{root_path}/shops/#{shop_domain}/bars" }
 
     it 'responds with 200' do
@@ -19,7 +19,7 @@ RSpec.describe 'Bars', type: :request do
     end
   end
 
-  describe "GET /bar/:id" do
+  describe 'GET /bar/:id' do
     let!(:bar) { FactoryBot.create(:bar, shop_id: shop.id) }
     let!(:path) { "#{root_path}/bars/#{bar.id}" }
 
@@ -29,7 +29,7 @@ RSpec.describe 'Bars', type: :request do
     end
   end
 
-  describe "CREATE /bar" do
+  describe 'CREATE /bar' do
     let!(:bar) { FactoryBot.attributes_for(:bar, shop_id: shop.id) }
     let!(:path) { "#{root_path}/shops/#{shop_domain}/bars" }
     let!(:valid_params) { { bar: bar } }
@@ -41,7 +41,7 @@ RSpec.describe 'Bars', type: :request do
     end
   end
 
-  describe "UPDATE /bar/:id" do
+  describe 'UPDATE /bar/:id' do
     let!(:path) { "#{root_path}/bars/#{bar.id}" }
     let!(:valid_params) { { title: 'Updated' } }
     let!(:invalid_params) { { title: '' } }
@@ -60,7 +60,7 @@ RSpec.describe 'Bars', type: :request do
     end
   end
 
-  describe "DELETE /bar/:id" do
+  describe 'DELETE /bar/:id' do
     let!(:bar) { FactoryBot.create(:bar) }
     let!(:path) { "#{root_path}/bars/#{bar.id}" }
 
