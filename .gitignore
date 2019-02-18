@@ -8,7 +8,6 @@
 api/.bundle
 
 # Ignore all logfiles and tempfiles.
-api/config/application.yml
 api/config/secrets.yml
 api/log/*
 api/tmp/*

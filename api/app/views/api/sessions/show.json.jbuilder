@@ -1,0 +1,1 @@
+json.jwt_token @session

@@ -26,8 +26,6 @@ const headers = {
 export const apiCall = (method, url, props) => {
   const jwtToken = window.localStorage.getItem('jwtToken');
 
-  console.log('get token', jwtToken);
-
   const args = {
     method,
     headers: {
@@ -45,7 +43,6 @@ export const apiCall = (method, url, props) => {
 
 export const apiSetToken = (shopOrigin) =>
   fetchPromise(`shops/${shopOrigin}/session`, { method: 'GET', headers }).then((payload) => {
-    console.log('set token', payload.jwtToken);
     window.localStorage.setItem('jwtToken', payload.jwtToken);
   });
 

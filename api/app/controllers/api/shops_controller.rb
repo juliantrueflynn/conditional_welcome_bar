@@ -1,5 +1,5 @@
 class Api::ShopsController < ApplicationController
-  skip_before_action :authenticate
+  before_action :authenticate_shop!
 
   def create
     @shop = Shop.find_or_initialize_by_domain(params[:shopify_domain]) do |shop|

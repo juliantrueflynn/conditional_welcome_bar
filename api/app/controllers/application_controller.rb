@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery unless: -> { request.format.json? }
+  protect_from_forgery with: :exception
 
-  before_action :authenticate 
+  require 'auth'
 
   def logged_in?
     !!current_shop
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authenticate
+  def authenticate_shop!
     render json: { error: 'unauthorized' }, status: 404 unless logged_in?
   end
 
