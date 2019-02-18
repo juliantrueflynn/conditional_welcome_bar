@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'ActiveBars', type: :request do
-  describe "GET /api/shop/:hostname/active_bars" do
+  describe "GET /api/active_bars/:shop_domain" do
     before do
-      bar = FactoryBot.create(:bar)
-      get "#{ENV['API_URL']}/api/shops/jiffywelcomebar/active_bars"
+      FactoryBot.create(:bar)
+      get "#{ENV['API_URL']}/api/active_bars/jiffywelcomebar"
     end
 
     it 'show resource' do
