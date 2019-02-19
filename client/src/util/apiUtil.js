@@ -1,8 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { decamelizeKeys } from 'humps';
 
-const { TUNNEL_URL } = process.env;
-const endpoint = (url) => `${TUNNEL_URL}/api/${url}`;
+const endpoint = (url) => `${process.env.TUNNEL_URL}/api/${url}`;
 
 const fetchPromise = (url, args) =>
   fetch(endpoint(url), { credentials: 'include', ...args })
@@ -43,7 +42,15 @@ export const apiSetToken = (shopOrigin) =>
     window.localStorage.setItem('cwb_jwt', payload.jwt);
   });
 
-export const apiUpdateBar = (id, body) => fetchPromise(`bars/${id}`, { method: 'PATCH', body });
+export const apiUpdateBar = (id, body) => {
+  const jwt = window.localStorage.getItem('cwb_jwt');
+
+  return fetchPromise(`bars/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': undefined, AUTHORIZATION: `Bearer ${jwt}` },
+    body,
+  });
+};
 
 export const apiFetch = (url, props = {}) => apiCall('GET', url, props);
 export const apiCreate = (url, props = {}) => apiCall('POST', url, props);
