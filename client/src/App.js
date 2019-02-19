@@ -37,7 +37,7 @@ class App extends React.Component {
         apiKey={SHOPIFY_API_CLIENT_KEY}
         shopOrigin={shopOrigin}
         linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
-        forceRedirect={Boolean(shopOrigin)}
+        forceRedirect
       >
         <Fragment>
           <ShopifyAppRouter location={location} />

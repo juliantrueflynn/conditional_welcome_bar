@@ -24,14 +24,11 @@ const headers = {
 };
 
 export const apiCall = (method, url, props) => {
-  const jwtToken = window.localStorage.getItem('jwtToken');
+  const jwt = window.localStorage.getItem('cwb_jwt');
 
   const args = {
     method,
-    headers: {
-      ...headers,
-      AUTHORIZATION: `Bearer ${jwtToken}`,
-    },
+    headers: { ...headers, AUTHORIZATION: `Bearer ${jwt}` },
   };
 
   if (args.method === 'POST' || args.method === 'PATCH') {
@@ -43,7 +40,7 @@ export const apiCall = (method, url, props) => {
 
 export const apiSetToken = (shopOrigin) =>
   fetchPromise(`shops/${shopOrigin}/session`, { method: 'GET', headers }).then((payload) => {
-    window.localStorage.setItem('jwtToken', payload.jwtToken);
+    window.localStorage.setItem('cwb_jwt', payload.jwt);
   });
 
 export const apiUpdateBar = (id, body) => fetchPromise(`bars/${id}`, { method: 'PATCH', body });
