@@ -24,7 +24,7 @@ class SingleBarView extends React.Component {
   }
 
   render() {
-    const { history, toggleToast, isLoading } = this.props;
+    const { history, toggleToast, isLoading, toggleModal } = this.props;
     const { bar } = this.state;
 
     const breadcrumbs = [{ content: 'Welcome Bars', onAction: () => history.push('/') }];
@@ -35,7 +35,12 @@ class SingleBarView extends React.Component {
 
     return (
       <LoadingManager loadingTo="single" isLoading={isLoading}>
-        <SingleBarForm bar={bar} toggleToast={toggleToast} breadcrumbs={breadcrumbs} />
+        <SingleBarForm
+          bar={bar}
+          toggleToast={toggleToast}
+          breadcrumbs={breadcrumbs}
+          toggleModal={toggleModal}
+        />
       </LoadingManager>
     );
   }
@@ -45,6 +50,7 @@ SingleBarView.propTypes = {
   match: PropTypes.instanceOf(Object).isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
   toggleToast: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   toggleLoading: PropTypes.func.isRequired,
 };

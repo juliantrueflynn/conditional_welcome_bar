@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Page, Form, Button } from '@shopify/polaris';
+import { Page, Form, Button, ButtonGroup } from '@shopify/polaris';
 import { decamelizeKeys } from 'humps';
 import { convertToHSBa, convertFromHSBa } from '../../util/colorPickerUtil';
 import { apiUpdateBar } from '../../util/apiUtil';
@@ -134,8 +134,9 @@ class SingleBarForm extends React.Component {
   }
 
   render() {
-    const { bar, breadcrumbs } = this.props;
+    const { bar, breadcrumbs, toggleModal } = this.props;
     const { pageTitle, isActive, hasFormValuesChanged, isUpdating } = this.state;
+
     const primaryAction = {
       content: 'Save',
       onAction: this.handleFormSubmit,
@@ -160,9 +161,12 @@ class SingleBarForm extends React.Component {
             updateImageUpload={this.handleImageUpload}
             {...this.state}
           />
-          <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
-            Save
-          </Button>
+          <ButtonGroup>
+            <Button onClick={() => toggleModal(bar.id)}>Delete</Button>
+            <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
+              Save
+            </Button>
+          </ButtonGroup>
         </Form>
       </Page>
     );
@@ -173,6 +177,7 @@ SingleBarForm.propTypes = {
   bar: PropTypes.instanceOf(Object).isRequired,
   breadcrumbs: PropTypes.instanceOf(Object).isRequired,
   toggleToast: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
 
 export default SingleBarForm;
