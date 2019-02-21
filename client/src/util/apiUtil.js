@@ -60,4 +60,4 @@ export const apiUpdateBar = (id, body) =>
 export const apiFetch = (url, props = {}) => apiCall('GET', url, props);
 export const apiCreate = (url, props = {}) => apiCall('POST', url, props);
 export const apiUpdate = (url, props = {}) => apiCall('PATCH', url, props);
-export const apiDestroy = (url) => fetchPromise(url, { method: 'DELETE' });
+export const apiDestroy = (url, props = {}) => apiCall('DELETE', url, props);
