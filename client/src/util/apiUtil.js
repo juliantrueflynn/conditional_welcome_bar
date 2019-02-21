@@ -22,12 +22,20 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export const apiCall = (method, url, props) => {
-  const jwt = window.localStorage.getItem('cwb_jwt');
+const getTokenHeader = () => {
+  if (window) {
+    const jwt = window.localStorage.getItem('cwb_jwt');
 
+    return { AUTHORIZATION: `Bearer ${jwt}` };
+  }
+
+  return {};
+};
+
+export const apiCall = (method, url, props) => {
   const args = {
     method,
-    headers: { ...headers, AUTHORIZATION: `Bearer ${jwt}` },
+    headers: { ...headers, ...getTokenHeader() },
   };
 
   if (args.method === 'POST' || args.method === 'PATCH') {
@@ -42,15 +50,12 @@ export const apiSetToken = (shopOrigin) =>
     window.localStorage.setItem('cwb_jwt', payload.jwt);
   });
 
-export const apiUpdateBar = (id, body) => {
-  const jwt = window.localStorage.getItem('cwb_jwt');
-
-  return fetchPromise(`bars/${id}`, {
+export const apiUpdateBar = (id, body) =>
+  fetchPromise(`bars/${id}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': undefined, AUTHORIZATION: `Bearer ${jwt}` },
+    headers: getTokenHeader(),
     body,
   });
-};
 
 export const apiFetch = (url, props = {}) => apiCall('GET', url, props);
 export const apiCreate = (url, props = {}) => apiCall('POST', url, props);
