@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Modal } from '@shopify/polaris';
 import { apiDestroy } from '../../util/apiUtil';
 
@@ -8,16 +9,17 @@ class SingleBarDestroyModal extends React.Component {
     super(props);
     this.state = { isDestroying: false };
     this.handleDestroyClick = this.handleDestroyClick.bind(this);
-    this.handleSecondaryClose = this.handleSecondaryClose.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleDestroyClick() {
     const { barId } = this.props;
     this.setState({ isDestroying: true });
     apiDestroy(`/bars/${barId}`);
+    this.handleClose();
   }
 
-  handleSecondaryClose() {
+  handleClose() {
     const { barId, toggleModal } = this.props;
 
     if (barId) {
@@ -34,7 +36,7 @@ class SingleBarDestroyModal extends React.Component {
     return (
       <Modal
         open={isOpen}
-        onClose={this.handleSecondaryClose}
+        onClose={this.handleClose}
         title="Delete Confirmation"
         message="Are you sure you want to delete this welcome bar?"
         primaryAction={{
@@ -46,7 +48,7 @@ class SingleBarDestroyModal extends React.Component {
         secondaryActions={[
           {
             content: 'Close',
-            onAction: this.handleSecondaryClose,
+            onAction: this.handleClose,
           },
         ]}
       />
@@ -63,4 +65,4 @@ SingleBarDestroyModal.defaultProps = {
   barId: -1,
 };
 
-export default SingleBarDestroyModal;
+export default withRouter(SingleBarDestroyModal);
