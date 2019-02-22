@@ -13,10 +13,13 @@ class SingleBarDestroyModal extends React.Component {
   }
 
   handleDestroyClick() {
-    const { barId, history } = this.props;
+    const { barId, history, toggleToast } = this.props;
+
     this.setState({ isDestroying: true });
+
     apiDestroy(`/bars/${barId}`).then(() => {
       this.handleClose();
+      toggleToast('Welcome bar deleted');
       history.push('/');
     });
   }
@@ -60,6 +63,7 @@ class SingleBarDestroyModal extends React.Component {
 
 SingleBarDestroyModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
+  toggleToast: PropTypes.func.isRequired,
   barId: PropTypes.number,
   history: PropTypes.instanceOf(Object).isRequired,
 };

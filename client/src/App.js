@@ -71,7 +71,11 @@ class App extends React.Component {
             </Switch>
           )}
           {shouldShowToast && <Toast content={toastContent} onDismiss={this.handleToggleToast} />}
-          <SingleBarDestroyModal barId={modalBarId} toggleModal={this.handleModalToggle} />
+          <SingleBarDestroyModal
+            barId={modalBarId}
+            toggleModal={this.handleModalToggle}
+            toggleToast={this.handleToggleToast}
+          />
         </Fragment>
       </AppProvider>
     );
