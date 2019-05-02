@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
 
   require 'auth'
 
+  def fallback_index_html
+    render :file => 'public/index.html'
+  end
+
   def logged_in?
     !!current_shop
   end
