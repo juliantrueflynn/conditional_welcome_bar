@@ -22,8 +22,7 @@ const withShopCookie = (WrappedComponent) => {
     }
 
     getShopOriginByQuery() {
-      const { location } = this.props;
-      const { shop } = queryString.parse(location.search);
+      const { shop } = queryString.parse(window.location.search);
 
       return shop;
     }
@@ -39,7 +38,6 @@ const withShopCookie = (WrappedComponent) => {
 
   WithShopCookie.propTypes = {
     cookies: PropTypes.instanceOf(Cookies).isRequired,
-    location: PropTypes.instanceOf(Object).isRequired,
   };
 
   return withCookies(WithShopCookie);

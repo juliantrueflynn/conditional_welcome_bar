@@ -37,6 +37,7 @@ gem 'mini_magick'
 gem 'rack-cors', require: 'rack/cors'
 gem 'oj'
 gem 'jwt'
+gem 'shopify_api'
 gem 'dotenv-rails', '~> 2.1'
 
 group :development, :test do

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       param: :domain,
       constraints: { shop_domain: /[^\/]+/ } do
         resources :bars, only: [:index, :create]
-        resource :session, only: [:show]
+        resource :session, only: [:show, :create]
       end
 
     resource :shop, only: :create

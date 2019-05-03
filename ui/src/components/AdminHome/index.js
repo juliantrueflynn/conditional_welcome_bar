@@ -53,7 +53,7 @@ class AdminHome extends React.Component {
 
     return (
       <LoadingManager loadingTo="home" isLoading={isLoading}>
-        <Page title="Home" forceRender primaryAction={primaryAction}>
+        <Page title="Home" primaryAction={primaryAction}>
           <Layout>
             <Layout.Section>
               <BarsList

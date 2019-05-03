@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-fetch';
 import { decamelizeKeys } from 'humps';
+import queryString from 'query-string';
 
-const endpoint = (url) => `${process.env.TUNNEL_URL}/api/${url}`;
+const endpoint = (url) => `${process.env.REACT_APP_TUNNEL_URL}/api/${url}`;
 
 const fetchPromise = (url, args) =>
   fetch(endpoint(url), { credentials: 'include', ...args })
@@ -23,19 +23,15 @@ const headers = {
 };
 
 const getTokenHeader = () => {
-  if (window) {
-    const jwt = window.localStorage.getItem('cwb_jwt');
+  const jwt = window.localStorage.getItem('cwb_jwt');
 
-    return { AUTHORIZATION: `Bearer ${jwt}` };
-  }
-
-  return {};
+  return { AUTHORIZATION: `Bearer ${jwt}` };
 };
 
 export const apiCall = (method, url, props) => {
   const args = {
     method,
-    headers: { ...headers, ...getTokenHeader() },
+    headers: { ...headers },
   };
 
   if (args.method === 'POST' || args.method === 'PATCH') {
@@ -45,10 +41,26 @@ export const apiCall = (method, url, props) => {
   return fetchPromise(url, args);
 };
 
-export const apiSetToken = (shopOrigin) =>
-  fetchPromise(`shops/${shopOrigin}/session`, { method: 'GET', headers }).then((payload) => {
-    window.localStorage.setItem('cwb_jwt', payload.jwt);
-  });
+export const apiSetToken = (shopOrigin) => {
+  const query = queryString.parse(window.location.search);
+
+  if (!query.code) {
+    fetchPromise(`shops/${shopOrigin}/session`, { method: 'GET', headers }).then((payload) => {
+      if (payload.permissionUrl) {
+        window.location = payload.permissionUrl;
+      } else {
+        // @TODO: Remove. This is temp solution to JWT.
+        window.localStorage.setItem('cwb_jwt', payload.jwt);
+      }
+    });
+  } else if (!window.localStorage.getItem('cwb_fetched')) {
+    apiCreate(`shops/${shopOrigin}/session`, { query }).then((payload) => {
+      console.log(JSON.stringify(payload));
+      // @TODO: Remove. This is temp solution to not double fetching.
+      window.localStorage.setItem('cwb_fetched', 1);
+    });
+  }
+};
 
 export const apiUpdateBar = (id, body) =>
   fetchPromise(`bars/${id}`, {

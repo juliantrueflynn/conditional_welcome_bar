@@ -1,0 +1,52 @@
+{
+  "name": "ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@shopify/koa-shopify-auth": "^3.1.25",
+    "@shopify/polaris": "^3.13.0",
+    "hex-to-rgb": "^1.0.1",
+    "http-proxy-middleware": "^0.19.1",
+    "humps": "^2.0.1",
+    "js-cookie": "^2.2.0",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
+    "koa-session": "^5.11.0",
+    "koa-static-server": "^1.4.0",
+    "koa2-connect": "^1.0.2",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.5.0",
+    "react": "^16.8.6",
+    "react-cookie": "^3.1.2",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.0",
+    "timeago-react": "^2.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "nodemon server.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

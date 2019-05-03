@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { DropZone, Caption, Thumbnail } from '@shopify/polaris';
 
 const FileUploadField = ({ updateImageUpload, backgroundFile, backgroundImage }) => {
-  const dropzoneContainerStyle = { width: 155, height: 115 };
   const dropZoneImageStyle = { padding: '0 6px' };
 
   return (
     <Fragment>
-      <div style={dropzoneContainerStyle}>
+      <div className="FileUploadField__Dropzone">
         <DropZone label="Background image" accept="image/*" type="image" onDrop={updateImageUpload}>
           {backgroundFile && (
             <div style={dropZoneImageStyle}>

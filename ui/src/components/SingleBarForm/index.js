@@ -151,7 +151,6 @@ class SingleBarForm extends React.Component {
         primaryAction={primaryAction}
         breadcrumbs={breadcrumbs}
         titleMetadata={<ActiveBadge isActive={isActive} />}
-        forceRender
       >
         <Form onSubmit={this.handleFormSubmit}>
           <SingleBarFormFields
@@ -161,12 +160,14 @@ class SingleBarForm extends React.Component {
             updateImageUpload={this.handleImageUpload}
             {...this.state}
           />
-          <ButtonGroup>
-            <Button onClick={() => toggleModal(bar.id)}>Delete</Button>
-            <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
-              Save
-            </Button>
-          </ButtonGroup>
+          <div className="SingleBarForm__SecondaryButtons">
+            <ButtonGroup>
+              <Button onClick={() => toggleModal(bar.id)}>Delete</Button>
+              <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
+                Save
+              </Button>
+            </ButtonGroup>
+          </div>
         </Form>
       </Page>
     );
