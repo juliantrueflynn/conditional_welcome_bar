@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import { AppProvider, Toast } from '@shopify/polaris';
 import { apiSetToken } from './util/apiUtil';
-// import ShopifyLinkRouter from './components/ShopifyLinkRouter';
-// import ShopifyAppRouter from './components/ShopifyAppRouter';
+import ShopifyLinkRouter from './components/ShopifyLinkRouter';
+import ShopifyAppRouter from './components/ShopifyAppRouter';
 import AdminHome from './components/AdminHome';
 import SingleBarView from './components/SingleBarView';
 import withShopCookie from './hocs/withShopCookie';
 import SingleBarDestroyModal from './components/SingleBarDestroyModal';
+import history from './util/historyUtil';
 
 class App extends React.Component {
   constructor(props) {
@@ -48,11 +48,11 @@ class App extends React.Component {
       <AppProvider
         apiKey={REACT_APP_SHOPIFY_API_CLIENT_KEY}
         shopOrigin={shopOrigin}
-        // linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
+        linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
         forceRedirect
       >
-        <BrowserRouter>
-          {/* <ShopifyAppRouter location={location} /> */}          
+        <Router history={history}>
+          <ShopifyAppRouter />          
           <Switch>
             <Route
               exact
@@ -76,7 +76,7 @@ class App extends React.Component {
             toggleModal={this.handleModalToggle}
             toggleToast={this.handleToggleToast}
           />
-        </BrowserRouter>
+        </Router>
       </AppProvider>
     );
   }
