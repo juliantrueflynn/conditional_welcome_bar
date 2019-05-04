@@ -5,6 +5,7 @@ import { apiCreate, apiFetch } from '../../util/apiUtil';
 import LoadingManager from '../LoadingManager';
 import BarsList from '../BarsList';
 import withLoading from '../../hocs/withLoading';
+import { getShopOrigin } from '../../util/shopifyUtil';
 
 class AdminHome extends React.Component {
   constructor(props) {
@@ -15,21 +16,18 @@ class AdminHome extends React.Component {
   }
 
   componentDidMount() {
-    const { shopOrigin, toggleLoading } = this.props;
+    const { toggleLoading } = this.props;
 
-    apiFetch(`shops/${shopOrigin}/bars`).then((bars) => {
+    apiFetch(`shops/${getShopOrigin}/bars`).then((bars) => {
       toggleLoading();
       this.setState({ bars });
     });
   }
 
-  handleActionClick(e) {
-    e.preventDefault();
-
-    const { shopOrigin } = this.props;
+  handleActionClick() {
     this.setState({ isActionLoading: true });
 
-    apiCreate(`shops/${shopOrigin}/bars`)
+    apiCreate(`shops/${getShopOrigin}/bars`)
       .then((payload) => this.navigateToBar(payload.id))
       .catch(() => {
         this.setState({ isActionLoading: false });
@@ -72,7 +70,6 @@ class AdminHome extends React.Component {
 }
 
 AdminHome.propTypes = {
-  shopOrigin: PropTypes.string.isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
   isLoading: PropTypes.bool.isRequired,
   toggleLoading: PropTypes.func.isRequired,

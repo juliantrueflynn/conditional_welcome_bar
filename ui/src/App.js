@@ -6,9 +6,9 @@ import ShopifyLinkRouter from './components/ShopifyLinkRouter';
 import ShopifyAppRouter from './components/ShopifyAppRouter';
 import AdminHome from './components/AdminHome';
 import SingleBarView from './components/SingleBarView';
-import withShopCookie from './hocs/withShopCookie';
 import SingleBarDestroyModal from './components/SingleBarDestroyModal';
 import history from './util/historyUtil';
+import { getShopOrigin } from './util/shopifyUtil';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,8 +23,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { shopOrigin } = this.props;
-    apiSetToken(shopOrigin);
+    if (getShopOrigin) {
+      apiSetToken();
+    }
   }
 
   handleToggleToast(message) {
@@ -38,56 +39,53 @@ class App extends React.Component {
   }
 
   render() {
-    const { shopOrigin } = this.props;
     const { shouldShowToast, toastContent, modalBarId } = this.state;
     const { REACT_APP_SHOPIFY_API_CLIENT_KEY } = process.env;
 
-    console.log(shopOrigin);
+    console.log({ getShopOrigin });
+
+    if (!getShopOrigin) {
+      return (
+        <div>
+          This is static front page!
+        </div>
+      );
+    }
 
     return (
       <AppProvider
         apiKey={REACT_APP_SHOPIFY_API_CLIENT_KEY}
-        shopOrigin={shopOrigin}
+        shopOrigin={getShopOrigin}
         linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
         forceRedirect
       >
-        <Router history={history}>
-          <ShopifyAppRouter />          
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={(route) => <AdminHome {...route} shopOrigin={shopOrigin} />}
+        <>
+          <Router history={history}>
+            <ShopifyAppRouter />
+            <Switch>
+              <Route exact path="/" component={AdminHome} />
+              <Route
+                path="/bars/:barId"
+                render={(route) => (
+                  <SingleBarView
+                    {...route}
+                    toggleToast={this.handleToggleToast}
+                    toggleModal={this.handleModalToggle}
+                  />
+                )}
+              />
+            </Switch>
+            <SingleBarDestroyModal
+              barId={modalBarId}
+              toggleModal={this.handleModalToggle}
+              toggleToast={this.handleToggleToast}
             />
-            <Route
-              path="/bars/:barId"
-              render={(route) => (
-                <SingleBarView
-                  {...route}
-                  toggleToast={this.handleToggleToast}
-                  toggleModal={this.handleModalToggle}
-                />
-              )}
-            />
-          </Switch>
+          </Router>
           {shouldShowToast && <Toast content={toastContent} onDismiss={this.handleToggleToast} />}
-          <SingleBarDestroyModal
-            barId={modalBarId}
-            toggleModal={this.handleModalToggle}
-            toggleToast={this.handleToggleToast}
-          />
-        </Router>
+        </>
       </AppProvider>
     );
   }
 }
 
-App.propTypes = {
-  shopOrigin: PropTypes.string,
-};
-
-App.defaultProps = {
-  shopOrigin: '',
-};
-
-export default withShopCookie(App);
+export default App;

@@ -1,5 +1,5 @@
 import { decamelizeKeys } from 'humps';
-import queryString from 'query-string';
+import { getQueryObject } from './shopifyUtil';
 
 const endpoint = (url) => `${process.env.REACT_APP_TUNNEL_URL}/api/${url}`;
 
@@ -41,11 +41,11 @@ export const apiCall = (method, url, props) => {
   return fetchPromise(url, args);
 };
 
-export const apiSetToken = (shopOrigin) => {
-  const query = queryString.parse(window.location.search);
+export const apiSetToken = () => {
+  const { code, shop } = getQueryObject;
 
-  if (!query.code) {
-    fetchPromise(`shops/${shopOrigin}/session`, { method: 'GET', headers }).then((payload) => {
+  if (!code) {
+    fetchPromise(`shops/${shop}/session`, { method: 'GET', headers }).then((payload) => {
       if (payload.permissionUrl) {
         window.location = payload.permissionUrl;
       } else {
@@ -54,7 +54,9 @@ export const apiSetToken = (shopOrigin) => {
       }
     });
   } else if (!window.localStorage.getItem('cwb_fetched')) {
-    apiCreate(`shops/${shopOrigin}/session`, { query }).then((payload) => {
+    const query = { query: getQueryObject };
+
+    apiCreate(`shops/${shop}/session`, query).then((payload) => {
       console.log(JSON.stringify(payload));
       // @TODO: Remove. This is temp solution to not double fetching.
       window.localStorage.setItem('cwb_fetched', 1);
