@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Loading,
@@ -12,7 +12,7 @@ import {
 
 const LoadingManager = ({ children, isLoading, loadingTo }) => {
   if (!isLoading) {
-    return <Fragment>{children}</Fragment>;
+    return <>{children}</>;
   }
 
   const skeletonTitle = loadingTo === 'home' ? 'Home' : null;
@@ -70,12 +70,12 @@ const LoadingManager = ({ children, isLoading, loadingTo }) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Loading />
       <SkeletonPage primaryAction title={skeletonTitle}>
         <Layout>{SkeletonChildren}</Layout>
       </SkeletonPage>
-    </Fragment>
+    </>
   );
 };
 

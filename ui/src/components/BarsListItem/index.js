@@ -3,46 +3,35 @@ import PropTypes from 'prop-types';
 import { ResourceList, TextStyle } from '@shopify/polaris';
 import TimeAgo from 'timeago-react';
 
-class BarsListItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleOnClick = this.handleOnClick.bind(this);
-  }
+const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
+  const handleOnClick = () => navigateToBar(id);
 
-  handleOnClick() {
-    const { id, navigateToBar } = this.props;
-    navigateToBar(id);
-  }
+  const createDatetime = new Date(createdAt);
+  const accessibilityLabel = `View details for ${title}`;
 
-  render() {
-    const { id, title, content, createdAt } = this.props;
-    const createDatetime = new Date(createdAt);
-    const accessibilityLabel = `View details for ${title}`;
-
-    return (
-      <div className="BarsListItem">
-        <ResourceList.Item
-          id={id}
-          onClick={this.handleOnClick}
-          accessibilityLabel={accessibilityLabel}
-        >
-          <div className="BarsListItem__Main">
-            <h3 className="BarsListItem__Title">
-              <TextStyle variation="strong">{title}</TextStyle>
-            </h3>
-            <div className="BarsListItem__Date">
-              <TextStyle variation="subdued">
-                {'Created '}
-                <TimeAgo datetime={createDatetime} />
-              </TextStyle>
-            </div>
+  return (
+    <div className="BarsListItem">
+      <ResourceList.Item
+        id={id}
+        onClick={handleOnClick}
+        accessibilityLabel={accessibilityLabel}
+      >
+        <div className="BarsListItem__Main">
+          <h3 className="BarsListItem__Title">
+            <TextStyle variation="strong">{title}</TextStyle>
+          </h3>
+          <div className="BarsListItem__Date">
+            <TextStyle variation="subdued">
+              {'Created '}
+              <TimeAgo datetime={createDatetime} />
+            </TextStyle>
           </div>
-          {content}
-        </ResourceList.Item>
-      </div>
-    );
-  }
-}
+        </div>
+        {content}
+      </ResourceList.Item>
+    </div>
+  );
+};
 
 BarsListItem.propTypes = {
   id: PropTypes.number.isRequired,

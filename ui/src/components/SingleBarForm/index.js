@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Form, Button, ButtonGroup } from '@shopify/polaris';
 import { decamelizeKeys } from 'humps';
@@ -7,74 +7,31 @@ import { apiUpdateBar } from '../../util/apiUtil';
 import SingleBarFormFields from '../SingleBarFormFields';
 import ActiveBadge from '../ActiveBadge';
 
-class SingleBarForm extends React.Component {
-  constructor(props) {
-    super(props);
+const INITIAL_HSBA_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
+const INITIAL_COLORS_STATE = {
+  textHSBa: INITIAL_HSBA_STATE,
+  backgroundHSBa: INITIAL_HSBA_STATE
+};
 
-    this.state = {
-      pageTitle: '',
-      isUpdating: false,
-      hasFormValuesChanged: false,
-      title: '',
-      content: '',
-      hasCloseButton: false,
-      isActive: false,
-      placement: '',
-      pageTemplate: '',
-      isSticky: true,
-      url: '',
-      isFullWidthLink: true,
-      isNewTabUrl: true,
-      paddingY: '',
-      paddingX: '',
-      fontSize: 'inherit',
-      textColor: '',
-      textOpacity: 1.0,
-      textAlign: '',
-      backgroundOpacity: 1.0,
-      backgroundColor: '',
-      backgroundImage: '',
-      backgroundImageRepeat: '',
-      backgroundImageSizeX: '',
-      backgroundImageSizeY: '',
-      backgroundImagePositionX: '',
-      backgroundImagePositionY: '',
-      backgroundHSBa: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
-      textHSBa: { hue: 0, brightness: 0, saturation: 0, alpha: 0 },
-      backgroundFile: null,
-    };
+const SingleBarForm = ({ bar, breadcrumbs, toggleToast, toggleModal }) => {
+  const [barAttributes, setBarAttributes] = useState({});
+  const [pageTitle, setPageTitle] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [hasFormValuesChanged, setHasFormValuesChanged] = useState(false);
+  const [backgroundFile, setBackgroundFile] = useState(null);
+  const [colors, setColors] = useState(INITIAL_COLORS_STATE)
 
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
-    this.handleColorPickerValueChange = this.handleColorPickerValueChange.bind(this);
-    this.handleImageUpload = this.handleImageUpload.bind(this);
-  }
+  useEffect(() => {
+    const { backgroundColor, backgroundOpacity, textColor, textOpacity } = bar;
+    const hsbaColorsParams = { backgroundColor, backgroundOpacity, textColor, textOpacity };
 
-  componentDidMount() {
-    const { bar } = this.props;
-    this.updateBarAttributes(bar, convertToHSBa(bar));
-  }
+    setBarAttributes(bar);
+    setColors(convertToHSBa(hsbaColorsParams));
+  }, [bar]);
 
-  getBarStateAttributes() {
-    const {
-      id,
-      isUpdating,
-      hasFormValuesChanged,
-      pageTitle,
-      textHSBa,
-      backgroundHSBa,
-      backgroundFile,
-      ...state
-    } = this.state;
-
-    return state;
-  }
-
-  getFormData() {
-    const nextState = decamelizeKeys({
-      ...this.getBarStateAttributes(),
-      ...convertFromHSBa(this.state),
-    });
+  const getFormData = () => {
+    const nextState = decamelizeKeys({ ...barAttributes, ...convertFromHSBa(colors) });
+    nextState.url = nextState.url || ''; // @TODO Remove after adding default value '' to schema
 
     const formData = new FormData();
     Object.keys(nextState).forEach((key) => {
@@ -84,95 +41,74 @@ class SingleBarForm extends React.Component {
     return formData;
   }
 
-  updateBarAttributes(bar, extras = {}) {
-    const nextState = {};
-    Object.keys(bar)
-      .filter((key) => key !== 'createdAt' && key !== 'updatedAt' && key !== 'id' && bar[key])
-      .forEach((key) => {
-        nextState[key] = bar[key];
-      });
+  const handleFormSubmit = () => {
+    setIsUpdating(true);
 
-    this.setState({
-      ...this.getBarStateAttributes(),
-      ...nextState,
-      ...extras,
-      pageTitle: nextState.title,
-    });
-  }
-
-  handleFormSubmit(e) {
-    e.preventDefault();
-
-    this.setState({ isUpdating: true });
-    const { bar, toggleToast } = this.props;
-    const body = this.getFormData();
-
-    apiUpdateBar(bar.id, body).then((json) => {
-      this.updateBarAttributes(json);
-      this.setState({ hasFormValuesChanged: false, isUpdating: false });
+    apiUpdateBar(bar.id, getFormData()).then((json) => {
+      setBarAttributes(json);
+      setPageTitle(json.title);
+      setHasFormValuesChanged(false);
+      setIsUpdating(false);
       toggleToast('Welcome bar updated');
     });
   }
 
-  handleValueChange(value, id) {
-    const { bar } = this.props;
-    const hasFormValuesChanged = bar[id] !== value;
-    this.setState({ [id]: value, hasFormValuesChanged });
+  const handleValueChange = (value, id) => {
+    setBarAttributes({ ...barAttributes, [id]: value });
+    setHasFormValuesChanged(bar[id] !== value);
   }
 
-  handleColorPickerValueChange(color, id) {
-    const hsbaKey = `${id}HSBa`;
-    this.setState({ [hsbaKey]: color, hasFormValuesChanged: true });
+  const handleColorPickerValueChange = (color, id) => {
+    const nextColors = { ...colors, [`${id}HSBa`]: color };
+    setColors(nextColors);
+    setBarAttributes({ ...barAttributes, ...convertFromHSBa(nextColors) });
+    setHasFormValuesChanged(true);
   }
 
-  handleImageUpload(_, acceptedFiles) {
-    this.setState({
-      backgroundFile: acceptedFiles[0],
-      backgroundImage: acceptedFiles[0],
-      hasFormValuesChanged: true,
-    });
+  const handleImageUpload = (_, acceptedFiles) => {
+    setBarAttributes({ ...barAttributes, backgroundImage: acceptedFiles[0] });
+    setBackgroundFile(acceptedFiles[0]);
+    setHasFormValuesChanged(true);
   }
 
-  render() {
-    const { bar, breadcrumbs, toggleModal } = this.props;
-    const { pageTitle, isActive, hasFormValuesChanged, isUpdating } = this.state;
+  const handleModalToggle = () => toggleModal(bar.id);
 
-    const primaryAction = {
-      content: 'Save',
-      onAction: this.handleFormSubmit,
-      disabled: !hasFormValuesChanged,
-      loading: isUpdating,
-    };
-    const title = pageTitle || bar.title;
+  const primaryAction = {
+    content: 'Save',
+    onAction: handleFormSubmit,
+    disabled: !hasFormValuesChanged,
+    loading: isUpdating,
+  };
+  const title = pageTitle || bar.title;
 
-    return (
-      <Page
-        title={title}
-        primaryAction={primaryAction}
-        breadcrumbs={breadcrumbs}
-        titleMetadata={<ActiveBadge isActive={isActive} />}
-      >
-        <Form onSubmit={this.handleFormSubmit}>
-          <SingleBarFormFields
-            updateFieldValue={this.handleValueChange}
-            updateFieldWithPixel={this.handlePixelValueChange}
-            updateColorPickerValue={this.handleColorPickerValueChange}
-            updateImageUpload={this.handleImageUpload}
-            {...this.state}
-          />
-          <div className="SingleBarForm__SecondaryButtons">
-            <ButtonGroup>
-              <Button onClick={() => toggleModal(bar.id)}>Delete</Button>
-              <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
-                Save
-              </Button>
-            </ButtonGroup>
-          </div>
-        </Form>
-      </Page>
-    );
-  }
-}
+  return (
+    <Page
+      title={title}
+      primaryAction={primaryAction}
+      breadcrumbs={breadcrumbs}
+      titleMetadata={<ActiveBadge isActive={barAttributes.isActive} />}
+    >
+      <Form onSubmit={handleFormSubmit}>
+        <SingleBarFormFields
+          updateFieldValue={handleValueChange}
+          updateColorPickerValue={handleColorPickerValueChange}
+          updateImageUpload={handleImageUpload}
+          backgroundFile={backgroundFile}
+          {...barAttributes}
+          {...colors}
+        />
+        <div className="SingleBarForm__SecondaryButtons">
+          <ButtonGroup>
+            <Button onClick={handleModalToggle}>Delete</Button>
+            <Button submit primary loading={isUpdating} disabled={!hasFormValuesChanged}>
+              Save
+            </Button>
+          </ButtonGroup>
+        </div>
+      </Form>
+    </Page>
+  );
+};
 
 SingleBarForm.propTypes = {
   bar: PropTypes.instanceOf(Object).isRequired,

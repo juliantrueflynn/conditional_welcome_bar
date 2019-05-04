@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Layout,
@@ -10,6 +10,8 @@ import {
   ColorPicker,
 } from '@shopify/polaris';
 import FileUploadField from '../FileUploadField';
+
+const SIZE_PLACEHOLDER = '200px, 14em, or 100%';
 
 const SingleBarFormFields = ({
   updateFieldValue,
@@ -175,7 +177,6 @@ const SingleBarFormFields = ({
             Text color
             <ColorPicker
               allowAlpha
-              id="textColor"
               color={textHSBa}
               onChange={(hsba) => updateColorPickerValue(hsba, 'text')}
             />
@@ -210,7 +211,6 @@ const SingleBarFormFields = ({
             Background color
             <ColorPicker
               allowAlpha
-              id="backgroundColor"
               color={backgroundHSBa}
               onChange={(hsba) => updateColorPickerValue(hsba, 'background')}
             />
@@ -220,7 +220,7 @@ const SingleBarFormFields = ({
               backgroundFile={backgroundFile}
             />
             {backgroundImage && (
-              <Fragment>
+              <>
                 <TextField
                   value={backgroundImagePositionY}
                   label="Image position vertical position"
@@ -242,7 +242,7 @@ const SingleBarFormFields = ({
                   label="Image vertical size"
                   helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
                   id="backgroundImageSizeY"
-                  placeholder="200px, 14em, or 100%"
+                  placeholder={SIZE_PLACEHOLDER}
                   onChange={updateFieldValue}
                 />
                 <TextField
@@ -250,7 +250,7 @@ const SingleBarFormFields = ({
                   label="Image horizontal size"
                   helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
                   id="backgroundImageSizeX"
-                  placeholder="200px, 14em, or 100%"
+                  placeholder={SIZE_PLACEHOLDER}
                   onChange={updateFieldValue}
                 />
                 <ChoiceList
@@ -265,7 +265,7 @@ const SingleBarFormFields = ({
                   selected={[backgroundImageRepeat]}
                   onChange={updateFieldValue}
                 />
-              </Fragment>
+              </>
             )}
           </FormLayout>
         </Card>

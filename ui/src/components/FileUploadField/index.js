@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { DropZone, Caption, Thumbnail } from '@shopify/polaris';
 
@@ -6,7 +6,7 @@ const FileUploadField = ({ updateImageUpload, backgroundFile, backgroundImage })
   const dropZoneImageStyle = { padding: '0 6px' };
 
   return (
-    <Fragment>
+    <>
       <div className="FileUploadField__Dropzone">
         <DropZone label="Background image" accept="image/*" type="image" onDrop={updateImageUpload}>
           {backgroundFile && (
@@ -30,7 +30,7 @@ const FileUploadField = ({ updateImageUpload, backgroundFile, backgroundImage })
           <Thumbnail size="small" source={backgroundImage} />
         </div>
       )}
-    </Fragment>
+    </>
   );
 };
 

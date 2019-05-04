@@ -1,80 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Layout } from '@shopify/polaris';
-import { apiCreate, apiFetch } from '../../util/apiUtil';
+import { apiCreate } from '../../util/apiUtil';
 import LoadingManager from '../LoadingManager';
 import BarsList from '../BarsList';
-import withLoading from '../../hocs/withLoading';
 import { shopOrigin } from '../../util/shopifyUtil';
+import { useLoadViewData } from '../../hooks/useLoadViewData';
 
 const API_BAR_URL = `shops/${shopOrigin()}/bars`;
 
-class AdminHome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { bars: [], isActionLoading: false };
-    this.handleActionClick = this.handleActionClick.bind(this);
-    this.navigateToBar = this.navigateToBar.bind(this);
-  }
+const AdminHome = ({ history }) => {
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
-  componentDidMount() {
-    const { toggleLoading } = this.props;
+  const {
+    data: bars,
+    isLoading
+  } = useLoadViewData({ apiPath: API_BAR_URL, initialDataState: [] });
 
-    apiFetch(API_BAR_URL).then((bars) => {
-      toggleLoading();
-      this.setState({ bars });
-    });
-  }
+  const navigateToBar = (barId) => history.push(`/bars/${barId}`);
 
-  handleActionClick() {
-    this.setState({ isActionLoading: true });
+  const handleActionClick = () => {
+    setIsActionLoading(true);
 
     apiCreate(API_BAR_URL)
-      .then((payload) => this.navigateToBar(payload.id))
-      .catch(() => {
-        this.setState({ isActionLoading: false });
-      });
-  }
+      .then((payload) => navigateToBar(payload.id))
+      .catch(() => setIsActionLoading(false));
+  };
 
-  navigateToBar(barId) {
-    const { history } = this.props;
-    history.push(`/bars/${barId}`);
-  }
+  const primaryAction = {
+    content: 'Create welcome bar',
+    onAction: handleActionClick,
+    loading: isActionLoading,
+  };
 
-  render() {
-    const { isLoading } = this.props;
-    const { bars, isActionLoading } = this.state;
-
-    const primaryAction = {
-      content: 'Create welcome bar',
-      onAction: this.handleActionClick,
-      loading: isActionLoading,
-    };
-
-    return (
-      <LoadingManager loadingTo="home" isLoading={isLoading}>
-        <Page title="Home" primaryAction={primaryAction}>
-          <Layout>
-            <Layout.Section>
-              <BarsList
-                bars={bars}
-                navigateToBar={this.navigateToBar}
-                createWelcomeBar={this.handleActionClick}
-                isActionLoading={isActionLoading}
-                isLoading={isLoading}
-              />
-            </Layout.Section>
-          </Layout>
-        </Page>
-      </LoadingManager>
-    );
-  }
+  return (
+    <LoadingManager loadingTo="home" isLoading={isLoading}>
+      <Page title="Home" primaryAction={primaryAction}>
+        <Layout>
+          <Layout.Section>
+            <BarsList
+              bars={bars}
+              navigateToBar={navigateToBar}
+              createWelcomeBar={handleActionClick}
+              isActionLoading={isActionLoading}
+              isLoading={isLoading}
+            />
+          </Layout.Section>
+        </Layout>
+      </Page>
+    </LoadingManager>
+  );
 }
 
 AdminHome.propTypes = {
-  history: PropTypes.instanceOf(Object).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  toggleLoading: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default withLoading(AdminHome);
+export default AdminHome;

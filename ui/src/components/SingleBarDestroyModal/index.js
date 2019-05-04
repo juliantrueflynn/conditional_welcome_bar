@@ -1,71 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Modal } from '@shopify/polaris';
 import { apiDestroy } from '../../util/apiUtil';
 
-class SingleBarDestroyModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isDestroying: false };
-    this.handleDestroyClick = this.handleDestroyClick.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
+const SingleBarDestroyModal = ({ barId, history, toggleModal, toggleToast }) => {
+  const [isDestroying, setIsDestroying] = useState(false);
 
-  handleDestroyClick() {
-    const { barId, history, toggleToast } = this.props;
-
-    this.setState({ isDestroying: true });
-
-    apiDestroy(`/bars/${barId}`).then(() => {
-      this.handleClose();
-      toggleToast('Welcome bar deleted');
-      history.push('/');
-    });
-  }
-
-  handleClose() {
-    const { barId, toggleModal } = this.props;
-
+  const handleClose = () => {
     if (barId) {
       toggleModal();
     }
   }
 
-  render() {
-    const { barId } = this.props;
-    const { isDestroying } = this.state;
+  const handleDestroyClick = () => {
+    setIsDestroying(true);
 
-    const isOpen = barId > 0;
-
-    return (
-      <Modal
-        open={isOpen}
-        onClose={this.handleClose}
-        title="Delete Confirmation"
-        message="Are you sure you want to delete this welcome bar?"
-        primaryAction={{
-          content: 'Delete',
-          onAction: this.handleDestroyClick,
-          loading: isDestroying,
-          destructive: true,
-        }}
-        secondaryActions={[
-          {
-            content: 'Close',
-            onAction: this.handleClose,
-          },
-        ]}
-      />
-    );
+    apiDestroy(`/bars/${barId}`).then(() => {
+      handleClose();
+      toggleToast('Welcome bar deleted');
+      history.push('/');
+    });
   }
-}
+
+  const isOpen = barId > 0;
+  const primaryAction = {
+    content: 'Delete',
+    onAction: handleDestroyClick,
+    loading: isDestroying,
+    destructive: true,
+  };
+  const secondaryAction = [{ content: 'Close', onAction: handleClose }];
+
+  return (
+    <Modal
+      open={isOpen}
+      onClose={handleClose}
+      title="Delete Confirmation"
+      message="Are you sure you want to delete this welcome bar?"
+      primaryAction={primaryAction}
+      secondaryActions={secondaryAction}
+    />
+  );
+};
 
 SingleBarDestroyModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   toggleToast: PropTypes.func.isRequired,
   barId: PropTypes.number,
-  history: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 SingleBarDestroyModal.defaultProps = {
