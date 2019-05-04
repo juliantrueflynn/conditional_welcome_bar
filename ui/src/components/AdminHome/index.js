@@ -5,7 +5,9 @@ import { apiCreate, apiFetch } from '../../util/apiUtil';
 import LoadingManager from '../LoadingManager';
 import BarsList from '../BarsList';
 import withLoading from '../../hocs/withLoading';
-import { getShopOrigin } from '../../util/shopifyUtil';
+import { shopOrigin } from '../../util/shopifyUtil';
+
+const API_BAR_URL = `shops/${shopOrigin()}/bars`;
 
 class AdminHome extends React.Component {
   constructor(props) {
@@ -18,7 +20,7 @@ class AdminHome extends React.Component {
   componentDidMount() {
     const { toggleLoading } = this.props;
 
-    apiFetch(`shops/${getShopOrigin}/bars`).then((bars) => {
+    apiFetch(API_BAR_URL).then((bars) => {
       toggleLoading();
       this.setState({ bars });
     });
@@ -27,7 +29,7 @@ class AdminHome extends React.Component {
   handleActionClick() {
     this.setState({ isActionLoading: true });
 
-    apiCreate(`shops/${getShopOrigin}/bars`)
+    apiCreate(API_BAR_URL)
       .then((payload) => this.navigateToBar(payload.id))
       .catch(() => {
         this.setState({ isActionLoading: false });

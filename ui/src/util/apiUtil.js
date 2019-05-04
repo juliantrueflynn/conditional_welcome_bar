@@ -42,7 +42,7 @@ export const apiCall = (method, url, props) => {
 };
 
 export const apiSetToken = () => {
-  const { code, shop } = getQueryObject;
+  const { code, shop } = getQueryObject();
 
   if (!code) {
     fetchPromise(`shops/${shop}/session`, { method: 'GET', headers }).then((payload) => {
@@ -54,10 +54,9 @@ export const apiSetToken = () => {
       }
     });
   } else if (!window.localStorage.getItem('cwb_fetched')) {
-    const query = { query: getQueryObject };
+    const query = { query: getQueryObject() };
 
     apiCreate(`shops/${shop}/session`, query).then((payload) => {
-      console.log(JSON.stringify(payload));
       // @TODO: Remove. This is temp solution to not double fetching.
       window.localStorage.setItem('cwb_fetched', 1);
     });

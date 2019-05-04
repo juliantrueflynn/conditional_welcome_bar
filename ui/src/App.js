@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { AppProvider, Toast } from '@shopify/polaris';
+import '@shopify/polaris/styles.css';
 import { apiSetToken } from './util/apiUtil';
 import ShopifyLinkRouter from './components/ShopifyLinkRouter';
 import ShopifyAppRouter from './components/ShopifyAppRouter';
@@ -8,7 +9,7 @@ import AdminHome from './components/AdminHome';
 import SingleBarView from './components/SingleBarView';
 import SingleBarDestroyModal from './components/SingleBarDestroyModal';
 import history from './util/historyUtil';
-import { getShopOrigin } from './util/shopifyUtil';
+import { shopOrigin, isUserInAdmin } from './util/shopifyUtil';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (getShopOrigin) {
+    if (shopOrigin() && isUserInAdmin()) {
       apiSetToken();
     }
   }
@@ -44,7 +45,7 @@ class App extends React.Component {
 
     console.log({ getShopOrigin });
 
-    if (!getShopOrigin) {
+    if (!isUserInAdmin()) {
       return (
         <div>
           This is static front page!
@@ -55,7 +56,7 @@ class App extends React.Component {
     return (
       <AppProvider
         apiKey={REACT_APP_SHOPIFY_API_CLIENT_KEY}
-        shopOrigin={getShopOrigin}
+        shopOrigin={shopOrigin()}
         linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
         forceRedirect
       >

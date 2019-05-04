@@ -1,5 +1,20 @@
 import queryString from 'query-string';
 
-export const getQueryObject = queryString.parse(window.location.search);
+export const getQueryObject = () => queryString.parse(window.location.search);
 
-export const getShopOrigin = getQueryObject && getQueryObject.shop;
+const getShopOrigin = () => {
+  const { localStorage } = window;
+  const { shop } = getQueryObject();
+
+  if (localStorage.getItem('cwb_shop')) {
+    return localStorage.getItem('cwb_shop');
+  }
+
+  localStorage.setItem('cwb_shop', shop);
+
+  return shop;
+};
+
+export const isUserInAdmin = () => !!getQueryObject().shop;
+
+export const shopOrigin = () => getShopOrigin();
