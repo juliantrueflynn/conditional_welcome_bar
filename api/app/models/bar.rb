@@ -33,7 +33,7 @@ class Bar < ApplicationRecord
     less_than_or_equal_to: 1,
     greater_than_or_equal_to: 0,
     allow_nil: true
-  validates :url, url: true, allow_nil: true, allow_blank: true
+  validates :url, url: true, allow_blank: true
 
   scope :with_active, -> { where(is_active: true) }
 

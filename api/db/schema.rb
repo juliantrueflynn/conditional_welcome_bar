@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.string "title", default: "Example Title", null: false
     t.text "content", default: "", null: false
     t.boolean "is_active", default: false, null: false
-    t.string "url"
+    t.string "url", default: "", null: false
     t.string "placement", default: "top", null: false
     t.boolean "is_sticky", default: true, null: false
     t.boolean "is_full_width_link", default: true, null: false

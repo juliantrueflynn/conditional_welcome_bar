@@ -34,7 +34,6 @@ const SingleBarForm = ({ bar, breadcrumbs }) => {
 
   const getFormData = () => {
     const nextState = decamelizeKeys({ ...barAttributes, ...convertFromHSBa(colors) });
-    nextState.url = nextState.url || ''; // @TODO Remove after adding default value '' to schema
 
     const formData = new FormData();
     Object.keys(nextState).forEach((key) => {

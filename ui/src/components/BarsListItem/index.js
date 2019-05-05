@@ -31,15 +31,10 @@ const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
 
 BarsListItem.propTypes = {
   id: PropTypes.number.isRequired,
-  title: PropTypes.string,
-  content: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   navigateToBar: PropTypes.func.isRequired,
-};
-
-BarsListItem.defaultProps = {
-  title: '',
-  content: '',
 };
 
 export default BarsListItem;
