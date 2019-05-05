@@ -3,25 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@shopify/app-bridge": "^0.7.3",
+    "@shopify/app-bridge": "1.3.1-next.2",
     "@shopify/polaris": "^3.13.0",
-    "@shopify/react-shopify-app-route-propagator": "^2.0.0",
+    "@shopify/react-shopify-app-route-propagator": "3.0.0",
     "hex-to-rgb": "^1.0.1",
     "history": "^4.9.0",
     "http-proxy-middleware": "^0.19.1",
     "humps": "^2.0.1",
-    "js-cookie": "^2.2.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.5.0",
     "react": "^16.8.6",
-    "react-cookie": "^3.1.2",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
     "timeago-react": "^2.0.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.11"
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "nodemon": "1.19.0",
+    "prettier": "^1.17.0"
   },
   "scripts": {
     "start": "react-scripts start",
