@@ -12,7 +12,7 @@ import {
 
 const LoadingManager = ({ children, isLoading, loadingTo }) => {
   if (!isLoading) {
-    return <>{children}</>;
+    return children;
   }
 
   const skeletonTitle = loadingTo === 'home' ? 'Home' : null;

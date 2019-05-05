@@ -9,9 +9,7 @@ const ALERT_INITIAL_STATE = {
 export const AlertsContext = createContext(ALERT_INITIAL_STATE);
 
 const AlertsContextProvider = ({ children, toggleModal, toggleToast }) => (
-  <AlertsContext.Provider value={{ toggleModal, toggleToast }}>
-    {children}
-  </AlertsContext.Provider>
+  <AlertsContext.Provider value={{ toggleModal, toggleToast }}>{children}</AlertsContext.Provider>
 );
 
 AlertsContextProvider.propTypes = {

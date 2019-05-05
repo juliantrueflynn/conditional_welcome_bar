@@ -4,11 +4,16 @@ import LoadingManager from '../LoadingManager';
 import SingleBarForm from '../SingleBarForm';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
 
-const SingleBarView = ({ match: { params: { barId } }, history }) => {
-  const {
-    data: bar,
-    isLoading
-  } = useLoadViewData({ apiPath: `/bars/${barId}`, initialDataState: {} });
+const SingleBarView = ({
+  match: {
+    params: { barId },
+  },
+  history,
+}) => {
+  const { data: bar, isLoading } = useLoadViewData({
+    apiPath: `/bars/${barId}`,
+    initialDataState: {},
+  });
 
   const breadcrumbs = [{ content: 'Welcome Bars', onAction: () => history.push('/') }];
 
@@ -21,7 +26,7 @@ const SingleBarView = ({ match: { params: { barId } }, history }) => {
       <SingleBarForm bar={bar} breadcrumbs={breadcrumbs} />
     </LoadingManager>
   );
-}
+};
 
 SingleBarView.propTypes = {
   match: PropTypes.shape({

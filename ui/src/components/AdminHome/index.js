@@ -12,10 +12,7 @@ const API_BAR_URL = `shops/${shopOrigin()}/bars`;
 const AdminHome = ({ history }) => {
   const [isActionLoading, setIsActionLoading] = useState(false);
 
-  const {
-    data: bars,
-    isLoading
-  } = useLoadViewData({ apiPath: API_BAR_URL, initialDataState: [] });
+  const { data, isLoading } = useLoadViewData({ apiPath: API_BAR_URL, initialDataState: [] });
 
   const navigateToBar = (barId) => history.push(`/bars/${barId}`);
 
@@ -39,7 +36,7 @@ const AdminHome = ({ history }) => {
         <Layout>
           <Layout.Section>
             <BarsList
-              bars={bars}
+              bars={data}
               navigateToBar={navigateToBar}
               createWelcomeBar={handleActionClick}
               isActionLoading={isActionLoading}
@@ -50,7 +47,7 @@ const AdminHome = ({ history }) => {
       </Page>
     </LoadingManager>
   );
-}
+};
 
 AdminHome.propTypes = {
   history: PropTypes.shape({

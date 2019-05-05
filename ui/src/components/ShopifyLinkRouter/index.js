@@ -7,10 +7,14 @@ const ShopifyLinkRouter = ({ url, children, ...attrs }) => {
     e.preventDefault();
 
     history.push(url);
-  }
+  };
 
-  return <a {...attrs} onClick={handleOnClick}>{children}</a>;
-}
+  return (
+    <a {...attrs} onClick={handleOnClick}>
+      {children}
+    </a>
+  );
+};
 
 ShopifyLinkRouter.propTypes = {
   children: PropTypes.node.isRequired,

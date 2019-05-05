@@ -11,11 +11,7 @@ const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
 
   return (
     <div className="BarsListItem">
-      <ResourceList.Item
-        id={id}
-        onClick={handleOnClick}
-        accessibilityLabel={accessibilityLabel}
-      >
+      <ResourceList.Item id={id} onClick={handleOnClick} accessibilityLabel={accessibilityLabel}>
         <div className="BarsListItem__Main">
           <h3 className="BarsListItem__Title">
             <TextStyle variation="strong">{title}</TextStyle>

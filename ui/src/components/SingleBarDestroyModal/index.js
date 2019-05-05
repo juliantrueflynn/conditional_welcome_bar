@@ -13,7 +13,7 @@ const SingleBarDestroyModal = ({ history, barId }) => {
     if (barId) {
       toggleModal();
     }
-  }
+  };
 
   const handleDestroyClick = () => {
     setIsDestroying(true);
@@ -23,7 +23,7 @@ const SingleBarDestroyModal = ({ history, barId }) => {
       toggleToast('Welcome bar deleted');
       history.push('/');
     });
-  }
+  };
 
   const isOpen = barId > 0;
   const primaryAction = {

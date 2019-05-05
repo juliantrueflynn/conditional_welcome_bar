@@ -11,7 +11,7 @@ import { AlertsContext } from '../../contexts/AlertsContextProvider';
 const INITIAL_HSBA_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
 const INITIAL_COLORS_STATE = {
   textHSBa: INITIAL_HSBA_STATE,
-  backgroundHSBa: INITIAL_HSBA_STATE
+  backgroundHSBa: INITIAL_HSBA_STATE,
 };
 
 const SingleBarForm = ({ bar, breadcrumbs }) => {
@@ -20,7 +20,7 @@ const SingleBarForm = ({ bar, breadcrumbs }) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasFormValuesChanged, setHasFormValuesChanged] = useState(false);
   const [backgroundFile, setBackgroundFile] = useState(null);
-  const [colors, setColors] = useState(INITIAL_COLORS_STATE)
+  const [colors, setColors] = useState(INITIAL_COLORS_STATE);
 
   useEffect(() => {
     const { backgroundColor, backgroundOpacity, textColor, textOpacity } = bar;
@@ -42,7 +42,7 @@ const SingleBarForm = ({ bar, breadcrumbs }) => {
     });
 
     return formData;
-  }
+  };
 
   const handleFormSubmit = () => {
     setIsUpdating(true);
@@ -54,25 +54,25 @@ const SingleBarForm = ({ bar, breadcrumbs }) => {
       setIsUpdating(false);
       toggleToast('Welcome bar updated');
     });
-  }
+  };
 
   const handleValueChange = (value, id) => {
     setBarAttributes({ ...barAttributes, [id]: value });
     setHasFormValuesChanged(bar[id] !== value);
-  }
+  };
 
   const handleColorPickerValueChange = (color, id) => {
     const nextColors = { ...colors, [`${id}HSBa`]: color };
     setColors(nextColors);
     setBarAttributes({ ...barAttributes, ...convertFromHSBa(nextColors) });
     setHasFormValuesChanged(true);
-  }
+  };
 
   const handleImageUpload = (_, acceptedFiles) => {
     setBarAttributes({ ...barAttributes, backgroundImage: acceptedFiles[0] });
     setBackgroundFile(acceptedFiles[0]);
     setHasFormValuesChanged(true);
-  }
+  };
 
   const handleModalToggle = () => toggleModal(bar.id);
 

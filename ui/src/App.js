@@ -24,18 +24,14 @@ const App = () => {
   const handleToggleToast = (content = '') => {
     const message = content.length ? content : ''; // Ensure string, fixes Shopify bug.
     setToastContent(message);
-  }
+  };
 
   const handleModalToggle = (modalBarId = -1) => setModalBarId(modalBarId);
 
   const { REACT_APP_SHOPIFY_API_CLIENT_KEY } = process.env;
 
   if (!isUserInAdmin()) {
-    return (
-      <div>
-        This is static front page!
-      </div>
-    );
+    return <div>This is static front page!</div>;
   }
 
   return (
