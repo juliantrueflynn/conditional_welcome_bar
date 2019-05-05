@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Form, Button, ButtonGroup } from '@shopify/polaris';
 import { decamelizeKeys } from 'humps';
@@ -6,6 +6,7 @@ import { convertToHSBa, convertFromHSBa } from '../../util/colorPickerUtil';
 import { apiUpdateBar } from '../../util/apiUtil';
 import SingleBarFormFields from '../SingleBarFormFields';
 import ActiveBadge from '../ActiveBadge';
+import { AlertsContext } from '../../contexts/AlertsContextProvider';
 
 const INITIAL_HSBA_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
 const INITIAL_COLORS_STATE = {
@@ -13,7 +14,7 @@ const INITIAL_COLORS_STATE = {
   backgroundHSBa: INITIAL_HSBA_STATE
 };
 
-const SingleBarForm = ({ bar, breadcrumbs, toggleToast, toggleModal }) => {
+const SingleBarForm = ({ bar, breadcrumbs }) => {
   const [barAttributes, setBarAttributes] = useState({});
   const [pageTitle, setPageTitle] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
@@ -28,6 +29,8 @@ const SingleBarForm = ({ bar, breadcrumbs, toggleToast, toggleModal }) => {
     setBarAttributes(bar);
     setColors(convertToHSBa(hsbaColorsParams));
   }, [bar]);
+
+  const { toggleModal, toggleToast } = useContext(AlertsContext);
 
   const getFormData = () => {
     const nextState = decamelizeKeys({ ...barAttributes, ...convertFromHSBa(colors) });
@@ -113,8 +116,6 @@ const SingleBarForm = ({ bar, breadcrumbs, toggleToast, toggleModal }) => {
 SingleBarForm.propTypes = {
   bar: PropTypes.instanceOf(Object).isRequired,
   breadcrumbs: PropTypes.instanceOf(Object).isRequired,
-  toggleToast: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
 };
 
 export default SingleBarForm;

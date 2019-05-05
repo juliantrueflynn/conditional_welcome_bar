@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import history from '../../util/historyUtil';
 
-const ShopifyLinkRouter = ({ history, url, children, ...attrs }) => {
+const ShopifyLinkRouter = ({ url, children, ...attrs }) => {
   const handleOnClick = (e) => {
     e.preventDefault();
 
-    const { url, history } = this.props;
     history.push(url);
   }
 
@@ -15,7 +15,6 @@ const ShopifyLinkRouter = ({ history, url, children, ...attrs }) => {
 ShopifyLinkRouter.propTypes = {
   children: PropTypes.node.isRequired,
   url: PropTypes.string.isRequired,
-  history: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default ShopifyLinkRouter;

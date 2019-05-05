@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Router, Switch, Route } from 'react-router-dom';
 import { AppProvider, Toast } from '@shopify/polaris';
-import '@shopify/polaris/styles.css';
+import { Router, Switch, Route } from 'react-router-dom';
 import { apiSetToken } from './util/apiUtil';
+import { shopOrigin, isUserInAdmin } from './util/shopifyUtil';
+import history from './util/historyUtil';
 import ShopifyLinkRouter from './components/ShopifyLinkRouter';
+import SingleBarDestroyModal from './components/SingleBarDestroyModal';
+import AlertsContextProvider from './contexts/AlertsContextProvider';
 import ShopifyAppRouter from './components/ShopifyAppRouter';
 import AdminHome from './components/AdminHome';
 import SingleBarView from './components/SingleBarView';
-import SingleBarDestroyModal from './components/SingleBarDestroyModal';
-import history from './util/historyUtil';
-import { shopOrigin, isUserInAdmin } from './util/shopifyUtil';
 
 const App = () => {
-  const [shouldShowToast, setToast] = useState(false);
   const [toastContent, setToastContent] = useState('');
   const [modalBarId, setModalBarId] = useState(-1);
 
@@ -22,10 +21,9 @@ const App = () => {
     }
   }, []);
 
-  const handleToggleToast = (message) => {
-    const toastContent = shouldShowToast ? '' : message;
-    setToastContent(toastContent);
-    setToast(!shouldShowToast);
+  const handleToggleToast = (content = '') => {
+    const message = content.length ? content : ''; // Ensure string, fixes Shopify bug.
+    setToastContent(message);
   }
 
   const handleModalToggle = (modalBarId = -1) => setModalBarId(modalBarId);
@@ -44,33 +42,20 @@ const App = () => {
     <AppProvider
       apiKey={REACT_APP_SHOPIFY_API_CLIENT_KEY}
       shopOrigin={shopOrigin()}
-      linkComponent={(urlProps) => <ShopifyLinkRouter history={history} {...urlProps} />}
+      linkComponent={ShopifyLinkRouter}
       forceRedirect
     >
-      <>
+      <AlertsContextProvider toggleModal={handleModalToggle} toggleToast={handleToggleToast}>
         <Router history={history}>
           <ShopifyAppRouter />
+          <SingleBarDestroyModal barId={modalBarId} />
           <Switch>
             <Route exact path="/" component={AdminHome} />
-            <Route
-              path="/bars/:barId"
-              render={(route) => (
-                <SingleBarView
-                  {...route}
-                  toggleToast={handleToggleToast}
-                  toggleModal={handleModalToggle}
-                />
-              )}
-            />
+            <Route path="/bars/:barId" component={SingleBarView} />
           </Switch>
-          <SingleBarDestroyModal
-            barId={modalBarId}
-            toggleModal={handleModalToggle}
-            toggleToast={handleToggleToast}
-          />
         </Router>
-        {shouldShowToast && <Toast content={toastContent} onDismiss={handleToggleToast} />}
-      </>
+        {toastContent && <Toast content={toastContent} onDismiss={handleToggleToast} />}
+      </AlertsContextProvider>
     </AppProvider>
   );
 };

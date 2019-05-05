@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Modal } from '@shopify/polaris';
 import { apiDestroy } from '../../util/apiUtil';
+import { AlertsContext } from '../../contexts/AlertsContextProvider';
 
-const SingleBarDestroyModal = ({ barId, history, toggleModal, toggleToast }) => {
+const SingleBarDestroyModal = ({ history, barId }) => {
   const [isDestroying, setIsDestroying] = useState(false);
+  const { toggleModal, toggleToast } = useContext(AlertsContext);
 
   const handleClose = () => {
     if (barId) {
@@ -45,12 +47,10 @@ const SingleBarDestroyModal = ({ barId, history, toggleModal, toggleToast }) => 
 };
 
 SingleBarDestroyModal.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
-  toggleToast: PropTypes.func.isRequired,
-  barId: PropTypes.number,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  barId: PropTypes.number,
 };
 
 SingleBarDestroyModal.defaultProps = {

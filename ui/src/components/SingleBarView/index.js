@@ -4,7 +4,7 @@ import LoadingManager from '../LoadingManager';
 import SingleBarForm from '../SingleBarForm';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
 
-const SingleBarView = ({ match: { params: { barId } }, toggleToast, toggleModal, history }) => {
+const SingleBarView = ({ match: { params: { barId } }, history }) => {
   const {
     data: bar,
     isLoading
@@ -18,12 +18,7 @@ const SingleBarView = ({ match: { params: { barId } }, toggleToast, toggleModal,
 
   return (
     <LoadingManager loadingTo="single" isLoading={isLoading}>
-      <SingleBarForm
-        bar={bar}
-        toggleToast={toggleToast}
-        breadcrumbs={breadcrumbs}
-        toggleModal={toggleModal}
-      />
+      <SingleBarForm bar={bar} breadcrumbs={breadcrumbs} />
     </LoadingManager>
   );
 }
@@ -37,8 +32,6 @@ SingleBarView.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  toggleToast: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
 };
 
 export default SingleBarView;
