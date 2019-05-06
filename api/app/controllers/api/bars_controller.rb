@@ -4,7 +4,7 @@ class Api::BarsController < ApplicationController
   # before_action :authenticate_shop!
 
   def index
-    @bars = Bar.with_shopify_domain(params[:shop_domain])
+    @bars = Bar.with_shopify_domain(params[:shop])
 
     render 'api/bars/index'
   end
@@ -18,7 +18,7 @@ class Api::BarsController < ApplicationController
   end
 
   def create
-    shop = Shop.find_by_shopify_domain(params[:shop_domain])
+    shop = Shop.find_by_shopify_domain(params[:shop])
     @bar = shop.bars.build
 
     if @bar.save

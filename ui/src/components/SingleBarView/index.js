@@ -4,14 +4,9 @@ import LoadingManager from '../LoadingManager';
 import SingleBarForm from '../SingleBarForm';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
 
-const SingleBarView = ({
-  match: {
-    params: { barId },
-  },
-  history,
-}) => {
+const SingleBarView = ({ match: { params }, history }) => {
   const { data: bar, isLoading } = useLoadViewData({
-    apiPath: `/bars/${barId}`,
+    apiPath: `bars/${params.barId}`,
     initialDataState: {},
   });
 

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AppProvider, Toast } from '@shopify/polaris';
 import { Router, Switch, Route } from 'react-router-dom';
-import { apiSetToken } from './util/apiUtil';
-import { shopOrigin, isUserInAdmin } from './util/shopifyUtil';
+import { shopOrigin } from './util/shopifyUtil';
 import history from './util/historyUtil';
 import ShopifyLinkRouter from './components/ShopifyLinkRouter';
 import SingleBarDestroyModal from './components/SingleBarDestroyModal';
@@ -15,12 +14,6 @@ const App = () => {
   const [toastContent, setToastContent] = useState('');
   const [modalBarId, setModalBarId] = useState(-1);
 
-  useEffect(() => {
-    if (shopOrigin() && isUserInAdmin()) {
-      apiSetToken();
-    }
-  }, []);
-
   const handleToggleToast = (content = '') => {
     const message = content.length ? content : ''; // Ensure string, fixes Shopify bug.
     setToastContent(message);
@@ -29,10 +22,6 @@ const App = () => {
   const handleModalToggle = (modalBarId = -1) => setModalBarId(modalBarId);
 
   const { REACT_APP_SHOPIFY_API_CLIENT_KEY } = process.env;
-
-  if (!isUserInAdmin()) {
-    return <div>This is static front page!</div>;
-  }
 
   return (
     <AppProvider
