@@ -4,13 +4,18 @@ import LoadingManager from '../LoadingManager';
 import SingleBarForm from '../SingleBarForm';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
 
-const SingleBarView = ({ match: { params }, history }) => {
+const SingleBarView = ({ match: { params }, history, location: { search } }) => {
   const { data: bar, isLoading } = useLoadViewData({
     apiPath: `bars/${params.barId}`,
     initialDataState: {},
   });
 
-  const breadcrumbs = [{ content: 'Welcome Bars', onAction: () => history.push('/') }];
+  const breadcrumbs = [
+    {
+      content: 'Welcome Bars',
+      onAction: () => history.push({ pathname: '/', search }),
+    },
+  ];
 
   if (!isLoading && !bar.id) {
     return null;
@@ -31,6 +36,9 @@ SingleBarView.propTypes = {
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
   }).isRequired,
 };
 

@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Layout } from '@shopify/polaris';
 import { apiCreate } from '../../util/apiUtil';
-import LoadingManager from '../LoadingManager';
-import BarsList from '../BarsList';
 import { shopOrigin } from '../../util/shopifyUtil';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
+import LoadingManager from '../LoadingManager';
+import BarsList from '../BarsList';
 
-const API_BAR_URL = `shops/${shopOrigin()}/bars`;
+const API_BAR_URL = `shops/${shopOrigin}/bars`;
 
-const AdminHome = ({ history }) => {
+const AdminHome = ({ history, location: { search } }) => {
   const [isActionLoading, setIsActionLoading] = useState(false);
 
   const { data, isLoading } = useLoadViewData({ apiPath: API_BAR_URL, initialDataState: [] });
 
-  const navigateToBar = (barId) => history.push(`/bars/${barId}`);
+  const navigateToBar = (barId) => history.push({ pathname: `/bars/${barId}`, search });
 
   const handleActionClick = () => {
     setIsActionLoading(true);
@@ -52,6 +52,9 @@ const AdminHome = ({ history }) => {
 AdminHome.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
   }).isRequired,
 };
 

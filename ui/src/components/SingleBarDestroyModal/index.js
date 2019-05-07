@@ -5,27 +5,27 @@ import { Modal } from '@shopify/polaris';
 import { apiDestroy } from '../../util/apiUtil';
 import { AlertsContext } from '../../contexts/AlertsContextProvider';
 
-const SingleBarDestroyModal = ({ history, barId }) => {
+const SingleBarDestroyModal = ({ history, location: { search } }) => {
   const [isDestroying, setIsDestroying] = useState(false);
-  const { toggleModal, toggleToast } = useContext(AlertsContext);
+  const { toggleModal, toggleToast, modalBarId } = useContext(AlertsContext);
 
   const handleClose = () => {
-    if (barId) {
-      toggleModal();
+    if (modalBarId) {
+      toggleModal(-1);
     }
   };
 
   const handleDestroyClick = () => {
     setIsDestroying(true);
 
-    apiDestroy(`/bars/${barId}`).then(() => {
+    apiDestroy(`/bars/${modalBarId}`).then(() => {
       handleClose();
       toggleToast('Welcome bar deleted');
-      history.push('/');
+      history.push({ pathname: '/', search });
     });
   };
 
-  const isOpen = barId > 0;
+  const isOpen = modalBarId > 0;
   const primaryAction = {
     content: 'Delete',
     onAction: handleDestroyClick,
@@ -50,11 +50,9 @@ SingleBarDestroyModal.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  barId: PropTypes.number,
-};
-
-SingleBarDestroyModal.defaultProps = {
-  barId: -1,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(SingleBarDestroyModal);

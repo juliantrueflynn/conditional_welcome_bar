@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import history from '../../util/historyUtil';
+import { withRouter } from 'react-router-dom';
 
-const ShopifyLinkRouter = ({ url, children, ...attrs }) => {
+const ShopifyLinkRouter = ({ history, location: { search }, url, children, ...attrs }) => {
   const handleOnClick = (e) => {
     e.preventDefault();
 
-    history.push(url);
+    history.push({ pathname: url, search });
   };
 
   return (
@@ -19,6 +19,9 @@ const ShopifyLinkRouter = ({ url, children, ...attrs }) => {
 ShopifyLinkRouter.propTypes = {
   children: PropTypes.node.isRequired,
   url: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default ShopifyLinkRouter;
+export default withRouter(ShopifyLinkRouter);
