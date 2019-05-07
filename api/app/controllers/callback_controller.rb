@@ -1,10 +1,10 @@
 class CallbackController < ApplicationController
+  include ShopifyApp::EnsureShopOriginCookie
+
   def create
     @shop = Shop.new(shopify_token: token, shopify_domain: shop_name)
 
     if @shop.save
-      cookies[:shop_origin] = { value: params[:shop], httponly: true }
-
       session[:shop] = @shop
       session[:shopify_domain] = params[:shop]
 

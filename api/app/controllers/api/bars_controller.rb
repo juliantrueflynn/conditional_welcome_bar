@@ -1,4 +1,4 @@
-class Api::BarsController < ApplicationController
+class Api::BarsController < ApiController
   before_action :set_bar, only: [:show, :update, :destroy]
   # Temp comment out until authenticated calls fixed
   # before_action :authenticate_shop!

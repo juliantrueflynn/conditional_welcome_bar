@@ -5,10 +5,4 @@ class ApplicationController < ActionController::Base
   def fallback_index_html
     render :file => 'public/index.html'
   end
-
-  def shopify_client
-    ShopifyClient::Configuration.instance
-  end
-
-  helper_method :shopify_client
 end

@@ -15,26 +15,24 @@ const App = () => {
   const { REACT_APP_SHOPIFY_API_CLIENT_KEY } = process.env;
 
   return (
-    <AlertsContextProvider>
-      <Router history={history}>
-        <AppProvider
-          apiKey={REACT_APP_SHOPIFY_API_CLIENT_KEY}
-          shopOrigin={shopOrigin}
-          linkComponent={ShopifyLinkRouter}
-          forceRedirect
-        >
-          <>
-            <ShopifyAppRouter />
-            <SingleBarDestroyModal />
-            <Switch>
-              <Route exact path="/" component={AdminHome} />
-              <Route path="/bars/:barId" component={SingleBarView} />
-            </Switch>
-            <ShopifyToast />
-          </>
-        </AppProvider>
-      </Router>
-    </AlertsContextProvider>
+    <Router history={history}>
+      <AppProvider
+        apiKey={REACT_APP_SHOPIFY_API_CLIENT_KEY}
+        shopOrigin={shopOrigin}
+        linkComponent={ShopifyLinkRouter}
+        forceRedirect
+      >
+        <AlertsContextProvider>
+          <ShopifyAppRouter />
+          <SingleBarDestroyModal />
+          <Switch>
+            <Route exact path="/" component={AdminHome} />
+            <Route path="/bars/:barId" component={SingleBarView} />
+          </Switch>
+          <ShopifyToast />
+        </AlertsContextProvider>
+      </AppProvider>
+    </Router>
   );
 };
 

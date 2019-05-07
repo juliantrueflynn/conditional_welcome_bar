@@ -1,4 +1,4 @@
-class Api::ShopsController < ApplicationController
+class Api::ShopsController < ApiController
   def create
     @shop = Shop.find_or_initialize_by_domain(params[:shopify_domain]) do |shop|
       shop.shopify_token = params[:shopify_token]
