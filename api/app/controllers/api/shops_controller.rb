@@ -1,19 +1,11 @@
-class Api::ShopsController < ApiController
-  def create
-    @shop = Shop.find_or_initialize_by_domain(params[:shopify_domain]) do |shop|
-      shop.shopify_token = params[:shopify_token]
-    end
+class Api::ShopsController < ApplicationController
+  include ShopifyApp::Authenticated
+  include EnsureShopOriginCookie
 
-    if @shop.save
-      render 'api/shops/show'
-    else
-      render json: @shop.errors.full_messages, status: 422
-    end
-  end
+  def show
+    @shop = Shop.find_by_shopify_domain(params[:shopify_domain])
+    set_shop_origin_cookie(params[:shopify_domain]) unless @shop.nil?
 
-  private
-
-  def shop_params
-    params.require(:shop).permit(:shopify_domain, :shopify_token)
+    render 'api/shops/show'
   end
 end

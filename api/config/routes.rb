@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ShopifyApp::Engine, at: '/'
+
   namespace :api, defaults: { format: :json } do
     resources :bars, only: [:show, :update, :destroy]
 
@@ -9,11 +11,21 @@ Rails.application.routes.draw do
         resources :bars, only: [:index, :create]
       end
     end
+
+    resources :shops,
+      only: :show,
+      param: :shopify_domain,
+      constraints: { shopify_domain: /[^\/]+/ }
   end
 
-  get 'auth/shopify/callback', to: 'callback#create', format: :json
+  # post 'auth/install', to: 'sessions#create'
+  # get 'auth/install', to: 'sessions#show', constraints: { shop: /[^\/]+/ }
+  # get 'auth/shopify/callback', to: 'callback#create', format: :json
 
-  post 'login', to: 'sessions#create', format: :json
+  # get 'install/:shop', to: 'sessions#show', constraints: { shop: /[^\/]+/ }
+  # post 'install', to: 'sessions#create'
+  # post 'login/:shop', to: 'sessions#create'
+  # post 'login', to: 'sessions#create'
 
   get '*path', to: 'application#fallback_index_html', constraints: ->(request) do
     !request.xhr? && request.format.html?

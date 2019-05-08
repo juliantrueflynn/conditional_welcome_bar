@@ -1,1 +1,0 @@
-json.jwt @session

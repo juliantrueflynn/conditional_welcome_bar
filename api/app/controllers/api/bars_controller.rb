@@ -1,7 +1,8 @@
-class Api::BarsController < ApiController
+class Api::BarsController < ApplicationController
+  include ShopifyApp::Authenticated
+  include EnsureShopOriginCookie
+
   before_action :set_bar, only: [:show, :update, :destroy]
-  # Temp comment out until authenticated calls fixed
-  # before_action :authenticate_shop!
 
   def index
     @bars = Bar.with_shopify_domain(params[:shop])

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Layout } from '@shopify/polaris';
 import { apiCreate } from '../../util/apiUtil';
-import { shopOrigin } from '../../util/shopifyUtil';
+import shopOrigin from '../../util/shopifyUtil';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
 import LoadingManager from '../LoadingManager';
 import BarsList from '../BarsList';
