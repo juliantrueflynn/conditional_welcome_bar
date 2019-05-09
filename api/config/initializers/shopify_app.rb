@@ -8,6 +8,6 @@ ShopifyApp.configure do |config|
   config.api_version = :unstable
   config.scripttags = [{
     event: 'onload',
-    src: "#{ENV['SHOPIFY_APP_URL']}/js/welcomeBar.js"
+    src: "#{ENV['APP_HOST_URL']}/js/welcomeBar.js"
   }]
 end

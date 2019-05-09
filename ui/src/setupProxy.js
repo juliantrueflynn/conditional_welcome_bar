@@ -1,7 +1,7 @@
 const proxy = require('http-proxy-middleware');
 
 module.exports = function(app) {
-  const { REACT_APP_API_URL } = process.env;
+  const { REACT_APP_API_HOST_URL } = process.env;
   const proxyPaths = [
     '/api',
     '/login',
@@ -13,5 +13,5 @@ module.exports = function(app) {
     '/granted_storage_access',
   ];
 
-  app.use(proxy(proxyPaths, { target: REACT_APP_API_URL }));
+  app.use(proxy(proxyPaths, { target: REACT_APP_API_HOST_URL }));
 };

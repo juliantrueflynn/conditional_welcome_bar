@@ -5,10 +5,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 
   allow do
-    origins = ENV['CORS_ORIGINS']
-    origins = 'http://localhost:3001' unless Rails.env.production?
-    origins origins
-
+    origins ENV['APP_HOST_URL']
     resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end

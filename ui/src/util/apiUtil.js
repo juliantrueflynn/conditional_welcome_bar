@@ -1,7 +1,7 @@
 import { decamelizeKeys } from 'humps';
 
-const fetchPromise = (url, args) => {
-  const endpoint = `${process.env.REACT_APP_TUNNEL_URL}/api/${url}`;
+const fetchPromise = (urlPath, args) => {
+  const endpoint = `${process.env.REACT_APP_HOST_URL}/api/${urlPath}`;
   const options = { credentials: 'include', ...args };
 
   return fetch(endpoint, options)
