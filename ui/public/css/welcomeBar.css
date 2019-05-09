@@ -1,0 +1,54 @@
+.cw-bar {
+  z-index: 999;
+}
+
+.cw-bar__fixed {
+  position: fixed;
+  right: 0;
+  left: 0;
+}
+
+.cw-bar__fixed--top {
+  top: 0;
+}
+
+.cw-bar__fixed--bottom {
+  bottom: 0;
+}
+
+.cw-bar__row {
+  position: relative;
+}
+
+.cw-bar a.cw-bar__content {
+  color: inherit;
+}
+
+.cw-bar__linkable--w-100 a.cw-bar__content {
+  display: block;
+  width: 100%;
+}
+
+.cw-bar__linkable--w-auto a.cw-bar__content {
+  display: inline-block;
+  width: auto;
+}
+
+.cw-bar__close {
+  position: absolute;
+  top: 0;
+  bottom: 2px;
+  right: 0;
+}
+
+.cw-bar__close > button {
+  outline: 0;
+  background-color: transparent;
+  border: 0;
+  color: inherit;
+  font-size: 24px;
+  vertical-align: middle;
+  line-height: 0;
+  padding: 0 10px;
+  height: 100%;
+}

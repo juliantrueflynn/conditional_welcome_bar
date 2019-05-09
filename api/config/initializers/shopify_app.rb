@@ -6,4 +6,8 @@ ShopifyApp.configure do |config|
   config.embedded_app = true
   config.session_repository = Shop
   config.api_version = :unstable
+  config.scripttags = [{
+    event: 'onload',
+    src: "#{ENV['SHOPIFY_APP_URL']}/js/welcomeBar.js"
+  }]
 end
