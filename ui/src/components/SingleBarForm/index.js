@@ -10,8 +10,8 @@ import { AlertsContext } from '../../contexts/AlertsContextProvider';
 
 const INITIAL_HSBA_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
 const INITIAL_COLORS_STATE = {
-  textHSBa: INITIAL_HSBA_STATE,
-  backgroundHSBa: INITIAL_HSBA_STATE,
+  textHSBA: INITIAL_HSBA_STATE,
+  backgroundHSBA: INITIAL_HSBA_STATE,
 };
 
 const SingleBarForm = ({ bar, breadcrumbs }) => {
@@ -61,7 +61,7 @@ const SingleBarForm = ({ bar, breadcrumbs }) => {
   };
 
   const handleColorPickerValueChange = (color, id) => {
-    const nextColors = { ...colors, [`${id}HSBa`]: color };
+    const nextColors = { ...colors, [id]: color };
     setColors(nextColors);
     setBarAttributes({ ...barAttributes, ...convertFromHSBa(nextColors) });
     setHasFormValuesChanged(true);

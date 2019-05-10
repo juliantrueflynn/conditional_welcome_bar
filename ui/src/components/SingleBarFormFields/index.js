@@ -1,15 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Layout,
-  FormLayout,
-  Card,
-  TextField,
-  ChoiceList,
-  Checkbox,
-  ColorPicker,
-} from '@shopify/polaris';
+import { Layout, FormLayout, Card, TextField, ChoiceList, Checkbox } from '@shopify/polaris';
 import FileUploadField from '../FileUploadField';
+import ColorPickerField from '../ColorPickerField';
 
 const SIZE_PLACEHOLDER = '200px, 14em, or 100%';
 
@@ -17,48 +10,22 @@ const SingleBarFormFields = ({
   updateFieldValue,
   updateColorPickerValue,
   updateImageUpload,
-  ...fieldValues
+  ...fields
 }) => {
-  const {
-    title,
-    content,
-    hasCloseButton,
-    isActive,
-    placement,
-    pageTemplate,
-    isSticky,
-    url,
-    isFullWidthLink,
-    isNewTabUrl,
-    paddingY,
-    paddingX,
-    fontSize,
-    textAlign,
-    backgroundImage,
-    backgroundImageRepeat,
-    backgroundImageSizeY,
-    backgroundImageSizeX,
-    backgroundImagePositionX,
-    backgroundImagePositionY,
-    backgroundHSBa,
-    textHSBa,
-    backgroundFile,
-  } = fieldValues;
-
   return (
     <Layout>
       <Layout.AnnotatedSection title="Editor" description="Edit welcome bar title or content.">
         <Card sectioned>
           <FormLayout>
             <TextField
-              value={title}
+              value={fields.title}
               id="title"
               label="Title"
               placeholder="Title"
               onChange={updateFieldValue}
             />
             <TextField
-              value={content}
+              value={fields.content}
               label="Content"
               id="content"
               placeholder="Start typing..."
@@ -77,7 +44,7 @@ const SingleBarFormFields = ({
             <Checkbox
               label="Active"
               helpText="Live for public view"
-              checked={isActive}
+              checked={fields.isActive}
               id="isActive"
               onChange={updateFieldValue}
             />
@@ -90,7 +57,7 @@ const SingleBarFormFields = ({
                 { label: 'Collections', value: 'collection' },
                 { label: 'Products', value: 'product' },
               ]}
-              selected={[pageTemplate]}
+              selected={[fields.pageTemplate]}
               name="pageTemplate"
               onChange={updateFieldValue}
               allowMultiple
@@ -102,27 +69,27 @@ const SingleBarFormFields = ({
         <Card sectioned>
           <FormLayout>
             <TextField
-              value={url}
+              value={fields.url}
               label="URL"
               id="url"
               type="url"
               placeholder="https://example.com"
               onChange={updateFieldValue}
             />
-            {url && (
+            {fields.url && (
               <Checkbox
                 label="Open link in new tab"
                 id="isNewTabUrl"
-                checked={isNewTabUrl}
+                checked={fields.isNewTabUrl}
                 onChange={updateFieldValue}
               />
             )}
-            {url && (
+            {fields.url && (
               <Checkbox
                 label="Is full width link?"
                 helpText="Entire welcome bar is clickable link"
                 id="isFullWidthLink"
-                checked={isFullWidthLink}
+                checked={fields.isFullWidthLink}
                 onChange={updateFieldValue}
               />
             )}
@@ -135,19 +102,19 @@ const SingleBarFormFields = ({
             <ChoiceList
               title="Placement"
               choices={[{ label: 'Top', value: 'top' }, { label: 'Bottom', value: 'bottom' }]}
-              selected={[placement]}
+              selected={[fields.placement]}
               name="placement"
               onChange={updateFieldValue}
             />
             <Checkbox
               label="Is sticky bar"
               helpText="Bar sticks to top/bottom of window on scroll"
-              checked={isSticky}
+              checked={fields.isSticky}
               id="isSticky"
               onChange={updateFieldValue}
             />
             <TextField
-              value={paddingY}
+              value={fields.paddingY}
               label="Vertical padding"
               helpText="Options: 'auto', 'inherit' or number px/em/%"
               id="paddingY"
@@ -155,7 +122,7 @@ const SingleBarFormFields = ({
               onChange={updateFieldValue}
             />
             <TextField
-              value={paddingX}
+              value={fields.paddingX}
               label="Horizontal padding"
               helpText="Options: 'auto', 'inherit' or number px/em/%"
               id="paddingX"
@@ -164,7 +131,7 @@ const SingleBarFormFields = ({
             />
             <Checkbox
               label="Show close button"
-              checked={hasCloseButton}
+              checked={fields.hasCloseButton}
               id="hasCloseButton"
               onChange={updateFieldValue}
             />
@@ -174,11 +141,11 @@ const SingleBarFormFields = ({
       <Layout.AnnotatedSection title="Text styles" description="Style the welcome bar text.">
         <Card sectioned>
           <FormLayout>
-            Text color
-            <ColorPicker
-              allowAlpha
-              color={textHSBa}
-              onChange={(hsba) => updateColorPickerValue(hsba, 'text')}
+            <ColorPickerField
+              id="textHSBA"
+              label="Text color"
+              color={fields.textHSBA}
+              updateColorPicker={updateColorPickerValue}
             />
             <ChoiceList
               title="Alignment"
@@ -188,11 +155,11 @@ const SingleBarFormFields = ({
                 { label: 'Right', value: 'right' },
               ]}
               name="textAlign"
-              selected={[textAlign]}
+              selected={[fields.textAlign]}
               onChange={updateFieldValue}
             />
             <TextField
-              value={fontSize}
+              value={fields.fontSize}
               label="Text size"
               helpText="Options: 'inherit' or number px/em/%"
               id="fontSize"
@@ -208,21 +175,21 @@ const SingleBarFormFields = ({
       >
         <Card sectioned>
           <FormLayout>
-            Background color
-            <ColorPicker
-              allowAlpha
-              color={backgroundHSBa}
-              onChange={(hsba) => updateColorPickerValue(hsba, 'background')}
+            <ColorPickerField
+              id="backgroundHSBA"
+              label="Background color"
+              color={fields.backgroundHSBA}
+              updateColorPicker={updateColorPickerValue}
             />
             <FileUploadField
               updateImageUpload={updateImageUpload}
-              backgroundImage={backgroundImage}
-              backgroundFile={backgroundFile}
+              backgroundImage={fields.backgroundImage}
+              backgroundFile={fields.backgroundFile}
             />
-            {backgroundImage && (
+            {fields.backgroundImage && (
               <>
                 <TextField
-                  value={backgroundImagePositionY}
+                  value={fields.backgroundImagePositionY}
                   label="Image position vertical position"
                   helpText="Options: 'center' or number px/em/%"
                   id="backgroundImageSizeY"
@@ -230,7 +197,7 @@ const SingleBarFormFields = ({
                   onChange={updateFieldValue}
                 />
                 <TextField
-                  value={backgroundImagePositionX}
+                  value={fields.backgroundImagePositionX}
                   label="Image position horizontal position"
                   helpText="Options: 'center' or number px/em/%"
                   id="backgroundImageSizeY"
@@ -238,7 +205,7 @@ const SingleBarFormFields = ({
                   onChange={updateFieldValue}
                 />
                 <TextField
-                  value={backgroundImageSizeY}
+                  value={fields.backgroundImageSizeY}
                   label="Image vertical size"
                   helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
                   id="backgroundImageSizeY"
@@ -246,7 +213,7 @@ const SingleBarFormFields = ({
                   onChange={updateFieldValue}
                 />
                 <TextField
-                  value={backgroundImageSizeX}
+                  value={fields.backgroundImageSizeX}
                   label="Image horizontal size"
                   helpText="Options: 'auto', 'contain', 'cover', or number px/em/%"
                   id="backgroundImageSizeX"
@@ -262,7 +229,7 @@ const SingleBarFormFields = ({
                     { label: 'Repeat horizontally only', value: 'repeat-x' },
                   ]}
                   name="backgroundImageRepeat"
-                  selected={[backgroundImageRepeat]}
+                  selected={[fields.backgroundImageRepeat]}
                   onChange={updateFieldValue}
                 />
               </>
@@ -275,14 +242,9 @@ const SingleBarFormFields = ({
 };
 
 SingleBarFormFields.propTypes = {
-  fieldValues: PropTypes.instanceOf(Object),
   updateFieldValue: PropTypes.func.isRequired,
   updateColorPickerValue: PropTypes.func.isRequired,
   updateImageUpload: PropTypes.func.isRequired,
-};
-
-SingleBarFormFields.defaultProps = {
-  fieldValues: {},
 };
 
 export default SingleBarFormFields;
