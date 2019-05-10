@@ -58,10 +58,7 @@ const SingleBarFormFields = ({
             ]}
             selected={fields.pageTemplates}
             name="pageTemplates"
-            onChange={(id, val) => {
-              console.log(id, val);
-              return updateFieldValue(id, val);
-            }}
+            onChange={updateFieldValue}
             allowMultiple
           />
         </FormLayout>
