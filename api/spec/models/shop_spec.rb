@@ -7,7 +7,9 @@ RSpec.describe Shop, type: :model do
 
   describe 'uniqueness' do
     subject { FactoryBot.create(:shop) }
-    it { is_expected.to validate_uniqueness_of :shopify_domain }
+    it do
+      is_expected.to validate_uniqueness_of(:shopify_domain).ignoring_case_sensitivity
+    end
   end
 
   describe '#save' do
