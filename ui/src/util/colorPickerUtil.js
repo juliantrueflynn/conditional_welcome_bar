@@ -1,7 +1,7 @@
 import { hsbToHex, rgbToHsb } from '@shopify/polaris';
 import hexToRgb from 'hex-to-rgb';
 
-export const convertFromHSBa = ({ backgroundHSBA, textHSBA }) => {
+export const convertFromHSBA = ({ backgroundHSBA, textHSBA }) => {
   const { alpha: backgroundOpacity, ...backgroundHSB } = backgroundHSBA;
   const { alpha: textOpacity, ...textHSB } = textHSBA;
 
@@ -22,7 +22,7 @@ const hexToHSBa = (hex, alpha) => {
   return { ...hsb, alpha };
 };
 
-export const convertToHSBa = (bar) => {
+export const convertToHSBA = (bar) => {
   const backgroundHSBA = hexToHSBa(bar.backgroundColor, bar.backgroundOpacity);
   const textHSBA = hexToHSBa(bar.textColor, bar.textOpacity);
 

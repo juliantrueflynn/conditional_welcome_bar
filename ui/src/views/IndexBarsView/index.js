@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Layout } from '@shopify/polaris';
-import { apiCreate } from '../../util/apiUtil';
 import shopOrigin from '../../util/shopifyUtil';
+import { apiCreate } from '../../util/apiUtil';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
-import LoadingManager from '../LoadingManager';
-import BarsList from '../BarsList';
+import LoadingManager from '../../components/LoadingManager';
+import BarsList from '../../components/BarsList';
 
 const API_BAR_URL = `shops/${shopOrigin}/bars`;
 
-const AdminHome = ({ history, location: { search } }) => {
+const IndexBarsView = ({ history, location: { search } }) => {
   const [isActionLoading, setIsActionLoading] = useState(false);
 
   const { data, isLoading } = useLoadViewData({ apiPath: API_BAR_URL, initialDataState: [] });
@@ -49,7 +49,7 @@ const AdminHome = ({ history, location: { search } }) => {
   );
 };
 
-AdminHome.propTypes = {
+IndexBarsView.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -58,4 +58,4 @@ AdminHome.propTypes = {
   }).isRequired,
 };
 
-export default AdminHome;
+export default IndexBarsView;

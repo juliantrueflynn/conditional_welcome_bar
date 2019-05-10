@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import AdminHome from './components/AdminHome';
-import SingleBarView from './components/SingleBarView';
+import IndexBarsView from './views/IndexBarsView';
+import SingleBarView from './views/SingleBarView';
 import ShopifyProvider from './components/ShopifyProvider';
 
 const App = () => (
   <BrowserRouter>
     <ShopifyProvider>
       <Switch>
-        <Route exact path="/" component={AdminHome} />
+        <Route exact path="/" component={IndexBarsView} />
         <Route path="/bars/:barId" component={SingleBarView} />
       </Switch>
     </ShopifyProvider>
