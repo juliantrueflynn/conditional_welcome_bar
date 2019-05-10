@@ -26,7 +26,6 @@ class CreateBars < ActiveRecord::Migration[5.1]
       t.string :background_image_size_y, default: 'auto'
       t.string :background_image_position_x, default: 'center'
       t.string :background_image_position_y, default: 'center'
-
       t.timestamps
     end
   end
