@@ -6,7 +6,7 @@ import { decamelizeKeys } from 'humps';
 import LoadingManager from '../../components/LoadingManager';
 import SingleBarFormFields from '../../components/SingleBarFormFields';
 import { apiUpdateBar, apiFetch } from '../../util/apiUtil';
-import { AlertsContext } from '../../contexts/AlertsContextProvider';
+import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
 import { convertFromHSBA, convertToHSBA } from '../../util/colorPickerUtil';
 
 const INITIAL_HSBA_COLOR = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
@@ -22,7 +22,7 @@ const SingleBarView = ({ match: { params } }) => {
   const [backgroundFile, setBackgroundFile] = useState(null);
   const [colors, setColors] = useState(INITIAL_COLORS_STATE);
 
-  const { toggleModal, toggleToast } = useContext(AlertsContext);
+  const { toggleModal, toggleToast } = useContext(OverlaysContext);
 
   useEffect(() => {
     apiFetch(`bars/${params.barId}`).then((json) => {
@@ -81,13 +81,38 @@ const SingleBarView = ({ match: { params } }) => {
     setHasDirtyState(true);
   };
 
+  const secondaryActions = [
+    {
+      content: 'Delete',
+      onAction: () =>
+        toggleModal({
+          type: 'delete',
+          title: 'Delete Confirmation',
+          message: 'Are you sure you want to delete this welcome bar?',
+        }),
+      destructive: true,
+    },
+    {
+      content: 'Discard',
+      onAction: () =>
+        toggleModal({
+          type: 'discard',
+          title: 'Discard Changes Confirmation',
+          message: 'Are you sure you want to discard all unsaved changes?',
+          onAction: () => {
+            setBar(prevBarState);
+            setHasDirtyState(false);
+          },
+        }),
+      disabled: !hasDirtyState,
+    },
+  ];
   const primaryAction = {
     content: 'Save',
     onAction: handleFormSubmit,
     disabled: !hasDirtyState,
     loading: isUpdating,
   };
-  const secondaryActions = [{ content: 'Delete', onAction: () => toggleModal(bar.id) }];
 
   if (!isLoading && !bar.id) {
     return null;

@@ -4,9 +4,9 @@ import { AppProvider } from '@shopify/polaris';
 import shopOrigin from '../../util/shopifyUtil';
 import { apiFetch } from '../../util/apiUtil';
 import ShopifyLinkRouter from '../ShopifyLinkRouter';
-import AlertsContextProvider from '../../contexts/AlertsContextProvider';
+import OverlaysContextProvider from '../../contexts/OverlaysContextProvider';
 import ShopifyAppRouter from '../ShopifyAppRouter';
-import SingleBarDestroyModal from '../SingleBarDestroyModal';
+import BarModalManager from '../BarModalManager';
 import ShopifyToast from '../ShopifyToast';
 
 const ShopifyProvider = ({ children }) => {
@@ -33,12 +33,12 @@ const ShopifyProvider = ({ children }) => {
       linkComponent={ShopifyLinkRouter}
       forceRedirect
     >
-      <AlertsContextProvider>
+      <OverlaysContextProvider>
         <ShopifyAppRouter />
-        <SingleBarDestroyModal />
+        <BarModalManager />
         {children}
         <ShopifyToast />
-      </AlertsContextProvider>
+      </OverlaysContextProvider>
     </AppProvider>
   );
 };
