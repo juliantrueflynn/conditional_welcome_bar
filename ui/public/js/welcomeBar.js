@@ -117,8 +117,8 @@
         const isHidden = window.localStorage.getItem(getStorageKey(bar.id));
 
         return (
-          (bar.pageTemplate === 'global' || bar.pageTemplate === template)
-          && !isHidden
+          (bar.pageTemplates.indexOf('global') > -1 || bar.pageTemplates.indexOf(template) > -1) &&
+          !isHidden
         );
       });
 

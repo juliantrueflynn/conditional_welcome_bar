@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.boolean "is_sticky", default: true, null: false
     t.boolean "is_full_width_link", default: true, null: false
     t.boolean "is_new_tab_url", default: false, null: false
-    t.string "page_template", default: "global", null: false
+    t.string "page_templates", default: ["global"], null: false, array: true
     t.boolean "has_close_button", default: true, null: false
     t.string "padding_y", default: "10px", null: false
     t.string "padding_x", default: "15px", null: false

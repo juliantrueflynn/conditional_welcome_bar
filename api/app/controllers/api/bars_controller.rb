@@ -30,7 +30,9 @@ class Api::BarsController < ApplicationController
   end
 
   def update
-    if @bar.update(bar_params)
+    updated_params = ensure_page_templates_is_array
+
+    if @bar.update(updated_params)
       render 'api/bars/show'
     else
       render json: @bar.errors.full_messages, status: 422
@@ -51,6 +53,11 @@ class Api::BarsController < ApplicationController
     @bar = Bar.find_by(id: params[:id])
   end
 
+  def ensure_page_templates_is_array
+    page_templates = params[:bar][:page_templates].split(',')
+    bar_params.merge(page_templates: page_templates)
+  end
+
   def bar_params
     params
       .fetch(:bar, {})
@@ -66,7 +73,7 @@ class Api::BarsController < ApplicationController
         :is_full_width_link,
         :is_sticky,
         :placement,
-        :page_template,
+        :page_templates,
         :text_color,
         :font_size,
         :text_opacity,

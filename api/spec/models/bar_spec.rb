@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Bar, type: :model do
-  it { expect(FactoryBot.build(:bar)).to be_valid }
-
   it { is_expected.to validate_presence_of :title }
-  it { is_expected.to validate_presence_of :page_template }
+  it { is_expected.to validate_presence_of :page_templates }
   it { is_expected.to_not allow_value(nil).for(:is_active)}
   it { is_expected.to_not allow_value(nil).for(:is_sticky)}
   it { is_expected.to_not allow_value(nil).for(:is_new_tab_url) }
@@ -34,13 +32,9 @@ RSpec.describe Bar, type: :model do
       .is_greater_than_or_equal_to(0)
   end
 
-  it { is_expected.to validate_inclusion_of(:placement).in_array(%w(top bottom)) }
-  it do
-    is_expected.to validate_inclusion_of(:page_template)
-      .in_array(%w(global homepage collection product cart))
-  end
-  it { is_expected.to validate_inclusion_of(:background_image_repeat).in_array(%w(no-repeat repeat-x repeat-y repeat space))}
-  it { is_expected.to validate_inclusion_of(:text_align).in_array(%w(center left right)) }
+  it { is_expected.to validate_inclusion_of(:placement).in_array(Bar::PLACEMENT) }
+  it { is_expected.to validate_inclusion_of(:background_image_repeat).in_array(Bar::BACKGROUND_IMAGE_REPEAT) }
+  it { is_expected.to validate_inclusion_of(:text_align).in_array(Bar::TEXT_ALIGN) }
 
   context 'when not valid url' do
     it 'with space' do
@@ -59,7 +53,7 @@ RSpec.describe Bar, type: :model do
 
     before do
       bars.first.update_columns(is_active: true)
-      bars.second.update_columns(page_template: 'homepage', is_active: true)
+      bars.second.update_columns(page_templates: ['homepage'], is_active: true)
     end
 
     it 'when :is_active true' do
@@ -76,15 +70,15 @@ RSpec.describe Bar, type: :model do
       expect(bars.last.is_active).to be false
     end
 
-    it 'when :is_active true and not :page_template global' do
-      bars.last.update(is_active: true, page_template: 'homepage')
+    it 'when :is_active true and not :page_templates [global]' do
+      bars.last.update(is_active: true, page_templates: ['homepage'])
       expect(bars.first.is_active).to be false
       expect(bars.last.is_active).to be true
     end
 
-    it 'when :is_active true and no matching :page_template' do
-      bars.first.update_columns(page_template: 'cart')
-      bars.last.update(is_active: true, page_template: 'homepage')
+    it 'when :is_active true and no matching :page_templates' do
+      bars.first.update_columns(page_templates: ['cart'])
+      bars.last.update(is_active: true, page_templates: ['homepage'])
       expect(bars.first.is_active).to be true
       expect(bars.last.is_active).to be true
     end

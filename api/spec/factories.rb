@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :bar do
-    title { "FooBar Project" }
-    content { "Lorem ipsum" }
+    title { Faker::Company.name }
+    content { Faker::Lorem.sentence }
     is_active { false }
     is_sticky { true }
-    placement { "top" }
-    url { nil }
+    placement { 'top' }
+    url { '' }
     is_new_tab_url { false }
-    page_template { "global" }
+    page_templates { %w(global) }
     has_close_button { true }
     padding_y { '10px' }
     padding_x { '15px' }

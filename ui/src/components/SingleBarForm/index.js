@@ -8,6 +8,7 @@ import SingleBarFormFields from '../SingleBarFormFields';
 import ActiveBadge from '../ActiveBadge';
 import { AlertsContext } from '../../contexts/AlertsContextProvider';
 
+const INITIAL_BAR_STATE = { pageTemplates: [] };
 const INITIAL_HSBA_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
 const INITIAL_COLORS_STATE = {
   textHSBA: INITIAL_HSBA_STATE,
@@ -15,7 +16,7 @@ const INITIAL_COLORS_STATE = {
 };
 
 const SingleBarForm = ({ bar, breadcrumbs }) => {
-  const [barAttributes, setBarAttributes] = useState({});
+  const [barAttributes, setBarAttributes] = useState(INITIAL_BAR_STATE);
   const [pageTitle, setPageTitle] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasFormValuesChanged, setHasFormValuesChanged] = useState(false);
