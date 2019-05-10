@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ResourceList, TextStyle } from '@shopify/polaris';
-import TimeAgo from 'timeago-react';
+import BarCreationDate from '../BarCreationDate';
 
 const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
   const handleOnClick = () => navigateToBar(id);
 
-  const createDatetime = new Date(createdAt);
   const accessibilityLabel = `View details for ${title}`;
 
   return (
@@ -19,7 +18,7 @@ const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
           <div className="BarsListItem__Date">
             <TextStyle variation="subdued">
               {'Created '}
-              <TimeAgo datetime={createDatetime} />
+              <BarCreationDate createdAt={createdAt} />
             </TextStyle>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppProvider } from '@shopify/polaris';
-import shopOrigin from '../../util/shopifyUtil';
+import { shopOrigin } from '../../util/shopifyUtil';
 import { apiFetch } from '../../util/apiUtil';
 import ShopifyLinkRouter from '../ShopifyLinkRouter';
 import OverlaysContextProvider from '../../contexts/OverlaysContextProvider';

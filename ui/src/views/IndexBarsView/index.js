@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Layout } from '@shopify/polaris';
-import shopOrigin from '../../util/shopifyUtil';
+import { shopOrigin } from '../../util/shopifyUtil';
 import { apiCreate } from '../../util/apiUtil';
 import { useLoadViewData } from '../../hooks/useLoadViewData';
 import LoadingManager from '../../components/LoadingManager';
