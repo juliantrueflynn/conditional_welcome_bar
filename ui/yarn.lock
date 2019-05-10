@@ -1341,7 +1341,7 @@
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.3.1-next.2.tgz#e706938bf040e04b313e3d68c235e1aa9bd6cf2a"
   integrity sha512-lS9AT/2k0O5eVgeC49hYkRkREeg+MO2UT2tKb8c/1OAm9TTnk40HxuE+vieCWCW0OpjUmEeIHwn4UhOQu1/7IA==
 
-"@shopify/app-bridge@^1.1.2":
+"@shopify/app-bridge@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.3.0.tgz#1c3dfb1b3e10041a3d639a219bc7010051f5fa97"
   integrity sha512-h4/RGKsLUej4gE6/XVXoOa3lG7xRUfwYvV+xfFkyoI7xZWNa8RmfKtgnzPBIxRBIWkeQBoms7hWuYuqO9RENLw==
@@ -1371,20 +1371,20 @@
   resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-2.5.0.tgz#3efe1f9be456565bbb26f6f555c78be8060bcea7"
   integrity sha512-AzIXOBAdUnOIO91vhCPdtQH+W6pKi4rCrXsT6Fe/BN+KUoeMAsfOyBXRbA5lSQ1pb+gA2e9N4PGpOzFs6fI4hQ==
 
-"@shopify/polaris@^3.13.0":
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-3.13.0.tgz#7b7e47ebf4d9aeedda2a57231619760ba09b9bd4"
-  integrity sha512-fIOQB73+aAOisQWosw4a0Bi41HOGrVVdEh+6l7/k47Hj7hthm8rGmheJEAWylWfNFGmbL1YM5p2UO79+EM5txw==
+"@shopify/polaris@3.14.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-3.14.0.tgz#14ac140757e27c428eb21f98626508b8007d6a2f"
+  integrity sha512-5oVZH2sOVvqms6HRA0lAc5PO4I3InTHWJf1o95H3Pm9EdgonaX963KP5cn9sMAVhpzCw0mxMCKWaJ6s5zvQooQ==
   dependencies:
     "@babel/runtime" "^7.1.6"
-    "@shopify/app-bridge" "^1.1.2"
+    "@shopify/app-bridge" "^1.3.0"
     "@shopify/images" "^1.1.0"
     "@shopify/javascript-utilities" "^2.2.1"
     "@shopify/polaris-icons" "^3.3.0"
     "@shopify/polaris-tokens" "^2.5.0"
-    "@shopify/react-compose" "^0.1.6"
-    "@shopify/react-utilities" "^2.0.3"
-    "@types/prop-types" "^15.5.5"
+    "@shopify/react-compose" "^1.0.0"
+    "@shopify/react-utilities" "^2.0.4"
+    "@shopify/useful-types" "^1.2.4"
     "@types/react" "^16.4.7"
     "@types/react-dom" "^16.0.6"
     "@types/react-transition-group" "^2.0.7"
@@ -1394,11 +1394,12 @@
     react-transition-group "^2.4.0"
     tslib "^1.9.3"
 
-"@shopify/react-compose@^0.1.6":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@shopify/react-compose/-/react-compose-0.1.12.tgz#1325336bec5170f0c4642e66a19d96fd21f74c3b"
-  integrity sha512-1z2LGdpKZ6esnPnbPpKsmHJlGggFsKqSUxbP3uxWXQGSXtIF+WuKpS48QYFWNC9GkmvVcnIkwBmCR8bCjhXKDg==
+"@shopify/react-compose@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@shopify/react-compose/-/react-compose-1.0.1.tgz#40f6ae0a3fb715af338e900f09095ba1fb424f41"
+  integrity sha512-kO/l1e+CEpbaRfU23v4ntdEayEMw/BLjqsv+yy8Aiy0LNtGotnOWaCUP2kdgjI2YGndsYarluA9Hf6wQ9nkA3w==
   dependencies:
+    "@shopify/useful-types" "^1.3.0"
     hoist-non-react-statics "^3.0.1"
     tslib "^1.9.3"
 
@@ -1409,10 +1410,10 @@
   dependencies:
     tslib "^1.9.3"
 
-"@shopify/react-utilities@^2.0.3":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@shopify/react-utilities/-/react-utilities-2.0.4.tgz#0cf22e9a1c926dd3ff25e6fde7a161f06f4212e4"
-  integrity sha512-F6kFjKZNKU2svbWWctJ71e2Zk48Jb1CR95hj5XxG2MD529akESbI06y16ngtpiuYZlKLvE+CTiVUZqBZ/9uLKQ==
+"@shopify/react-utilities@^2.0.4":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@shopify/react-utilities/-/react-utilities-2.0.6.tgz#d8d645fe085240d4c053db7aac14e14a874194f6"
+  integrity sha512-hh2Qoea5Dsw7LoUfNzMJOQ+tlYw5CCLTsdd5MY15TE1zc0w6isst8NNVQ/LAB8CFNzK6vZpEhPQdGs1T2pLGTg==
   dependencies:
     "@shopify/javascript-utilities" "^2.1.0"
     "@types/classnames" "^2.2.3"
@@ -1420,6 +1421,14 @@
     "@types/react" "^16.3.14"
     "@types/react-dom" "^16.0.5"
     classnames "^2.2.5"
+
+"@shopify/useful-types@^1.2.4", "@shopify/useful-types@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@shopify/useful-types/-/useful-types-1.3.0.tgz#79cfb6722d2cc192c05f14e55789bcfe2b40a6de"
+  integrity sha512-BQw5KFuDm7aAH1bPECxnC1bPyaLSmZP0ecs0XwzKtgltBHWGvgu8dpqNXvY+sDfG5tnF+79EjiytRCOsTElyIg==
+  dependencies:
+    "@types/react" ">=16.4.0"
+    tslib "^1.9.3"
 
 "@svgr/babel-plugin-add-jsx-attribute@^4.0.0":
   version "4.0.0"
@@ -1584,7 +1593,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.6.tgz#9cbfcb62c50947217f4d88d4d274cc40c22625a9"
   integrity sha512-Fvm24+u85lGmV4hT5G++aht2C5I4Z4dYlWZIh62FAfFO/TfzXtPpoLI6I7AuBWkIFqZCnhFOoTT7RjjaIL5Fjg==
 
-"@types/prop-types@*", "@types/prop-types@^15.5.5":
+"@types/prop-types@*":
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
   integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
@@ -1612,6 +1621,14 @@
   version "16.8.15"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.15.tgz#a76515fed5aa3e996603056f54427fec5f2a5122"
   integrity sha512-dMhzw1rWK+wwJWvPp5Pk12ksSrm/z/C/+lOQbMZ7YfDQYnJ02bc0wtg4EJD9qrFhuxFrf/ywNgwTboucobJqQg==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@>=16.4.0":
+  version "16.8.17"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.17.tgz#f287b76a5badb93bc9aa3f54521a3eb53d6c2374"
+  integrity sha512-pln3mgc6VfkNg92WXODul/ONo140huK9OMsx62GlBlZ2lvjNK86PQJhYMPLO1i66aF5O9OPyZefogvNltBIszA==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
