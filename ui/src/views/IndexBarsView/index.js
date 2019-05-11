@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Page, Layout } from '@shopify/polaris';
 import { shopOrigin } from '../../util/shopifyUtil';
-import { apiCreate } from '../../util/apiUtil';
-import { useLoadViewData } from '../../hooks/useLoadViewData';
+import { apiCreate, apiFetch } from '../../util/apiUtil';
 import LoadingManager from '../../components/LoadingManager';
 import BarsList from '../../components/BarsList';
 
 const API_BAR_URL = `shops/${shopOrigin}/bars`;
 
 const IndexBarsView = ({ history, location: { search } }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isActionLoading, setIsActionLoading] = useState(false);
+  const [bars, setBars] = useState([]);
 
-  const { data, isLoading } = useLoadViewData({ apiPath: API_BAR_URL, initialDataState: [] });
+  useEffect(() => {
+    apiFetch(API_BAR_URL).then((json) => {
+      setIsLoading(false);
+      setBars(json);
+    });
+  }, []);
 
   const navigateToBar = (barId) => history.push({ pathname: `/bars/${barId}`, search });
 
@@ -36,7 +42,7 @@ const IndexBarsView = ({ history, location: { search } }) => {
         <Layout>
           <Layout.Section>
             <BarsList
-              bars={data}
+              bars={bars}
               navigateToBar={navigateToBar}
               createWelcomeBar={handleActionClick}
               isActionLoading={isActionLoading}
