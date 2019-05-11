@@ -87,7 +87,7 @@ const SingleBarView = ({ match: { params } }) => {
       onAction: () =>
         toggleModal({
           type: 'delete',
-          title: 'Delete Confirmation',
+          title: 'Delete confirmation',
           message: 'Are you sure you want to delete this welcome bar?',
         }),
       destructive: true,
@@ -97,7 +97,7 @@ const SingleBarView = ({ match: { params } }) => {
       onAction: () =>
         toggleModal({
           type: 'discard',
-          title: 'Discard Changes Confirmation',
+          title: 'Discard changes confirmation',
           message: 'Are you sure you want to discard all unsaved changes?',
           onAction: () => {
             setBar(prevBarState);

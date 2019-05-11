@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-const ShopifyLinkRouter = ({ history, location: { search }, url, children, ...attrs }) => {
+const ShopifyLinkRouter = ({
+  history,
+  location: { search },
+  url,
+  children,
+  match,
+  staticContext,
+  ...attrs
+}) => {
   const handleOnClick = (e) => {
     e.preventDefault();
 

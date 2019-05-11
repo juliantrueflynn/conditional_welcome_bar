@@ -5,8 +5,8 @@ import BarsListItem from '../BarsListItem';
 
 const BarsList = ({ bars, createWelcomeBar, isActionLoading, navigateToBar, isLoading }) => {
   const resourceName = {
-    singular: 'Welcome Bar',
-    plural: 'Welcome Bars',
+    singular: 'Welcome bar',
+    plural: 'Welcome bars',
   };
 
   if (!isLoading && (!bars || !bars.length)) {
