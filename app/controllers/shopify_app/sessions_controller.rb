@@ -7,6 +7,7 @@ module ShopifyApp
     end
 
     def new
+      Rails.logger.info "************** #{login_url(top_level: true)}"
       authenticate if sanitized_shop_name.present?
     end
 
@@ -118,7 +119,7 @@ module ShopifyApp
     end
 
     def redirect_to_request_storage_access
-      render :request_storage_access, layout: false, locals: {
+      render :request_storage_access, layout: false, formats: ['html'], locals: {
         does_not_have_storage_access_url: top_level_interaction_path(
           shop: sanitized_shop_name
         ),

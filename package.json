@@ -1,0 +1,24 @@
+{
+  "name": "conditional_welcome_bar",
+  "version": "1.0.0",
+  "description": "Shopify app with Rails API and React. Utilizes Shopify's Polaris UI components.",
+  "scripts": {
+    "setup": "npm --prefix ui install",
+    "build": "npm run setup && npm --prefix ui run build",
+    "deploy": "cp -a ui/build/. public/",
+    "postinstall": "npm run build && npm run deploy",
+    "deploy:local": "npm --prefix ui run build && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juliantrueflynn/conditional_welcome_bar.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juliantrueflynn/conditional_welcome_bar/issues"
+  },
+  "homepage": "https://github.com/juliantrueflynn/conditional_welcome_bar#readme",
+  "engines": {
+    "node": "8.10.0"
+  }
+}

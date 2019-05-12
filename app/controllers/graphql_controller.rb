@@ -1,5 +1,6 @@
 class GraphqlController < ApplicationController
   def execute
+    Rails.logger.info "************* COOKIES #{request.cookies}"
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]

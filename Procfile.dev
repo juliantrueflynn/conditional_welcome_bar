@@ -1,2 +1,2 @@
-web: cd ui && npm start
-api: cd api && bundle exec rails s -p 3001
+web: PORT=3000 npm --prefix ui run start
+api: PORT=3001 bundle exec rails s

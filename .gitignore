@@ -5,14 +5,14 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-api/.bundle
+.bundle
 
 # Ignore all logfiles and tempfiles.
-api/config/secrets.yml
-api/log/*
-api/tmp/*
-!api/log/.keep
-!api/tmp/.keep
+config/secrets.yml
+log/*
+tmp/*
+!log/.keep
+!tmp/.keep
 
 # Ignore uploaded files in development
 /storage/*
@@ -21,7 +21,7 @@ api/tmp/*
 /node_modules
 /yarn-error.log
 
-api/public/assets
+public/assets
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
@@ -34,8 +34,3 @@ config/master.key
 .rspec
 api/public/uploads
 
-# Ignore for client directory
-.next
-now.json
-.coverage
-.build/*
