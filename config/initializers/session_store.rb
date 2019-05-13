@@ -1,1 +1,0 @@
-Rails.application.config.session_store(:cookie_store, key: '_cwb_session', expire_after: 14.days)

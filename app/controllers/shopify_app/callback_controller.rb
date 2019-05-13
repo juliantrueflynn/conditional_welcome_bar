@@ -60,16 +60,6 @@ module ShopifyApp
       session[:shopify_user] = associated_user
     end
 
-    def install_webhooks
-      return unless ShopifyApp.configuration.has_webhooks?
-
-      WebhooksManager.queue(
-        shop_name,
-        token,
-        ShopifyApp.configuration.webhooks
-      )
-    end
-
     def install_scripttags
       return unless ShopifyApp.configuration.has_scripttags?
 

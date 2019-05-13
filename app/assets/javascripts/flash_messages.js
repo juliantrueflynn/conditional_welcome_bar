@@ -1,8 +1,8 @@
-var eventName = typeof(Turbolinks) !== 'undefined' ? 'turbolinks:load' : 'DOMContentLoaded';
+document.addEventListener('DOMContentLoaded', function flash() {
+  var flashElement = document.getElementById('shopify-app-flash');
 
-if (!document.documentElement.hasAttribute("data-turbolinks-preview")) {
-  document.addEventListener(eventName, function flash() {
-    var flash = JSON.parse(document.getElementById('shopify-app-flash').dataset.flash);
+  if (flashElement) {
+    var flash = JSON.parse(flashElement.dataset.flash);
 
     if (flash.notice) {
       ShopifyApp.flashNotice(flash.notice);
@@ -12,6 +12,6 @@ if (!document.documentElement.hasAttribute("data-turbolinks-preview")) {
       ShopifyApp.flashError(flash.error);
     }
 
-    document.removeEventListener(eventName, flash)
-  });
-}
+    document.removeEventListener('DOMContentLoaded', flash);
+  }
+});

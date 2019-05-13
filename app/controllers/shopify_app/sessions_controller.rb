@@ -7,7 +7,6 @@ module ShopifyApp
     end
 
     def new
-      Rails.logger.info "************** #{login_url(top_level: true)}"
       authenticate if sanitized_shop_name.present?
     end
 
