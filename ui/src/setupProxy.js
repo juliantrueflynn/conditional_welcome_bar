@@ -4,6 +4,7 @@ module.exports = function(app) {
   const { REACT_APP_API_HOST_URL } = process.env;
   const proxyPaths = [
     '/api',
+    '/graphql',
     '/login',
     '/logout',
     '/auth/shopify',

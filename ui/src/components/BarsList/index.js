@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { ResourceList, EmptyState, Card } from '@shopify/polaris';
 import BarsListItem from '../BarsListItem';
 
-const BarsList = ({ bars, createWelcomeBar, isActionLoading, navigateToBar, isLoading }) => {
+const BarsList = ({ bars, createWelcomeBar, isActionLoading, navigateToBar }) => {
   const resourceName = {
     singular: 'Welcome bar',
     plural: 'Welcome bars',
   };
 
-  if (!isLoading && (!bars || !bars.length)) {
+  if (!bars.length) {
     const emptyStateAction = {
       content: 'Create first bar',
       onAction: createWelcomeBar,
@@ -43,7 +43,6 @@ BarsList.propTypes = {
   isActionLoading: PropTypes.bool.isRequired,
   createWelcomeBar: PropTypes.func.isRequired,
   navigateToBar: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 };
 
 export default BarsList;

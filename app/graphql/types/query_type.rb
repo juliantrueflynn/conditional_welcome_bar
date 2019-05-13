@@ -7,7 +7,7 @@ module Types
       Shop.find_by_shopify_domain(shopify_domain)
     end
 
-    field :bars, Types::BarType, null: false do
+    field :bars, [Types::BarType], null: false do
       argument :shopify_domain, String, required: false
     end
     def bars(shopify_domain:)
