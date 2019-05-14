@@ -2,47 +2,21 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import { Page, Form } from '@shopify/polaris';
-import { decamelizeKeys } from 'humps';
-import SingleBarFormFields from '../../components/SingleBarFormFields';
-import { apiUpdateBar } from '../../util/apiUtil';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
-import { convertFromHSBA, convertToHSBA } from '../../util/colorPickerUtil';
+import { convertFromHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
+import SingleBarFormFields from '../../components/SingleBarFormFields';
 
-const INITIAL_HSBA_COLOR = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
-const INITIAL_COLORS_STATE = { textHSBA: INITIAL_HSBA_COLOR, backgroundHSBA: INITIAL_HSBA_COLOR };
-
-const SingleBar = ({ bar }) => {
-  const [barAttributes, setBarAttributes] = useState({
-    ...bar,
-    ...convertToHSBA(bar),
-  });
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [hasDirtyState, setHasDirtyState] = useState(false);
+const SingleBar = ({ bar, isUpdating, formData, updateBar, hasDirtyState, setHasDirtyState }) => {
+  const [barAttributes, setBarAttributes] = useState(bar);
   const [backgroundFile, setBackgroundFile] = useState(null);
   const [colors, setColors] = useState(INITIAL_COLORS_STATE);
-
-  const { toggleModal, toggleToast } = useContext(OverlaysContext);
-
-  const getFormData = () => {
-    const nextState = decamelizeKeys({ ...barAttributes, ...convertFromHSBA(colors) });
-    const formData = new FormData();
-
-    Object.keys(nextState).forEach((key) => {
-      formData.append(`bar[${key}]`, nextState[key]);
-    });
-
-    return formData;
-  };
+  const { toggleModal } = useContext(OverlaysContext);
 
   const handleFormSubmit = () => {
-    setIsUpdating(true);
+    const nextBar = { ...barAttributes, ...convertFromHSBA(barAttributes) };
+    const { id, backgroundHSBA, textHSBA, ...attributes } = nextBar;
 
-    apiUpdateBar(barAttributes.id, getFormData()).then((json) => {
-      setBarAttributes(json);
-      setHasDirtyState(false);
-      setIsUpdating(false);
-      toggleToast('Welcome bar updated');
-    });
+    updateBar({ variables: { input: { id, ...attributes } } });
   };
 
   const handleValueChange = (value, id) => {
@@ -100,28 +74,48 @@ const SingleBar = ({ bar }) => {
     loading: isUpdating,
   };
 
+  const {
+    updateBar: { errors },
+  } = formData;
+
   return (
-    <Page
-      title={barAttributes.title}
-      primaryAction={primaryAction}
-      secondaryActions={secondaryActions}
-    >
-      <Form onSubmit={handleFormSubmit}>
-        <SingleBarFormFields
-          updateFieldValue={handleValueChange}
-          updateColorPickerValue={handleColorPickerValueChange}
-          updateImageUpload={handleImageUpload}
-          backgroundFile={backgroundFile}
-          {...colors}
-          {...barAttributes}
-        />
-      </Form>
-    </Page>
+    <>
+      {errors.map((error) => error)}
+      <Page title={bar.title} primaryAction={primaryAction} secondaryActions={secondaryActions}>
+        <Form onSubmit={handleFormSubmit}>
+          <SingleBarFormFields
+            updateFieldValue={handleValueChange}
+            updateColorPickerValue={handleColorPickerValueChange}
+            updateImageUpload={handleImageUpload}
+            backgroundFile={backgroundFile}
+            {...colors}
+            {...barAttributes}
+          />
+        </Form>
+      </Page>
+    </>
   );
 };
 
 SingleBar.propTypes = {
   bar: PropTypes.instanceOf(Object),
+  isUpdating: PropTypes.bool.isRequired,
+  updateBar: PropTypes.func.isRequired,
+  hasDirtyState: PropTypes.bool.isRequired,
+  setHasDirtyState: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    updateBar: PropTypes.shape({
+      errors: PropTypes.instanceOf(Array),
+    }),
+  }),
+};
+
+SingleBar.defaultProps = {
+  formData: {
+    updateBar: {
+      errors: [],
+    },
+  },
 };
 
 export default SingleBar;

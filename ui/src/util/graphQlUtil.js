@@ -20,6 +20,7 @@ export const GET_SINGLE_BAR = gql`
       content
       url
       placement
+      isActive
       isSticky
       isFullWidthLink
       isNewTabUrl
@@ -32,14 +33,47 @@ export const GET_SINGLE_BAR = gql`
       textColor
       fontSize
       backgroundColor
+      backgroundOpacity
       backgroundImage
       backgroundImageRepeat
       backgroundImageSizeX
       backgroundImageSizeY
       backgroundImagePositionX
       backgroundImagePositionY
-      createdAt
-      updatedAt
+    }
+  }
+`;
+
+export const UPDATE_BAR = gql`
+  mutation UpdateBar($input: UpdateBarInput!) {
+    updateBar(input: $input) {
+      bar {
+        title
+        content
+        url
+        placement
+        isActive
+        isSticky
+        isFullWidthLink
+        isNewTabUrl
+        pageTemplates
+        hasCloseButton
+        paddingY
+        paddingX
+        textAlign
+        textOpacity
+        textColor
+        fontSize
+        backgroundColor
+        backgroundOpacity
+        backgroundImage
+        backgroundImageRepeat
+        backgroundImageSizeX
+        backgroundImageSizeY
+        backgroundImagePositionX
+        backgroundImagePositionY
+      }
+      errors
     }
   }
 `;

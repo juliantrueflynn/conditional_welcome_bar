@@ -29,7 +29,7 @@ const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
 };
 
 BarsListItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,

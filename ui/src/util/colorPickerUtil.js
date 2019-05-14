@@ -1,6 +1,13 @@
 import { hsbToHex, rgbToHsb } from '@shopify/polaris';
 import hexToRgb from 'hex-to-rgb';
 
+const INITIAL_HSBA_COLOR_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
+
+export const INITIAL_COLORS_STATE = {
+  textHSBA: INITIAL_HSBA_COLOR_STATE,
+  backgroundHSBA: INITIAL_HSBA_COLOR_STATE,
+};
+
 export const convertFromHSBA = ({ backgroundHSBA, textHSBA }) => {
   const { alpha: backgroundOpacity, ...backgroundHSB } = backgroundHSBA;
   const { alpha: textOpacity, ...textHSB } = textHSBA;
