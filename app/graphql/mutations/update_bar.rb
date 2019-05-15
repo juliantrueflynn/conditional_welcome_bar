@@ -1,7 +1,7 @@
 module Mutations
   class UpdateBar < GraphQL::Schema::RelayClassicMutation
     field :bar, Types::BarType, null: true
-    field :errors, [String], null: false
+    field :errors, Types::BarErrorType, null: true
 
     argument :id, ID, required: true
     argument :title, String, required: false
@@ -33,9 +33,9 @@ module Mutations
       bar = Bar.find_by_id(id)
 
       if bar && bar.update(attributes)
-        { bar: bar, errors: [] }
+        { bar: bar, errors: {} }
       else
-        { bar: nil, errors: bar.errors.full_messages }
+        { bar: nil, errors: bar.errors.to_hash }
       end
     end
   end

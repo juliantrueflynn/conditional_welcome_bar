@@ -10,6 +10,9 @@ const SingleBarFormFields = ({
   updateFieldValue,
   updateColorPickerValue,
   updateImageUpload,
+  updateChoiceListValue,
+  dirtyInputs,
+  errors,
   ...fields
 }) => (
   <Layout>
@@ -22,6 +25,7 @@ const SingleBarFormFields = ({
             label="Title"
             placeholder="Title"
             onChange={updateFieldValue}
+            error={!dirtyInputs.title && errors.title}
           />
           <TextField
             value={fields.content}
@@ -30,6 +34,7 @@ const SingleBarFormFields = ({
             placeholder="Start typing..."
             onChange={updateFieldValue}
             multiline
+            error={!dirtyInputs.content && errors.content}
           />
         </FormLayout>
       </Card>
@@ -46,6 +51,7 @@ const SingleBarFormFields = ({
             checked={fields.isActive}
             id="isActive"
             onChange={updateFieldValue}
+            error={!dirtyInputs.isActive && errors.isActive}
           />
           <ChoiceList
             title="Page visibility"
@@ -58,8 +64,9 @@ const SingleBarFormFields = ({
             ]}
             selected={fields.pageTemplates}
             name="pageTemplates"
-            onChange={updateFieldValue}
+            onChange={updateChoiceListValue}
             allowMultiple
+            error={!dirtyInputs.pageTemplates && errors.pageTemplates}
           />
         </FormLayout>
       </Card>
@@ -74,6 +81,7 @@ const SingleBarFormFields = ({
             type="url"
             placeholder="https://example.com"
             onChange={updateFieldValue}
+            error={!dirtyInputs.url && errors.url}
           />
           {fields.url && (
             <Checkbox
@@ -81,6 +89,7 @@ const SingleBarFormFields = ({
               id="isNewTabUrl"
               checked={fields.isNewTabUrl}
               onChange={updateFieldValue}
+              error={!dirtyInputs.isNewTabUrl && errors.isNewTabUrl}
             />
           )}
           {fields.url && (
@@ -90,6 +99,7 @@ const SingleBarFormFields = ({
               id="isFullWidthLink"
               checked={fields.isFullWidthLink}
               onChange={updateFieldValue}
+              error={!dirtyInputs.isFullWidthLink && errors.isFullWidthLink}
             />
           )}
         </FormLayout>
@@ -103,7 +113,8 @@ const SingleBarFormFields = ({
             choices={[{ label: 'Top', value: 'top' }, { label: 'Bottom', value: 'bottom' }]}
             selected={[fields.placement]}
             name="placement"
-            onChange={updateFieldValue}
+            onChange={updateChoiceListValue}
+            error={!dirtyInputs.placement && errors.placement}
           />
           <Checkbox
             label="Is sticky bar"
@@ -111,6 +122,7 @@ const SingleBarFormFields = ({
             checked={fields.isSticky}
             id="isSticky"
             onChange={updateFieldValue}
+            error={!dirtyInputs.isSticky && errors.isSticky}
           />
           <TextField
             value={fields.paddingY}
@@ -119,6 +131,7 @@ const SingleBarFormFields = ({
             id="paddingY"
             placeholder="100px, 3em, or 50%"
             onChange={updateFieldValue}
+            error={!dirtyInputs.paddingY && errors.paddingY}
           />
           <TextField
             value={fields.paddingX}
@@ -127,12 +140,14 @@ const SingleBarFormFields = ({
             id="paddingX"
             placeholder="100px, 3em, or 50%"
             onChange={updateFieldValue}
+            error={!dirtyInputs.paddingX && errors.paddingX}
           />
           <Checkbox
             label="Show close button"
             checked={fields.hasCloseButton}
             id="hasCloseButton"
             onChange={updateFieldValue}
+            error={!dirtyInputs.hasCloseButton && errors.hasCloseButton}
           />
         </FormLayout>
       </Card>
@@ -145,6 +160,7 @@ const SingleBarFormFields = ({
             label="Text color"
             color={fields.textHSBA}
             updateColorPicker={updateColorPickerValue}
+            error={!dirtyInputs.textHSBA && errors.textHSBA}
           />
           <ChoiceList
             title="Alignment"
@@ -155,7 +171,8 @@ const SingleBarFormFields = ({
             ]}
             name="textAlign"
             selected={[fields.textAlign]}
-            onChange={updateFieldValue}
+            onChange={updateChoiceListValue}
+            error={!dirtyInputs.textAlign && errors.textAlign}
           />
           <TextField
             value={fields.fontSize}
@@ -164,6 +181,7 @@ const SingleBarFormFields = ({
             id="fontSize"
             placeholder="14px, 1em, or 120%"
             onChange={updateFieldValue}
+            error={!dirtyInputs.fontSize && errors.fontSize}
           />
         </FormLayout>
       </Card>
@@ -179,11 +197,13 @@ const SingleBarFormFields = ({
             label="Background color"
             color={fields.backgroundHSBA}
             updateColorPicker={updateColorPickerValue}
+            error={!dirtyInputs.backgroundHSBA && errors.backgroundHSBA}
           />
           <FileUploadField
             updateImageUpload={updateImageUpload}
             backgroundImage={fields.backgroundImage}
             backgroundFile={fields.backgroundFile}
+            error={!dirtyInputs.backgroundImage && errors.backgroundImage}
           />
           {fields.backgroundImage && (
             <>
@@ -194,6 +214,7 @@ const SingleBarFormFields = ({
                 id="backgroundImageSizeY"
                 placeholder="center"
                 onChange={updateFieldValue}
+                error={!dirtyInputs.backgroundImagePositionY && errors.backgroundImagePositionY}
               />
               <TextField
                 value={fields.backgroundImagePositionX}
@@ -202,6 +223,7 @@ const SingleBarFormFields = ({
                 id="backgroundImageSizeY"
                 placeholder="center"
                 onChange={updateFieldValue}
+                error={!dirtyInputs.backgroundImagePositionX && errors.backgroundImagePositionX}
               />
               <TextField
                 value={fields.backgroundImageSizeY}
@@ -210,6 +232,7 @@ const SingleBarFormFields = ({
                 id="backgroundImageSizeY"
                 placeholder={SIZE_PLACEHOLDER}
                 onChange={updateFieldValue}
+                error={!dirtyInputs.backgroundImageSizeY && errors.backgroundImageSizeY}
               />
               <TextField
                 value={fields.backgroundImageSizeX}
@@ -218,6 +241,7 @@ const SingleBarFormFields = ({
                 id="backgroundImageSizeX"
                 placeholder={SIZE_PLACEHOLDER}
                 onChange={updateFieldValue}
+                error={!dirtyInputs.backgroundImageSizeX && errors.backgroundImageSizeX}
               />
               <ChoiceList
                 title="Image repeat"
@@ -229,7 +253,8 @@ const SingleBarFormFields = ({
                 ]}
                 name="backgroundImageRepeat"
                 selected={[fields.backgroundImageRepeat]}
-                onChange={updateFieldValue}
+                onChange={updateChoiceListValue}
+                error={!dirtyInputs.backgroundImageRepeat && errors.backgroundImageRepeat}
               />
             </>
           )}
@@ -243,6 +268,9 @@ SingleBarFormFields.propTypes = {
   updateFieldValue: PropTypes.func.isRequired,
   updateColorPickerValue: PropTypes.func.isRequired,
   updateImageUpload: PropTypes.func.isRequired,
+  updateChoiceListValue: PropTypes.func.isRequired,
+  dirtyInputs: PropTypes.instanceOf(Object).isRequired,
+  errors: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default SingleBarFormFields;

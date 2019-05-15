@@ -6,7 +6,16 @@ import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
 import { convertFromHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
 import SingleBarFormFields from '../../components/SingleBarFormFields';
 
-const SingleBar = ({ bar, isUpdating, formData, updateBar, hasDirtyState, setHasDirtyState }) => {
+const SingleBar = ({
+  bar,
+  isUpdating,
+  formData,
+  updateBar,
+  hasDirtyState,
+  setHasDirtyState,
+  dirtyInputs,
+  updateDirtyInputs,
+}) => {
   const [barAttributes, setBarAttributes] = useState(bar);
   const [backgroundFile, setBackgroundFile] = useState(null);
   const [colors, setColors] = useState(INITIAL_COLORS_STATE);
@@ -15,24 +24,34 @@ const SingleBar = ({ bar, isUpdating, formData, updateBar, hasDirtyState, setHas
   const handleFormSubmit = () => {
     const nextBar = { ...barAttributes, ...convertFromHSBA(barAttributes) };
     const { id, backgroundHSBA, textHSBA, ...attributes } = nextBar;
-
     updateBar({ variables: { input: { id, ...attributes } } });
   };
 
   const handleValueChange = (value, id) => {
-    if (Array.isArray(value)) {
-      setHasDirtyState(!isEqual(bar[id], value));
-    } else {
-      setHasDirtyState(bar[id] !== value);
+    setHasDirtyState(bar[id] !== value);
+    setBarAttributes({ ...barAttributes, [id]: value });
+    updateDirtyInputs(id);
+  };
+
+  const handleChoiceListValueChange = (value, id) => {
+    let selected = value[0];
+    let hasChanged = bar[id] !== value[0];
+
+    if (Array.isArray(bar[id])) {
+      selected = value;
+      hasChanged = !isEqual(bar[id], value);
     }
 
-    setBarAttributes({ ...barAttributes, [id]: value });
+    setHasDirtyState(hasChanged);
+    setBarAttributes({ ...barAttributes, [id]: selected });
+    updateDirtyInputs(id);
   };
 
   const handleColorPickerValueChange = (color, id) => {
     const nextColors = { ...colors, [id]: color };
     setColors(nextColors);
     setHasDirtyState(true);
+    updateDirtyInputs(id);
   };
 
   const handleImageUpload = (_, acceptedFiles) => {
@@ -74,26 +93,22 @@ const SingleBar = ({ bar, isUpdating, formData, updateBar, hasDirtyState, setHas
     loading: isUpdating,
   };
 
-  const {
-    updateBar: { errors },
-  } = formData;
-
   return (
-    <>
-      {errors.map((error) => error)}
-      <Page title={bar.title} primaryAction={primaryAction} secondaryActions={secondaryActions}>
-        <Form onSubmit={handleFormSubmit}>
-          <SingleBarFormFields
-            updateFieldValue={handleValueChange}
-            updateColorPickerValue={handleColorPickerValueChange}
-            updateImageUpload={handleImageUpload}
-            backgroundFile={backgroundFile}
-            {...colors}
-            {...barAttributes}
-          />
-        </Form>
-      </Page>
-    </>
+    <Page title={bar.title} primaryAction={primaryAction} secondaryActions={secondaryActions}>
+      <Form onSubmit={handleFormSubmit}>
+        <SingleBarFormFields
+          updateFieldValue={handleValueChange}
+          updateColorPickerValue={handleColorPickerValueChange}
+          updateChoiceListValue={handleChoiceListValueChange}
+          updateImageUpload={handleImageUpload}
+          backgroundFile={backgroundFile}
+          dirtyInputs={dirtyInputs}
+          errors={formData.updateBar.errors}
+          {...colors}
+          {...barAttributes}
+        />
+      </Form>
+    </Page>
   );
 };
 
@@ -105,7 +120,7 @@ SingleBar.propTypes = {
   setHasDirtyState: PropTypes.func.isRequired,
   formData: PropTypes.shape({
     updateBar: PropTypes.shape({
-      errors: PropTypes.instanceOf(Array),
+      errors: PropTypes.instanceOf(Object),
     }),
   }),
 };
@@ -113,7 +128,7 @@ SingleBar.propTypes = {
 SingleBar.defaultProps = {
   formData: {
     updateBar: {
-      errors: [],
+      errors: {},
     },
   },
 };

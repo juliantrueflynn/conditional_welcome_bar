@@ -9,15 +9,20 @@ import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
 
 const SingleBarView = ({ match: { params } }) => {
   const [hasDirtyState, setHasDirtyState] = useState(false);
+  const [dirtyInputs, setDirtyInputs] = useState({});
   const { toggleToast } = useContext(OverlaysContext);
 
-  const onFormComplete = () => {
+  const onFormComplete = (success) => {
     setHasDirtyState(false);
-    toggleToast('Welcome bar updated');
+    setDirtyInputs({});
+
+    if (success && success.updateBar.bar) {
+      toggleToast('Welcome bar updated');
+    }
   };
 
-  const onFormError = () => {
-    setHasDirtyState(false);
+  const updateDirtyInputs = (id) => {
+    setDirtyInputs({ ...dirtyInputs, [id]: true });
   };
 
   return (
@@ -36,7 +41,7 @@ const SingleBarView = ({ match: { params } }) => {
 
         return (
           <LoadingManager loadingTo="single" isLoading={loading}>
-            <Mutation mutation={UPDATE_BAR} onCompleted={onFormComplete} onError={onFormError}>
+            <Mutation mutation={UPDATE_BAR} onCompleted={onFormComplete}>
               {(updateBar, { loading: isUpdating, data: formData }) => (
                 <SingleBar
                   bar={barAttributes}
@@ -45,6 +50,8 @@ const SingleBarView = ({ match: { params } }) => {
                   formData={formData}
                   hasDirtyState={hasDirtyState}
                   setHasDirtyState={setHasDirtyState}
+                  dirtyInputs={dirtyInputs}
+                  updateDirtyInputs={updateDirtyInputs}
                 />
               )}
             </Mutation>
