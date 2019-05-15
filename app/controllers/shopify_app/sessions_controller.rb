@@ -1,5 +1,5 @@
 module ShopifyApp
-  class SessionsController < ActionController::Base # rubocop:disable Metrics/ClassLength
+  class SessionsController < ActionController::Base
     include ShopifyApp::LoginProtection
 
     after_action only: [:new, :create] do |controller|
