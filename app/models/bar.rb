@@ -43,6 +43,11 @@ class Bar < ApplicationRecord
     where(shop_id: shop) if shop
   end
 
+  def self.updatableable_columns
+    skip_columns = %w(id created_at updated_at shop_id)
+    Bar.column_names.reject { |name| skip_columns.include?(name) }
+  end
+
   after_update_commit :is_active_toggle_for_page_template
 
   private

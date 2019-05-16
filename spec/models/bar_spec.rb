@@ -38,18 +38,18 @@ RSpec.describe Bar, type: :model do
 
   context 'when not valid url' do
     it 'with space' do
-      expect(FactoryBot.build(:bar, url: 'url space.com')).to_not be_valid
+      expect(build(:bar, url: 'url space.com')).to_not be_valid
     end
 
     it 'no tld' do
-      expect(FactoryBot.build(:bar, url: 'no dot com')).to_not be_valid
+      expect(build(:bar, url: 'no dot com')).to_not be_valid
     end
   end
 
   it { is_expected.to belong_to(:shop) }
 
   context 'when :is_active updated' do
-    let!(:bars) { FactoryBot.create(:shop_with_bars).bars }
+    let!(:bars) { create(:shop_with_bars).bars }
 
     before do
       bars.first.update_columns(is_active: true)

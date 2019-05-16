@@ -1,7 +1,5 @@
 class GraphqlController < ApplicationController
   def execute
-    return if session[:shopify].blank?
-
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]

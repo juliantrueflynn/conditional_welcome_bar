@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'ActiveBars', type: :request do
   describe "#index" do
-    before(:each) { @shop = FactoryBot.create(:shop_with_bars) }
+    before(:each) { @shop = create(:shop_with_bars) }
 
     context 'when resource is found' do
       it 'responds with 200' do

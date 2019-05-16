@@ -1,22 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Shops', type: :request do
-  def login(shop)
-    OmniAuth.config.test_mode = true
-    OmniAuth.config.add_mock(
-      :shopify,
-        provider: 'shopify',
-        uid: shop.shopify_domain,
-        credentials: { token: shop.shopify_token })
-    Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:shopify]
-  
-    get '/auth/shopify'
-    follow_redirect!
-    follow_redirect!
-  end
-
   describe '#show' do
-    before(:each) { @shop = FactoryBot.create(:shop) }
+    before(:each) { @shop = create(:shop) }
 
     context 'with authorization' do
       it 'gives JSON 200 status response' do

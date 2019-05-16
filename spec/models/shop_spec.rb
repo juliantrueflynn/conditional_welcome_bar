@@ -6,14 +6,14 @@ RSpec.describe Shop, type: :model do
   it { is_expected.to validate_presence_of :shopify_domain }
 
   describe 'uniqueness' do
-    subject { FactoryBot.create(:shop) }
+    subject { create(:shop) }
     it do
       is_expected.to validate_uniqueness_of(:shopify_domain).ignoring_case_sensitivity
     end
   end
 
-  describe '#save' do
-    let!(:shop) { FactoryBot.create(:shop) }
+  context 'when #save' do
+    let!(:shop) { create(:shop) }
 
     it 'create default bar' do
       expect(shop.bars.length).to eq(1)

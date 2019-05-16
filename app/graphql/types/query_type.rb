@@ -1,21 +1,16 @@
 module Types
   class QueryType < Types::BaseObject
-    field :shop, Types::ShopType, null: true do
-      argument :shopify_domain, String, required: false
-    end
-    def shop(shopify_domain:)
-      Shop.find_by_shopify_domain(shopify_domain)
-    end
-
-    field :bars, [Types::BarType], null: false do
+    field :bars, [Types::BarType], null: true do
       argument :shopify_domain, String, required: false
     end
     def bars(shopify_domain:)
-      Bar.with_shopify_domain(shopify_domain)
+      shop = Shop.find_by_shopify_domain(shopify_domain)
+      return shop.bars if shop
+      []
     end
 
-    field :bar, Types::BarType, null: false do
-      argument :id, String, required: true
+    field :bar, Types::BarType, null: true do
+      argument :id, ID, required: true
     end
     def bar(id:)
       Bar.find_by_id(id)
