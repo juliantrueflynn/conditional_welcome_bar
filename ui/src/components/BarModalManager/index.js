@@ -41,7 +41,10 @@ const BarModalManager = ({ history, location }) => {
             destroyBar();
           }
 
-          modalAction.onAction();
+          if (modalAction.onAction) {
+            modalAction.onAction();
+          }
+
           toggleModal();
         };
 
