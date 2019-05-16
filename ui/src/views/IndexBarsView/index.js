@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
-import { shopOrigin } from '../../util/shopifyUtil';
+import { shopOrigin, isOutsideShopifyAdmin } from '../../util/shopifyUtil';
 import { GET_ALL_BARS, CREATE_BAR } from '../../util/graphQlUtil';
 import BarsList from '../../components/BarsList';
 
@@ -17,7 +17,11 @@ const IndexBarsView = ({ history, location: { search } }) => {
   const mutationInput = { input: { shopOrigin } };
 
   return (
-    <Query query={GET_ALL_BARS} variables={{ shopifyDomain: shopOrigin }}>
+    <Query
+      query={GET_ALL_BARS}
+      variables={{ shopifyDomain: shopOrigin }}
+      skip={isOutsideShopifyAdmin}
+    >
       {({ error, loading: isLoadingBars, data }) => {
         if (error) {
           return <p>Error :(</p>;
@@ -32,7 +36,7 @@ const IndexBarsView = ({ history, location: { search } }) => {
           >
             {(createBar, { loading: isCreating }) => (
               <BarsList
-                bars={data.bars}
+                bars={data && data.bars}
                 navigateToBar={navigateToBar}
                 createBar={createBar}
                 isCreating={isCreating}
