@@ -21,8 +21,8 @@ const ShopifyProvider = ({ children }) => {
       <OverlaysContextProvider>
         <ShopifyAppRouter />
         <BarModalManager />
-        {children}
         <ShopifyToast />
+        {children}
       </OverlaysContextProvider>
     </AppProvider>
   );

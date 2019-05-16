@@ -63,12 +63,7 @@ const SingleBar = ({
   const secondaryActions = [
     {
       content: 'Delete',
-      onAction: () =>
-        toggleModal({
-          type: 'delete',
-          title: 'Delete confirmation',
-          message: 'Are you sure you want to delete this welcome bar?',
-        }),
+      onAction: () => toggleModal({ type: 'delete', title: 'Delete welcome bar?' }),
       destructive: true,
     },
     {
@@ -76,8 +71,7 @@ const SingleBar = ({
       onAction: () =>
         toggleModal({
           type: 'discard',
-          title: 'Discard changes confirmation',
-          message: 'Are you sure you want to discard all unsaved changes?',
+          title: 'Discard unsaved changes?',
           onAction: () => {
             setBarAttributes(bar);
             setHasDirtyState(false);

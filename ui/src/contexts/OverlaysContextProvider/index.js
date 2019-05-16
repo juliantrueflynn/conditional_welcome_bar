@@ -1,11 +1,7 @@
 import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-const INITIAL_MODAL_BAR_ACTION_STATE = {
-  type: '',
-  title: '',
-  message: '',
-};
+const INITIAL_MODAL_BAR_ACTION_STATE = { type: '', title: '' };
 const INITIAL_OVERLAY_STATE = Object.freeze({
   toggleModal: () => {},
   toggleToast: () => {},

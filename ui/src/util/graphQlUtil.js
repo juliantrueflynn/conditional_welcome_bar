@@ -70,3 +70,13 @@ export const UPDATE_BAR = gql`
     }
   }
 `;
+
+export const DESTROY_BAR = gql`
+  mutation DestroyBar($input: DestroyBarInput!) {
+    destroyBar(input: $input) {
+      bar {
+        id
+      }
+    }
+  }
+`;

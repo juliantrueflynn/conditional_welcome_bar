@@ -7,7 +7,7 @@ const BarsList = ({ bars, createBar, isCreating, isLoadingBars, navigateToBar })
   const primaryAction = {
     content: 'Create welcome bar',
     onAction: createBar,
-    loading: isCreating,
+    loading: isLoadingBars || isCreating,
   };
 
   const resourceName = {

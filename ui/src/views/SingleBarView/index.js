@@ -21,9 +21,7 @@ const SingleBarView = ({ match: { params } }) => {
     }
   };
 
-  const updateDirtyInputs = (id) => {
-    setDirtyInputs({ ...dirtyInputs, [id]: true });
-  };
+  const updateDirtyInputs = (id) => setDirtyInputs({ ...dirtyInputs, [id]: true });
 
   return (
     <Query query={GET_SINGLE_BAR} variables={{ id: params.barId }}>

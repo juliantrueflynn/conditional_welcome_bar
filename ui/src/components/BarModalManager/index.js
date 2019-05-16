@@ -1,59 +1,69 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { matchPath } from 'react-router';
-import PropTypes from 'prop-types';
 import { Modal } from '@shopify/polaris';
-import { apiDestroy } from '../../util/apiUtil';
+import { Mutation } from 'react-apollo';
+import { DESTROY_BAR } from '../../util/graphQlUtil';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
 
 const BarModalManager = ({ history, location }) => {
-  const [isUpdating, setIsUpdating] = useState(false);
   const { toggleModal, toggleToast, modalAction } = useContext(OverlaysContext);
 
-  const match = matchPath(location.pathname, {
-    path: '/bars/:barId',
-  });
+  let match;
 
-  const handleDestroyClick = () => {
-    setIsUpdating(true);
-
-    apiDestroy(`bars/${match.params.barId}`).then(() => {
-      toggleModal();
-      toggleToast('Welcome bar deleted');
-      history.push({ pathname: '/', search: location.search });
-    });
-  };
-
-  const onAction = () => {
-    if (modalAction.type === 'delete') {
-      return handleDestroyClick();
-    }
-
-    modalAction.onAction();
-    toggleModal();
-  };
+  if (modalAction.type === 'delete') {
+    match = matchPath(location.pathname, { path: '/bars/:barId' });
+  }
 
   const capitalizeFirstLetter = () =>
     modalAction.type.charAt(0).toUpperCase() + modalAction.type.slice(1);
 
   const isOpen = !!modalAction.type;
-  const primaryAction = {
-    content: capitalizeFirstLetter(),
-    onAction,
-    loading: isUpdating,
-    destructive: true,
-  };
+
   const secondaryAction = [{ content: 'Close', onAction: toggleModal }];
 
+  const onCompleted = (response) => {
+    if (response.destroyBar.bar) {
+      toggleModal();
+      toggleToast('Welcome bar deleted');
+      history.push({ pathname: '/', search: location.search });
+    }
+  };
+
+  const mutationInput = { input: { id: match && match.params.barId } };
+
   return (
-    <Modal
-      open={isOpen}
-      onClose={toggleModal}
-      title={modalAction.title}
-      message={modalAction.message}
-      primaryAction={primaryAction}
-      secondaryActions={secondaryAction}
-    />
+    <Mutation mutation={DESTROY_BAR} variables={mutationInput} onCompleted={onCompleted}>
+      {(destroyBar, { loading }) => {
+        const onAction = () => {
+          if (modalAction.type === 'delete') {
+            destroyBar();
+          }
+
+          modalAction.onAction();
+          toggleModal();
+        };
+
+        const primaryAction = {
+          content: capitalizeFirstLetter(),
+          onAction,
+          destructive: true,
+          loading: modalAction.type === 'delete' ? loading : undefined,
+        };
+
+        return (
+          <Modal
+            open={isOpen}
+            onClose={toggleModal}
+            title={modalAction.title}
+            message="This action cannot be undone."
+            primaryAction={primaryAction}
+            secondaryActions={secondaryAction}
+          />
+        );
+      }}
+    </Mutation>
   );
 };
 
