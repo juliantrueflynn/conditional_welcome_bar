@@ -15,30 +15,33 @@ RSpec.describe 'Shops', type: :request do
     follow_redirect!
   end
 
-  let!(:api_path) { '/api/shops' }
-
-  describe 'SHOW /api/shops/:shopify_domain' do
+  describe '#show' do
     before(:each) { @shop = FactoryBot.create(:shop) }
-    let!(:valid_url) { "#{api_path}/#{@shop.shopify_domain}" }
 
     context 'with authorization' do
-      it 'allows user' do
+      it 'gives JSON 200 status response' do
         login(@shop)
-        get valid_url
-
+        get "/api/shops/#{@shop.shopify_domain}"
         expect(JSON.parse(response.body)['status']).to eq(200)
+      end
+
+      it 'restricts access to current user shopify domain' do
+        login(@shop)
+        get '/api/shops/not-users-shopify-domain.myshopify.com'
+        expect(response).to have_http_status(404)
+        expect(JSON.parse(response.body)['status']).to eq(404)
       end
     end
 
     context 'without authorization' do
-      it 'does not allow user' do
-        get valid_url
+      it 'tells user to redirect' do
+        get "/api/shops/#{@shop.shopify_domain}"
         expect(JSON.parse(response.body)['status']).to eq(302)
       end
     end
 
     it 'sets csrf cookie' do
-      get valid_url
+      get "/api/shops/#{@shop.shopify_domain}"
       expect(response.cookies['cwb_csrf']).to_not be_nil
     end
   end

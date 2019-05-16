@@ -39,15 +39,5 @@ FactoryBot.define do
         create_list(:bar, evaluator.bars_count, shop: shop)
       end
     end
-
-    factory :shop_bars_mixed_templates do
-      transient do
-        bars_count { 3 }
-      end
-
-      after(:create) do |shop, evaluator|
-        create_list(:bar, evaluator.bars_count, shop: shop)
-      end
-    end
   end
 end
