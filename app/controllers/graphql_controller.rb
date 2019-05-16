@@ -1,9 +1,11 @@
 class GraphqlController < ApplicationController
   def execute
+    return if session[:shopify].blank?
+
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = { shop: session[:shop] }
+    context = { shop: session[:shopify] }
     result = WelcomeBarAppSchema.execute(
       query,
       variables: variables,
@@ -40,7 +42,8 @@ class GraphqlController < ApplicationController
   def handle_error_in_development(e)
     logger.error e.message
     logger.error e.backtrace.join("\n")
+    json = { error: { message: e.message, backtrace: e.backtrace }, data: {} }
 
-    render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+    render json: json, status: 500
   end
 end

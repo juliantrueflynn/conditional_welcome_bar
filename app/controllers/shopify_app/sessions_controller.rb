@@ -1,6 +1,6 @@
 module ShopifyApp
-  class SessionsController < ActionController::Base # rubocop:disable Metrics/ClassLength
-    include ShopifyApp::LoginProtection
+  class SessionsController < ActionController::Base
+    include ShopifyApp::EnsureLoggedIn
 
     after_action only: [:new, :create] do |controller|
       controller.response.headers.except!('X-Frame-Options')
@@ -104,12 +104,10 @@ module ShopifyApp
     end
 
     def authenticate_in_context?
-      return true unless ShopifyApp.configuration.embedded_app?
-      params[:top_level]
+      !!params[:top_level]
     end
 
     def request_storage_access?
-      return false unless ShopifyApp.configuration.embedded_app?
       return false if params[:top_level]
       return false if user_agent_is_mobile
       return false if user_agent_is_pos

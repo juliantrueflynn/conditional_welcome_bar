@@ -1,6 +1,6 @@
 class Api::BarsController < ApplicationController
-  include ShopifyApp::Authenticated
-  include EnsureShopOriginCookie
+  include ShopifyApp::Authenticate
+  include ShopifyApp::EnsureShopOriginCookie
 
   before_action :set_bar, only: [:show, :update, :destroy]
 

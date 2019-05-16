@@ -1,7 +1,7 @@
 module ShopifyApp
   class CallbackController < ActionController::Base
-    include ShopifyApp::LoginProtection
-    include EnsureShopOriginCookie
+    include ShopifyApp::EnsureLoggedIn
+    include ShopifyApp::EnsureShopOriginCookie
 
     def callback
       if auth_hash
@@ -10,6 +10,7 @@ module ShopifyApp
         perform_after_authenticate_job
 
         set_shop_origin_cookie(shop_name)
+        cookies.delete 'shopify.granted_storage_access'
 
         redirect_to '/'
       else
@@ -45,6 +46,7 @@ module ShopifyApp
 
     def reset_session_options
       request.session_options[:renew] = true
+      cookies.delete 'cwb_csrf'
       session.delete(:_csrf_token)
     end
 
