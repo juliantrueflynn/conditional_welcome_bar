@@ -21,7 +21,7 @@ const App = () => {
         if (res.status === 302) {
           window.location.assign(`${LOGIN_URL}?shop=${shopOrigin}`);
           return;
-        } else if (res.status === 'fail') {
+        } else if (res.status === 404) {
           window.location.assign(LOGIN_URL);
         } else {
           setIsLoading(false);

@@ -1,21 +1,45 @@
 require 'rails_helper'
 
 RSpec.describe 'Shops', type: :request do
-  describe 'CREATE /shop' do
-    let!(:path) { "#{ENV['API_URL']}/api/shop" }
+  def login(shop)
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.add_mock(
+      :shopify,
+        provider: 'shopify',
+        uid: shop.shopify_domain,
+        credentials: { token: shop.shopify_token })
+    Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:shopify]
+  
+    get '/auth/shopify'
+    follow_redirect!
+    follow_redirect!
+  end
 
-    it 'when valid attributes' do
-      expect {
-        shop = FactoryBot.attributes_for(:shop)
-        post path, params: shop
-      }.to change(Shop, :count).by(1)
+  let!(:api_path) { '/api/shops' }
+
+  describe 'SHOW /api/shops/:shopify_domain' do
+    before(:each) { @shop = FactoryBot.create(:shop) }
+    let!(:valid_url) { "#{api_path}/#{@shop.shopify_domain}" }
+
+    context 'with authorization' do
+      it 'allows user' do
+        login(@shop)
+        get valid_url
+
+        expect(JSON.parse(response.body)['status']).to eq(200)
+      end
     end
 
-    it 'when not valid attributes' do
-      expect {
-        invalid_params = { shop: { shopify_domain: nil } }
-        post path, params: invalid_params
-      }.to_not change(Shop, :count)
+    context 'without authorization' do
+      it 'does not allow user' do
+        get valid_url
+        expect(JSON.parse(response.body)['status']).to eq(302)
+      end
+    end
+
+    it 'sets csrf cookie' do
+      get valid_url
+      expect(response.cookies['cwb_csrf']).to_not be_nil
     end
   end
 end
