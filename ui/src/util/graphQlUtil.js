@@ -48,6 +48,16 @@ export const GET_SINGLE_BAR = gql`
   }
 `;
 
+export const CREATE_BAR = gql`
+  mutation UpdateBar($input: CreateBarInput!) {
+    createBar(input: $input) {
+      bar {
+        id
+      }
+    }
+  }
+`;
+
 export const UPDATE_BAR = gql`
   mutation UpdateBar($input: UpdateBarInput!) {
     updateBar(input: $input) {

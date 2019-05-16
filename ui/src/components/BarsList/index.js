@@ -1,48 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ResourceList, EmptyState, Card } from '@shopify/polaris';
+import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
 import BarsListItem from '../BarsListItem';
 
-const BarsList = ({ bars, createWelcomeBar, isActionLoading, navigateToBar }) => {
+const BarsList = ({ bars, createBar, isCreating, isLoadingBars, navigateToBar }) => {
+  const primaryAction = {
+    content: 'Create welcome bar',
+    onAction: createBar,
+    loading: isCreating,
+  };
+
   const resourceName = {
     singular: 'Welcome bar',
     plural: 'Welcome bars',
   };
 
-  if (!bars.length) {
-    const emptyStateAction = {
-      content: 'Create first bar',
-      onAction: createWelcomeBar,
-      loading: isActionLoading,
-    };
-
-    return (
-      <EmptyState
-        heading="Create welcome bar to start"
-        action={emptyStateAction}
-        image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
-      >
-        <p>Create your first welcome bar!</p>
-      </EmptyState>
-    );
-  }
+  const hasBars = !!bars.length;
+  const hasEmptyState = !isLoadingBars && !hasBars;
 
   return (
-    <Card>
-      <ResourceList
-        resourceName={resourceName}
-        items={bars}
-        renderItem={(bar) => <BarsListItem {...bar} navigateToBar={navigateToBar} />}
-      />
-    </Card>
+    <Page title="Home" primaryAction={primaryAction}>
+      <Layout>
+        <Layout.Section>
+          {hasEmptyState && (
+            <EmptyState
+              heading="Create welcome bar to start"
+              action={primaryAction}
+              image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
+            >
+              <p>Create your first welcome bar!</p>
+            </EmptyState>
+          )}
+          {hasBars && (
+            <Card>
+              <ResourceList
+                resourceName={resourceName}
+                items={bars}
+                renderItem={(bar) => <BarsListItem {...bar} navigateToBar={navigateToBar} />}
+              />
+            </Card>
+          )}
+        </Layout.Section>
+      </Layout>
+    </Page>
   );
 };
 
 BarsList.propTypes = {
-  bars: PropTypes.instanceOf(Array).isRequired,
-  isActionLoading: PropTypes.bool.isRequired,
-  createWelcomeBar: PropTypes.func.isRequired,
+  bars: PropTypes.instanceOf(Array),
+  createBar: PropTypes.func.isRequired,
+  isCreating: PropTypes.bool.isRequired,
+  isLoadingBars: PropTypes.bool.isRequired,
   navigateToBar: PropTypes.func.isRequired,
+};
+
+BarsList.defaultProps = {
+  bars: [],
 };
 
 export default BarsList;
