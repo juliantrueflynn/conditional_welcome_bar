@@ -3,11 +3,10 @@ class GraphqlController < ApplicationController
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = { shop: session[:shopify] }
     result = WelcomeBarAppSchema.execute(
       query,
       variables: variables,
-      context: context,
+      context: {},
       operation_name: operation_name
     )
 

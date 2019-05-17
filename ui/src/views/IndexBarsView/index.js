@@ -27,6 +27,10 @@ const IndexBarsView = ({ history, location: { search } }) => {
           return <p>Error :(</p>;
         }
 
+        if (isOutsideShopifyAdmin) {
+          return null;
+        }
+
         return (
           <Mutation
             mutation={CREATE_BAR}
@@ -36,7 +40,7 @@ const IndexBarsView = ({ history, location: { search } }) => {
           >
             {(createBar, { loading: isCreating }) => (
               <BarsList
-                bars={data && data.bars}
+                bars={data.bars}
                 navigateToBar={navigateToBar}
                 createBar={createBar}
                 isCreating={isCreating}
