@@ -1,2 +1,1 @@
-web: cd public && ruby -run -e httpd . -p 3001
 api: PORT=3000 bundle exec rails s
