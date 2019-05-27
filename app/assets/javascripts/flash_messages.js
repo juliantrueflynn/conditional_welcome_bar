@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', function flash() {
   var flashElement = document.getElementById('shopify-app-flash');
 
   if (flashElement) {
-    var flash = JSON.parse(flashElement.dataset.flash);
+    var flashJSON = JSON.parse(flashElement.dataset.flash);
 
     if (flash.notice) {
-      ShopifyApp.flashNotice(flash.notice);
+      window.ShopifyApp.flashNotice(flashJSON.notice);
     }
 
     if (flash.error) {
-      ShopifyApp.flashError(flash.error);
+      window.ShopifyApp.flashError(flashJSON.error);
     }
 
     document.removeEventListener('DOMContentLoaded', flash);

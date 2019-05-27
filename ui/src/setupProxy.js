@@ -8,7 +8,6 @@ module.exports = function(app) {
     '/login',
     '/logout',
     '/auth/shopify',
-    '/assets/shopify_app',
     '/enable_cookies',
     '/top_level_interaction',
     '/granted_storage_access',

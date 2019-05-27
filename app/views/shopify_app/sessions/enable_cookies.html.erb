@@ -17,9 +17,19 @@
   <script>
     window.apiKey = "<%= ShopifyApp.configuration.api_key %>";
     window.shopOrigin = "https://<%= @shop %>";
-  </script>
 
-  <%= javascript_include_tag('shopify_app/enable_cookies', crossorigin: 'anonymous', integrity: true) %>
+    <%= render partial: 'shopify_app/partials/itp_helper', formats: [:js] %>
+    <%= render partial: 'shopify_app/partials/storage_access', formats: [:js] %>
+
+    (function(StorageAccessHelper) {
+      document.addEventListener("DOMContentLoaded", function() {
+        var redirectTargetElement = document.getElementById("redirection-target");
+        var targetInfo = JSON.parse(redirectTargetElement.dataset.target)
+        var storageAccessHelper = new StorageAccessHelper(targetInfo);
+        storageAccessHelper.execute();
+      });
+    })(window.StorageAccessHelper);
+  </script>
 </head>
 <body>
   <%=

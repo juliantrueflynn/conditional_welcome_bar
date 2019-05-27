@@ -19,9 +19,21 @@
     window.apiKey = "<%= ShopifyApp.configuration.api_key %>";
     window.shopOrigin = "https://<%= @shop %>";
     window.redirectUrl = "<%= @url %>";
-  </script>
 
-  <%= javascript_include_tag('shopify_app/top_level', crossorigin: 'anonymous', integrity: true) %>
+    <%= render partial: 'shopify_app/partials/itp_helper', formats: [:js] %>
+
+    (function(window, ITPHelper) {
+      function setUpTopLevelInteraction() {
+        var TopLevelInteraction = new ITPHelper({
+          redirectUrl: window.redirectUrl,
+        });
+
+        TopLevelInteraction.execute();
+      }
+
+      document.addEventListener('DOMContentLoaded', setUpTopLevelInteraction);
+    })(window, window.ITPHelper);
+  </script>
 </head>
 <body>
   <main id="TopLevelInteractionContent">

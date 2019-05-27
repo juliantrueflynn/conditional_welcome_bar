@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (appElement) {
     var data = appElement.dataset;
-    ShopifyApp.init({
+    window.ShopifyApp.init({
       apiKey: data.apiKey,
       shopOrigin: data.shopOrigin,
       debug: data.debug === 'true',
