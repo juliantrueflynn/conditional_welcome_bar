@@ -1,16 +1,20 @@
+ARG APP_PATH=/usr/src/app
+
 FROM node:8.16.0 AS node_base
 
 FROM node_base as deps
-WORKDIR /usr/src/app
-COPY /ui/package.json /ui/yarn.lock /usr/src/app/
-COPY /ui/src /usr/src/app/src
-COPY /ui/public /usr/src/app/public
+ARG APP_PATH
+WORKDIR $APP_PATH
+COPY /ui/package.json /ui/yarn.lock ${APP_PATH}/
+COPY /ui/src ${APP_PATH}/src
+COPY /ui/public ${APP_PATH}/public
 RUN yarn install --prod --silent
 
 FROM node_base as builder
-WORKDIR /usr/src/app
-COPY . /usr/src/app
-COPY --from=deps /usr/src/app /usr/src/app
+ARG APP_PATH
+WORKDIR $APP_PATH
+COPY . $APP_PATH
+COPY --from=deps $APP_PATH $APP_PATH
 RUN yarn run build
 
 FROM ruby:2.5
@@ -21,11 +25,12 @@ ENV RACK_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
 
-WORKDIR /usr/src/app
-COPY Gemfile* /usr/src/app/
+ARG APP_PATH
+WORKDIR $APP_PATH
+COPY Gemfile* ${APP_PATH}/
 RUN gem update --system && gem install bundler && bundle install --without development test --quiet
-COPY . /usr/src/app
-COPY --from=builder /usr/src/app/build /usr/src/app/public
+COPY . $APP_PATH
+COPY --from=builder ${APP_PATH}/build ${APP_PATH}/public
 
 RUN bundle exec rake assets:precompile
 
