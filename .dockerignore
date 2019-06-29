@@ -1,14 +1,11 @@
-node_modules
-*/node_modules
-package.json
-log/*
-tmp/*
-.byebug_history
-.git
-Procfile.*
-Procfile.*
-README.md
-*/README.md
-.env.example
-*/.env.example
-*/.eslintrc.json
+# log/*
+# tmp/*
+# .byebug_history
+# .git
+# Procfile.*
+# Procfile.*
+# README.md
+# */README.md
+# .env.example
+# */.env.example
+# */.eslintrc.json

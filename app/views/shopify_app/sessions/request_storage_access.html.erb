@@ -18,10 +18,12 @@
   <script>
     <%= render partial: 'shopify_app/partials/itp_helper', formats: [:js] %>
     <%= render partial: 'shopify_app/partials/storage_access', formats: [:js] %>
+    // <%= asset_path 'shopify_app/itp_helper.js' %>
+    // <%= asset_path 'shopify_app/storage_access.js' %>
 
     (function(window, StorageAccessHelper) {
       function redirect() {
-        var redirectTargetElement = document.getElementById("redirection-target");
+        var redirectTargetElement = document.getElementById('redirection-target');
 
         var targetInfo = JSON.parse(redirectTargetElement.dataset.target)
 
@@ -34,7 +36,7 @@
         }
       }
 
-      document.addEventListener("DOMContentLoaded", redirect);
+      document.addEventListener('DOMContentLoaded', redirect);
     })(window, window.StorageAccessHelper);
   </script>
 </head>

@@ -21,6 +21,7 @@
     window.redirectUrl = "<%= @url %>";
 
     <%= render partial: 'shopify_app/partials/itp_helper', formats: [:js] %>
+    // <%= asset_path 'shopify_app/itp_helper' %>
 
     (function(window, ITPHelper) {
       function setUpTopLevelInteraction() {

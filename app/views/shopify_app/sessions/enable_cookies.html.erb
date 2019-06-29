@@ -20,6 +20,8 @@
 
     <%= render partial: 'shopify_app/partials/itp_helper', formats: [:js] %>
     <%= render partial: 'shopify_app/partials/storage_access', formats: [:js] %>
+    // <%= asset_path 'shopify_app/itp_helper.js' %>
+    // <%= asset_path 'shopify_app/storage_access.js' %>
 
     (function(StorageAccessHelper) {
       document.addEventListener("DOMContentLoaded", function() {

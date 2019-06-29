@@ -1,47 +1,28 @@
-FROM node:8.16.0 AS node_base
-
-FROM node_base as deps
-ARG APP_PATH
-ARG YARN_PROD
-WORKDIR $APP_PATH
-COPY /ui/package.json /ui/yarn.lock ${APP_PATH}/
-COPY /ui/src ${APP_PATH}/src
-COPY /ui/public ${APP_PATH}/public
-RUN yarn install --production=${YARN_PROD} --silent
-
-FROM node_base as builder
-ARG APP_PATH
-WORKDIR $APP_PATH
-COPY . $APP_PATH
-COPY --from=deps $APP_PATH $APP_PATH
-RUN yarn run build
-
 FROM ruby:2.5
-RUN apt-get update -qq \
-  && apt-get install -y postgresql-client --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/*
 
-ARG APP_PATH
-ARG BUNDLE_WITHOUT
-ARG RAILS_SERVE_STATIC_FILES
-ARG RAILS_ENV
-ENV RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES} \
-  RAILS_ENV=${RAILS_ENV} \
-  RACK_ENV=${RAILS_ENV}
+RUN apt-get update -qq
 
-WORKDIR $APP_PATH
-COPY Gemfile* ${APP_PATH}/
-RUN gem update --system && gem install bundler && bundle install --quiet --without ${BUNDLE_WITHOUT}
-COPY . $APP_PATH
-COPY --from=builder ${APP_PATH}/build ${APP_PATH}/public
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN bundle exec rake assets:precompile
+RUN apt-get install -y --no-install-recommends nodejs postgresql-client \
+    && apt-get update -qq \
+    && apt-get install -y --no-install-recommends yarn \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /user/src/app
+COPY Gemfile* /user/src/app/
+RUN gem update --system && gem install bundler && bundle install --quiet
+COPY . /user/src/app
+
+# RUN RAILS_ENV=production bundle exec rake assets:precompile
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh"]
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3001"]

@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Shopify app with Rails API and React. Utilizes Shopify's Polaris UI components.",
   "scripts": {
-    "setup": "npm --prefix ui install",
-    "build": "npm run setup && npm --prefix ui run build",
+    "setup": "yarn --cwd ui install",
+    "build": "yarn setup && yarn --cwd ui build",
     "deploy": "cp -a ui/build/. public/",
-    "deploy:local": "npm --prefix ui run build && npm run deploy"
+    "deploy:local": "yarn --cwd ui build && yarn deploy",
+    "start": "yarn --cwd ui start"
   },
   "repository": {
     "type": "git",

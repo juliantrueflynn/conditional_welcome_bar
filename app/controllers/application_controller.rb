@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def fallback_index_html
+    Rails.logger.info "******************** #{request.inspect}"
     response.headers.except!('X-Frame-Options')
     render :file => 'public/index.html'
   end
