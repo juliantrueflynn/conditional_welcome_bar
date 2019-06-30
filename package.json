@@ -4,11 +4,7 @@
   "private": true,
   "description": "Shopify app with Rails API and React. Utilizes Shopify's Polaris UI components.",
   "scripts": {
-    "setup": "npm --prefix ui install",
-    "build": "npm run setup && npm --prefix ui run build",
-    "deploy": "cp -a ui/build/. public/",
-    "deploy:local": "npm --prefix ui run build && npm run deploy",
-    "webpack": "webpack --config webpack.config.js"
+    "start": "webpack --config webpack.config.js --mode development --watch"
   },
   "repository": {
     "type": "git",
