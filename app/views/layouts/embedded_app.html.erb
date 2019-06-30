@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <% application_name = ShopifyApp.configuration.application_name %>
-    <title><%= application_name %></title>
-    <%= javascript_include_tag 'shopify_app/index' %>
+    <title><%= ShopifyApp.configuration.application_name %></title>
+    <%= stylesheet_link_tag "https://sdks.shopifycdn.com/polaris/3.18.0/polaris.min.css" %>
+    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -17,11 +17,11 @@
       </div>
     </div>
 
-    <%= render 'layouts/flash_messages' %>
+    <%= render "layouts/flash_messages" %>
 
     <script src="https://cdn.shopify.com/s/assets/external/app.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
 
-    <%= content_tag(:div, nil, id: 'shopify-app-init', data: {
+    <%= content_tag(:div, nil, id: "shopify-app-init", data: {
       api_key: ShopifyApp.configuration.api_key,
       shop_origin: ("https://#{@shop_session.url}" if @shop_session)
     } ) %>
