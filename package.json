@@ -4,7 +4,8 @@
   "private": true,
   "description": "Shopify app with Rails API and React. Utilizes Shopify's Polaris UI components.",
   "scripts": {
-    "start": "webpack --config webpack.config.js --mode development --watch"
+    "start": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
