@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -7,6 +8,16 @@ module.exports = {
     path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
     filename: 'bundle.js'
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.RAILS_ENV),
+        APP_HOST_URL: JSON.stringify(process.env.APP_HOST_URL),
+        SHOPIFY_CLIENT_KEY: JSON.stringify(process.env.SHOPIFY_CLIENT_KEY),
+        API_HOST_URL: JSON.stringify(process.env.API_HOST_URL),
+      },
+    })
+  ],
   module: {
     rules: [
       {
