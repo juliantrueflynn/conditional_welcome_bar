@@ -29,7 +29,8 @@
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "webpack": "^4.35.0"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,7 +44,6 @@
     "eslint-plugin-prettier": "^3.0.1",
     "nodemon": "1.19.0",
     "prettier": "^1.17.0",
-    "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5"
   }
 }
