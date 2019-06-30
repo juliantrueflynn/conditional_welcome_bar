@@ -46,7 +46,6 @@ module ShopifyApp
 
     def reset_session_options
       request.session_options[:renew] = true
-      cookies.delete 'cwb_csrf'
       session.delete(:_csrf_token)
     end
 

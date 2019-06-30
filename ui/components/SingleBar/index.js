@@ -4,7 +4,7 @@ import isEqual from 'lodash/isEqual';
 import { Page, Form } from '@shopify/polaris';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
 import { convertFromHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
-import SingleBarFormFields from '../../components/SingleBarFormFields';
+import SingleBarFormFields from '../SingleBarFormFields';
 
 const SingleBar = ({
   bar,
