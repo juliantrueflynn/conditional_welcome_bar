@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
-import Cookies from 'js-cookie';
 import { ApolloProvider } from 'react-apollo';
 import IndexBarsView from './views/IndexBarsView';
 import SingleBarView from './views/SingleBarView';
@@ -33,19 +32,11 @@ const App = () => {
   }, []);
 
   const client = new ApolloClient({
-    uri: process.env.GRAPHQL_API_URL,
-    credentials: 'include',
-    request: (operation) => {
-      const csrfToken = Cookies.get('cwb_csrf');
-
-      if (csrfToken) {
-        operation.setContext({ headers: { 'X-CSRF-Token': csrfToken } });
-      }
-    },
+    uri: process.env.GRAPHQL_API_URL
   });
 
   if (isLoading) {
-    return 'LOADING AUTH COOKIE';
+    return null;
   }
 
   return (
