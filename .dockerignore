@@ -1,10 +1,6 @@
+.git
+README.md
 node_modules
-*/node_modules
-package.json
-Procfile.dev
-Procfile.production.local
-welcome_bar_app/node_modules
-welcome_bar_app/ui/node_modules
-welcome_bar_app/package.json
-welcome_bar_app/Procfile.dev
-welcome_bar_app/Procfile.production.local
+ui/node_modules
+log/*
+tmp/*

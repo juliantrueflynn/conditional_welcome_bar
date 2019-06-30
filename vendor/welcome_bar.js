@@ -25,11 +25,11 @@
 })([Element.prototype, Document.prototype, DocumentFragment.prototype]);
 
 (function () {
-  const API_HOSTNAME = 'conditionalwelcomebar.ngrok.io';
-  const API_URL = `https://${API_HOSTNAME}`;
+  var API_HOSTNAME = 'conditionalwelcomebar.ngrok.io';
+  var API_URL = `https://${API_HOSTNAME}`;
 
   function createElement(selector, props) {
-    const elem = document.createElement(selector);
+    var elem = document.createElement(selector);
 
     Object.keys(props).filter(key => props[key]).forEach((key) => {
       if (key === 'style') {
@@ -45,10 +45,10 @@
   }
 
   function appendStylesheet() {
-    const link = document.createElement('link');
+    var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = `//${API_HOSTNAME}/css/welcomeBar.css`;
+    link.href = `//${API_HOSTNAME}/welcome_bar.css`;
     document.head.appendChild(link);
   }
 
@@ -66,7 +66,7 @@
   }
 
   function getCurrentTemplate() {
-    let template;
+    var template;
 
     if (window.location.pathname === '/') {
       template = 'homepage';
@@ -85,7 +85,7 @@
     return `cw_bar_hide_${barId}_${getCurrentTemplate()}`;
   }
 
-  const api = {
+  var api = {
     bar: {},
     init: function () {
       appendStylesheet();
@@ -99,11 +99,11 @@
       });
     },
     fetchBarsIndex: function (callback) {
-      const xhr = new XMLHttpRequest();
+      var xhr = new XMLHttpRequest();
     
       xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-          const response = JSON.parse(this.responseText);
+          var response = JSON.parse(this.responseText);
           callback(response.data.bars);
         }
       };
@@ -112,9 +112,9 @@
       xhr.send();
     },
     getBarFromResponse: function (response) {
-      const bars = response.filter(function (bar) {
-        const template = getCurrentTemplate();
-        const isHidden = window.localStorage.getItem(getStorageKey(bar.id));
+      var bars = response.filter(function (bar) {
+        var template = getCurrentTemplate();
+        var isHidden = window.localStorage.getItem(getStorageKey(bar.id));
 
         return (
           (bar.pageTemplates.indexOf('global') > -1 || bar.pageTemplates.indexOf(template) > -1) &&
@@ -125,7 +125,7 @@
       return bars[0];
     },
     handleCloseClick: function (e) {
-      const container = e.target.parentElement.parentElement.parentElement;
+      var container = e.target.parentElement.parentElement.parentElement;
       container.style.display = 'none';
 
       if (api.bar.isSticky && api.bar.placement === 'top') {
@@ -135,14 +135,14 @@
       window.localStorage.setItem(getStorageKey(api.bar.id), true);
     },
     render: function (props) {
-      const image = props.backgroundImage;
+      var image = props.backgroundImage;
       
-      let imageSize = props.backgroundImageSizeX;
+      var imageSize = props.backgroundImageSizeX;
       if (props.backgroundImageSizeY) {
         imageSize += ` ${props.backgroundImageSizeY}`;
       }
 
-      const container = createElement('div', {
+      var container = createElement('div', {
         id: `cwBar${props.id}`,
         classList: [
           'cw-bar',
@@ -167,27 +167,27 @@
         }
       });
 
-      const contentElSelector = props.url ? 'a' : 'div';
-      const contentBody = createElement(contentElSelector, {
+      var contentElSelector = props.url ? 'a' : 'div';
+      var contentBody = createElement(contentElSelector, {
         style: { padding: `${props.paddingY} ${props.paddingX}` },
         classList: ['cw-bar__content'],
         href: props.url,
         target: props.isNewTablUrl,
       });
 
-      const row = createElement('div', {
+      var row = createElement('div', {
         classList: ['cw-bar__row'],
       });
 
       row.append(contentBody);
 
       if (props.hasCloseButton) {
-        const buttonCloseWrapper = createElement('div', {
+        var buttonCloseWrapper = createElement('div', {
           classList: ['cw-bar__close'],
           style: { paddingRight: props.paddingX },
         });
 
-        const buttonClose = createElement('button', {
+        var buttonClose = createElement('button', {
           type: 'button',
           ariaLabel: 'Close bar',
           innerText: '\u00D7',
@@ -203,7 +203,7 @@
       document.body.insertBefore(container, document.body.firstChild);
 
       if (props.isSticky) {
-        const height = container.getBoundingClientRect().height;
+        var height = container.getBoundingClientRect().height;
         document.body.style.marginTop = `${height}px`;
       }
     }

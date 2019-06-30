@@ -22,6 +22,7 @@ tmp/*
 /yarn-error.log
 
 /public/*
+!/public/favicon.ico
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
@@ -34,4 +35,6 @@ config/master.key
 .env.production
 .rspec
 api/public/uploads
+
+bundle.js
 
