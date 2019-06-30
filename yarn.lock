@@ -693,12 +693,15 @@
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.6.6.tgz#6e955fc552717b84d21265c0f77bb02eaf7374da"
   integrity sha512-OFJPJmR6D2iKvU8O7EQjRitKz+wlNbbTtubLhVfUmQ8lV3gPYsV0drvzb1HfoIFMlzC3ZwkB0oUGnszAtt5nfg==
 
-"@shopify/images@^1.1.0":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@shopify/images/-/images-1.1.5.tgz#f7ae5d5801b4550085480825ceda66420d9ff700"
-  integrity sha512-DIPOT6ACpmsqYwvh0TQ48PgmZFceuoV8imrxfmCK6HD+zWcE6TWfunKaGEo0DkkdsS+6guGd/aJXe9m+dyBvdQ==
+"@shopify/css-utilities@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@shopify/css-utilities/-/css-utilities-1.0.0.tgz#adbdf551673942c19e165ee4bc5c6d7ec7625f79"
+  integrity sha512-ZdJ65xcen1OUXcYwvYn5IW9wX8LAm5/cafbeu+BujXY4m5hMA9LiXz+T8LznkdRei0u0YxaAXT+Nwp+Ls5QB0Q==
+  dependencies:
+    "@types/classnames" "^2.2.7"
+    classnames "^2.2.6"
 
-"@shopify/javascript-utilities@^2.1.0", "@shopify/javascript-utilities@^2.2.1":
+"@shopify/javascript-utilities@^2.2.1":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@shopify/javascript-utilities/-/javascript-utilities-2.4.0.tgz#2ffd528b0632af0392b860f33b4c5ed5c72cdafa"
   integrity sha512-ZfQo1i87iKsSR7mkJOk3/7aPgfuXPrTTbM0dUJTlzdyf13ftJ2Val/WdMicaCVFu2r60uSsqoq/QpF0fLFVlcQ==
@@ -713,24 +716,23 @@
   resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-3.4.0.tgz#9f12bd8b5963028751dd35037adec354d7d0fe4c"
   integrity sha512-6j68YVDmW6UCBaypfYB3zsHQ/U10x+ukluVkn7XzyBUMYZhktnRMswSm+kViE/qmfkrLsCKS7OLlWvBsp+CpBQ==
 
-"@shopify/polaris-tokens@^2.5.0":
+"@shopify/polaris-tokens@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-2.6.0.tgz#1654c83025d80ce803f06329aceaabfb96b5e684"
   integrity sha512-l2AwgZhujgu/C1cchJginWODXWcjhrpqrh+lcI+SM3MSSca6l2zSXa3B5OqCcspk6DIQDeJEn5BvXJgT7AJNPQ==
 
-"@shopify/polaris@3.14.0":
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-3.14.0.tgz#14ac140757e27c428eb21f98626508b8007d6a2f"
-  integrity sha512-5oVZH2sOVvqms6HRA0lAc5PO4I3InTHWJf1o95H3Pm9EdgonaX963KP5cn9sMAVhpzCw0mxMCKWaJ6s5zvQooQ==
+"@shopify/polaris@3.18.0":
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-3.18.0.tgz#6e2915c2541f80a424311f389da7d016da070d84"
+  integrity sha512-uc6E5xqJHEx+O17/E1nYaank92Z1THc50cHnnww3f6eiRTtCiHYcKWChwatocJoFqepJN5V2KAPGeeSsEoiLrA==
   dependencies:
     "@babel/runtime" "^7.1.6"
     "@shopify/app-bridge" "^1.3.0"
-    "@shopify/images" "^1.1.0"
+    "@shopify/css-utilities" "^1.0.0"
     "@shopify/javascript-utilities" "^2.2.1"
     "@shopify/polaris-icons" "^3.3.0"
-    "@shopify/polaris-tokens" "^2.5.0"
+    "@shopify/polaris-tokens" "^2.6.0"
     "@shopify/react-compose" "^1.0.0"
-    "@shopify/react-utilities" "^2.0.4"
     "@shopify/useful-types" "^1.2.4"
     "@types/react" "^16.4.7"
     "@types/react-dom" "^16.0.6"
@@ -757,18 +759,6 @@
   dependencies:
     tslib "^1.9.3"
 
-"@shopify/react-utilities@^2.0.4":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@shopify/react-utilities/-/react-utilities-2.0.7.tgz#56cd16b9ca0d228f13fe48495231b1dc879cf93f"
-  integrity sha512-BdGogEM5U4UjWLZ06We+YOrS8043oif7JVQYbAiE9F4F7XcZK+3juA+HCUlo6VSgD0b68PPRpWOmNMXciXMyUg==
-  dependencies:
-    "@shopify/javascript-utilities" "^2.1.0"
-    "@types/classnames" "^2.2.3"
-    "@types/node" "^10.0.8"
-    "@types/react" "^16.3.14"
-    "@types/react-dom" "^16.0.5"
-    classnames "^2.2.5"
-
 "@shopify/useful-types@^1.2.4", "@shopify/useful-types@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@shopify/useful-types/-/useful-types-1.3.0.tgz#79cfb6722d2cc192c05f14e55789bcfe2b40a6de"
@@ -777,7 +767,7 @@
     "@types/react" ">=16.4.0"
     tslib "^1.9.3"
 
-"@types/classnames@^2.2.3":
+"@types/classnames@^2.2.7":
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.8.tgz#17139e1e1104203572caa4368f6796f6225b70b4"
   integrity sha512-3UrLzPnz8u+MMXuJTF++389IfLSQUbl5F3ry9WCxva0BKG5H/oo5NuPRXk+HrpPU1+5pVHSWhnVWRzIaFQ7QuQ==
@@ -792,17 +782,12 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.10.tgz#51babf9c7deadd5343620055fc8aff7995c8b031"
   integrity sha512-LcsGbPomWsad6wmMNv7nBLw7YYYyfdYcz6xryKYQhx89c3XXan+8Q6AJ43G5XDIaklaVkK3mE4fCb0SBvMiPSQ==
 
-"@types/node@^10.0.8":
-  version "10.14.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.10.tgz#e491484c6060af8d461e12ec81c0da8a3282b8de"
-  integrity sha512-V8wj+w2YMNvGuhgl/MA5fmTxgjmVHVoasfIaxMMZJV6Y8Kk+Ydpi1z2whoShDCJ2BuNVoqH/h1hrygnBxkrw/Q==
-
 "@types/prop-types@*":
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
   integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
 
-"@types/react-dom@^16.0.5", "@types/react-dom@^16.0.6":
+"@types/react-dom@^16.0.6":
   version "16.8.4"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.4.tgz#7fb7ba368857c7aa0f4e4511c4710ca2c5a12a88"
   integrity sha512-eIRpEW73DCzPIMaNBDP5pPIpK1KXyZwNgfxiVagb5iGiz6da+9A5hslSX6GAQKdO7SayVCS/Fr2kjqprgAvkfA==
@@ -816,7 +801,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=16.4.0", "@types/react@^16.0.2", "@types/react@^16.3.14", "@types/react@^16.4.7":
+"@types/react@*", "@types/react@>=16.4.0", "@types/react@^16.0.2", "@types/react@^16.4.7":
   version "16.8.22"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.22.tgz#7f18bf5ea0c1cad73c46b6b1c804a3ce0eec6d54"
   integrity sha512-C3O1yVqk4sUXqWyx0wlys76eQfhrQhiDhDlHBrjER76lR2S2Agiid/KpOU9oCqj1dISStscz7xXz1Cg8+sCQeA==
@@ -1537,7 +1522,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
