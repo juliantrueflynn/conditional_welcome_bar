@@ -9,7 +9,21 @@ import MissingPageView from './views/MissingPageView';
 
 const App = () => {
   const client = new ApolloClient({
-    uri: process.env.GRAPHQL_API_URL
+    uri: process.env.GRAPHQL_API_URL,
+    credentials: 'include',
+    request: (operation) => {
+      const csrfMetaTag = document.querySelector('meta[name=csrf-token]');
+
+      if (!csrfMetaTag) {
+        return;
+      }
+
+      operation.setContext({
+        headers: {
+          'X-CSRF-Token': csrfMetaTag.getAttribute('content'),
+        },
+      })
+    },
   });
 
   return (
