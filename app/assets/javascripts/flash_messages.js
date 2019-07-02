@@ -1,17 +1,17 @@
-document.addEventListener('DOMContentLoaded', function flash() {
-  var flashElement = document.getElementById('shopify-app-flash');
+var eventName = typeof(Turbolinks) !== 'undefined' ? 'turbolinks:load' : 'DOMContentLoaded';
 
-  if (flashElement) {
-    var flashJSON = JSON.parse(flashElement.dataset.flash);
+if (!document.documentElement.hasAttribute("data-turbolinks-preview")) {
+  document.addEventListener(eventName, function flash() {
+    var flash = JSON.parse(document.getElementById('shopify-app-flash').dataset.flash);
 
     if (flash.notice) {
-      window.ShopifyApp.flashNotice(flashJSON.notice);
+      ShopifyApp.flashNotice(flash.notice);
     }
 
     if (flash.error) {
-      window.ShopifyApp.flashError(flashJSON.error);
+      ShopifyApp.flashError(flash.error);
     }
 
-    document.removeEventListener('DOMContentLoaded', flash);
-  }
-});
+    document.removeEventListener(eventName, flash)
+  });
+}

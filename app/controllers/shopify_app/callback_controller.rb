@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 module ShopifyApp
+  # Performs login after OAuth completes
   class CallbackController < ActionController::Base
-    include ShopifyApp::EnsureLoggedIn
-    include ShopifyApp::EnsureShopOriginCookie
+    include ShopifyApp::LoginProtection
+    include EnsureShopOriginCookie
 
     def callback
       if auth_hash
@@ -10,9 +13,8 @@ module ShopifyApp
         perform_after_authenticate_job
 
         set_shop_origin_cookie(shop_name)
-        cookies.delete 'shopify.granted_storage_access'
 
-        redirect_to '/'
+        redirect_to return_address
       else
         flash[:error] = I18n.t('could_not_log_in')
         redirect_to login_url
@@ -76,10 +78,13 @@ module ShopifyApp
 
       return unless config && config[:job].present?
 
+      job = config[:job]
+      job = job.constantize if job.is_a?(String)
+
       if config[:inline] == true
-        config[:job].perform_now(shop_domain: session[:shopify_domain])
+        job.perform_now(shop_domain: session[:shopify_domain])
       else
-        config[:job].perform_later(shop_domain: session[:shopify_domain])
+        job.perform_later(shop_domain: session[:shopify_domain])
       end
     end
   end
