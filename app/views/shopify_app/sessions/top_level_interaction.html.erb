@@ -19,21 +19,9 @@
     window.apiKey = "<%= ShopifyApp.configuration.api_key %>";
     window.shopOrigin = "https://<%= @shop %>";
     window.redirectUrl = "<%= @url %>";
-
-    <%= render partial: 'shopify_app/partials/itp_helper', formats: [:js] %>
-
-    (function(window, ITPHelper) {
-      function setUpTopLevelInteraction() {
-        var TopLevelInteraction = new ITPHelper({
-          redirectUrl: window.redirectUrl,
-        });
-
-        TopLevelInteraction.execute();
-      }
-
-      document.addEventListener('DOMContentLoaded', setUpTopLevelInteraction);
-    })(window, window.ITPHelper);
   </script>
+
+  <%= javascript_include_tag('shopify_app/top_level', crossorigin: 'anonymous', integrity: true) %>
 </head>
 <body>
   <main id="TopLevelInteractionContent">
@@ -61,7 +49,7 @@
                       </div>
                     </div>
                     <div class="Polaris-EmptyState__ImageContainer">
-                      <%= image_tag 'storage_access.svg', role: "presentation", alt: "Empty state", class: "Polaris-EmptyState__Image" %>
+                      <%= image_tag 'storage_access.svg', role: "presentation", alt: "", class: "Polaris-EmptyState__Image" %>
                     </div>
                   </div>
                 </div>

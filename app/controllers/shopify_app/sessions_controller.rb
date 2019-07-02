@@ -1,7 +1,8 @@
 module ShopifyApp
-  class SessionsController < ActionController::Base
-    include ShopifyApp::EnsureLoggedIn
+  class SessionsController < ActionController::Base # rubocop:disable Metrics/ClassLength
+    include ShopifyApp::LoginProtection
 
+    layout false, only: :new
     after_action only: [:new, :create] do |controller|
       controller.response.headers.except!('X-Frame-Options')
     end
@@ -38,7 +39,7 @@ module ShopifyApp
       session['shopify.granted_storage_access'] = true
 
       params = { shop: @shop }
-      redirect_to "/?#{params.to_query}"
+      redirect_to("#{return_address}?#{params.to_query}")
     end
 
     def destroy
@@ -96,7 +97,7 @@ module ShopifyApp
     end
 
     def authenticate_in_context
-      redirect_to "/auth/shopify"
+      redirect_to "#{main_app.root_path}auth/shopify"
     end
 
     def authenticate_at_top_level
@@ -104,10 +105,12 @@ module ShopifyApp
     end
 
     def authenticate_in_context?
-      !!params[:top_level]
+      return true unless ShopifyApp.configuration.embedded_app?
+      params[:top_level]
     end
 
     def request_storage_access?
+      return false unless ShopifyApp.configuration.embedded_app?
       return false if params[:top_level]
       return false if user_agent_is_mobile
       return false if user_agent_is_pos
@@ -116,7 +119,7 @@ module ShopifyApp
     end
 
     def redirect_to_request_storage_access
-      render :request_storage_access, layout: false, formats: ['html'], locals: {
+      render :request_storage_access, layout: false, locals: {
         does_not_have_storage_access_url: top_level_interaction_path(
           shop: sanitized_shop_name
         ),

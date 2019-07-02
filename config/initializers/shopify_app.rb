@@ -7,7 +7,7 @@ ShopifyApp.configure do |config|
   config.session_repository = Shop
   config.api_version = :unstable
   config.scripttags = [{
-    event: 'onload',
-    src: "#{ENV['APP_HOST_URL']}/js/welcomeBar.js"
+    event: "onload",
+    src: "#{ENV['APP_HOST_URL']}/welcome_bar.js"
   }]
 end

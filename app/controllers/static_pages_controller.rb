@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   include ShopifyApp::Authenticate
-  include ShopifyApp::EnsureShopOriginCookie
+  include EnsureShopOriginCookie
 
   layout "embedded_app"
 
