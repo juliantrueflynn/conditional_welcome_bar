@@ -7,5 +7,3 @@ const shopOriginFromUrl = new URLSearchParams(window.location.search).get('shop'
 export const shopOrigin = shopOriginFromCookie || shopOriginFromUrl;
 
 export const locale = new URLSearchParams(window.location.search).get('locale');
-
-export const isOutsideShopifyAdmin = window.top === window.self;

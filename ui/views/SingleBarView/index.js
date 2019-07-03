@@ -6,7 +6,6 @@ import LoadingManager from '../../components/LoadingManager';
 import SingleBar from '../../components/SingleBar';
 import { convertToHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
-import { isOutsideShopifyAdmin } from '../../util/shopifyUtil';
 
 const SingleBarView = ({ match: { params } }) => {
   const [hasDirtyState, setHasDirtyState] = useState(false);
@@ -25,7 +24,7 @@ const SingleBarView = ({ match: { params } }) => {
   const updateDirtyInputs = (id) => setDirtyInputs({ ...dirtyInputs, [id]: true });
 
   return (
-    <Query query={GET_SINGLE_BAR} variables={{ id: params.barId }} skip={isOutsideShopifyAdmin}>
+    <Query query={GET_SINGLE_BAR} variables={{ id: params.barId }}>
       {({ loading, error, data }) => {
         if (loading) {
           return <p>Loading...</p>;
