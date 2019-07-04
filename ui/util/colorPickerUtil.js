@@ -30,8 +30,9 @@ const hexToHSBa = (hex, alpha) => {
 };
 
 export const convertToHSBA = (bar) => {
-  const backgroundHSBA = hexToHSBa(bar.backgroundColor, bar.backgroundOpacity);
-  const textHSBA = hexToHSBa(bar.textColor, bar.textOpacity);
+  const { backgroundColor, backgroundOpacity, textColor, textOpacity } = bar;
+  const backgroundHSBA = backgroundColor && hexToHSBa(backgroundColor, backgroundOpacity);
+  const textHSBA = textColor && hexToHSBa(textColor, textOpacity);
 
   return { backgroundHSBA, textHSBA };
 };
