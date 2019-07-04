@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
+import { useDelayedLoader } from '../../util/customHooksUtil';
 import BarsListItem from '../BarsListItem';
 
 const BarsList = ({ bars, createBar, isCreating, isLoadingBars, navigateToBar }) => {
+  const isLoading = useDelayedLoader(isLoadingBars);
+
   const primaryAction = {
     content: 'Create welcome bar',
     onAction: createBar,
-    loading: isLoadingBars || isCreating,
+    loading: isLoading || isCreating,
   };
 
   const resourceName = {

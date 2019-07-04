@@ -5,11 +5,13 @@ import LoadingManager from '../../components/LoadingManager';
 import SingleBarForm from '../../components/SingleBarForm';
 import { UPDATE_BAR } from '../../util/graphQlUtil';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
+import { useDelayedLoader } from '../../util/customHooksUtil';
 import { convertToHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
 
 const SingleBar = ({ bar, loading }) => {
   const [hasDirtyState, setHasDirtyState] = useState(false);
   const [dirtyInputs, setDirtyInputs] = useState({});
+  const isLoading = useDelayedLoader(loading);
   const { toggleToast } = useContext(OverlaysContext);
 
   const onFormComplete = (success) => {
@@ -27,7 +29,7 @@ const SingleBar = ({ bar, loading }) => {
   const barAttributes = { ...barData, ...convertToHSBA(barData) };
 
   return (
-    <LoadingManager loadingTo="single" isLoading={loading}>
+    <LoadingManager loadingTo="single" isLoading={isLoading}>
       <Mutation mutation={UPDATE_BAR} onCompleted={onFormComplete}>
         {(updateBar, { loading: isUpdating, data: formData }) => {
           return (
