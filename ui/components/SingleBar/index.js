@@ -1,130 +1,60 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
-import { Page, Form } from '@shopify/polaris';
+import { Mutation } from 'react-apollo';
+import LoadingManager from '../../components/LoadingManager';
+import SingleBarForm from '../../components/SingleBarForm';
+import { UPDATE_BAR } from '../../util/graphQlUtil';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
-import { convertFromHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
-import SingleBarFormFields from '../SingleBarFormFields';
+import { convertToHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
 
-const SingleBar = ({
-  bar,
-  isUpdating,
-  formData,
-  updateBar,
-  hasDirtyState,
-  setHasDirtyState,
-  dirtyInputs,
-  updateDirtyInputs,
-}) => {
-  const [barAttributes, setBarAttributes] = useState(bar);
-  const [backgroundFile, setBackgroundFile] = useState(null);
-  const [colors, setColors] = useState(INITIAL_COLORS_STATE);
-  const { toggleModal } = useContext(OverlaysContext);
+const SingleBar = ({ bar, loading }) => {
+  const [hasDirtyState, setHasDirtyState] = useState(false);
+  const [dirtyInputs, setDirtyInputs] = useState({});
+  const { toggleToast } = useContext(OverlaysContext);
 
-  const handleFormSubmit = () => {
-    const nextBar = { ...barAttributes, ...convertFromHSBA(barAttributes) };
-    const { id, backgroundHSBA, textHSBA, ...attributes } = nextBar;
-    updateBar({ variables: { input: { id, ...attributes } } });
-  };
+  const onFormComplete = (success) => {
+    setHasDirtyState(false);
+    setDirtyInputs({});
 
-  const handleValueChange = (value, id) => {
-    setHasDirtyState(bar[id] !== value);
-    setBarAttributes({ ...barAttributes, [id]: value });
-    updateDirtyInputs(id);
-  };
-
-  const handleChoiceListValueChange = (value, id) => {
-    let selected = value[0];
-    let hasChanged = bar[id] !== value[0];
-
-    if (Array.isArray(bar[id])) {
-      selected = value;
-      hasChanged = !isEqual(bar[id], value);
+    if (success && success.updateBar.bar) {
+      toggleToast('Welcome bar updated');
     }
-
-    setHasDirtyState(hasChanged);
-    setBarAttributes({ ...barAttributes, [id]: selected });
-    updateDirtyInputs(id);
   };
 
-  const handleColorPickerValueChange = (color, id) => {
-    const nextColors = { ...colors, [id]: color };
-    setColors(nextColors);
-    setHasDirtyState(true);
-    updateDirtyInputs(id);
-  };
+  const updateDirtyInputs = (id) => setDirtyInputs({ ...dirtyInputs, [id]: true });
 
-  const handleImageUpload = (_, acceptedFiles) => {
-    setBarAttributes({ ...barAttributes, backgroundImage: acceptedFiles[0] });
-    setBackgroundFile(acceptedFiles[0]);
-    setHasDirtyState(true);
-  };
-
-  const secondaryActions = [
-    {
-      content: 'Delete',
-      onAction: () => toggleModal({ type: 'delete', title: 'Delete welcome bar?' }),
-      destructive: true,
-    },
-    {
-      content: 'Discard',
-      onAction: () =>
-        toggleModal({
-          type: 'discard',
-          title: 'Discard unsaved changes?',
-          onAction: () => {
-            setBarAttributes(bar);
-            setHasDirtyState(false);
-          },
-        }),
-      disabled: !hasDirtyState,
-    },
-  ];
-  const primaryAction = {
-    content: 'Save',
-    onAction: handleFormSubmit,
-    disabled: !hasDirtyState,
-    loading: isUpdating,
-  };
+  const { __typename, ...barData } = bar;
+  const barAttributes = { ...barData, ...convertToHSBA(barData) };
 
   return (
-    <Page title={bar.title} primaryAction={primaryAction} secondaryActions={secondaryActions}>
-      <Form onSubmit={handleFormSubmit}>
-        <SingleBarFormFields
-          updateFieldValue={handleValueChange}
-          updateColorPickerValue={handleColorPickerValueChange}
-          updateChoiceListValue={handleChoiceListValueChange}
-          updateImageUpload={handleImageUpload}
-          backgroundFile={backgroundFile}
-          dirtyInputs={dirtyInputs}
-          errors={formData.updateBar.errors}
-          {...colors}
-          {...barAttributes}
-        />
-      </Form>
-    </Page>
+    <LoadingManager loadingTo="single" isLoading={loading}>
+      <Mutation mutation={UPDATE_BAR} onCompleted={onFormComplete}>
+        {(updateBar, { loading: isUpdating, data: formData }) => {
+          return (
+            <SingleBarForm
+              bar={barAttributes}
+              updateBar={updateBar}
+              isUpdating={isUpdating}
+              formData={formData}
+              hasDirtyState={hasDirtyState}
+              setHasDirtyState={setHasDirtyState}
+              dirtyInputs={dirtyInputs}
+              updateDirtyInputs={updateDirtyInputs}
+            />
+          );
+        }}
+      </Mutation>
+    </LoadingManager>
   );
 };
 
 SingleBar.propTypes = {
   bar: PropTypes.instanceOf(Object),
-  isUpdating: PropTypes.bool.isRequired,
-  updateBar: PropTypes.func.isRequired,
-  hasDirtyState: PropTypes.bool.isRequired,
-  setHasDirtyState: PropTypes.func.isRequired,
-  formData: PropTypes.shape({
-    updateBar: PropTypes.shape({
-      errors: PropTypes.instanceOf(Object),
-    }),
-  }),
+  loading: PropTypes.bool.isRequired,
 };
 
 SingleBar.defaultProps = {
-  formData: {
-    updateBar: {
-      errors: {},
-    },
-  },
+  bar: { ...INITIAL_COLORS_STATE },
 };
 
 export default SingleBar;
