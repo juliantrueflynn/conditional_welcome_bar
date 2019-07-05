@@ -1,5 +1,5 @@
 class GraphqlController < ApplicationController
-  include ShopifyApp::Authenticate
+  include ShopifyApp::Authenticated
 
   def execute
     variables = ensure_hash(params[:variables])
