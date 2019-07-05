@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  include ShopifyApp::Authenticate
+  include ShopifyApp::Authenticated
   include EnsureShopOriginCookie
 
   before_action :set_iframe_headers
