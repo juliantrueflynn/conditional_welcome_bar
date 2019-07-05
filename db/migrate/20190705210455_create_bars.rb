@@ -1,7 +1,7 @@
 class CreateBars < ActiveRecord::Migration[5.1]
   def change
     create_table :bars do |t|
-      t.references :shop, foreign_key: true
+      t.references :shop, index: true, foreign_key: {on_delete: :cascade}
       t.string :title, default: 'Example Title', null: false
       t.text :content, default: '', null: false
       t.boolean :is_active, default: false, null: false
