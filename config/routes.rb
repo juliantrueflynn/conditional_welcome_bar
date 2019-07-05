@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   post '/graphql', to: 'graphql#execute'
 
-  get '*path', to: 'application#fallback_index_html', constraints: ->(request) do
+  get '*path', to: 'static_pages#show', constraints: ->(request) do
     !request.xhr? && request.format.html?
   end
 
