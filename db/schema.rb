@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190118173100) do
+ActiveRecord::Schema.define(version: 20190705210455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,5 +54,5 @@ ActiveRecord::Schema.define(version: 20190118173100) do
     t.index ["shopify_domain"], name: "index_shops_on_shopify_domain", unique: true
   end
 
-  add_foreign_key "bars", "shops"
+  add_foreign_key "bars", "shops", on_delete: :cascade
 end
