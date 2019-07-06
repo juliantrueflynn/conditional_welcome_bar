@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Bar, type: :model do
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :page_templates }
+  it { is_expected.to validate_presence_of :background_color }
+  it { is_expected.to validate_presence_of :text_color }
   it { is_expected.to_not allow_value(nil).for(:is_active)}
   it { is_expected.to_not allow_value(nil).for(:is_sticky)}
   it { is_expected.to_not allow_value(nil).for(:is_new_tab_url) }
@@ -19,18 +21,6 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to_not allow_value(15).for(:padding_y) }
   it { is_expected.to_not allow_value(15).for(:padding_x) }
   it { is_expected.to validate_length_of(:content).is_at_least(0) }
-
-  it do
-    is_expected.to validate_numericality_of(:text_opacity)
-      .is_less_than_or_equal_to(1)
-      .is_greater_than_or_equal_to(0)
-  end
-
-  it do
-    is_expected.to validate_numericality_of(:background_opacity)
-      .is_less_than_or_equal_to(1)
-      .is_greater_than_or_equal_to(0)
-  end
 
   it { is_expected.to validate_inclusion_of(:placement).in_array(Bar::PLACEMENT) }
   it { is_expected.to validate_inclusion_of(:background_image_repeat).in_array(Bar::BACKGROUND_IMAGE_REPEAT) }

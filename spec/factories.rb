@@ -12,11 +12,9 @@ FactoryBot.define do
     padding_y { '10px' }
     padding_x { '15px' }
     text_align { 'center' }
-    text_opacity { 1 }
-    text_color { '#ffffff' }
+    text_color { "rgba(255,255,255,1)" }
     font_size { 'inherit' }
-    background_color { '#2d3436' }
-    background_opacity { 1 }
+    background_color { "rgba(45,52,54,1.0)" }
     background_image { nil }
     background_image_repeat { 'no-repeat' }
     background_image_size_x { nil }
