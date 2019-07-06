@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Layout, FormLayout, Card, TextField, ChoiceList, Checkbox } from '@shopify/polaris';
-import FileUploadField from '../FileUploadField';
-import ColorPickerField from '../ColorPickerField';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Layout, FormLayout, Card, TextField, ChoiceList, Checkbox } from '@shopify/polaris'
+import FileUploadField from '../FileUploadField'
+import ColorPickerField from '../ColorPickerField'
 
-const SIZE_PLACEHOLDER = '200px, 14em, or 100%';
+const SIZE_PLACEHOLDER = '200px, 14em, or 100%'
 
 const SingleBarFormFields = ({
   updateFieldValue,
@@ -261,7 +261,7 @@ const SingleBarFormFields = ({
       </Card>
     </Layout.AnnotatedSection>
   </Layout>
-);
+)
 
 SingleBarFormFields.propTypes = {
   updateFieldValue: PropTypes.func.isRequired,
@@ -269,6 +269,6 @@ SingleBarFormFields.propTypes = {
   updateChoiceListValue: PropTypes.func.isRequired,
   dirtyInputs: PropTypes.instanceOf(Object).isRequired,
   errors: PropTypes.instanceOf(Object).isRequired,
-};
+}
 
-export default SingleBarFormFields;
+export default SingleBarFormFields

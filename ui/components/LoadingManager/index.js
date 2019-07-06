@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Loading,
   SkeletonPage,
@@ -8,14 +8,14 @@ import {
   TextContainer,
   SkeletonDisplayText,
   SkeletonBodyText,
-} from '@shopify/polaris';
+} from '@shopify/polaris'
 
 const LoadingManager = ({ children, isLoading, loadingTo }) => {
   if (!isLoading) {
-    return children;
+    return children
   }
 
-  const skeletonTitle = loadingTo === 'home' ? 'Home' : null;
+  const skeletonTitle = loadingTo === 'home' ? 'Home' : null
 
   const formSections = [
     { title: 'Editor', content: 'Edit welcome bar title or content.' },
@@ -27,9 +27,9 @@ const LoadingManager = ({ children, isLoading, loadingTo }) => {
     { title: 'Display styles', content: 'Style the overall appearance.' },
     { title: 'Text styles', content: 'Style the welcome bar text.' },
     { title: 'Background styles', content: 'Style the background and or upload an image.' },
-  ];
+  ]
 
-  let SkeletonChildren = formSections.map((formSection) => (
+  let SkeletonChildren = formSections.map(formSection => (
     <Layout.AnnotatedSection
       key={formSection.title}
       title={formSection.title}
@@ -42,7 +42,7 @@ const LoadingManager = ({ children, isLoading, loadingTo }) => {
         </TextContainer>
       </Card>
     </Layout.AnnotatedSection>
-  ));
+  ))
 
   if (loadingTo === 'home') {
     SkeletonChildren = (
@@ -66,7 +66,7 @@ const LoadingManager = ({ children, isLoading, loadingTo }) => {
           </TextContainer>
         </Card>
       </Layout.Section>
-    );
+    )
   }
 
   return (
@@ -76,13 +76,13 @@ const LoadingManager = ({ children, isLoading, loadingTo }) => {
         <Layout>{SkeletonChildren}</Layout>
       </SkeletonPage>
     </>
-  );
-};
+  )
+}
 
 LoadingManager.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   loadingTo: PropTypes.string.isRequired,
-};
+}
 
-export default LoadingManager;
+export default LoadingManager

@@ -1,59 +1,59 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { matchPath } from 'react-router';
-import { Modal } from '@shopify/polaris';
-import { Mutation } from 'react-apollo';
-import { DESTROY_BAR } from '../../util/graphQlUtil';
-import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { matchPath } from 'react-router'
+import { Modal } from '@shopify/polaris'
+import { Mutation } from 'react-apollo'
+import { DESTROY_BAR } from '../../util/graphQlUtil'
+import { OverlaysContext } from '../../contexts/OverlaysContextProvider'
 
 const BarModalManager = ({ history, location }) => {
-  const { toggleModal, toggleToast, modalAction } = useContext(OverlaysContext);
+  const { toggleModal, toggleToast, modalAction } = useContext(OverlaysContext)
 
-  let match;
+  let match
 
   if (modalAction.type === 'delete') {
-    match = matchPath(location.pathname, { path: '/bars/:barId' });
+    match = matchPath(location.pathname, { path: '/bars/:barId' })
   }
 
   const capitalizeFirstLetter = () =>
-    modalAction.type.charAt(0).toUpperCase() + modalAction.type.slice(1);
+    modalAction.type.charAt(0).toUpperCase() + modalAction.type.slice(1)
 
-  const isOpen = !!modalAction.type;
+  const isOpen = !!modalAction.type
 
-  const secondaryAction = [{ content: 'Close', onAction: toggleModal }];
+  const secondaryAction = [{ content: 'Close', onAction: toggleModal }]
 
-  const onCompleted = (response) => {
+  const onCompleted = response => {
     if (response.destroyBar.bar) {
-      toggleModal();
-      toggleToast('Welcome bar deleted');
-      history.push({ pathname: '/', search: location.search });
+      toggleModal()
+      toggleToast('Welcome bar deleted')
+      history.push({ pathname: '/', search: location.search })
     }
-  };
+  }
 
-  const mutationInput = { input: { id: match && match.params.barId } };
+  const mutationInput = { input: { id: match && match.params.barId } }
 
   return (
     <Mutation mutation={DESTROY_BAR} variables={mutationInput} onCompleted={onCompleted}>
       {(destroyBar, { loading }) => {
         const onAction = () => {
           if (modalAction.type === 'delete') {
-            destroyBar();
+            destroyBar()
           }
 
           if (modalAction.onAction) {
-            modalAction.onAction();
+            modalAction.onAction()
           }
 
-          toggleModal();
-        };
+          toggleModal()
+        }
 
         const primaryAction = {
           content: capitalizeFirstLetter(),
           onAction,
           destructive: true,
           loading: modalAction.type === 'delete' ? loading : undefined,
-        };
+        }
 
         return (
           <Modal
@@ -64,11 +64,11 @@ const BarModalManager = ({ history, location }) => {
             primaryAction={primaryAction}
             secondaryActions={secondaryAction}
           />
-        );
+        )
       }}
     </Mutation>
-  );
-};
+  )
+}
 
 BarModalManager.propTypes = {
   history: PropTypes.shape({
@@ -78,6 +78,6 @@ BarModalManager.propTypes = {
     search: PropTypes.string.isRequired,
     pathname: PropTypes.string.isRequired,
   }).isRequired,
-};
+}
 
-export default withRouter(BarModalManager);
+export default withRouter(BarModalManager)

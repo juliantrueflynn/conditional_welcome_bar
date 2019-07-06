@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ResourceList, TextStyle } from '@shopify/polaris';
-import BarCreationDate from '../BarCreationDate';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { ResourceList, TextStyle } from '@shopify/polaris'
+import BarCreationDate from '../BarCreationDate'
 
 const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
-  const handleOnClick = () => navigateToBar(id);
+  const handleOnClick = () => navigateToBar(id)
 
-  const accessibilityLabel = `View details for ${title}`;
+  const accessibilityLabel = `View details for ${title}`
 
   return (
     <div className="BarsListItem">
@@ -25,8 +25,8 @@ const BarsListItem = ({ id, title, content, createdAt, navigateToBar }) => {
         {content}
       </ResourceList.Item>
     </div>
-  );
-};
+  )
+}
 
 BarsListItem.propTypes = {
   id: PropTypes.string.isRequired,
@@ -34,6 +34,6 @@ BarsListItem.propTypes = {
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   navigateToBar: PropTypes.func.isRequired,
-};
+}
 
-export default BarsListItem;
+export default BarsListItem

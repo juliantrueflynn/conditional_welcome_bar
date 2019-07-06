@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DropZone, Caption, Thumbnail } from '@shopify/polaris';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { DropZone, Caption, Thumbnail } from '@shopify/polaris'
 
 const FileUploadField = ({ updateImageUpload, backgroundFile, backgroundImage, error }) => {
-  const dropZoneImageStyle = { padding: '0 6px' };
+  const dropZoneImageStyle = { padding: '0 6px' }
 
   return (
     <>
@@ -37,20 +37,20 @@ const FileUploadField = ({ updateImageUpload, backgroundFile, backgroundImage, e
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 FileUploadField.propTypes = {
   updateImageUpload: PropTypes.func.isRequired,
   backgroundFile: PropTypes.instanceOf(Object),
   backgroundImage: PropTypes.string,
   error: PropTypes.instanceOf(Array),
-};
+}
 
 FileUploadField.defaultProps = {
   backgroundFile: {},
   backgroundImage: '',
   error: undefined,
-};
+}
 
-export default FileUploadField;
+export default FileUploadField
