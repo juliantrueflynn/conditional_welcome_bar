@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 
 const ShopifyLinkRouter = ({
   history,
@@ -11,18 +11,18 @@ const ShopifyLinkRouter = ({
   staticContext,
   ...attrs
 }) => {
-  const handleOnClick = (e) => {
-    e.preventDefault();
+  const handleOnClick = event => {
+    event.preventDefault()
 
-    history.push({ pathname: url, search });
-  };
+    history.push({ pathname: url, search })
+  }
 
   return (
     <a {...attrs} onClick={handleOnClick}>
       {children}
     </a>
-  );
-};
+  )
+}
 
 ShopifyLinkRouter.propTypes = {
   children: PropTypes.node.isRequired,
@@ -30,6 +30,6 @@ ShopifyLinkRouter.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
-};
+}
 
-export default withRouter(ShopifyLinkRouter);
+export default withRouter(ShopifyLinkRouter)

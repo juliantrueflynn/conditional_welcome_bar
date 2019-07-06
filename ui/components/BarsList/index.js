@@ -1,25 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
-import { useDelayedLoader } from '../../util/customHooksUtil';
-import BarsListItem from '../BarsListItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris'
+import { useDelayedLoader } from '../../util/customHooksUtil'
+import BarsListItem from '../BarsListItem'
 
 const BarsList = ({ bars, createBar, isCreating, isLoadingBars, navigateToBar }) => {
-  const isLoading = useDelayedLoader(isLoadingBars);
+  const isLoading = useDelayedLoader(isLoadingBars)
 
   const primaryAction = {
     content: 'Create welcome bar',
     onAction: createBar,
     loading: isLoading || isCreating,
-  };
+  }
 
   const resourceName = {
     singular: 'Welcome bar',
     plural: 'Welcome bars',
-  };
+  }
 
-  const hasBars = !!bars.length;
-  const hasEmptyState = !isLoadingBars && !hasBars;
+  const hasBars = !!bars.length
+  const hasEmptyState = !isLoadingBars && !hasBars
 
   return (
     <Page title="Home" primaryAction={primaryAction}>
@@ -39,15 +39,15 @@ const BarsList = ({ bars, createBar, isCreating, isLoadingBars, navigateToBar })
               <ResourceList
                 resourceName={resourceName}
                 items={bars}
-                renderItem={(bar) => <BarsListItem {...bar} navigateToBar={navigateToBar} />}
+                renderItem={bar => <BarsListItem {...bar} navigateToBar={navigateToBar} />}
               />
             </Card>
           )}
         </Layout.Section>
       </Layout>
     </Page>
-  );
-};
+  )
+}
 
 BarsList.propTypes = {
   bars: PropTypes.instanceOf(Array),
@@ -55,10 +55,10 @@ BarsList.propTypes = {
   isCreating: PropTypes.bool.isRequired,
   isLoadingBars: PropTypes.bool.isRequired,
   navigateToBar: PropTypes.func.isRequired,
-};
+}
 
 BarsList.defaultProps = {
   bars: [],
-};
+}
 
-export default BarsList;
+export default BarsList

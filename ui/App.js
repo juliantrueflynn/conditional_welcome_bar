@@ -1,21 +1,21 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
-import IndexBarsView from './views/IndexBarsView';
-import SingleBarView from './views/SingleBarView';
-import ShopifyProvider from './components/ShopifyProvider';
-import MissingPageView from './views/MissingPageView';
+import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
+import IndexBarsView from './views/IndexBarsView'
+import SingleBarView from './views/SingleBarView'
+import ShopifyProvider from './components/ShopifyProvider'
+import MissingPageView from './views/MissingPageView'
 
 const App = () => {
   const client = new ApolloClient({
     uri: process.env.GRAPHQL_API_URL,
     credentials: 'include',
-    request: (operation) => {
-      const csrfMetaTag = document.querySelector('meta[name=csrf-token]');
+    request: operation => {
+      const csrfMetaTag = document.querySelector('meta[name=csrf-token]')
 
       if (!csrfMetaTag) {
-        return;
+        return
       }
 
       operation.setContext({
@@ -24,7 +24,7 @@ const App = () => {
         },
       })
     },
-  });
+  })
 
   return (
     <ApolloProvider client={client}>
@@ -38,7 +38,7 @@ const App = () => {
         </ShopifyProvider>
       </BrowserRouter>
     </ApolloProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

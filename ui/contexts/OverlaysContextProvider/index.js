@@ -1,45 +1,45 @@
-import React, { useState, createContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, createContext } from 'react'
+import PropTypes from 'prop-types'
 
-const INITIAL_MODAL_BAR_ACTION_STATE = { type: '', title: '' };
+const INITIAL_MODAL_BAR_ACTION_STATE = { type: '', title: '' }
 const INITIAL_OVERLAY_STATE = Object.freeze({
   toggleModal: () => {},
   toggleToast: () => {},
   modalAction: INITIAL_MODAL_BAR_ACTION_STATE,
   toastContent: '',
-});
+})
 
-export const OverlaysContext = createContext(INITIAL_OVERLAY_STATE);
+export const OverlaysContext = createContext(INITIAL_OVERLAY_STATE)
 
 const OverlaysContextProvider = ({ children }) => {
-  const [toastContent, setToastContent] = useState('');
-  const [modalAction, setModalAction] = useState(INITIAL_MODAL_BAR_ACTION_STATE);
+  const [toastContent, setToastContent] = useState('')
+  const [modalAction, setModalAction] = useState(INITIAL_MODAL_BAR_ACTION_STATE)
 
   const handleToggleToast = (content = '') => {
-    const message = content.length ? content : ''; // Ensure string to fix Shopify bug.
-    setToastContent(message);
-  };
+    const message = content.length ? content : '' // Ensure string to fix Shopify bug.
+    setToastContent(message)
+  }
 
-  const handleModalToggle = (action) => {
+  const handleModalToggle = action => {
     if (!action || !action.type) {
-      return setModalAction(INITIAL_MODAL_BAR_ACTION_STATE);
+      return setModalAction(INITIAL_MODAL_BAR_ACTION_STATE)
     }
 
-    setModalAction(action);
-  };
+    setModalAction(action)
+  }
 
   const contextValues = {
     toggleModal: handleModalToggle,
     toggleToast: handleToggleToast,
     toastContent,
     modalAction,
-  };
+  }
 
-  return <OverlaysContext.Provider value={contextValues}>{children}</OverlaysContext.Provider>;
-};
+  return <OverlaysContext.Provider value={contextValues}>{children}</OverlaysContext.Provider>
+}
 
 OverlaysContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
-};
+}
 
-export default OverlaysContextProvider;
+export default OverlaysContextProvider

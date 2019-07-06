@@ -1,9 +1,9 @@
-const cookieSegments = document.cookie.match('(^|;) ?shop_origin=([^;]*)(;|$)');
+const cookieSegments = document.cookie.match('(^|;) ?shop_origin=([^;]*)(;|$)')
 
-const shopOriginFromCookie = cookieSegments ? cookieSegments[2] : null;
+const shopOriginFromCookie = cookieSegments ? cookieSegments[2] : null
 
-const shopOriginFromUrl = new URLSearchParams(window.location.search).get('shop');
+const shopOriginFromUrl = new URLSearchParams(window.location.search).get('shop')
 
-export const shopOrigin = shopOriginFromCookie || shopOriginFromUrl;
+export const shopOrigin = shopOriginFromCookie || shopOriginFromUrl
 
-export const locale = new URLSearchParams(window.location.search).get('locale');
+export const locale = new URLSearchParams(window.location.search).get('locale')
