@@ -1,11 +1,29 @@
 {
-  "extends": ["react-app", "plugin:prettier/recommended"],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "extends": [
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": [
+    "prettier"
+  ],
   "rules": {
     "prettier/prettier": ["error", {
       "singleQuote": true,
       "printWidth": 100,
       "trailingComma": "all",
-      "arrowParens": "always"
+      "semi": false
     }]
   }
 }
