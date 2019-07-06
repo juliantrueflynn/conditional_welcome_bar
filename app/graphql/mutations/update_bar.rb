@@ -17,10 +17,8 @@ module Mutations
     argument :padding_y, String, required: false
     argument :padding_x, String, required: false
     argument :text_align, String, required: false
-    argument :text_opacity, Float, required: false
     argument :text_color, String, required: false
     argument :font_size, String, required: false
-    argument :background_opacity, Float, required: false
     argument :background_color, String, required: false
     argument :background_image, String, required: false
     argument :background_image_repeat, String, required: false

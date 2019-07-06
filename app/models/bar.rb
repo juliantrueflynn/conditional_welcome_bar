@@ -9,7 +9,7 @@ class Bar < ApplicationRecord
 
   belongs_to :shop
 
-  validates_presence_of :title, :placement, :text_color, :page_templates
+  validates_presence_of :title, :placement, :background_color, :text_color, :page_templates
   validates_length_of :content, minimum: 0, allow_nil: false
   validates_inclusion_of :placement, in: PLACEMENT
   validates_inclusion_of :is_active, in: [true, false]
@@ -22,14 +22,6 @@ class Bar < ApplicationRecord
   validates_format_of :font_size, with: SIZE_REGEX, allow_nil: true
   validates_format_of :padding_y, with: SIZE_REGEX, allow_nil: true
   validates_format_of :padding_x, with: SIZE_REGEX, allow_nil: true
-  validates_numericality_of :text_opacity,
-    less_than_or_equal_to: 1,
-    greater_than_or_equal_to: 0,
-    allow_nil: true
-  validates_numericality_of :background_opacity,
-    less_than_or_equal_to: 1,
-    greater_than_or_equal_to: 0,
-    allow_nil: true
   validates :url, url: true, allow_blank: true
 
   scope :with_active, -> { where(is_active: true) }

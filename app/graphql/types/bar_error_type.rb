@@ -12,10 +12,8 @@ module Types
     field :padding_y, [String], null: true
     field :padding_x, [String], null: true
     field :text_align, [String], null: true
-    field :text_opacity, [String], null: true
     field :text_color, [String], null: true
     field :font_size, [String], null: true
-    field :background_opacity, [String], null: true
     field :background_color, [String], null: true
     field :background_image, [String], null: true
     field :background_image_repeat, [String], null: true

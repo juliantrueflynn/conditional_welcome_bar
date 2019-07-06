@@ -14,11 +14,9 @@ hasCloseButton
 paddingY
 paddingX
 textAlign
-textOpacity
 textColor
 fontSize
 backgroundColor
-backgroundOpacity
 backgroundImage
 backgroundImageRepeat
 backgroundImageSizeX
