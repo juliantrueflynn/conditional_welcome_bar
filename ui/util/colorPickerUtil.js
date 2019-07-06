@@ -1,5 +1,4 @@
-import { hsbToHex, rgbToHsb } from '@shopify/polaris';
-import hexToRgb from 'hex-to-rgb';
+import { rgbToHsb, hsbToRgb } from '@shopify/polaris';
 
 const INITIAL_HSBA_COLOR_STATE = { hue: 120, brightness: 1, saturation: 1, alpha: 1 };
 
@@ -8,31 +7,23 @@ export const INITIAL_COLORS_STATE = {
   backgroundHSBA: INITIAL_HSBA_COLOR_STATE,
 };
 
-export const convertFromHSBA = ({ backgroundHSBA, textHSBA }) => {
-  const { alpha: backgroundOpacity, ...backgroundHSB } = backgroundHSBA;
-  const { alpha: textOpacity, ...textHSB } = textHSBA;
+export const hsbToRgbString = (hsb) => {
+  const rgbMap = hsbToRgb(hsb);
 
-  return {
-    backgroundColor: hsbToHex(backgroundHSB),
-    backgroundOpacity,
-    textColor: hsbToHex(textHSB),
-    textOpacity,
-  };
+  return `rgba(${rgbMap.red},${rgbMap.green},${rgbMap.blue},${hsb.alpha})`;
 };
 
-const rgbMap = (rgb) => rgbToHsb({ red: rgb[0], green: rgb[1], blue: rgb[2] });
+export const rgbStringToHsb = (rgb) => {
+  if (!rgb) {
+    return INITIAL_HSBA_COLOR_STATE;
+  }
 
-const hexToHSBa = (hex, alpha) => {
-  const rgb = hexToRgb(hex);
-  const hsb = rgbMap(rgb);
+  const values = rgb.slice(5, -1).split(',').map(Number);
+  const hsb = rgbToHsb({
+    red: values[0],
+    green: values[1],
+    blue: values[2],
+  })
 
-  return { ...hsb, alpha };
-};
-
-export const convertToHSBA = (bar) => {
-  const { backgroundColor, backgroundOpacity, textColor, textOpacity } = bar;
-  const backgroundHSBA = backgroundColor && hexToHSBa(backgroundColor, backgroundOpacity);
-  const textHSBA = textColor && hexToHSBa(textColor, textOpacity);
-
-  return { backgroundHSBA, textHSBA };
+  return { ...hsb, alpha: values[3] };
 };
