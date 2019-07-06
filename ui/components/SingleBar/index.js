@@ -6,7 +6,7 @@ import SingleBarForm from '../../components/SingleBarForm';
 import { UPDATE_BAR } from '../../util/graphQlUtil';
 import { OverlaysContext } from '../../contexts/OverlaysContextProvider';
 import { useDelayedLoader } from '../../util/customHooksUtil';
-import { convertToHSBA, INITIAL_COLORS_STATE } from '../../util/colorPickerUtil';
+import { rgbStringToHsb, hsbToRgbString } from '../../util/colorPickerUtil';
 
 const SingleBar = ({ bar, loading }) => {
   const [hasDirtyState, setHasDirtyState] = useState(false);
@@ -14,30 +14,40 @@ const SingleBar = ({ bar, loading }) => {
   const isLoading = useDelayedLoader(loading);
   const { toggleToast } = useContext(OverlaysContext);
 
-  const onFormComplete = (success) => {
+  const onFormComplete = (formData) => {
     setHasDirtyState(false);
     setDirtyInputs({});
 
-    if (success && success.updateBar.bar) {
+    if (formData && formData.updateBar.bar) {
       toggleToast('Welcome bar updated');
     }
   };
 
   const updateDirtyInputs = (id) => setDirtyInputs({ ...dirtyInputs, [id]: true });
 
-  const { __typename, ...barData } = bar;
-  const barAttributes = { ...barData, ...convertToHSBA(barData) };
+  const { __typename, id, ...barData } = bar;
+  barData.textColor = rgbStringToHsb(bar.textColor);
+  barData.backgroundColor = rgbStringToHsb(bar.backgroundColor);
 
   return (
     <LoadingManager loadingTo="single" isLoading={isLoading}>
       <Mutation mutation={UPDATE_BAR} onCompleted={onFormComplete}>
         {(updateBar, { loading: isUpdating, data: formData }) => {
+          const errors = formData && formData.updateBar && formData.updateBar.errors;
+
+          const handleUpdate = (values) => {
+            values.textColor = hsbToRgbString(values.textColor);
+            values.backgroundColor = hsbToRgbString(values.backgroundColor);
+
+            updateBar({ variables: { input: { id, ...values } } });
+          };
+
           return (
             <SingleBarForm
-              bar={barAttributes}
-              updateBar={updateBar}
+              bar={barData}
+              updateBar={handleUpdate}
               isUpdating={isUpdating}
-              formData={formData}
+              errors={errors}
               hasDirtyState={hasDirtyState}
               setHasDirtyState={setHasDirtyState}
               dirtyInputs={dirtyInputs}
@@ -56,7 +66,7 @@ SingleBar.propTypes = {
 };
 
 SingleBar.defaultProps = {
-  bar: { ...INITIAL_COLORS_STATE },
+  bar: {},
 };
 
 export default SingleBar;

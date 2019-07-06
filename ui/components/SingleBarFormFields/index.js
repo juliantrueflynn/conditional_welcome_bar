@@ -8,7 +8,6 @@ const SIZE_PLACEHOLDER = '200px, 14em, or 100%';
 
 const SingleBarFormFields = ({
   updateFieldValue,
-  updateColorPickerValue,
   updateImageUpload,
   updateChoiceListValue,
   dirtyInputs,
@@ -156,11 +155,11 @@ const SingleBarFormFields = ({
       <Card sectioned>
         <FormLayout>
           <ColorPickerField
-            id="textHSBA"
+            id="textColor"
             label="Text color"
-            color={fields.textHSBA}
-            updateColorPicker={updateColorPickerValue}
-            error={!dirtyInputs.textHSBA && errors.textHSBA}
+            color={fields.textColor}
+            updateColorPicker={updateFieldValue}
+            error={!dirtyInputs.textColor && errors.textColor}
           />
           <ChoiceList
             title="Alignment"
@@ -193,11 +192,11 @@ const SingleBarFormFields = ({
       <Card sectioned>
         <FormLayout>
           <ColorPickerField
-            id="backgroundHSBA"
+            id="backgroundColor"
             label="Background color"
-            color={fields.backgroundHSBA}
-            updateColorPicker={updateColorPickerValue}
-            error={!dirtyInputs.backgroundHSBA && errors.backgroundHSBA}
+            color={fields.backgroundColor}
+            updateColorPicker={updateFieldValue}
+            error={!dirtyInputs.backgroundColor && errors.backgroundColor}
           />
           <FileUploadField
             updateImageUpload={updateImageUpload}
@@ -266,7 +265,6 @@ const SingleBarFormFields = ({
 
 SingleBarFormFields.propTypes = {
   updateFieldValue: PropTypes.func.isRequired,
-  updateColorPickerValue: PropTypes.func.isRequired,
   updateImageUpload: PropTypes.func.isRequired,
   updateChoiceListValue: PropTypes.func.isRequired,
   dirtyInputs: PropTypes.instanceOf(Object).isRequired,
