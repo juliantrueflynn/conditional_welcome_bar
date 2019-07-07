@@ -11,8 +11,6 @@ module ShopifyApp
         login_shop
         install_scripttags
 
-        shop_origin_cookie
-
         redirect_to return_address
       else
         flash[:error] = I18n.t('could_not_log_in')
