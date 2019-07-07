@@ -1,34 +1,39 @@
+# frozen_string_literal: true
+
 class GraphqlController < ApplicationController
   include ShopifyApp::Authenticated
 
   def execute
-    variables = ensure_hash(params[:variables])
-    query = params[:query]
-    operation_name = params[:operationName]
-    result = WelcomeBarAppSchema.execute(
-      query,
-      variables: variables,
-      context: {},
-      operation_name: operation_name
-    )
-
+    result = WelcomeBarAppSchema.execute(params[:query], execute_query)
     render json: result
-  rescue => e
+  rescue StandardError => e
     raise e unless Rails.env.development?
-    handle_error_in_development e
+
+    handle_error_in_development error
   end
 
   private
 
-  # Handle form data, JSON body, or a blank value
+  def execute_query
+    {
+      variables: ensure_hash(params[:variables]),
+      context: {},
+      operation_name: params[:operationName]
+    }
+  end
+
+  def hash_from_ambiguous(ambiguous_param)
+    if ambiguous_param.present?
+      ensure_hash(JSON.parse(ambiguous_param))
+    else
+      {}
+    end
+  end
+
   def ensure_hash(ambiguous_param)
     case ambiguous_param
     when String
-      if ambiguous_param.present?
-        ensure_hash(JSON.parse(ambiguous_param))
-      else
-        {}
-      end
+      hash_from_ambiguous(ambiguous_param)
     when Hash, ActionController::Parameters
       ambiguous_param
     when nil
@@ -38,10 +43,13 @@ class GraphqlController < ApplicationController
     end
   end
 
-  def handle_error_in_development(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
-    json = { error: { message: e.message, backtrace: e.backtrace }, data: {} }
+  def handle_error_in_development(error)
+    logger.error error.message
+    logger.error error.backtrace.join("\n")
+    json = {
+      error: { message: error.message, backtrace: error.backtrace },
+      data: {}
+    }
 
     render json: json, status: 500
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class CreateBar < GraphQL::Schema::RelayClassicMutation
     field :bar, Types::BarType, null: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :graphql do
   task schema: :environment do
     schema_defn = WelcomeBarAppSchema.to_definition

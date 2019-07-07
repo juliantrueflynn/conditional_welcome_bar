@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class BarErrorType < Types::BaseObject
     field :title, [String], null: true

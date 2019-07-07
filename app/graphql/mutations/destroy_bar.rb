@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class DestroyBar < GraphQL::Schema::RelayClassicMutation
     field :bar, Types::BarType, null: true
@@ -7,7 +9,7 @@ module Mutations
     def resolve(id:)
       bar = Bar.find_by_id(id)
 
-      if bar && bar.destroy
+      if bar&.destroy
         { bar: bar }
       else
         { bar: nil }
