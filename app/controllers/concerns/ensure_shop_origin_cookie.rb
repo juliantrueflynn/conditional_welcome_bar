@@ -4,7 +4,7 @@ module EnsureShopOriginCookie
   extend ActiveSupport::Concern
 
   included do
-    around_action :shop_origin_cookie
+    before_action :shop_origin_cookie
   end
 
   def shop_origin_cookie(shop = nil)
