@@ -1,2 +1,0 @@
-web: PORT=3000 npm --prefix ui run start
-api: PORT=3001 bundle exec rails s

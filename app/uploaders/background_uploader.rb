@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BackgroundUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
@@ -8,6 +10,6 @@ class BackgroundUploader < CarrierWave::Uploader::Base
   end
 
   def extension_whitelist
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 end

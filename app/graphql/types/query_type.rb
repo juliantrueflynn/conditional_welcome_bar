@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class QueryType < Types::BaseObject
     field :bars, [Types::BarType], null: true do
@@ -6,6 +8,7 @@ module Types
     def bars(shopify_domain:)
       shop = Shop.find_by_shopify_domain(shopify_domain)
       return shop.bars if shop
+
       []
     end
 

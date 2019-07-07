@@ -1,38 +1,53 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'UpdateBar', type: :mutation do
-  let!(:mutation_string) do
-    names = Bar.updatableable_columns
-    columns = names.map { |name| name.camelize(:lower) }.join(' ')
-    "mutation UpdateBar($input: UpdateBarInput!) { updateBar(input: $input) { bar { #{columns} } errors { #{columns} } } }"
+  let(:bar_id) { create(:bar, title: 'Some old title').id }
+  let(:query) do
+    <<~GRAPHQL
+      mutation {
+        updateBar(input: {
+          id: #{bar_id}
+          title: \"#{bar_title}\"
+        }) {
+          bar { #{bar_column_names} }
+          errors { #{bar_column_names} }
+        }
+      }
+    GRAPHQL
   end
 
-  describe 'update mutation' do
-    context 'when valid' do
-      it 'responds with no errors' do
-        mutation mutation_string,
-          variables: { input: { id: create(:bar).id, title: 'New title' } },
-          operation_name: 'UpdateBar'
-        errors = gql_response.data['updateBar']['errors']
-        expect(errors.each_value.any?(&:present?)).to be false
-      end
+  before { mutation(query) }
 
-      it 'has changed title' do
-        mutation mutation_string,
-          variables: { input: { id: create(:bar).id, title: 'New title' } },
-          operation_name: 'UpdateBar'
-        expect(gql_response.data['updateBar']['bar']['title']).to eq('New title')
-      end
+  context 'when valid' do
+    let(:bar_title) { 'Some new title' }
+
+    it 'responds with no errors' do
+      errors = gql_response.data['updateBar']['errors']
+      expect(errors.each_value.any?(&:present?)).to be false
     end
 
-    context 'when not valid' do
-      it 'responds with errors' do
-        mutation mutation_string,
-          variables: { input: { id: create(:bar).id, title: nil } },
-          operation_name: 'UpdateBar'
-        errors = gql_response.data['updateBar']['errors']
-        expect(errors.each_value.any?(&:present?)).to be true
-      end
+    it 'has changed title' do
+      expect(gql_response.data['updateBar']['bar']['title']).to eq(bar_title)
     end
+  end
+
+  context 'when not valid' do
+    let(:bar_title) { nil }
+
+    it 'responds with errors' do
+      errors = gql_response.data['updateBar']['errors']
+      expect(errors.each_value.any?(&:present?)).to be true
+    end
+
+    it 'responds with nil data' do
+      expect(gql_response.data['updateBar']['bar']).to be_nil
+    end
+  end
+
+  def bar_column_names
+    names = Bar.updatableable_columns
+    names.map { |name| name.camelize(:lower) }.join(' ')
   end
 end
