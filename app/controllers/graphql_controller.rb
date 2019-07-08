@@ -1,25 +1,32 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
-  include ShopifyApp::Authenticated
-
   def execute
     result = WelcomeBarAppSchema.execute(params[:query], execute_query)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
 
-    handle_error_in_development error
+    handle_error_in_development e
   end
 
   private
 
   def execute_query
+    Rails.logger.info "**************** #{current_shop.inspect}"
     {
       variables: ensure_hash(params[:variables]),
-      context: {},
-      operation_name: params[:operationName]
+      operation_name: params[:operationName],
+      context: {
+        current_shop: current_shop
+      }
     }
+  end
+
+  def current_shop
+    return unless session[:shopify]
+    shop_session = ShopifyApp::SessionRepository.retrieve(session[:shopify])
+    Shop.find_by(shopify_domain: shop_session.domain)
   end
 
   def hash_from_ambiguous(ambiguous_param)

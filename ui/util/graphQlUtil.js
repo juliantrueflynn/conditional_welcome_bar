@@ -26,8 +26,8 @@ backgroundImagePositionY
 `
 
 export const GET_ALL_BARS = gql`
-  query Bars($shopifyDomain: String) {
-    bars(shopifyDomain: $shopifyDomain) {
+  {
+    bars {
       id
       title
       content
