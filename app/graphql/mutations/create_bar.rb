@@ -4,10 +4,8 @@ module Mutations
   class CreateBar < GraphQL::Schema::RelayClassicMutation
     field :bar, Types::BarType, null: true
 
-    argument :shop_origin, String, required: true
-
-    def resolve(shop_origin:)
-      shop = Shop.find_by_shopify_domain(shop_origin)
+    def resolve
+      shop = ensure_current_shop
 
       if shop
         bar = shop.bars.build

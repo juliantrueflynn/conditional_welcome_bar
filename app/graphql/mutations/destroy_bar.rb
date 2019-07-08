@@ -7,9 +7,10 @@ module Mutations
     argument :id, ID, required: true
 
     def resolve(id:)
-      bar = Bar.find_by_id(id)
+      shop = ensure_current_shop
+      bar = shop&.bars.find_by(id: id)
 
-      if bar&.destroy
+      if shop && bar&.destroy
         { bar: bar }
       else
         { bar: nil }

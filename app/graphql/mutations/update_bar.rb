@@ -30,12 +30,13 @@ module Mutations
     argument :background_image_position_y, String, required: false
 
     def resolve(id:, **attributes)
-      bar = Bar.find_by_id(id)
+      shop = ensure_current_shop
+      bar = shop&.bars.find_by(id: id)
 
-      if bar&.update(attributes)
+      if shop && bar&.update(attributes)
         { bar: bar, errors: {} }
       else
-        { bar: nil, errors: bar.errors.to_hash }
+        { bar: nil, errors: bar&.errors.to_hash }
       end
     end
   end

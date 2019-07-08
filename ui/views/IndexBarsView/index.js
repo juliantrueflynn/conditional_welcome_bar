@@ -1,29 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Query, Mutation } from 'react-apollo';
-import { shopOrigin } from '../../util/shopifyUtil';
-import { GET_ALL_BARS, CREATE_BAR } from '../../util/graphQlUtil';
-import BarsList from '../../components/BarsList';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Query, Mutation } from 'react-apollo'
+import { shopOrigin } from '../../util/shopifyUtil'
+import { GET_ALL_BARS, CREATE_BAR } from '../../util/graphQlUtil'
+import BarsList from '../../components/BarsList'
 
 const IndexBarsView = ({ history, location: { search } }) => {
-  const navigateToBar = (barId) => history.push({ pathname: `/bars/${barId}`, search });
+  const navigateToBar = barId => history.push({ pathname: `/bars/${barId}`, search })
 
-  const onCreateComplete = (response) => {
+  const onCreateComplete = response => {
     if (response.createBar.bar) {
-      navigateToBar(response.createBar.bar.id);
+      navigateToBar(response.createBar.bar.id)
     }
-  };
+  }
 
-  const mutationInput = { input: { shopOrigin } };
+  const mutationInput = { input: { shopOrigin } }
 
   return (
-    <Query
-      query={GET_ALL_BARS}
-      variables={{ shopifyDomain: shopOrigin }}
-    >
+    <Query query={GET_ALL_BARS}>
       {({ error, loading: isLoadingBars, data }) => {
         if (error) {
-          return <p>Error :(</p>;
+          return <p>Error :(</p>
         }
 
         return (
@@ -43,11 +40,11 @@ const IndexBarsView = ({ history, location: { search } }) => {
               />
             )}
           </Mutation>
-        );
+        )
       }}
     </Query>
-  );
-};
+  )
+}
 
 IndexBarsView.propTypes = {
   history: PropTypes.shape({
@@ -56,6 +53,6 @@ IndexBarsView.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
-};
+}
 
-export default IndexBarsView;
+export default IndexBarsView
