@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mutations::Base < GraphQL::Schema::RelayClassicMutation
   def ensure_current_shop
     current_shop = context[:current_shop]

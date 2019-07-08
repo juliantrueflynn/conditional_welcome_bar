@@ -24,6 +24,7 @@ class GraphqlController < ApplicationController
 
   def current_shop
     return unless session[:shopify]
+
     shop_session = ShopifyApp::SessionRepository.retrieve(session[:shopify])
     Shop.find_by(shopify_domain: shop_session.domain)
   end
