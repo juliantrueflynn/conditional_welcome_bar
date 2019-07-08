@@ -33,10 +33,12 @@ module Mutations
       shop = ensure_current_shop
       bar = shop.bars.find_by(id: id)
 
-      if bar&.update(attributes)
+      return { bar: nil, errors: nil } unless bar
+
+      if bar.update(attributes)
         { bar: bar, errors: {} }
       else
-        { bar: nil, errors: bar&.errors.to_hash }
+        { bar: nil, errors: bar.errors.to_hash }
       end
     end
   end
