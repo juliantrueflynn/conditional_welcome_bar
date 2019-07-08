@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class CreateBar < GraphQL::Schema::RelayClassicMutation
+  class CreateBar < Mutations::Base
     field :bar, Types::BarType, null: true
 
     def resolve

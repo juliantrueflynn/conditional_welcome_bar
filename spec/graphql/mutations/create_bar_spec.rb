@@ -3,41 +3,47 @@
 require 'rails_helper'
 
 describe 'CreateBar', type: :mutation do
-  describe 'create mutation' do
-    let(:query) do
-      <<~GRAPHQL
-        mutation {
-          createBar(input: { shopOrigin: \"#{shop_domain}\" }) {
-            bar { id }
+  let(:gql_post) { mutation(gql_query, context: { current_shop: shop }) }
+  let(:gql_query) do
+    <<~GRAPHQL
+      mutation {
+        createBar(input: {}) {
+          bar {
+            id
           }
         }
-      GRAPHQL
+      }
+    GRAPHQL
+  end
+
+  context 'when valid' do
+    let(:shop) { create(:shop) }
+
+    it 'returns bar' do
+      gql_post
+      expect(gql_response.data['createBar']['bar']).to_not be_nil
     end
 
-    context 'when valid' do
-      let(:shop_domain) { create(:shop).shopify_domain }
+    it 'increases bar count' do
+      expect { gql_post }.to change(Bar, :count)
+    end
+  end
 
-      it 'responds with welcome bar' do
-        mutation(query)
-        expect(gql_response.data['createBar']['bar']).to_not be_nil
-      end
+  context 'when not valid' do
+    let(:shop) { nil }
 
-      it 'increases bar count' do
-        expect { mutation(query) }.to change(Bar, :count)
-      end
+    it 'returns nil' do
+      gql_post
+      expect(gql_response.data['createBar']).to be_nil
     end
 
-    context 'when not valid' do
-      let(:shop_domain) { 'not-in-db.myshopify.com' }
+    it 'returns errors' do
+      gql_post
+      expect(gql_response.errors).to_not be_nil
+    end
 
-      it 'returns nil' do
-        mutation(query)
-        expect(gql_response.data['createBar']['bar']).to be_nil
-      end
-
-      it 'does not increase bar count' do
-        expect { mutation(query) }.to_not change(Bar, :count)
-      end
+    it 'does not increase bar count' do
+      expect { gql_post }.to_not change(Bar, :count)
     end
   end
 end

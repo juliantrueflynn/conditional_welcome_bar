@@ -13,27 +13,13 @@ module Helpers
       end
     end
 
-    def query(query, variables: nil, context: {}, operation_name: nil)
-      hash_variables = ensure_hash(variables)
+    def query(query, context: {})
       json = WelcomeBarAppSchema.execute(
         query,
-        variables: hash_variables,
-        context: context,
-        operation_name: operation_name
+        context: context
       )
 
       @gql_response = GQLResponse.new(json)
-    end
-
-    def ensure_hash(ambiguous_param)
-      case ambiguous_param
-      when Hash, ActionController::Parameters
-        ambiguous_param
-      when nil
-        {}
-      else
-        raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
-      end
     end
 
     alias mutation query

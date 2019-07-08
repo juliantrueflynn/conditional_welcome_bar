@@ -13,7 +13,6 @@ class GraphqlController < ApplicationController
   private
 
   def execute_query
-    Rails.logger.info "**************** #{current_shop.inspect}"
     {
       variables: ensure_hash(params[:variables]),
       operation_name: params[:operationName],

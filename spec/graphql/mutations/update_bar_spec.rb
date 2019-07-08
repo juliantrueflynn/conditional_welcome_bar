@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 describe 'UpdateBar', type: :mutation do
-  let(:bar_id) { create(:bar, title: 'Some old title').id }
-  let(:query) do
+  let(:shop) { create(:shop) }
+  let(:bar_id) { create(:bar, shop: shop, title: 'Some old title').id }
+  let(:gql_query) do
     <<~GRAPHQL
       mutation {
         updateBar(input: {
@@ -18,7 +19,7 @@ describe 'UpdateBar', type: :mutation do
     GRAPHQL
   end
 
-  before { mutation(query) }
+  before { mutation(gql_query, context: { current_shop: shop }) }
 
   context 'when valid' do
     let(:bar_title) { 'Some new title' }

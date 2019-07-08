@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateBar < GraphQL::Schema::RelayClassicMutation
+  class UpdateBar < Mutations::Base
     field :bar, Types::BarType, null: true
     field :errors, Types::BarErrorType, null: true
 
@@ -31,9 +31,9 @@ module Mutations
 
     def resolve(id:, **attributes)
       shop = ensure_current_shop
-      bar = shop&.bars.find_by(id: id)
+      bar = shop.bars.find_by(id: id)
 
-      if shop && bar&.update(attributes)
+      if bar&.update(attributes)
         { bar: bar, errors: {} }
       else
         { bar: nil, errors: bar&.errors.to_hash }

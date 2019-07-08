@@ -3,43 +3,39 @@
 require 'rails_helper'
 
 describe 'BarsQuery', type: :query do
-  describe 'get bars query' do
-    let(:query) do
-      <<~GRAPHQL
-        query {
-          bars(shopifyDomain: \"#{shop_domain}\") {
-            id
-            title
-            content
-            createdAt
-            updatedAt
-          }
+  let(:query) do
+    <<~GRAPHQL
+      {
+        bars {
+          id
+          title
+          content
+          createdAt
+          updatedAt
         }
-      GRAPHQL
+      }
+    GRAPHQL
+  end
+
+  before { mutation(query, context: { current_shop: shop }) }
+
+  context 'when valid' do
+    let(:shop) { create(:shop_with_bars) }
+
+    it 'responds with bars' do
+      expect(gql_response.data['bars'].length).to eq(shop.bars.length)
     end
 
-    context 'when valid' do
-      let(:shop) { create(:shop_with_bars) }
-      let(:shop_domain) { shop.shopify_domain }
-
-      before { mutation(query) }
-
-      it 'responds with bars' do
-        expect(gql_response.data['bars'].length).to eq(shop.bars.length)
-      end
-
-      it 'responds with no errors' do
-        expect(gql_response.errors).to be_nil
-      end
+    it 'responds with no errors' do
+      expect(gql_response.errors).to be_nil
     end
+  end
 
-    context 'when not valid' do
-      let(:shop_domain) { 'not-in-db.myshopify.com' }
+  context 'when not valid' do
+    let(:shop) { nil }
 
-      it 'responds with empty array' do
-        mutation(query)
-        expect(gql_response.data['bars']).to eq([])
-      end
+    it 'responds with empty array' do
+      expect(gql_response.data['bars']).to eq([])
     end
   end
 end
