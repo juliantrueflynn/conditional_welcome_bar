@@ -16,8 +16,8 @@ describe 'BarQuery', type: :query do
     end
 
     before do
-      create(:bar)
-      mutation(query)
+      shop = create(:shop)
+      mutation(query, context: { current_shop: shop })
     end
 
     context 'when valid' do

@@ -13,7 +13,6 @@ class GraphqlController < ApplicationController
   private
 
   def execute_query
-    Rails.logger.info "**************** #{current_shop.inspect}"
     {
       variables: ensure_hash(params[:variables]),
       operation_name: params[:operationName],
@@ -25,6 +24,7 @@ class GraphqlController < ApplicationController
 
   def current_shop
     return unless session[:shopify]
+
     shop_session = ShopifyApp::SessionRepository.retrieve(session[:shopify])
     Shop.find_by(shopify_domain: shop_session.domain)
   end
