@@ -20,8 +20,10 @@ Bundler.require(*Rails.groups)
 
 module WelcomeBarApp
   class Application < Rails::Application
-    config.load_defaults 5.1
+    config.load_defaults 6.0
 
-    config.generators.system_tests = nil
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
   end
 end
