@@ -12,7 +12,7 @@ end
 gem "rails", "~> 5.1.5"
 
 gem "pg"
-gem "puma", "~> 3.7"
+gem "puma"
 gem "carrierwave", "~> 1.0"
 gem "dotenv-rails"
 gem "graphql"
