@@ -7,16 +7,16 @@ module Helpers
       OmniAuth.config.add_mock(:shopify, auth_mock_attributes(shop))
 
       auth = OmniAuth.config.mock_auth[:shopify]
-      Rails.application.env_config['omniauth.auth'] = auth
+      Rails.application.env_config["omniauth.auth"] = auth
 
-      get '/auth/shopify'
+      get "/auth/shopify"
       follow_redirect!
       follow_redirect!
     end
 
     def auth_mock_attributes(shop)
       {
-        provider: 'shopify',
+        provider: "shopify",
         uid: shop.shopify_domain,
         credentials: { token: shop.shopify_token }
       }

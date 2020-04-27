@@ -34,7 +34,7 @@ class Bar < ApplicationRecord
   scope :with_active, -> { where(is_active: true) }
 
   def self.with_page_template(template)
-    where('? = ANY (page_templates)', template)
+    where("? = ANY (page_templates)", template)
   end
 
   def self.with_shopify_domain(shopify_domain)
@@ -59,7 +59,7 @@ class Bar < ApplicationRecord
   private
 
   def toggle_active_page_template
-    if page_templates.include?('global')
+    if page_templates.include?("global")
       return update_is_active_for_all_templates
     end
 
@@ -75,7 +75,7 @@ class Bar < ApplicationRecord
   def update_is_active_for_match_template
     bars_active_without_current
       .with_page_template(page_templates)
-      .or(bars_active_without_current.with_page_template('global'))
+      .or(bars_active_without_current.with_page_template("global"))
       .each { |bar| bar.update_columns(is_active: false) }
   end
 

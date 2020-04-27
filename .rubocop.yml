@@ -3560,7 +3560,7 @@ Style/StringLiterals:
   Enabled: true
   VersionAdded: '0.9'
   VersionChanged: '0.36'
-  EnforcedStyle: single_quotes
+  EnforcedStyle: double_quotes
   SupportedStyles:
     - single_quotes
     - double_quotes

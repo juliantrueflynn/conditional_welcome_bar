@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'support/helpers/graphql'
-require_relative 'support/helpers/shopify_auth'
+require_relative "support/helpers/graphql"
+require_relative "support/helpers/shopify_auth"
 
 RSpec.configure do |config|
   config.include Helpers::Graphql

@@ -17,6 +17,6 @@ class Shop < ActiveRecord::Base
   private
 
   def generate_default_bar
-    bars.create(title: 'First welcome bar!')
+    bars.create(title: "First welcome bar!")
   end
 end

@@ -8,8 +8,8 @@ module Helpers
       attr_reader :data, :errors
 
       def initialize(args)
-        @data = args['data'] || nil
-        @errors = args['errors'] || nil
+        @data = args["data"] || nil
+        @errors = args["errors"] || nil
       end
     end
 

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-describe 'BarsQuery', type: :query do
+describe "BarsQuery", type: :query do
   let(:query) do
     <<~GRAPHQL
       {
@@ -19,23 +19,23 @@ describe 'BarsQuery', type: :query do
 
   before { mutation(query, context: { current_shop: shop }) }
 
-  context 'when valid' do
+  context "when valid" do
     let(:shop) { create(:shop_with_bars) }
 
-    it 'responds with bars' do
-      expect(gql_response.data['bars'].length).to eq(shop.bars.length)
+    it "responds with bars" do
+      expect(gql_response.data["bars"].length).to eq(shop.bars.length)
     end
 
-    it 'responds with no errors' do
+    it "responds with no errors" do
       expect(gql_response.errors).to be_nil
     end
   end
 
-  context 'when not valid' do
+  context "when not valid" do
     let(:shop) { nil }
 
-    it 'responds with empty array' do
-      expect(gql_response.data['bars']).to eq([])
+    it "responds with empty array" do
+      expect(gql_response.data["bars"]).to eq([])
     end
   end
 end
