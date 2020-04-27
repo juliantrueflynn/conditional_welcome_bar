@@ -260,7 +260,7 @@ DEPENDENCIES
   byebug
   carrierwave (~> 1.0)
   database_cleaner
-  dotenv-rails (~> 2.1)
+  dotenv-rails
   factory_bot_rails (~> 4.0)
   faker
   graphiql-rails

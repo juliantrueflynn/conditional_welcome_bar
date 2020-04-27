@@ -16,8 +16,12 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
 WORKDIR $APP_PATH
 COPY Gemfile* ${APP_PATH}/
 RUN gem install bundler -v "$BUNDLER_VERSION" \
- && bundle install --without test development
+ && bundle install
 COPY . $APP_PATH
+
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
 RUN RAILS_ENV=production bundle exec rake assets:precompile
 

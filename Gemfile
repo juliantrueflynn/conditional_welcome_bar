@@ -17,7 +17,7 @@ gem "puma", "~> 3.7"
 
 # Feature gems
 gem "carrierwave", "~> 1.0"
-gem "dotenv-rails", "~> 2.1"
+gem "dotenv-rails"
 gem "graphql"
 gem "mini_magick"
 gem "omniauth-rails_csrf_protection"
