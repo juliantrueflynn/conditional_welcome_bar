@@ -33,7 +33,6 @@ config/master.key
 .env
 .env.local
 .env.production
-.rspec
 api/public/uploads
 
 bundle.js
