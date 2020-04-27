@@ -1,36 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'support/helpers/graphql'
-require_relative 'support/helpers/shopify_auth'
-
 RSpec.configure do |config|
-  config.include Helpers::Graphql
-  config.include Helpers::ShopifyAuth, type: :request
-
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.around(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each, type: :feature, javascript: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
-
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

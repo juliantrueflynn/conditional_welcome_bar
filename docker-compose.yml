@@ -1,18 +1,22 @@
 version: "3.7"
-volumes:
-  public:
+
 services:
   db:
-    image: postgres
+    image: postgres:12.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - $HOME/postgresql/12.2/conditional_welcome_bar:/var/lib/postgresql/data:delegated
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/app/usr/src
+      - .:/usr/src/app
     env_file:
       - .env
+    environment:
+      RAILS_ENV: development
     ports:
       - "3000:3000"
     depends_on:

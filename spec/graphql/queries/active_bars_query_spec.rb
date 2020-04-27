@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-describe '#active_bars', type: :query do
+describe "#active_bars" do
   let(:shop) { create(:shop) }
   let(:gql_post) { mutation(query, context: { current_shop: nil }) }
   let(:query) do
@@ -37,25 +37,25 @@ describe '#active_bars', type: :query do
     GRAPHQL
   end
 
-  context 'when bars exist' do
+  context "when bars exist" do
     before do
       create(:bar, shop: shop, is_active: true)
       create(:bar, shop: shop, is_active: false)
       gql_post
     end
 
-    it 'returns correct count' do
+    it "returns correct count" do
       expect(shop.bars.length).to eq(3)
-      expect(gql_response.data['activeBars'].length).to eq(1)
+      expect(gql_response.data["activeBars"].length).to eq(1)
     end
   end
 
-  context 'when no bars exist' do
+  context "when no bars exist" do
     before { gql_post }
 
-    it 'returns empty array' do
+    it "returns empty array" do
       expect(shop.bars.length).to eq(1)
-      expect(gql_response.data['activeBars'].length).to eq(0)
+      expect(gql_response.data["activeBars"].length).to eq(0)
     end
   end
 end

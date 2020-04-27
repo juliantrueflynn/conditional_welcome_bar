@@ -13,7 +13,7 @@ module ShopifyApp
 
         redirect_to return_address
       else
-        flash[:error] = I18n.t('could_not_log_in')
+        flash[:error] = I18n.t("could_not_log_in")
         redirect_to(login_url_with_optional_shop)
       end
     end
@@ -26,7 +26,7 @@ module ShopifyApp
     end
 
     def auth_hash
-      request.env['omniauth.auth']
+      request.env["omniauth.auth"]
     end
 
     def shop_name
@@ -34,13 +34,13 @@ module ShopifyApp
     end
 
     def associated_user
-      return unless auth_hash['extra'].present?
+      return unless auth_hash["extra"].present?
 
-      auth_hash['extra']['associated_user']
+      auth_hash["extra"]["associated_user"]
     end
 
     def token
-      auth_hash['credentials']['token']
+      auth_hash["credentials"]["token"]
     end
 
     def reset_session_options

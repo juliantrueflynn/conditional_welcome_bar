@@ -1,7 +1,7 @@
 .git
 README.md
 node_modules
-log/*
-tmp/*
+log
+tmp
 .eslintrc.json
 .env.example
