@@ -59,9 +59,7 @@ class Bar < ApplicationRecord
   private
 
   def toggle_active_page_template
-    if page_templates.include?("global")
-      return update_is_active_for_all_templates
-    end
+    return update_is_active_for_all_templates if page_templates.include?("global")
 
     update_is_active_for_match_template
   end

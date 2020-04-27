@@ -11,13 +11,13 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 5.1.5"
 
-gem "pg"
-gem "puma"
 gem "carrierwave", "~> 1.0"
 gem "dotenv-rails"
 gem "graphql"
 gem "mini_magick"
 gem "omniauth-rails_csrf_protection"
+gem "pg"
+gem "puma"
 gem "rack-cors", require: "rack/cors"
 gem "shopify_app"
 gem "uglifier"
@@ -36,7 +36,7 @@ group :development do
   gem "graphiql-rails"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "pry-rails"
-  gem "rubocop", "~> 0.72.0", require: false
+  gem "rubocop", "~> 0.82.0", require: false
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
