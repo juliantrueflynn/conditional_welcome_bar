@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "BarQuery", type: :query do
+describe "BarQuery" do
   describe "get bar query" do
     let(:query) do
       <<~GRAPHQL

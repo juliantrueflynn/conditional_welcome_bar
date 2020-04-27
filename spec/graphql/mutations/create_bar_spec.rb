@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "CreateBar", type: :mutation do
+describe Mutations::CreateBar do
   let(:gql_post) { mutation(gql_query, context: { current_shop: shop }) }
   let(:gql_query) do
     <<~GRAPHQL

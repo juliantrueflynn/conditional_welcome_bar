@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "UpdateBar", type: :mutation do
+describe Mutations::UpdateBar do
   let(:shop) { create(:shop) }
   let(:bar_id) { create(:bar, shop: shop, title: "Some old title").id }
   let(:gql_query) do

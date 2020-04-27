@@ -261,22 +261,22 @@ DEPENDENCIES
   carrierwave (~> 1.0)
   database_cleaner
   dotenv-rails
-  factory_bot_rails (~> 4.0)
+  factory_bot_rails
   faker
   graphiql-rails
   graphql
   listen (>= 3.0.5, < 3.2)
   mini_magick
   omniauth-rails_csrf_protection
-  pg (>= 0.18, < 2.0)
+  pg
   pry-rails
   puma (~> 3.7)
   rack-cors
   rails (~> 5.1.5)
-  rspec-rails (~> 3.8)
+  rspec-rails
   rubocop (~> 0.72.0)
   shopify_app
-  shoulda-matchers (= 4.0.0.rc1)
+  shoulda-matchers
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

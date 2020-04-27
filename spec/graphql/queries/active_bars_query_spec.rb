@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "#active_bars", type: :query do
+describe "#active_bars" do
   let(:shop) { create(:shop) }
   let(:gql_post) { mutation(query, context: { current_shop: nil }) }
   let(:query) do

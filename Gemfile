@@ -10,12 +10,9 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 5.1.5"
-# Use postgresql as the database for Active Record
-gem "pg", ">= 0.18", "< 2.0"
-# Use Puma as the app server
-gem "puma", "~> 3.7"
 
-# Feature gems
+gem "pg"
+gem "puma", "~> 3.7"
 gem "carrierwave", "~> 1.0"
 gem "dotenv-rails"
 gem "graphql"
@@ -28,9 +25,9 @@ gem "valid_url"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
-  gem "factory_bot_rails", "~> 4.0"
-  gem "faker"
-  gem "rspec-rails", "~> 3.8"
+  gem "factory_bot_rails"
+  gem "rspec-rails"
+  gem "shoulda-matchers"
 end
 
 group :development do
@@ -47,7 +44,7 @@ end
 
 group :test do
   gem "database_cleaner"
-  gem "shoulda-matchers", "4.0.0.rc1"
+  gem "faker"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

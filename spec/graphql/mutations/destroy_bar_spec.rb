@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "DestroyBar", type: :mutation do
+describe Mutations::DestroyBar do
   let(:gql_post) { mutation(gql_query, context: { current_shop: Shop.last }) }
   let(:gql_query) do
     <<~GRAPHQL
