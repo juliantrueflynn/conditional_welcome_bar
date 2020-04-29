@@ -21,6 +21,8 @@ tmp/*
 node_modules
 yarn-error.log
 
+/coverage
+
 /public/*
 !/public/favicon.ico
 .byebug_history
@@ -35,4 +37,12 @@ config/master.key
 .env.production
 api/public/uploads
 
+.DS_Store
 bundle.js
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

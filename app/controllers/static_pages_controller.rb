@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class StaticPagesController < ApplicationController
-  include ShopifyApp::Authenticated
-
+class StaticPagesController < AuthenticatedController
   layout "embedded_app"
 
   def show
