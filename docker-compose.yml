@@ -23,3 +23,14 @@ services:
       - db
     tty: true
     stdin_open: true
+  webpacker:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    env_file:
+      - .env
+    command: ./bin/webpack-dev-server
+    ports:
+      - 127.0.0.1:3035:3035

@@ -12,7 +12,7 @@ end
 gem "rails", "~> 6.0.2.2"
 
 gem "carrierwave", "~> 1.0"
-gem "dotenv-rails"
+gem "dotenv-rails", require: "dotenv/rails-now"
 gem "graphql"
 gem "mini_magick"
 gem "pg"
@@ -21,6 +21,7 @@ gem "rack-cors", require: "rack/cors"
 gem "shopify_app"
 gem "uglifier"
 gem "valid_url"
+gem "webpacker"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]

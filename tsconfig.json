@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["es6", "dom"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "noEmit": true,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "node_modules",
+    "config/webpack",
+    "vendor",
+    "public"
+  ],
+  "compileOnSave": false
+}

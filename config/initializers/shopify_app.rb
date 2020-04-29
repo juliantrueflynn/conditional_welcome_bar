@@ -8,7 +8,7 @@ ShopifyApp.configure do |config|
   config.embedded_app = true
   config.after_authenticate_job = false
   config.api_version = ENV.fetch("SHOPIFY_API_VERSION", "2020-04")
-  config.shop_session_repository = "ShopifyApp::InMemoryShopSessionStore"
+  config.shop_session_repository = "Shop"
   config.enable_same_site_none = Rails.env.production?
   config.scripttags = [{
     event: "onload",

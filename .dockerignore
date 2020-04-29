@@ -1,7 +1,8 @@
 .git
+.eslintrc.json
+.env.example
 README.md
 node_modules
 log
 tmp
-.eslintrc.json
-.env.example
+coverage
