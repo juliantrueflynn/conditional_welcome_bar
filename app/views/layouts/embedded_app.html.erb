@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title><%= ShopifyApp.configuration.application_name %></title>
-    <%= stylesheet_link_tag "https://sdks.shopifycdn.com/polaris/3.18.0/polaris.min.css" %>
-    <%= javascript_include_tag "application" %>
+    <% application_name = ShopifyApp.configuration.application_name %>
+    <title><%= application_name %></title>
     <%= csrf_meta_tags %>
   </head>
 
@@ -19,8 +18,16 @@
 
     <%= render "layouts/flash_messages" %>
 
+    <script src="https://unpkg.com/@shopify/app-bridge"></script>
+
+    <%= content_tag(:div, nil, id: 'shopify-app-init', data: {
+      api_key: ShopifyApp.configuration.api_key,
+      shop_origin: (@current_shopify_session.domain if @current_shopify_session),
+      debug: Rails.env.development?
+    } ) %>
+
     <% if content_for?(:javascript) %>
-      <div id="ContentForJavascript">
+      <div id="ContentForJavascript" data-turbolinks-temporary>
         <%= yield :javascript %>
       </div>
     <% end %>

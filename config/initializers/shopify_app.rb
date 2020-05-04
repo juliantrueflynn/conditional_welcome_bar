@@ -6,7 +6,7 @@ ShopifyApp.configure do |config|
   config.secret = ENV["SHOPIFY_CLIENT_SECRET"]
   config.scope = ENV["SHOPIFY_API_SCOPE"]
   config.embedded_app = true
-  config.session_repository = Shop
+  config.shop_session_repository = Shop
   config.api_version = :unstable
   config.scripttags = [{
     event: "onload",

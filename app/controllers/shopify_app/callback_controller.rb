@@ -9,6 +9,11 @@ module ShopifyApp
     def callback
       if auth_hash
         login_shop
+
+        if ShopifyApp::SessionRepository.user_storage.present? && user_session.blank?
+          return redirect_to(login_url_with_optional_shop)
+        end
+
         install_scripttags
 
         redirect_to return_address
@@ -55,9 +60,14 @@ module ShopifyApp
         api_version: ShopifyApp.configuration.api_version
       )
 
-      session[:shopify] = ShopifyApp::SessionRepository.store(session_store)
-      session[:shopify_domain] = shop_name
       session[:shopify_user] = associated_user
+      if session[:shopify_user].present?
+        session[:user_id] = ShopifyApp::SessionRepository.store_user_session(session_store, associated_user)
+      else
+        session[:shop_id] = ShopifyApp::SessionRepository.store_shop_session(session_store)
+      end
+      session[:shopify_domain] = shop_name
+      session[:user_session] = auth_hash&.extra&.session
     end
 
     def install_scripttags
@@ -65,9 +75,24 @@ module ShopifyApp
 
       ScripttagsManager.queue(
         shop_name,
-        token,
+        shop_session&.token || user_session.token,
         ShopifyApp.configuration.scripttags
       )
+    end
+
+    def perform_after_authenticate_job
+      config = ShopifyApp.configuration.after_authenticate_job
+
+      return unless config && config[:job].present?
+
+      job = config[:job]
+      job = job.constantize if job.is_a?(String)
+
+      if config[:inline] == true
+        job.perform_now(shop_domain: session[:shopify_domain])
+      else
+        job.perform_later(shop_domain: session[:shopify_domain])
+      end
     end
   end
 end
