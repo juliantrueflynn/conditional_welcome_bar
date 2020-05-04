@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Shop < ActiveRecord::Base
-  include ShopifyApp::SessionStorage
+  include ShopifyApp::ShopSessionStorage
 
   has_many :bars, dependent: :delete_all
 

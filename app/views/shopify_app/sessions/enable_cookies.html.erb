@@ -17,6 +17,7 @@
   <script>
     window.apiKey = "<%= ShopifyApp.configuration.api_key %>";
     window.shopOrigin = "https://<%= @shop %>";
+    window.returnTo = "<%= params[:return_to] %>"
   </script>
 
   <%= javascript_include_tag('shopify_app/enable_cookies', crossorigin: 'anonymous', integrity: true) %>
@@ -31,7 +32,7 @@
           myshopifyUrl: "https://#{current_shopify_domain}",
           hasStorageAccessUrl: "#{has_storage_access_url}",
           doesNotHaveStorageAccessUrl: "#{does_not_have_storage_access_url}",
-          appHomeUrl: "#{app_home_url}"
+          appTargetUrl: "#{app_target_url}"
         },
       },
     )
