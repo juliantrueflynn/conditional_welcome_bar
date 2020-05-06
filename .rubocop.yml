@@ -1,5 +1,6 @@
 AllCops:
   Exclude:
+    - node_modules/**/*
     - db/schema.rb
 
 Style/StringLiterals:
