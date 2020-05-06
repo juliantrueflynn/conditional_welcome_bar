@@ -25,5 +25,8 @@ module WelcomeBarApp
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    config.x.app_host = ENV.fetch("APP_HOST", "https://conditionalwelcomebar.ngrok.io")
+    config.x.cors_origins = ENV.fetch("CORS_ORIGINS", "https://conditionalwelcomebar.ngrok.io")
   end
 end

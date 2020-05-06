@@ -9,11 +9,11 @@ import BarModalManager from '../BarModalManager'
 import ShopifyToast from '../ShopifyToast'
 
 const ShopifyProvider = ({ children }) => {
-  const { SHOPIFY_CLIENT_KEY } = process.env
+  const { SHOPIFY_API_KEY } = process.env
 
   return (
     <AppProvider
-      apiKey={SHOPIFY_CLIENT_KEY}
+      apiKey={SHOPIFY_API_KEY}
       shopOrigin={shopOrigin}
       linkComponent={ShopifyLinkRouter}
       forceRedirect

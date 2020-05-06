@@ -11,8 +11,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        APP_HOST_URL: JSON.stringify(process.env.APP_HOST_URL),
-        SHOPIFY_CLIENT_KEY: JSON.stringify(process.env.SHOPIFY_CLIENT_KEY),
+        APP_HOST: JSON.stringify(process.env.APP_HOST),
+        SHOPIFY_API_KEY: JSON.stringify(process.env.SHOPIFY_API_KEY),
         GRAPHQL_API_URL: JSON.stringify(process.env.GRAPHQL_API_URL),
       },
     })
