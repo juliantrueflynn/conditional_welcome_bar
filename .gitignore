@@ -18,8 +18,8 @@ tmp/*
 /storage/*
 !/storage/.keep
 
-/node_modules
-/yarn-error.log
+node_modules
+yarn-error.log
 
 /public/*
 !/public/favicon.ico
@@ -36,4 +36,3 @@ config/master.key
 api/public/uploads
 
 bundle.js
-
