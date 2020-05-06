@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <% application_name = ShopifyApp.configuration.application_name %>
-    <title><%= application_name %></title>
+    <%= tag.title application_name %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -15,8 +15,6 @@
         </main>
       </div>
     </div>
-
-    <%= render "layouts/flash_messages" %>
 
     <script src="https://unpkg.com/@shopify/app-bridge"></script>
 

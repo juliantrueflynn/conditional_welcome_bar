@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   post "/graphql", to: "graphql#execute"
 
-  get "*path", to: "static_pages#show", constraints: lambda { |request| request.format.html? }
+  get "*path", to: "static_pages#show", constraints: ->(request) { request.format.html? }
 
   root to: "static_pages#show"
 end

@@ -2,17 +2,10 @@
 
 class StaticPagesController < ApplicationController
   include ShopifyApp::Authenticated
-  include EnsureShopOriginCookie
-
-  before_action :set_iframe_headers
 
   layout "embedded_app"
 
-  def show; end
-
-  private
-
-  def set_iframe_headers
+  def show
     response.headers.except!("X-Frame-Options")
   end
 end
