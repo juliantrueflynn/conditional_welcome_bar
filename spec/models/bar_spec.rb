@@ -30,11 +30,6 @@ RSpec.describe Bar, type: :model do
     is_expected.to validate_inclusion_of(:placement).in_array(Bar::PLACEMENT)
   end
   it do
-    is_expected
-      .to validate_inclusion_of(:background_image_repeat)
-      .in_array(Bar::BACKGROUND_IMAGE_REPEAT)
-  end
-  it do
     is_expected.to validate_inclusion_of(:text_align).in_array(Bar::TEXT_ALIGN)
   end
 
