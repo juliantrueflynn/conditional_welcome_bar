@@ -26,12 +26,6 @@ describe "#active_bars" do
           textColor
           fontSize
           backgroundColor
-          backgroundImage
-          backgroundImageRepeat
-          backgroundImageSizeX
-          backgroundImageSizeY
-          backgroundImagePositionX
-          backgroundImagePositionY
         }
       }
     GRAPHQL

@@ -18,12 +18,6 @@ module Types
     field :text_color, String, null: true
     field :font_size, String, null: true
     field :background_color, String, null: true
-    field :background_image, String, null: true
-    field :background_image_repeat, String, null: true
-    field :background_image_size_x, String, null: true
-    field :background_image_size_y, String, null: true
-    field :background_image_position_x, String, null: true
-    field :background_image_position_y, String, null: true
     field :created_at, String, null: true
     field :updated_at, String, null: true
     field :page_templates, [String], null: false

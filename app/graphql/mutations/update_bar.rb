@@ -22,12 +22,6 @@ module Mutations
     argument :text_color, String, required: false
     argument :font_size, String, required: false
     argument :background_color, String, required: false
-    argument :background_image, String, required: false
-    argument :background_image_repeat, String, required: false
-    argument :background_image_size_x, String, required: false
-    argument :background_image_size_y, String, required: false
-    argument :background_image_position_x, String, required: false
-    argument :background_image_position_y, String, required: false
 
     def resolve(id:, **attributes)
       shop = ensure_current_shop

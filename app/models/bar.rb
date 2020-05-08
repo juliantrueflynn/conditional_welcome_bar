@@ -2,11 +2,20 @@
 
 class Bar < ApplicationRecord
   SIZE_REGEX = /\d+(\.\d+)?px|\d+(\.\d+)%?|\d+(\.\d+)em?|inherit/.freeze
-  BACKGROUND_IMAGE_REPEAT = %w[no-repeat repeat-x repeat-y repeat space].freeze
   TEXT_ALIGN = %w[center left right].freeze
   PLACEMENT = %w[top bottom].freeze
-
-  mount_uploader :background_image, BackgroundUploader
+  NON_UPDATEABLE_COLUMNS = %w[
+    id
+    created_at
+    updated_at
+    shop_id
+    background_image
+    background_image_repeat
+    background_image_size_x
+    background_image_size_y
+    background_image_position_x
+    background_image_position_y
+  ].freeze
 
   belongs_to :shop
 
@@ -24,7 +33,6 @@ class Bar < ApplicationRecord
   validates_inclusion_of :is_new_tab_url, in: [true, false]
   validates_inclusion_of :is_full_width_link, in: [true, false]
   validates_inclusion_of :has_close_button, in: [true, false]
-  validates_inclusion_of :background_image_repeat, in: BACKGROUND_IMAGE_REPEAT
   validates_inclusion_of :text_align, in: TEXT_ALIGN, allow_nil: true
   validates_format_of :font_size, with: SIZE_REGEX, allow_nil: true
   validates_format_of :padding_y, with: SIZE_REGEX, allow_nil: true
@@ -43,8 +51,7 @@ class Bar < ApplicationRecord
   end
 
   def self.updatableable_columns
-    skip_columns = %w[id created_at updated_at shop_id]
-    Bar.column_names.reject { |name| skip_columns.include?(name) }
+    Bar.column_names.reject { |name| NON_UPDATEABLE_COLUMNS.include?(name) }
   end
 
   def currently_active_or_is_active_changed?
