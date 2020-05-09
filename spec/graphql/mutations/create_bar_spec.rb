@@ -2,48 +2,42 @@
 
 require "rails_helper"
 
-describe Mutations::CreateBar do
-  let(:gql_post) { mutation(gql_query, context: { current_shop: shop }) }
-  let(:gql_query) do
-    <<~GRAPHQL
-      mutation {
-        createBar(input: {}) {
-          bar {
-            id
-          }
-        }
-      }
-    GRAPHQL
-  end
-
-  context "when valid" do
-    let(:shop) { create(:shop) }
-
-    it "returns bar" do
-      gql_post
-      expect(gql_response.data["createBar"]["bar"]).to_not be_nil
-    end
-
+describe Mutations::CreateBar, type: :graphql do
+  context "when valid shopify_domain" do
     it "increases bar count" do
-      expect { gql_post }.to change(Bar, :count)
+      expect do
+        mutation mock_query, context: { current_shop: create(:shop) }
+      end.to change(Bar, :count)
     end
   end
 
-  context "when not valid" do
-    let(:shop) { nil }
-
+  context "when not valid shopify_domain" do
     it "returns nil" do
-      gql_post
+      mutation mock_query, context: { current_shop: nil }
+
       expect(gql_response.data["createBar"]).to be_nil
     end
 
     it "returns errors" do
-      gql_post
+      mutation mock_query, context: { current_shop: nil }
+
       expect(gql_response.errors).to_not be_nil
     end
 
     it "does not increase bar count" do
-      expect { gql_post }.to_not change(Bar, :count)
+      expect do
+        mutation mock_query, context: { current_shop: nil }
+      end.to_not change(Bar, :count)
     end
+  end
+
+  def mock_query
+    <<~GRAPHQL
+      mutation {
+        createBar(input: {}) {
+          bar { id }
+        }
+      }
+    GRAPHQL
   end
 end

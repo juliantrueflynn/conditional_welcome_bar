@@ -46,8 +46,8 @@ class Bar < ApplicationRecord
   end
 
   def self.with_shopify_domain(shopify_domain)
-    shop = Shop.find_by_shopify_domain(shopify_domain)
-    where(shop_id: shop) if shop
+    shop = Shop.find_by(shopify_domain: shopify_domain)
+    where shop_id: shop&.id
   end
 
   def self.updatableable_columns

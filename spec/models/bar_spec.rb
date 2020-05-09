@@ -25,20 +25,30 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to_not allow_value(15).for(:padding_y) }
   it { is_expected.to_not allow_value(15).for(:padding_x) }
   it { is_expected.to validate_length_of(:content).is_at_least(0) }
+  it { is_expected.to validate_inclusion_of(:placement).in_array(Bar::PLACEMENT) }
+  it { is_expected.to validate_inclusion_of(:text_align).in_array(Bar::TEXT_ALIGN) }
 
-  it do
-    is_expected.to validate_inclusion_of(:placement).in_array(Bar::PLACEMENT)
-  end
-  it do
-    is_expected.to validate_inclusion_of(:text_align).in_array(Bar::TEXT_ALIGN)
+  describe ".with_shopify_domain" do
+    it "returns bar relation" do
+      shop = create(:shop_with_bars)
+      result = described_class.with_shopify_domain(shop.shopify_domain)
+
+      expect(result).to match_array(shop.bars)
+    end
+
+    it "returns empty relation if no shop" do
+      result = described_class.with_shopify_domain(nil)
+
+      expect(result).to be_empty
+    end
   end
 
-  context "when not valid url" do
-    it "with space" do
+  describe "validate #url" do
+    it "not valid if containing space" do
       expect(build(:bar, url: "url space.com")).to_not be_valid
     end
 
-    it "no tld" do
+    it "not valid if containing no tld" do
       expect(build(:bar, url: "no dot com")).to_not be_valid
     end
   end
