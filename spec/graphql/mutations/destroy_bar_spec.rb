@@ -2,40 +2,53 @@
 
 require "rails_helper"
 
-describe Mutations::DestroyBar do
-  let(:gql_post) { mutation(gql_query, context: { current_shop: Shop.last }) }
-  let(:gql_query) do
-    <<~GRAPHQL
-      mutation {
-        destroyBar(input: { id: \"#{bar_id}\" }) {
-          bar { id }
+describe Mutations::DestroyBar, type: :graphql do
+  context "when shopify_domain valid" do
+    it "decreases bar count" do
+      shop = create(:shop)
+      mock_query = <<~GRAPHQL
+        mutation {
+          destroyBar(input: { id: \"#{shop.bars.last.id}\" }) {
+            bar { id }
+          }
         }
-      }
-    GRAPHQL
+      GRAPHQL
+
+      expect do
+        mutation(mock_query, context: { current_shop: shop })
+      end.to change(Bar, :count).by(-1)
+    end
   end
 
-  before { create(:shop) }
+  context "when shopify_domain not valid" do
+    it "returns nil" do
+      shop = create(:shop)
+      mock_query = <<~GRAPHQL
+        mutation {
+          destroyBar(input: { id: \"#{shop.bars.last.id + 100}\" }) {
+            bar { id }
+          }
+        }
+      GRAPHQL
 
-  describe "destroy mutation" do
-    let(:bar_id) { Shop.last.bars.last.id }
+      mutation(mock_query, context: { current_shop: shop })
 
-    context "when valid" do
-      it "decreases bar count" do
-        expect { gql_post }.to change(Bar, :count).by(-1)
-      end
+      expect(gql_response.data["destroyBar"]["bar"]).to be_nil
     end
 
-    context "when not valid" do
-      let(:bar_id) { Shop.last.bars.last.id + 100 }
+    it "does not decrease bar count" do
+      shop = create(:shop)
+      mock_query = <<~GRAPHQL
+        mutation {
+          destroyBar(input: { id: \"#{shop.bars.last.id + 100}\" }) {
+            bar { id }
+          }
+        }
+      GRAPHQL
 
-      it "responds with nil" do
-        gql_post
-        expect(gql_response.data["destroyBar"]["bar"]).to be_nil
-      end
-
-      it "does not decrease bar count" do
-        expect { gql_post }.to_not change(Bar, :count)
-      end
+      expect do
+        mutation(mock_query, context: { current_shop: shop })
+      end.to_not change(Bar, :count)
     end
   end
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
+  before_action :set_current_shop, :log_current_shop
+
   def execute
     result = WelcomeBarAppSchema.execute(params[:query], execute_query)
     render json: result
@@ -17,13 +19,17 @@ class GraphqlController < ApplicationController
       variables: ensure_hash(params[:variables]),
       operation_name: params[:operationName],
       context: {
-        current_shop: current_shop
+        current_shop: @current_shop
       }
     }
   end
 
-  def current_shop
-    Shop.find_by(shopify_domain: session[:shopify_domain])
+  def log_current_shop
+    logger.info "Results from current_shop: #{@current_shop.inspect}"
+  end
+
+  def set_current_shop
+    @current_shop = ShopSessionFinderService.call(shop_id: session[:shop_id])
   end
 
   def hash_from_ambiguous(ambiguous_param)
