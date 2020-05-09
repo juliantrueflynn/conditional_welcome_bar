@@ -31,6 +31,12 @@ Style/FrozenStringLiteralComment:
   Exclude:
     - bin/*
 
+Naming/MemoizedInstanceVariableName:
+  Description: >-
+    Memoized method name should match memo instance variable name.
+  Enabled: true
+  EnforcedStyleForLeadingUnderscores: required
+
 Style/Documentation:
   Enabled: false
 
