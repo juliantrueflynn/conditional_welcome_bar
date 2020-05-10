@@ -1,13 +1,13 @@
 import React from 'react';
 import { ColorPicker, HSBAColor, rgbToHsb, hsbToRgb } from '@shopify/polaris';
-import { SingleOnChange } from '../../types/fields';
+import { FieldChangeEvent } from '../../types/fields';
 import { Bar } from '../../types/bar';
 
 type Props = {
   id: Bar;
   label: string;
   value: string;
-  updateFieldValue: SingleOnChange;
+  updateFieldValue: FieldChangeEvent;
 };
 
 const hsbToRgbString = (hsb: HSBAColor): string => {
