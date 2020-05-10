@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --coverage --watchAll",
     "lint": "eslint 'app/javascript/**/*.{ts,tsx,js}'",
-    "lint:fix": "eslint 'app/javascript/**/*.{ts,tsx,js}' --fix"
+    "lint:fix": "eslint 'app/javascript/**/*.{ts,tsx,js}' --fix",
+    "webpack:stats": "./bin/webpack-bundle-analyzer.sh"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,6 @@
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "graphql": "^15.0.0",
-    "hex-to-rgb": "^1.0.1",
     "lodash.isequal": "^4.5.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -64,6 +64,7 @@
     "jest": "^26.0.0",
     "jest-watch-typeahead": "^0.6.0",
     "prettier": "^2.0.5",
+    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-dev-server": "^3.10.3"
   },
   "eslintConfig": {
