@@ -18,7 +18,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module WelcomeBarApp
+module ConditionalWelcomeBar
   class Application < Rails::Application
     config.load_defaults 6.0
 
@@ -27,6 +27,6 @@ module WelcomeBarApp
     # -- all .rb files in that directory are automatically loaded.
 
     config.x.app_host = ENV.fetch("APP_HOST", "https://conditionalwelcomebar.ngrok.io")
-    config.x.cors_origins = ENV.fetch("CORS_ORIGINS", "https://conditionalwelcomebar.ngrok.io")
+    config.x.cors_origins = ENV.fetch("CORS_ORIGINS", "https://conditionalwelcomebar.ngrok.io").split(",").map(&:strip)
   end
 end

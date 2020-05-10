@@ -13,7 +13,7 @@ module GraphqlSupport
   end
 
   def query(query, context: {})
-    json = WelcomeBarAppSchema.execute(
+    json = ConditionalWelcomeBarSchema.execute(
       query,
       context: context
     )
