@@ -1,11 +1,11 @@
 import React from 'react';
 import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
-import { useDelayedLoader } from '../../hooks/use_delayed_loader';
-import BarsListItem from '../bars_list_item';
 import { BarType, BarPayload } from '../../types/bar';
-import { getLocale } from '../../utilities/get_locale';
 import { ExecutionResult } from 'apollo-boost';
 import { MutationFunctionOptions } from '@apollo/react-common';
+import { getLocale } from '../../utilities/get_locale';
+
+const BarsListItem = React.lazy(() => import('../bars_list_item'));
 
 type Props = {
   bars: BarType[];
@@ -22,12 +22,10 @@ const BarsList: React.FC<Props> = ({
   isCreating,
   isLoadingBars,
 }) => {
-  const isLoading = useDelayedLoader(isLoadingBars);
-
   const primaryAction = {
     content: 'Create welcome bar',
     onAction: createBar,
-    loading: isLoading || isCreating,
+    loading: isLoadingBars || isCreating,
   };
   const resourceName = {
     singular: 'Welcome bar',

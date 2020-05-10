@@ -1200,7 +1200,14 @@
     webpack-cli "^3.3.11"
     webpack-sources "^1.4.3"
 
-"@shopify/app-bridge@^1.21.3", "@shopify/app-bridge@^1.3.0":
+"@shopify/app-bridge-react@^1.21.4":
+  version "1.21.4"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-1.21.4.tgz#fd736af27b95e07954a56a11016e76d71cafa5a5"
+  integrity sha512-/oyrGWK6YGrSyVw/P4DSkPuljyyHiCvD2QBRFhIwlQlc8Yb4lfRCHzNl6zfDL9JROBH16ch8VCL/PUa4dGLKWg==
+  dependencies:
+    "@shopify/app-bridge" "^1.21.4"
+
+"@shopify/app-bridge@^1.21.3", "@shopify/app-bridge@^1.21.4", "@shopify/app-bridge@^1.3.0":
   version "1.21.4"
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.21.4.tgz#5018ab36c1bd1be6e1f0f64b6ae08da79d57b35c"
   integrity sha512-F6ypuKZA2/B4wsREVaSUGc7x7Ba4cbZLDubG21SX1ACVMORNzg9aEafTEgCPYHD4ki7FM2ShHNqZ4l1FOOjpzg==
@@ -3726,6 +3733,11 @@ dot-prop@^5.2.0:
   integrity sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
   dependencies:
     is-obj "^2.0.0"
+
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"

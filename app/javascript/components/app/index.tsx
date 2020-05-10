@@ -1,30 +1,31 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { apolloClient } from '../../utilities/graphql_utilities';
-import { AppProvider } from '@shopify/polaris';
-import enTranslations from '@shopify/polaris/locales/en.json';
-import OverlaysContextProvider from '../../contexts/overlays_context_provider';
-import MissingPageView from '../missing_page_view';
-import SingleBarView from '../single_bar_view';
-import IndexBarsView from '../index_bars_view';
-import BarModalManager from '../bar_modal_manager';
+import ShopifyProvider from '../shopify_provider';
 
-const App: React.FC = () => (
-  <ApolloProvider client={apolloClient}>
-    <BrowserRouter>
-      <AppProvider i18n={enTranslations}>
-        <OverlaysContextProvider>
-          <BarModalManager />
-          <Switch>
-            <Route exact path="/" component={IndexBarsView} />
-            <Route path="/bars/:barId" component={SingleBarView} />
-            <Route component={MissingPageView} />
-          </Switch>
-        </OverlaysContextProvider>
-      </AppProvider>
-    </BrowserRouter>
-  </ApolloProvider>
-);
+const SingleBarView = React.lazy(() => import('../single_bar_view'));
+const IndexBarsView = React.lazy(() => import('../index_bars_view'));
+const MissingPageView = React.lazy(() => import('../missing_page_view'));
+
+const App: React.FC = () => {
+  return (
+    <ShopifyProvider>
+      <ApolloProvider client={apolloClient}>
+        <Switch>
+          <Route exact path="/">
+            <IndexBarsView />
+          </Route>
+          <Route path="/bars/:barId">
+            <SingleBarView />
+          </Route>
+          <Route>
+            <MissingPageView />
+          </Route>
+        </Switch>
+      </ApolloProvider>
+    </ShopifyProvider>
+  );
+};
 
 export default App;

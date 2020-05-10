@@ -2,8 +2,8 @@
 
 module Types
   class MutationType < Types::BaseObject
-    field :destroyBar, mutation: Mutations::DestroyBar
-    field :createBar, mutation: Mutations::CreateBar
+    field :destroy_bar, mutation: Mutations::DestroyBar
+    field :create_bar, mutation: Mutations::CreateBar
     field :update_bar, mutation: Mutations::UpdateBar
   end
 end

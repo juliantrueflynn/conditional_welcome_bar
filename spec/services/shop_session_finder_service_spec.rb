@@ -6,7 +6,7 @@ RSpec.describe ShopSessionFinderService do
   it "returns matching shop instance" do
     shop = create(:shop)
     session = mock_shopify_session(shop: shop)
-    allow(ShopifyApp::InMemoryShopSessionStore).to receive(:retrieve).with(shop.id).and_return(session)
+    allow(Shop).to receive(:retrieve).with(shop.id).and_return(session)
 
     result = described_class.call(shop_id: shop.id)
 
@@ -16,7 +16,7 @@ RSpec.describe ShopSessionFinderService do
 
   it "returns nil if no session match" do
     shop = create(:shop)
-    allow(ShopifyApp::InMemoryShopSessionStore).to receive(:retrieve).with(shop.id).and_return(nil)
+    allow(Shop).to receive(:retrieve).with(shop.id).and_return(nil)
 
     result = described_class.call(shop_id: shop.id)
 

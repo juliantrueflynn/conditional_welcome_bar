@@ -57,8 +57,8 @@ export const GET_SINGLE_BAR = gql`
 `;
 
 export const CREATE_BAR = gql`
-  mutation UpdateBar {
-    createBar {
+  mutation CreateBar {
+    createBar(input: {}) {
       bar {
         id
       }
