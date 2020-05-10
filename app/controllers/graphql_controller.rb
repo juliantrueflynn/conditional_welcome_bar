@@ -4,7 +4,7 @@ class GraphqlController < ApplicationController
   before_action :set_current_shop, :log_current_shop
 
   def execute
-    result = WelcomeBarAppSchema.execute(params[:query], execute_query)
+    result = ConditionalWelcomeBarSchema.execute(params[:query], execute_query)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
