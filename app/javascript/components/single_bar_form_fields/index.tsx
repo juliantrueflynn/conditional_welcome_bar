@@ -6,10 +6,15 @@ import {
   TextField,
   Checkbox,
 } from '@shopify/polaris';
-import ColorPickerField from '../form_fields/color_picker_field';
-import ChoiceListField from '../form_fields/choice_list_field';
 import { BarType, BarErrorPayload, Bar } from '../../types/bar';
 import { FieldChangeEvent, BarFormProps } from '../../types/fields';
+
+const ChoiceListField = React.lazy(() =>
+  import('../form_fields/choice_list_field')
+);
+const ColorPickerField = React.lazy(() =>
+  import('../form_fields/color_picker_field')
+);
 
 type Props = {
   updateFieldValue: FieldChangeEvent;

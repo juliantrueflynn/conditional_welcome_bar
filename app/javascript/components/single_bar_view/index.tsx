@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_SINGLE_BAR } from '../../utilities/graphql_utilities';
-import { useDelayedLoader } from '../../hooks/use_delayed_loader';
 import SingleBar from '../single_bar';
 import LoadingManager from '../loading_manager';
 
@@ -11,7 +10,6 @@ const SingleBarView: React.FC = () => {
   const { loading, data, error } = useQuery(GET_SINGLE_BAR, {
     variables: { id: barId },
   });
-  const isLoading = useDelayedLoader(loading);
   const isBarUndefined = !data || !data.bar;
 
   if (error) {
@@ -19,7 +17,7 @@ const SingleBarView: React.FC = () => {
   }
 
   return (
-    <LoadingManager loadingTo="single" isLoading={isLoading || isBarUndefined}>
+    <LoadingManager loadingTo="single" isLoading={loading || isBarUndefined}>
       <SingleBar bar={data && data.bar} />;
     </LoadingManager>
   );
