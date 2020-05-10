@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <% application_name = ShopifyApp.configuration.application_name %>
     <%= tag.title application_name %>
-    <%= javascript_pack_tag "application" %>
+    <%= javascript_packs_with_chunks_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
 
