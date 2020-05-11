@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 PACKS_DIR="public/packs"
 NODE_BIN_DIR="node_modules/.bin"
