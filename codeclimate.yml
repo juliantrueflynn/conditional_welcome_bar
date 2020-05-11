@@ -1,0 +1,49 @@
+version: "2"
+checks:
+  method-lines:
+    enabled: false
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        ruby:
+        javascript:
+          exclude_paths:
+            - "**.test.ts"
+plugins:
+  bundler-audit:
+    enabled: true
+  brakeman:
+    enabled: true
+  rubocop:
+    enabled: true
+    channel: "rubocop-0-82"
+  eslint:
+    enabled: true
+    channel: "eslint-6"
+exclude_patterns:
+  - "config/"
+  - "db/"
+  - "script/"
+  - "spec/"
+  - "vendor/"
+  - "coverage/"
+  - "bin/"
+  - "**/spec/"
+  - "**/node_modules/"
+  - "**.jpg"
+  - "**.png"
+  - "**.gif"
+  - "**.md"
+  - "**.ru"
+  - "**/*.d.ts"
+  - "**/*.test.ts"
+  - ".rubocop.yml"
+  - ".browserslintrc"
+  - "docker-compose.yml"
+  - "Dockerfile"
+  - "README.md"
+  - "babel.config.js"
+  - "postcss.config.js"
+  - "tsconfig.json"

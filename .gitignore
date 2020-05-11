@@ -18,10 +18,7 @@ tmp/*
 /storage/*
 !/storage/.keep
 
-node_modules
-yarn-error.log
-
-/coverage
+coverage
 
 /public/*
 !/public/favicon.ico
@@ -30,19 +27,19 @@ yarn-error.log
 # Ignore master key for decrypting credentials and more.
 config/master.key
 
-.vscode/
+.vscode
 
 .env
 .env.local
 .env.production
+!.env.development
 api/public/uploads
 
 .DS_Store
-bundle.js
 
 /public/packs
 /public/packs-test
-/node_modules
-/yarn-error.log
+node_modules
+yarn-error.log
 yarn-debug.log*
 .yarn-integrity
