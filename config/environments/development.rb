@@ -56,5 +56,9 @@ Rails.application.configure do
 
   config.hosts.clear
 
-  config.web_console.whiny_requests = false
+  # We check if it's defined because some environments with Docker could not have web_console
+  # gem installed. This prevents the config raising an error.
+  if defined?(config.web_console)
+    config.web_console.whiny_requests = false
+  end
 end
