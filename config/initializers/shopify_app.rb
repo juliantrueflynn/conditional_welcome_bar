@@ -2,8 +2,8 @@
 
 ShopifyApp.configure do |config|
   config.application_name = ENV.fetch("SHOPIFY_APP_NAME", "Conditional Welcome Bar")
-  config.api_key = ENV.fetch("SHOPIFY_API_KEY")
-  config.secret = ENV.fetch("SHOPIFY_API_SECRET")
+  config.api_key = ENV.fetch("SHOPIFY_API_KEY", nil)
+  config.secret = ENV.fetch("SHOPIFY_API_SECRET", nil)
   config.scope = ENV.fetch("SHOPIFY_API_SCOPE", "write_script_tags")
   config.embedded_app = true
   config.after_authenticate_job = false

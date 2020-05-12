@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby "2.6.5"
+ruby "2.7.1"
 source "https://rubygems.org"
 
 git_source(:github) do |repo_name|
@@ -11,10 +11,9 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 6.0.2.2"
 
-gem "carrierwave", "~> 1.0"
+gem "bootsnap", require: false
 gem "dotenv-rails", require: "dotenv/rails-now"
 gem "graphql"
-gem "mini_magick"
 gem "pg"
 gem "puma"
 gem "rack-cors", require: "rack/cors"

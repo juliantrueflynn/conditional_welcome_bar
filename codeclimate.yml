@@ -19,6 +19,8 @@ plugins:
   rubocop:
     enabled: true
     channel: "rubocop-0-82"
+    config:
+      file: rubocop.yml
   eslint:
     enabled: true
     channel: "eslint-6"
