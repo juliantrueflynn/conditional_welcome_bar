@@ -36,7 +36,8 @@ group :development do
   gem "graphiql-rails"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "pry-rails"
-  gem "rubocop", "~> 0.82.0", require: false
+  gem "rubocop", "~> 0.83.0", require: false
+  gem "rubocop-rails", require: false
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
