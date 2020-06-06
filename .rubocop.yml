@@ -1,3 +1,7 @@
+inherit_from: .rubocop_todo.yml
+
+require: rubocop-rails
+
 AllCops:
   Exclude:
     - node_modules/**/*
@@ -40,6 +44,9 @@ Naming/MemoizedInstanceVariableName:
 Style/Documentation:
   Enabled: false
 
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
@@ -60,3 +67,9 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+Rails/FilePath:
+  Enabled: false

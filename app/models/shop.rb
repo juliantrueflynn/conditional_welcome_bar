@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Shop < ActiveRecord::Base
+class Shop < ApplicationRecord
   include ShopifyApp::ShopSessionStorage
 
   # Alias attributes :domain and :token are used to match ShopifyApi::Session attributes.
@@ -9,8 +9,8 @@ class Shop < ActiveRecord::Base
 
   has_many :bars, dependent: :delete_all
 
-  validates_presence_of :shopify_domain, :shopify_token
-  validates_uniqueness_of :shopify_domain
+  validates :shopify_domain, :shopify_token, presence: true
+  validates :shopify_domain, uniqueness: true
 
   def api_version
     ShopifyApp.configuration.api_version
