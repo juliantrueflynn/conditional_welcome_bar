@@ -14,6 +14,7 @@ gem "rails", "~> 6.0.2.2"
 gem "bootsnap", require: false
 gem "dotenv-rails", require: "dotenv/rails-now"
 gem "graphql"
+gem "lograge"
 gem "pg"
 gem "puma"
 gem "rack-cors", require: "rack/cors"

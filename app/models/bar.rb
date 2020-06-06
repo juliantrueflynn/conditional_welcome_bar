@@ -58,10 +58,10 @@ class Bar < ApplicationRecord
   end
 
   def update_is_active_for_match_template
-    bars_active_without_current.
-      with_page_template(page_templates).
-      or(bars_active_without_current.with_page_template("global")).
-      update_all(is_active: false, updated_at: Time.zone.now)
+    bars_active_without_current
+      .with_page_template(page_templates)
+      .or(bars_active_without_current.with_page_template("global"))
+      .update_all(is_active: false, updated_at: Time.zone.now)
   end
 
   def bars_active_without_current
