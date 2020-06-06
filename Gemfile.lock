@@ -122,6 +122,11 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
+    lograge (0.11.2)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.5.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -208,6 +213,8 @@ GEM
       ffi (~> 1.0)
     redirect_safely (1.0.0)
       activemodel
+    request_store (1.5.0)
+      rack (>= 1.4)
     rexml (3.2.4)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
@@ -310,6 +317,7 @@ DEPENDENCIES
   graphiql-rails
   graphql
   listen (>= 3.0.5, < 3.2)
+  lograge
   pg
   pry-rails
   puma
