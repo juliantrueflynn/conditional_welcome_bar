@@ -1,0 +1,25 @@
+import { BarType } from '../types/bar';
+
+export const mockBarFields: BarType = {
+  id: 1,
+  shopId: 2,
+  title: 'Some title',
+  content: 'Some content',
+  url: 'https://example.com',
+  backgroundColor: '#FFF',
+  placement: 'bottom',
+  textAlign: 'center',
+  isActive: false,
+  isSticky: false,
+  isFullWidthLink: false,
+  hasCloseButton: false,
+  isNewTabUrl: false,
+  paddingY: '10px',
+  paddingX: '10px',
+  pageTemplates: ['global'],
+  textColor: '#FFF',
+  fontSize: '14px',
+  createdAt: new Date().toString(),
+  updatedAt: new Date().toString(),
+  __typename: 'some type name',
+};

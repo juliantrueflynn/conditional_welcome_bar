@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = {
   createdAt: string;
-  locale: string | null;
+  locale: string;
 };
 
 type DateProps = {
@@ -12,11 +12,20 @@ type DateProps = {
   day?: string;
 };
 
-const BarCreationDate: React.FC<Props> = ({ locale, createdAt }) => {
-  const created = new Date(createdAt);
-  const secondsAgo = Math.floor((+new Date() - +created) / 1000);
-  const dateLocale = locale || 'en-US';
+type LocaleDateString = (options: DateProps) => string;
 
+const getMinutesAgotext = (secondsAgo: number): string => {
+  const minutes = Math.floor(secondsAgo / 60);
+  const pluralized = minutes === 1 ? 'minute' : 'minutes';
+
+  return `${minutes} ${pluralized} ago`;
+};
+
+const getTimeAgo = (
+  toLocaleDate: LocaleDateString,
+  localeTime: string,
+  secondsAgo: number
+): string => {
   const isLaterThan = {
     year: secondsAgo >= 31557600,
     week: secondsAgo >= 604800,
@@ -25,48 +34,39 @@ const BarCreationDate: React.FC<Props> = ({ locale, createdAt }) => {
     min: secondsAgo >= 60,
   };
 
+  let ago = 'Just now';
+
+  if (isLaterThan.year) {
+    ago = toLocaleDate({ year: 'numeric', month: 'short', day: 'numeric' });
+  } else if (isLaterThan.week) {
+    const week = toLocaleDate({ month: 'short', day: 'numeric' });
+    ago = `${week} at ${localeTime}`;
+  } else if (isLaterThan.day) {
+    ago = `${toLocaleDate({ weekday: 'long' })} at ${localeTime}`;
+  } else if (isLaterThan.hour) {
+    ago = localeTime;
+  } else if (isLaterThan.min) {
+    ago = getMinutesAgotext(secondsAgo);
+  }
+
+  return ago;
+};
+
+const BarCreationDate: React.FC<Props> = ({ locale, createdAt }) => {
+  const created = new Date(createdAt);
+  const secondsAgo = Math.floor((+new Date() - +created) / 1000);
+
+  const toLocaleDate: LocaleDateString = (options) =>
+    created.toLocaleDateString(locale, options);
+
   const localeTime = created
-    .toLocaleString(dateLocale, {
+    .toLocaleString(locale, {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
     })
     .toLowerCase();
-  const toLocaleDate = (options: DateProps): string =>
-    created.toLocaleDateString(dateLocale, options);
-
-  let displayTime = '';
-
-  if (isLaterThan.year) {
-    displayTime = toLocaleDate({
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  }
-
-  if (!isLaterThan.year && isLaterThan.week) {
-    const date = toLocaleDate({ month: 'short', day: 'numeric' });
-    displayTime = `${date} at ${localeTime}`;
-  }
-
-  if (!isLaterThan.week && isLaterThan.day) {
-    const day = toLocaleDate({ weekday: 'long' });
-    displayTime = `${day} at ${localeTime}`;
-  }
-
-  if (!isLaterThan.day && isLaterThan.hour) {
-    displayTime = localeTime;
-  }
-
-  if (!isLaterThan.hour && isLaterThan.min) {
-    const minutes = Math.floor(secondsAgo / 60);
-    displayTime = `${minutes} minutes ago`;
-  }
-
-  if (!isLaterThan.min) {
-    displayTime = 'just now';
-  }
+  const displayTime = getTimeAgo(toLocaleDate, localeTime, secondsAgo);
 
   return <time dateTime={createdAt}>{displayTime}</time>;
 };

@@ -8,27 +8,14 @@ import {
   SkeletonDisplayText,
   SkeletonBodyText,
 } from '@shopify/polaris';
+import { FORM_SECTION_IDS } from '../../constants/form_sections';
+import FieldGroup from '../form_fields/field_group';
 
 type Props = {
   isLoading: boolean;
   loadingTo: string;
   children: React.ReactNode;
 };
-
-export const FORM_SECTIONS = [
-  { title: 'Editor', content: 'Edit welcome bar title or content.' },
-  {
-    title: 'Visibility',
-    content: 'Set visibility status and which templates welcomebar displays.',
-  },
-  { title: 'Link', content: 'Settings for welcome bar link.' },
-  { title: 'Display styles', content: 'Style the overall appearance.' },
-  { title: 'Text styles', content: 'Style the welcome bar text.' },
-  {
-    title: 'Background styles',
-    content: 'Style the background and or upload an image.',
-  },
-];
 
 const LoadingManager: React.FC<Props> = ({
   children,
@@ -41,44 +28,28 @@ const LoadingManager: React.FC<Props> = ({
 
   const skeletonTitle = loadingTo === 'home' ? 'Home' : '';
 
-  let SkeletonChildren: JSX.Element[] | JSX.Element = FORM_SECTIONS.map(
+  let SkeletonChildren: JSX.Element[] | JSX.Element = FORM_SECTION_IDS.map(
     (formSection) => (
-      <Layout.AnnotatedSection
-        key={formSection.title}
-        title={formSection.title}
-        description={formSection.content}
-      >
-        <Card sectioned>
-          <TextContainer>
-            <SkeletonBodyText />
-            <SkeletonBodyText />
-          </TextContainer>
-        </Card>
-      </Layout.AnnotatedSection>
+      <FieldGroup key={formSection} id={formSection}>
+        <TextContainer>
+          <SkeletonBodyText />
+          <SkeletonBodyText />
+        </TextContainer>
+      </FieldGroup>
     )
   );
 
   if (loadingTo === 'home') {
     SkeletonChildren = (
       <Layout.Section>
-        <Card sectioned>
-          <TextContainer spacing="tight">
-            <SkeletonDisplayText size="small" />
-            <SkeletonBodyText lines={1} />
-          </TextContainer>
-        </Card>
-        <Card sectioned>
-          <TextContainer spacing="tight">
-            <SkeletonDisplayText size="small" />
-            <SkeletonBodyText lines={1} />
-          </TextContainer>
-        </Card>
-        <Card sectioned>
-          <TextContainer spacing="tight">
-            <SkeletonDisplayText size="small" />
-            <SkeletonBodyText lines={1} />
-          </TextContainer>
-        </Card>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Card sectioned key={index}>
+            <TextContainer spacing="tight">
+              <SkeletonDisplayText size="small" />
+              <SkeletonBodyText lines={1} />
+            </TextContainer>
+          </Card>
+        ))}
       </Layout.Section>
     );
   }
