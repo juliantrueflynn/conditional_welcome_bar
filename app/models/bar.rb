@@ -2,69 +2,38 @@
 
 class Bar < ApplicationRecord
   SIZE_REGEX = /\A\d+(\.\d+)?px|\d+(\.\d+)%?|\d+(\.\d+)em?|inherit\z/.freeze
-  TEXT_ALIGN = %w[center left right].freeze
+  ALIGN = %w[left right center justify initial inherit].freeze
   PLACEMENT = %w[top bottom].freeze
-  NON_UPDATEABLE_COLUMNS = %w[id created_at updated_at shop_id].freeze
+  BOOLEAN_COLUMN_ALIASES = {
+    is_active: :active,
+    is_sticky: :sticky,
+    is_new_tab_url: :new_tab_url,
+    is_full_width_link: :full_width_link,
+    has_close_button: :close_button
+  }.freeze
+
+  # Aliases used for easier use with GraphQL and easier reading boolean names for clientside.
+  # Example: Bar#active aliased as Bar#is_active
+  BOOLEAN_COLUMN_ALIASES.each do |(alias_to, alias_from)|
+    alias_attribute alias_to, alias_from
+  end
 
   belongs_to :shop
+  has_many :theme_templates, dependent: :delete_all
 
-  validates :title, :placement, :background_color, :text_color, :page_templates, presence: true
-  validates :content, length: { minimum: 0 }
-  validates :is_active, :is_sticky, :is_new_tab_url, :is_full_width_link, :has_close_button, inclusion: [true, false]
+  accepts_nested_attributes_for :theme_templates, allow_destroy: true
+
+  validates :title, :placement, presence: true
+  validates :content, length: { maximum: 2000 }
   validates :placement, inclusion: PLACEMENT
-  validates :text_align, inclusion: TEXT_ALIGN, allow_nil: true
+  validates :text_align, inclusion: ALIGN, allow_nil: true
   validates :font_size, :padding_y, :padding_x, format: SIZE_REGEX, allow_nil: true
   validates :url, url: true, allow_blank: true
+  validates(*BOOLEAN_COLUMN_ALIASES.values, inclusion: [true, false])
 
-  scope :with_active, -> { where(is_active: true) }
-
-  self.ignored_columns = %i[
-    background_image
-    background_image_repeat
-    background_image_size_x
-    background_image_size_y
-    background_image_position_x
-    background_image_position_y
-  ].freeze
-
-  def self.with_page_template(template)
-    where "? = ANY (page_templates)", template
-  end
+  scope :with_active, -> { where(active: true) }
 
   def self.with_shopify_domain(shopify_domain)
     where shop_id: Shop.find_by(shopify_domain: shopify_domain)
-  end
-
-  def self.updatableable_columns
-    column_names.reject { |name| NON_UPDATEABLE_COLUMNS.include?(name) }
-  end
-
-  def currently_active_or_is_active_changed?
-    is_active? || saved_change_to_is_active?
-  end
-
-  after_update_commit :toggle_active_page_template, if: :currently_active_or_is_active_changed?
-
-  private
-
-  def toggle_active_page_template
-    return update_is_active_for_all_templates if page_templates.include?("global")
-
-    update_is_active_for_match_template
-  end
-
-  def update_is_active_for_all_templates
-    bars_active_without_current.update_all is_active: false, updated_at: Time.zone.now
-  end
-
-  def update_is_active_for_match_template
-    bars_active_without_current
-      .with_page_template(page_templates)
-      .or(bars_active_without_current.with_page_template("global"))
-      .update_all(is_active: false, updated_at: Time.zone.now)
-  end
-
-  def bars_active_without_current
-    shop.bars.with_active.where.not id: id
   end
 end

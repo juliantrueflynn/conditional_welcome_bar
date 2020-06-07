@@ -25,7 +25,7 @@ isActive
 isSticky
 isFullWidthLink
 isNewTabUrl
-pageTemplates
+themeTemplates
 hasCloseButton
 paddingY
 paddingX
@@ -67,7 +67,7 @@ export const CREATE_BAR = gql`
 `;
 
 export const UPDATE_BAR = gql`
-  mutation UpdateBar($input: UpdateBarInput!) {
+  mutation updateBar($input: UpdateBarInput!) {
     updateBar(input: $input) {
       bar {
         ${DEFAULT_BAR_ATTRIBUTES}

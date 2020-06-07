@@ -12,7 +12,7 @@ export enum Bar {
   isSticky = 'isSticky',
   updatedAt = 'updatedAt',
   createdAt = 'createdAt',
-  pageTemplates = 'pageTemplates',
+  themeTemplates = 'themeTemplates',
   paddingY = 'paddingY',
   paddingX = 'paddingX',
   textAlign = 'textAlign',
@@ -36,7 +36,7 @@ export type BarType = {
   [Bar.isSticky]: boolean;
   [Bar.updatedAt]: string;
   [Bar.createdAt]: string;
-  [Bar.pageTemplates]: string[];
+  [Bar.themeTemplates]: string[];
   [Bar.paddingY]: string;
   [Bar.paddingX]: string;
   [Bar.textAlign]: string;

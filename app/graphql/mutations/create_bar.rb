@@ -3,17 +3,13 @@
 module Mutations
   class CreateBar < Mutations::Base
     field :bar, Types::BarType, null: true
+    field :errors, Types::BarErrorType, null: true
 
     def resolve
       shop = ensure_current_shop
 
-      if shop
-        bar = shop.bars.build
-
-        return { bar: bar } if bar.save
-      end
-
-      { bar: nil }
+      bar = BarCreatorService.call(shop)
+      { bar: bar, errors: bar.errors.messages }
     end
   end
 end
