@@ -6,25 +6,20 @@ import { BarFormProps, FieldChangeValue } from '../../types/fields';
 import { useMutation } from '@apollo/react-hooks';
 import { Page, Form } from '@shopify/polaris';
 import SingleBarFormFields from '../single_bar_form_fields';
+import { barFalseMap } from '../../utilities/single_bar_utilities';
 
 type Props = {
   readonly bar: BarType;
 };
 
-const barNullMap = (Object.keys(Bar) as Bar[]).reduce((nullMap, key) => {
-  nullMap[key] = false;
-
-  return nullMap;
-}, {} as BarFormProps);
-
 const SingleBar: React.FC<Props> = ({ bar }) => {
   const [hasDirtyState, setHasDirtyState] = useState<boolean>(false);
-  const [dirtyValues, setDirtyInputs] = useState<BarFormProps>(barNullMap);
+  const [dirtyValues, setDirtyInputs] = useState<BarFormProps>(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState<BarType>(bar);
 
   const onFormComplete = (): void => {
     setHasDirtyState(false);
-    setDirtyInputs(barNullMap);
+    setDirtyInputs(barFalseMap);
   };
 
   const [updateBar, { loading, data: formData }] = useMutation(UPDATE_BAR, {

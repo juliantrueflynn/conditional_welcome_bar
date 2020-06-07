@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Bar < ApplicationRecord
-  SIZE_REGEX = /\d+(\.\d+)?px|\d+(\.\d+)%?|\d+(\.\d+)em?|inherit/.freeze
+  SIZE_REGEX = /\A\d+(\.\d+)?px|\d+(\.\d+)%?|\d+(\.\d+)em?|inherit\z/.freeze
   TEXT_ALIGN = %w[center left right].freeze
   PLACEMENT = %w[top bottom].freeze
   NON_UPDATEABLE_COLUMNS = %w[id created_at updated_at shop_id].freeze

@@ -8,7 +8,7 @@ type Props = {
   title: string;
   content: string;
   createdAt: string;
-  locale: string | null;
+  locale: string;
 };
 
 const BarsListItem: React.FC<Props> = ({

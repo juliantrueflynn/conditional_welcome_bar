@@ -1,0 +1,47 @@
+version: "2"
+checks:
+  method-lines:
+    enabled: false
+plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - ruby
+        - javascript
+  brakeman:
+    enabled: true
+  eslint:
+    enabled: true
+    exclude_patterns:
+      # Excluding until it's determined how this will be minified and served.
+      - "lib/assets/welcome_bar/welcome_bar.js"
+  rubocop:
+    enabled: true
+    channel: rubocop-0-83
+exclude_patterns:
+  - "**.gif"
+  - "**.jpg"
+  - "**.md"
+  - "**.png"
+  - "**.ru"
+  - "**/__tests__/"
+  - "**/__mocks__/"
+  - "**/*.d.ts"
+  - "**/node_modules/"
+  - "**/spec/"
+  - ".browserslintrc"
+  - ".rubocop.yml"
+  - ".rubocop_todo.yml"
+  - "app/assets/config/manifest.js"
+  - "app/assets/javascripts/application.js"
+  - "babel.config.js"
+  - "bin/"
+  - "config/"
+  - "coverage/"
+  - "db/"
+  - "docker-compose.yml"
+  - "Dockerfile"
+  - "postcss.config.js"
+  - "public/packs/"
+  - "tsconfig.json"

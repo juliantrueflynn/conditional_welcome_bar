@@ -3,7 +3,6 @@ import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
 import { BarType, BarPayload } from '../../types/bar';
 import { ExecutionResult } from 'apollo-boost';
 import { MutationFunctionOptions } from '@apollo/react-common';
-import { getLocale } from '../../utilities/get_locale';
 
 const BarsListItem = React.lazy(() => import('../bars_list_item'));
 
@@ -15,6 +14,9 @@ type Props = {
   isCreating: boolean;
   isLoadingBars: boolean;
 };
+
+const locale: string =
+  new URLSearchParams(window.location.search).get('locale') || 'en-US';
 
 const BarsList: React.FC<Props> = ({
   bars,
@@ -31,7 +33,6 @@ const BarsList: React.FC<Props> = ({
     singular: 'Welcome bar',
     plural: 'Welcome bars',
   };
-  const locale = getLocale();
   const hasBars = !!bars.length;
 
   return (
