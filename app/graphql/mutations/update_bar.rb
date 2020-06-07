@@ -12,10 +12,10 @@ module Mutations
     argument :is_sticky, Boolean, required: false
     argument :is_full_width_link, Boolean, required: false
     argument :is_new_tab_url, Boolean, required: false
-    argument :url, String, required: false
     argument :has_close_button, Boolean, required: false
+    argument :url, String, required: false
     argument :placement, String, required: false
-    argument :page_templates, [String], required: false
+    argument :theme_templates, [String], required: false
     argument :padding_y, String, required: false
     argument :padding_x, String, required: false
     argument :text_align, String, required: false
@@ -27,12 +27,12 @@ module Mutations
       shop = ensure_current_shop
       bar = shop.bars.find_by(id: id)
 
-      return { bar: nil, errors: nil } unless bar
-
-      if bar.update(attributes)
+      if bar.blank?
+        raise GraphQL::ExecutionError, "Welcome bar does not exist"
+      elsif BarUpdaterService.call(bar, attributes)
         { bar: bar, errors: {} }
       else
-        { bar: nil, errors: bar.errors.to_hash }
+        { bar: nil, errors: bar.errors.messages }
       end
     end
   end

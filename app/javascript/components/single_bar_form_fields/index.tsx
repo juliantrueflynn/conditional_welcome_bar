@@ -55,7 +55,7 @@ const SingleBarFormFields: React.FC<Props> = ({
           error={!dirtyValues[Bar.isActive] && errors[Bar.isActive]}
         />
         <ChoiceListField
-          id={Bar.pageTemplates}
+          id={Bar.themeTemplates}
           label="Page visibility"
           choices={[
             { label: 'Global (all templates)', value: 'global' },
@@ -64,10 +64,10 @@ const SingleBarFormFields: React.FC<Props> = ({
             { label: 'Collections', value: 'collection' },
             { label: 'Products', value: 'product' },
           ]}
-          value={fields[Bar.pageTemplates]}
+          value={fields[Bar.themeTemplates]}
           onChange={updateFieldValue}
           allowMultiple
-          error={!dirtyValues[Bar.pageTemplates] && errors[Bar.pageTemplates]}
+          error={!dirtyValues[Bar.themeTemplates] && errors[Bar.themeTemplates]}
         />
       </FieldGroup>
       <FieldGroup id="link">

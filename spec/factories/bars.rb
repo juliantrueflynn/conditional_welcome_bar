@@ -3,20 +3,19 @@
 FactoryBot.define do
   factory :bar do
     title { Faker::Company.name }
-    content { Faker::Lorem.sentence }
-    is_active { false }
-    is_sticky { true }
-    placement { "top" }
-    url { "" }
-    is_new_tab_url { false }
-    page_templates { %w[global] }
-    has_close_button { true }
-    padding_y { "10px" }
-    padding_x { "15px" }
-    text_align { "center" }
-    text_color { "rgba(255,255,255,1)" }
-    font_size { "inherit" }
-    background_color { "rgba(45,52,54,1.0)" }
+    content { [Faker::Lorem.sentence, nil].sample }
+    active { false }
+    sticky { Faker::Boolean.boolean }
+    placement { Bar::PLACEMENT.sample }
+    url { [Faker::Internet.url, nil].sample }
+    new_tab_url { Faker::Boolean.boolean }
+    close_button { Faker::Boolean.boolean }
+    padding_y { ["#{Faker::Number.within(range: 0..20)}px", nil].sample }
+    padding_x { ["#{Faker::Number.within(range: 0..20)}px", nil].sample }
+    text_align { [Bar::ALIGN.sample, nil].sample }
+    text_color { ["rgba(255,255,255,1.0)", nil].sample }
+    font_size { ["inherit", nil].sample }
+    background_color { ["rgba(45,52,54,1.0)", nil].sample }
     shop
   end
 end

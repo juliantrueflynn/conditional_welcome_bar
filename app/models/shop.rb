@@ -21,6 +21,6 @@ class Shop < ApplicationRecord
   private
 
   def generate_default_bar
-    bars.create(title: "First welcome bar!")
+    BarCreatorService.call(self)
   end
 end

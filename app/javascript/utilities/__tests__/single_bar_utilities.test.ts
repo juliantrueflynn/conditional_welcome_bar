@@ -20,7 +20,7 @@ describe('barFalseMap', () => {
       isNewTabUrl: false,
       paddingY: false,
       paddingX: false,
-      pageTemplates: false,
+      themeTemplates: false,
       textColor: false,
       fontSize: false,
       createdAt: false,

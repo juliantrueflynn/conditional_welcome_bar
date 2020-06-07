@@ -3,16 +3,18 @@
 require "rails_helper"
 
 RSpec.describe Types::QueryType, type: :graphql do
+  include BarGraphqlColumnNamesSupport
+
   describe "#active_bars" do
     it "returns active bars" do
       shop = create(:shop)
-      create :bar, shop: shop, is_active: true
-      create :bar, shop: shop, is_active: false
+      create :bar, shop: shop, active: true
+      create :bar, shop: shop, active: false
 
       query <<~GRAPHQL
         query {
           activeBars(shopifyDomain: "#{shop.shopify_domain}") {
-            #{Bar.updatableable_columns.map { |name| name.camelize(:lower) }.join(' ')}
+            #{bar_camelized_column_names}
           }
         }
       GRAPHQL
@@ -27,7 +29,7 @@ RSpec.describe Types::QueryType, type: :graphql do
       query <<~GRAPHQL
         query {
           activeBars(shopifyDomain: "#{shop.shopify_domain}") {
-            #{Bar.updatableable_columns.map { |name| name.camelize(:lower) }.join(' ')}
+            #{bar_camelized_column_names}
           }
         }
       GRAPHQL
@@ -67,7 +69,7 @@ RSpec.describe Types::QueryType, type: :graphql do
         query {
           bar(id: "#{bar.id}") {
             id
-            #{Bar.updatableable_columns.map { |name| name.camelize(:lower) }.join(' ')}
+            #{bar_camelized_column_names}
           }
         }
       GRAPHQL
@@ -84,7 +86,7 @@ RSpec.describe Types::QueryType, type: :graphql do
         query {
           bar(id: \"#{bar.id}\") {
             id
-            #{Bar.updatableable_columns.map { |name| name.camelize(:lower) }.join(' ')}
+            #{bar_camelized_column_names}
           }
         }
       GRAPHQL
@@ -99,7 +101,7 @@ RSpec.describe Types::QueryType, type: :graphql do
         query {
           bar(id: "0") {
             id
-            #{Bar.updatableable_columns.map { |name| name.camelize(:lower) }.join(' ')}
+            #{bar_camelized_column_names}
           }
         }
       GRAPHQL

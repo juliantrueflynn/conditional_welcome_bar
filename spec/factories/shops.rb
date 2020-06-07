@@ -8,14 +8,14 @@ FactoryBot.define do
     factory :shop_with_bars do
       transient do
         bars_count { 3 }
-        is_active { false }
+        active { false }
       end
 
       after(:create) do |shop, evaluator|
         create_list(
           :bar,
           evaluator.bars_count,
-          is_active: evaluator.is_active,
+          active: evaluator.active,
           shop: shop
         )
       end

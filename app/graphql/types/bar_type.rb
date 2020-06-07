@@ -9,8 +9,8 @@ module Types
     field :is_sticky, Boolean, null: true
     field :is_full_width_link, Boolean, null: true
     field :is_new_tab_url, Boolean, null: true
-    field :url, String, null: true
     field :has_close_button, Boolean, null: true
+    field :url, String, null: true
     field :placement, String, null: true
     field :padding_y, String, null: true
     field :padding_x, String, null: true
@@ -20,6 +20,10 @@ module Types
     field :background_color, String, null: true
     field :created_at, String, null: true
     field :updated_at, String, null: true
-    field :page_templates, [String], null: false
+    field :theme_templates, [String], null: false
+
+    def theme_templates
+      object.theme_templates.pluck(:name)
+    end
   end
 end
