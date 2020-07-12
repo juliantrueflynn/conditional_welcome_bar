@@ -14,5 +14,8 @@ if defined?(GraphiQL) && Rails.env.development?
   end
 
   # GraphiQL uses Sprockets and we need to precompile them in development.
-  Rails.application.config.assets.precompile += %w[graphiql/rails/application.*]
+  Rails.application.config.assets.precompile += %w[
+    graphiql/rails/application.css
+    graphiql/rails/application.js
+  ]
 end
