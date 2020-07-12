@@ -5,16 +5,22 @@ module Mutations
     include AuthorizedShopGuardable
 
     field :bar, Types::BarType, null: true
-    field :errors, Types::BarErrorType, null: true
+    field :user_errors, [Types::UserErrorType], null: false
 
     def resolve
       shop = context[:current_shop]
       bar = BarCreatorService.call(shop)
 
       if bar.valid?
-        { bar: bar, errors: nil }
+        {
+          bar: bar,
+          user_errors: []
+        }
       else
-        { bar: nil, errors: bar.errors.messages }
+        {
+          bar: nil,
+          user_errors: ::BarUserErrorsMapper.call(bar)
+        }
       end
     end
   end

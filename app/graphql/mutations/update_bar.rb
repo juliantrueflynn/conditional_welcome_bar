@@ -5,7 +5,7 @@ module Mutations
     include AuthorizedShopGuardable
 
     field :bar, Types::BarType, null: true
-    field :errors, Types::BarErrorType, null: true
+    field :user_errors, [Types::UserErrorType], null: false
 
     argument :id, ID, required: true
     argument :title, String, required: false
@@ -32,9 +32,15 @@ module Mutations
       raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
 
       if BarUpdaterService.call(bar, attributes)
-        { bar: bar, errors: {} }
+        {
+          bar: bar,
+          user_errors: [],
+        }
       else
-        { bar: nil, errors: bar.errors.messages }
+        {
+          bar: nil,
+          user_errors: ::BarUserErrorsMapper.call(bar),
+        }
       end
     end
   end

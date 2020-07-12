@@ -12,10 +12,16 @@ module Mutations
       shop = context[:current_shop]
       bar = shop.bars.find_by(id: id)
 
+      raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
+
       if bar&.destroy
-        { bar: bar }
+        {
+          bar: bar
+        }
       else
-        { bar: nil }
+        {
+          bar: nil
+        }
       end
     end
   end
