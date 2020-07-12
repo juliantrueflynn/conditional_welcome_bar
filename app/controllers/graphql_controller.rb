@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
-  before_action :set_current_shop, :log_current_shop
+  before_action :set_current_shop
 
   def execute
     result = ConditionalWelcomeBarSchema.execute(params[:query], execute_query)
@@ -22,10 +22,6 @@ class GraphqlController < ApplicationController
         current_shop: @current_shop
       }
     }
-  end
-
-  def log_current_shop
-    logger.info "Results from current_shop: #{@current_shop.inspect}"
   end
 
   def set_current_shop
