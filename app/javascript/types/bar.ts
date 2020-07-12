@@ -44,21 +44,26 @@ export type BarType = {
   [Bar.__typename]: string;
 };
 
+export type UserError = {
+  field: (keyof typeof Bar)[];
+  message: string;
+};
+
 export type BarPayload = {
   createBar: {
     bar: BarType | null;
-    errors: BarErrorPayload | null;
+    errors: UserError[];
   };
   destroyBar: {
     bar: BarType | null;
-    errors: BarErrorPayload | null;
+    errors: UserError[];
   };
   updateBar: {
     bar: BarType | null;
-    errors: BarErrorPayload | null;
+    errors: UserError[];
   };
 };
 
 export type BarErrorPayload = {
-  readonly [key in keyof typeof Bar]?: string[];
+  -readonly [key in keyof typeof Bar]?: string[];
 };

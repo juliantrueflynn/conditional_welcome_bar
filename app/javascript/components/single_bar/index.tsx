@@ -7,6 +7,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { Page, Form } from '@shopify/polaris';
 import SingleBarFormFields from '../single_bar_form_fields';
 import { barFalseMap } from '../../utilities/single_bar_utilities';
+import { getFieldErrorsMap } from '../../utilities/get_field_errors_map';
 
 type Props = {
   readonly bar: BarType;
@@ -66,9 +67,9 @@ const SingleBar: React.FC<Props> = ({ bar }) => {
       onAction: (): void => console.log('discard'),
     },
   ];
-
-  const errors =
-    (formData && formData.updateBar && formData.updateBar.errors) || {};
+  const errors = getFieldErrorsMap(
+    formData && formData.updateBar && formData.updateBar.userErrors
+  );
 
   return (
     <Page
