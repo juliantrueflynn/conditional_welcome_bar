@@ -27,7 +27,8 @@ const SingleBar: React.FC<Props> = ({ bar }) => {
   });
 
   const handleUpdate = (): void => {
-    updateBar({ variables: { input: { id: bar.id, ...fieldsValues } } });
+    const { __typename, ...attributes } = fieldsValues;
+    updateBar({ variables: { input: attributes } });
   };
 
   const handleFieldValueChange = (value: FieldChangeValue, id: Bar): void => {

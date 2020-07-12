@@ -19,7 +19,7 @@ export const apolloClient = new ApolloClient({
     }),
     new HttpLink({ uri: '/graphql' }),
   ]),
-  cache: new InMemoryCache({ addTypename: false }),
+  cache: new InMemoryCache(),
 });
 
 const DEFAULT_BAR_ATTRIBUTES = `
