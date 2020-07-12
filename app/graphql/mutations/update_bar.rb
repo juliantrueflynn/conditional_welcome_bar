@@ -27,9 +27,9 @@ module Mutations
       shop = ensure_current_shop
       bar = shop.bars.find_by(id: id)
 
-      if bar.blank?
-        raise GraphQL::ExecutionError, "Welcome bar does not exist"
-      elsif BarUpdaterService.call(bar, attributes)
+      raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
+
+      if BarUpdaterService.call(bar, attributes)
         { bar: bar, errors: {} }
       else
         { bar: nil, errors: bar.errors.messages }
