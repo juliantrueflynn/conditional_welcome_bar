@@ -3,33 +3,40 @@
 require "rails_helper"
 
 RSpec.describe "POST Graphql", type: :request do
-  it "logs shopify_domain if present" do
+  it "sets context with current_shop" do
     shop = create(:shop)
-    log_message = "Results from current_shop: #{shop.inspect}"
+    graphql_query = "{ bars { id } } "
     post_params = {
-      "operationName" => nil,
-      "variables" => {},
-      "query" => "{ bars { id title content createdAt updatedAt __typename } } "
+      operationName: nil,
+      variables: {},
+      query: graphql_query
     }
-    allow(Rails.logger).to receive(:info)
+    context_params = hash_including(
+      context: hash_including(current_shop: shop)
+    )
+    allow(ConditionalWelcomeBarSchema).to receive(:execute)
 
     authorize_shopify! shop
-    post "/graphql", params: { graphql: post_params }
+    post graphql_path, params: post_params
 
-    expect(Rails.logger).to have_received(:info).with(log_message).once
+    expect(ConditionalWelcomeBarSchema).to have_received(:execute).with(graphql_query, context_params)
   end
 
-  it "log does not contain shopify_domain if blank" do
-    log_message = "Results from current_shop: nil"
+  it "does not require authorization for every endpoint" do
+    shop = create(:shop)
+    graphql_query = "{ activeBars { id } } "
     post_params = {
-      "operationName" => nil,
-      "variables" => {},
-      "query" => "{ bars { id title content createdAt updatedAt __typename } } "
+      operationName: nil,
+      variables: {},
+      query: graphql_query
     }
-    allow(Rails.logger).to receive(:info)
+    context_params = hash_including(
+      context: hash_including(current_shop: nil)
+    )
+    allow(ConditionalWelcomeBarSchema).to receive(:execute)
 
-    post "/graphql", params: { graphql: post_params }
+    post graphql_path, params: post_params
 
-    expect(Rails.logger).to have_received(:info).with(log_message).once
+    expect(ConditionalWelcomeBarSchema).to have_received(:execute).with(graphql_query, context_params)
   end
 end
