@@ -62,6 +62,4 @@ Rails.application.configure do
     host_ip = `/sbin/ip route|awk '/default/ { print $3 }'`.strip
     config.web_console.whitelisted_ips << host_ip
   end
-
-  config.x.graphql_force_authorization = !defined?(GraphiQL)
 end

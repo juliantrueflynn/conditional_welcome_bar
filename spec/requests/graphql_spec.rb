@@ -23,7 +23,6 @@ RSpec.describe "POST Graphql", type: :request do
   end
 
   it "does not require authorization for every endpoint" do
-    shop = create(:shop)
     graphql_query = "{ activeBars { id } } "
     post_params = {
       operationName: nil,

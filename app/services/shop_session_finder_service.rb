@@ -17,12 +17,7 @@ class ShopSessionFinderService
     return if current_shopify_session.blank?
 
     activate_shop_session_and_clear!
-
-    if shop_record.present?
-      Rails.logger.info "Shop session initialized id:#{shop_record.id}, domain:#{shop_record.domain}"
-    else
-      Rails.logger.warn "No shop session found for domain #{current_shopify_session.domain}"
-    end
+    log_session_result
 
     shop_record
   end
@@ -34,10 +29,16 @@ class ShopSessionFinderService
   end
 
   def activate_shop_session_and_clear!
-    begin
-      ShopifyAPI::Base.activate_session current_shopify_session
-    ensure
-      ShopifyAPI::Base.clear_session
+    ShopifyAPI::Base.activate_session current_shopify_session
+  ensure
+    ShopifyAPI::Base.clear_session
+  end
+
+  def log_session_result
+    if shop_record.present?
+      Rails.logger.info "Shop session initialized id:#{shop_record.id}, domain:#{shop_record.domain}"
+    else
+      Rails.logger.warn "No shop session found for domain #{current_shopify_session.domain}"
     end
   end
 
