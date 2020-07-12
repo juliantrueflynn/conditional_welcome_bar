@@ -1363,17 +1363,17 @@
     webpack-cli "^3.3.11"
     webpack-sources "^1.4.3"
 
-"@shopify/app-bridge-react@^1.24.0":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-1.24.0.tgz#93472434ab2d02af79bf49ef8a97eedcaf34ed0b"
-  integrity sha512-tW/jNxZsJlob/rZDT6onNLR9h58Dd8q/RWBBuTk4jYFNlYUc4qTE4GL5DZO/d2cSwn214bHXsF8faZX3YZZAtg==
+"@shopify/app-bridge-react@^1.25.0":
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-1.25.0.tgz#9af24a226064d6b4fe74ae7d95f12ab8ba3722e1"
+  integrity sha512-wTKHYZPR/IQhEiryPRZPu9DScCohdau+zq8Yk/JVioVbYbHZ3mwMhsxYFlQ21Aks+B7TqCwyCMfCiTHA7Je7aQ==
   dependencies:
-    "@shopify/app-bridge" "^1.24.0"
+    "@shopify/app-bridge" "^1.25.0"
 
-"@shopify/app-bridge@^1.24.0":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.24.0.tgz#188fa83067355c5424f71ed1ead4626e61b04403"
-  integrity sha512-nPNYVF05QrWzDis8CeQj5vS7VcRNzL+PdCmHG2br3JsCfRWM+XPKKCVSbB3ewd/wX2b51tacITbZMtJ2MKgwjw==
+"@shopify/app-bridge@^1.25.0":
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.25.0.tgz#767e3a366c3bf4842e1d60b955e49b84b8880778"
+  integrity sha512-RZFMNkC+XQbT5vE+78ZYpuUrRK2eS7wEmUBaWuRpYNJ9YoReslj9hBGgL4cqNNR2kLCj+nIpqeye8lJTgNZtkw==
 
 "@shopify/app-bridge@^1.3.0":
   version "1.21.4"
@@ -1403,10 +1403,10 @@
     hsluv "^0.1.0"
     tslib "^1.10.0"
 
-"@shopify/polaris@^4.25.0":
-  version "4.25.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-4.25.0.tgz#c2b407d2f0e1e790a6ba1cdada1cef464774c5b4"
-  integrity sha512-7Ptk31tQfpmdbboJO3Dp8NrROTQUhvGY0cl40OXGDsqux2L4SjgyOXkd0LFXc8/P24DovuGONCXh3kI6JMj6ZQ==
+"@shopify/polaris@^4.26.1":
+  version "4.26.1"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-4.26.1.tgz#f909c39f874f656b38752dca6ca1f9cf3ffadb55"
+  integrity sha512-u+d7j0tHJp0cXyF9I/IY6DZ6OHP0vvpMQ0kiNlL9R3yJZKCmzl1MU253x8ZOmIR6lqgY4Va44Q/BsW1DD4PjFA==
   dependencies:
     "@babel/runtime" "^7.1.6"
     "@material-ui/react-transition-group" "^4.2.0"

@@ -58,5 +58,8 @@ Rails.application.configure do
 
   # We check if it's defined because some environments with Docker could not have web_console
   # gem installed. This prevents the config raising an error.
-  config.web_console.whiny_requests = false if defined?(config.web_console)
+  if defined?(config.web_console)
+    host_ip = `/sbin/ip route|awk '/default/ { print $3 }'`.strip
+    config.web_console.whitelisted_ips << host_ip
+  end
 end
