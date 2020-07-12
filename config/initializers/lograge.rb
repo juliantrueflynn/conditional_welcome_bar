@@ -12,10 +12,7 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     exceptions = %w[controller action format]
-    params = event.payload[:params]
-                  .except(*exceptions)
-                  .each_pair
-                  .map { |k, v| { key: k, value: v } }
+    params = event.payload[:params].except(*exceptions)
 
     {
       time: Time.now.utc.iso8601(3),
