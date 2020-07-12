@@ -7,9 +7,13 @@ module Mutations
 
     def resolve
       shop = ensure_current_shop
-
       bar = BarCreatorService.call(shop)
-      { bar: bar, errors: bar.errors.messages }
+
+      if bar.valid?
+        { bar: bar, errors: nil }
+      else
+        { bar: nil, errors: bar.errors.messages }
+      end
     end
   end
 end

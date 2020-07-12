@@ -72,7 +72,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include GraphqlSupport, type: :graphql
-  config.include ShopifyAuthSupport, type: :request
+  config.include ShopifyApiSupport, type: :request
 
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
