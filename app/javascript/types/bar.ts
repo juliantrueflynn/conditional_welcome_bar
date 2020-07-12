@@ -1,6 +1,5 @@
 export enum Bar {
   id = 'id',
-  shopId = 'shopId',
   title = 'title',
   content = 'content',
   isActive = 'isActive',
@@ -24,7 +23,6 @@ export enum Bar {
 
 export type BarType = {
   [Bar.id]: number;
-  [Bar.shopId]: number;
   [Bar.title]: string;
   [Bar.content]: string;
   [Bar.isActive]: boolean;

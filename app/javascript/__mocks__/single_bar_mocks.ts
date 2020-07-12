@@ -2,7 +2,6 @@ import { BarType } from '../types/bar';
 
 export const mockBarFields: BarType = {
   id: 1,
-  shopId: 2,
   title: 'Some title',
   content: 'Some content',
   url: 'https://example.com',
@@ -21,5 +20,5 @@ export const mockBarFields: BarType = {
   fontSize: '14px',
   createdAt: new Date().toString(),
   updatedAt: new Date().toString(),
-  __typename: 'some type name',
+  __typename: 'Bar',
 };
