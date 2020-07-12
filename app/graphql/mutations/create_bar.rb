@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 module Mutations
-  class CreateBar < Mutations::Base
+  class CreateBar < GraphQL::Schema::RelayClassicMutation
+    include AuthorizedShopGuardable
+
     field :bar, Types::BarType, null: true
     field :errors, Types::BarErrorType, null: true
 
     def resolve
-      shop = ensure_current_shop
+      shop = context[:current_shop]
       bar = BarCreatorService.call(shop)
 
       if bar.valid?
