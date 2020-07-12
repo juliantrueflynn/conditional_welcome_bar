@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
 import { BarType, BarPayload } from '../../types/bar';
-import { ExecutionResult } from 'apollo-boost';
+import { ExecutionResult } from 'apollo-link';
 import { MutationFunctionOptions } from '@apollo/react-common';
 
 const BarsListItem = React.lazy(() => import('../bars_list_item'));

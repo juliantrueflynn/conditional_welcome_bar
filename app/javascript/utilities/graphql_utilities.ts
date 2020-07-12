@@ -1,19 +1,25 @@
-import ApolloClient, { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloLink } from 'apollo-link';
 
 export const apolloClient = new ApolloClient({
-  request: (operation): void => {
-    const csrfMetaTag = document.querySelector('meta[name=csrf-token]');
+  link: ApolloLink.from([
+    new ApolloLink((operation, forward) => {
+      const csrfMetaTag = document.querySelector('meta[name=csrf-token]');
 
-    if (!csrfMetaTag) {
-      return;
-    }
+      operation.setContext({
+        headers: {
+          'X-CSRF-Token': csrfMetaTag && csrfMetaTag.getAttribute('content'),
+        },
+      });
 
-    operation.setContext({
-      headers: {
-        'X-CSRF-Token': csrfMetaTag.getAttribute('content'),
-      },
-    });
-  },
+      return forward(operation);
+    }),
+    new HttpLink({ uri: '/graphql' }),
+  ]),
+  cache: new InMemoryCache({ addTypename: false }),
 });
 
 const DEFAULT_BAR_ATTRIBUTES = `
