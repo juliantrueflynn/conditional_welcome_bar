@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
 module Mutations
-  class CreateBar < Mutations::Base
+  class CreateBar < GraphQL::Schema::RelayClassicMutation
+    include AuthorizedShopGuardable
+
     field :bar, Types::BarType, null: true
-    field :errors, Types::BarErrorType, null: true
 
     def resolve
-      shop = ensure_current_shop
-      bar = BarCreatorService.call(shop)
+      bar = BarCreatorService.call(context[:current_shop])
 
-      if bar.valid?
-        { bar: bar, errors: nil }
-      else
-        { bar: nil, errors: bar.errors.messages }
-      end
+      raise GraphQL::ExecutionError, "There was an issue creating your welcome bar" if bar.invalid?
+
+      { bar: bar }
     end
   end
 end

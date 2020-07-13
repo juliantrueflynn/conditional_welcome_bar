@@ -22,25 +22,6 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const DEFAULT_BAR_ATTRIBUTES = `
-title
-content
-url
-placement
-isActive
-isSticky
-isFullWidthLink
-isNewTabUrl
-themeTemplates
-hasCloseButton
-paddingY
-paddingX
-textAlign
-textColor
-fontSize
-backgroundColor
-`;
-
 export const GET_ALL_BARS = gql`
   {
     bars {
@@ -57,7 +38,22 @@ export const GET_SINGLE_BAR = gql`
   query Bar($id: ID!) {
     bar(id: $id) {
       id
-      ${DEFAULT_BAR_ATTRIBUTES}
+      title
+      content
+      url
+      placement
+      isActive
+      isSticky
+      isFullWidthLink
+      isNewTabUrl
+      themeTemplates
+      hasCloseButton
+      paddingY
+      paddingX
+      textAlign
+      textColor
+      fontSize
+      backgroundColor
     }
   }
 `;
@@ -73,13 +69,29 @@ export const CREATE_BAR = gql`
 `;
 
 export const UPDATE_BAR = gql`
-  mutation updateBar($input: UpdateBarInput!) {
+  mutation UpdateBar($input: UpdateBarInput!) {
     updateBar(input: $input) {
       bar {
-        ${DEFAULT_BAR_ATTRIBUTES}
+        title
+        content
+        url
+        placement
+        isActive
+        isSticky
+        isFullWidthLink
+        isNewTabUrl
+        themeTemplates
+        hasCloseButton
+        paddingY
+        paddingX
+        textAlign
+        textColor
+        fontSize
+        backgroundColor
       }
-      errors {
-        ${DEFAULT_BAR_ATTRIBUTES}
+      userErrors {
+        field
+        message
       }
     }
   }

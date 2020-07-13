@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateBar < Mutations::Base
+  class UpdateBar < GraphQL::Schema::RelayClassicMutation
+    include AuthorizedShopGuardable
+
     field :bar, Types::BarType, null: true
-    field :errors, Types::BarErrorType, null: true
+    field :user_errors, [Types::UserErrorType], null: false
 
     argument :id, ID, required: true
     argument :title, String, required: false
@@ -24,15 +26,17 @@ module Mutations
     argument :background_color, String, required: false
 
     def resolve(id:, **attributes)
-      shop = ensure_current_shop
-      bar = shop.bars.find_by(id: id)
+      bar = context[:current_shop].bars.find_by(id: id)
 
       raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
 
       if BarUpdaterService.call(bar, attributes)
-        { bar: bar, errors: {} }
+        { bar: bar, user_errors: [] }
       else
-        { bar: nil, errors: bar.errors.messages }
+        {
+          bar: nil,
+          user_errors: ::BarUserErrorsMapper.call(bar)
+        }
       end
     end
   end

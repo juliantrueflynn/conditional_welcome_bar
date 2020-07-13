@@ -1,6 +1,5 @@
 export enum Bar {
   id = 'id',
-  shopId = 'shopId',
   title = 'title',
   content = 'content',
   isActive = 'isActive',
@@ -24,7 +23,6 @@ export enum Bar {
 
 export type BarType = {
   [Bar.id]: number;
-  [Bar.shopId]: number;
   [Bar.title]: string;
   [Bar.content]: string;
   [Bar.isActive]: boolean;
@@ -46,21 +44,26 @@ export type BarType = {
   [Bar.__typename]: string;
 };
 
+export type UserError = {
+  readonly field: (keyof typeof Bar)[];
+  readonly message: string;
+};
+
 export type BarPayload = {
   createBar: {
     bar: BarType | null;
-    errors: BarErrorPayload | null;
+    errors: UserError[];
   };
   destroyBar: {
     bar: BarType | null;
-    errors: BarErrorPayload | null;
+    errors: UserError[];
   };
   updateBar: {
     bar: BarType | null;
-    errors: BarErrorPayload | null;
+    errors: UserError[];
   };
 };
 
 export type BarErrorPayload = {
-  readonly [key in keyof typeof Bar]?: string[];
+  -readonly [key in keyof typeof Bar]?: string[];
 };

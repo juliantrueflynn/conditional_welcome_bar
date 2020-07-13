@@ -6,7 +6,6 @@ describe('barFalseMap', () => {
 
     expect(result).toMatchObject({
       id: false,
-      shopId: false,
       title: false,
       content: false,
       url: false,
