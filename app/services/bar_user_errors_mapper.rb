@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Maps ActiveRecords error messages so they can be consumed better by UI.
+# Used for GraphQL mutations for Bar class.
 class BarUserErrorsMapper
   def self.call(bar)
     new(bar).call
