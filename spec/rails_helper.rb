@@ -11,10 +11,11 @@ require File.expand_path("../config/environment", __dir__)
 abort("Rails is running in production mode!") if Rails.env.production?
 require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
-require "database_cleaner"
+require "capybara/rspec"
 require "faker"
 require "webmock/rspec"
 require "shopify_app/test_helpers/all"
+require "selenium/webdriver"
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -73,18 +74,9 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include ShopifyApiSupport, type: :request
+  config.include ShopifyApiSupport, type: :system
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation
-    WebMock.disable_net_connect! allow_localhost: true
-  end
-
-  config.before do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
-  end
-
-  config.after do
-    DatabaseCleaner.clean
+    WebMock.disable_net_connect!(allow: %w[web selenium unix], allow_localhost: true)
   end
 end
