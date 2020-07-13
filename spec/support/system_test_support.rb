@@ -25,13 +25,13 @@ Capybara.configure do |config|
   config.default_max_wait_time = 10
   config.javascript_driver = :remote_chrome
   config.server_host = Rails.configuration.x.selenium_server_host
-  config.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
 end
 
 # Rails System test configuration.
 RSpec.configure do |config|
   config.before(:each, type: :system) do
     driven_by :rack_test
+    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
   end
 
   config.before(:each, type: :system, js: true) do |example|
