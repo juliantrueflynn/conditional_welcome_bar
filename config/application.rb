@@ -28,5 +28,10 @@ module ConditionalWelcomeBar
 
     config.x.app_host = ENV.fetch("APP_HOST", "https://conditionalwelcomebar.ngrok.io")
     config.x.cors_origins = ENV.fetch("CORS_ORIGINS", "https://conditionalwelcomebar.ngrok.io").split(",").map(&:strip)
+
+    config.x.shopify = ActiveSupport::OrderedOptions.new.tap do |option|
+      option.force_redirect = ENV.fetch("SHOPIFY_FORCE_REDIRECT", "true") == "true"
+      option.debug_mode = ENV.fetch("SHOPIFY_DEBUG_MODE", "false") == "true"
+    end
   end
 end

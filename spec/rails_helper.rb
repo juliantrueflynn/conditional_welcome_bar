@@ -14,6 +14,7 @@ require "rspec/rails"
 require "database_cleaner"
 require "faker"
 require "webmock/rspec"
+require "shopify_app/test_helpers/all"
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
