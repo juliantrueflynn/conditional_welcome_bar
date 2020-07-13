@@ -29,6 +29,10 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres:/var/lib/postgresql/data:delegated
+  selenium:
+    image: selenium/standalone-chrome:3.141.59-20200525
+    logging:
+      driver: none
   web:
     <<: *default-service
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"

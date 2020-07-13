@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Mutations::DestroyBar", type: :request do
+RSpec.describe "Mutations::DestroyBar", type: :request do
   it "destroys bar instance" do
     bar = create(:bar)
     shop = bar.shop

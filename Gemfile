@@ -44,8 +44,9 @@ group :development do
 end
 
 group :test do
-  gem "database_cleaner"
+  gem "capybara"
   gem "faker"
+  gem "selenium-webdriver"
   gem "simplecov", require: false
   gem "webmock"
 end

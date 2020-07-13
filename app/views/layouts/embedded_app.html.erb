@@ -11,7 +11,7 @@
   <body>
     <div class="app-wrapper">
       <div class="app-content">
-        <main role="main">
+        <main>
           <%= yield %>
         </main>
       </div>
@@ -23,7 +23,8 @@
         data: {
           api_key: ShopifyApp.configuration.api_key,
           shop_origin: (@current_shopify_session.domain if @current_shopify_session),
-          debug: Rails.env.development?
+          debug: Rails.configuration.x.shopify.debug_mode,
+          forceRedirect: Rails.configuration.x.shopify.force_redirect,
         }
       )
     %>
