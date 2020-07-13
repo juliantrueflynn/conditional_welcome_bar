@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "homepage", type: :system do
+RSpec.describe "homepage", type: :system, js: true do
   it "redirects user to login page if unauthorized" do
     visit root_path
 
