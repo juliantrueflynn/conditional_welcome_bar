@@ -6,15 +6,15 @@ Capybara.register_driver :remote_chrome do |app|
     browser: :remote,
     desired_capabilities: {
       chromeOptions: {
-        args: %w(
+        args: %w[
           headless
           disable-gpu
           no-sandbox
           enable-features=NetworkService,NetworkServiceInProcess
           disable-dev-shm-usage
-        ),
-        w3c: false,
-      },
+        ],
+        w3c: false
+      }
     },
     url: "http://#{Rails.configuration.x.selenium_host}:#{Rails.configuration.x.selenium_port}/wd/hub"
   )
@@ -34,7 +34,7 @@ RSpec.configure do |config|
     Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
   end
 
-  config.before(:each, type: :system, js: true) do |example|
+  config.before(:each, type: :system, js: true) do |_example|
     driven_by Capybara.javascript_driver
   end
 end

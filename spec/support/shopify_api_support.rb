@@ -16,8 +16,8 @@ module ShopifyApiSupport
   end
 
   def stub_script_tags_api_request
-    stub_request(:get, /admin\/api\/#{ShopifyApp.configuration.api_version}\/script_tags\.json/).
-      to_return(status: 200, body: "", headers: {})
+    stub_request(:get, %r{admin/api/#{ShopifyApp.configuration.api_version}/script_tags\.json})
+      .to_return(status: 200, body: "", headers: {})
   end
 
   def execute_graphql_query(query, current_shop: nil, operation_name: nil, variables: {})
