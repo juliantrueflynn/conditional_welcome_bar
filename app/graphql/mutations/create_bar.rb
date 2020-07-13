@@ -5,23 +5,13 @@ module Mutations
     include AuthorizedShopGuardable
 
     field :bar, Types::BarType, null: true
-    field :user_errors, [Types::UserErrorType], null: false
 
     def resolve
-      shop = context[:current_shop]
-      bar = BarCreatorService.call(shop)
+      bar = BarCreatorService.call(context[:current_shop])
 
-      if bar.valid?
-        {
-          bar: bar,
-          user_errors: []
-        }
-      else
-        {
-          bar: nil,
-          user_errors: ::BarUserErrorsMapper.call(bar)
-        }
-      end
+      raise GraphQL::ExecutionError, "There was an issue creating your welcome bar" if bar.invalid?
+
+      { bar: bar }
     end
   end
 end

@@ -9,20 +9,11 @@ module Mutations
     argument :id, ID, required: true
 
     def resolve(id:)
-      shop = context[:current_shop]
-      bar = shop.bars.find_by(id: id)
+      bar = context[:current_shop].bars.find_by(id: id)
 
       raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
 
-      if bar&.destroy
-        {
-          bar: bar
-        }
-      else
-        {
-          bar: nil
-        }
-      end
+      { bar: bar.destroy }
     end
   end
 end

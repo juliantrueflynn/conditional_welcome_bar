@@ -26,20 +26,16 @@ module Mutations
     argument :background_color, String, required: false
 
     def resolve(id:, **attributes)
-      shop = context[:current_shop]
-      bar = shop.bars.find_by(id: id)
+      bar = context[:current_shop].bars.find_by(id: id)
 
       raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
 
       if BarUpdaterService.call(bar, attributes)
-        {
-          bar: bar,
-          user_errors: [],
-        }
+        { bar: bar, user_errors: [] }
       else
         {
           bar: nil,
-          user_errors: ::BarUserErrorsMapper.call(bar),
+          user_errors: ::BarUserErrorsMapper.call(bar)
         }
       end
     end

@@ -10,7 +10,7 @@ class BarUserErrorsMapper
   end
 
   def call
-    return [] if @bar.blank?
+    return [] if @bar.blank? || @bar.valid?
 
     @bar.errors.map do |attribute, message|
       field_name = Bar::BOOLEAN_COLUMN_ALIASES[attribute].presence || attribute
@@ -18,7 +18,7 @@ class BarUserErrorsMapper
       UserError.new(
         # This is the GraphQL argument which corresponds to the validation error.
         field: [field_name.to_s.camelize(:lower)],
-        message: message,
+        message: message
       )
     end
   end
