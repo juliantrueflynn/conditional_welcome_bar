@@ -3,19 +3,17 @@ import { BarErrorPayload, UserError } from '../types/bar';
 export const getFieldErrorsMap = (
   errors: UserError[] | undefined
 ): BarErrorPayload => {
-  if (!errors) {
-    return {};
-  }
+  const userErrors = errors || [];
 
-  return errors.reduce((allErrors, error) => {
-    const attribute = error.field[0];
+  return userErrors.reduce((mappedErrors, userError) => {
+    const fieldId = userError.field[0];
 
-    if (!allErrors[attribute]) {
-      allErrors[attribute] = [];
+    if (mappedErrors[fieldId]) {
+      mappedErrors[fieldId]?.push(userError.message);
+    } else {
+      mappedErrors[fieldId] = [userError.message];
     }
 
-    allErrors[attribute]?.push(error.message);
-
-    return allErrors;
+    return mappedErrors;
   }, {} as BarErrorPayload);
 };

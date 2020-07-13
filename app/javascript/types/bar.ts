@@ -45,8 +45,8 @@ export type BarType = {
 };
 
 export type UserError = {
-  field: (keyof typeof Bar)[];
-  message: string;
+  readonly field: (keyof typeof Bar)[];
+  readonly message: string;
 };
 
 export type BarPayload = {
