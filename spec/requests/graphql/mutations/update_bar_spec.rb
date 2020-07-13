@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Mutations::UpdateBar", type: :request do
+RSpec.describe "Mutations::UpdateBar", type: :request do
   it "updates bar instance" do
     bar = create(:bar, active: true)
     new_title = Faker::Lorem.sentence

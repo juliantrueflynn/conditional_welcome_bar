@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Mutations::CreateBar", type: :request do
+RSpec.describe "Mutations::CreateBar", type: :request do
   it "creates bar" do
     shop = create(:shop)
 
