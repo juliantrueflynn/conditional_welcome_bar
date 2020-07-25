@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from '../../utilities/graphql_utilities';
 import ShopifyProvider from '../shopify_provider';
 

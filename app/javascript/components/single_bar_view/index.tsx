@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { GET_SINGLE_BAR } from '../../utilities/graphql_utilities';
 import SingleBar from '../single_bar';
 import LoadingManager from '../loading_manager';

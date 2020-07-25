@@ -6,7 +6,7 @@ import {
   Loading,
 } from '@shopify/app-bridge-react';
 import { AppProvider, Frame } from '@shopify/polaris';
-import translations from '@shopify/polaris/locales/en.json';
+import enTranslations from '@shopify/polaris/locales/en.json';
 import { AppConfig } from '@shopify/app-bridge';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ const ShopifyProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <Provider config={config}>
-      <AppProvider i18n={translations}>
+      <AppProvider i18n={enTranslations}>
         <Frame>
           <ClientRouter history={history} />
           <RoutePropagator location={location} />
