@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { UPDATE_BAR } from '../../utilities/graphql_utilities';
 import { BarType, Bar } from '../../types/bar';
 import { BarFormProps, FieldChangeValue } from '../../types/fields';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Page, Form } from '@shopify/polaris';
 import SingleBarFormFields from '../single_bar_form_fields';
 import { barFalseMap } from '../../utilities/single_bar_utilities';

@@ -1,16 +1,14 @@
 import React from 'react';
 import { ResourceList, EmptyState, Card, Layout, Page } from '@shopify/polaris';
-import { BarType, BarPayload } from '../../types/bar';
-import { ExecutionResult } from 'apollo-link';
-import { MutationFunctionOptions } from '@apollo/react-common';
+import { BarType } from '../../types/bar';
+import { MutationFunctionOptions } from '@apollo/client';
 
 const BarsListItem = React.lazy(() => import('../bars_list_item'));
 
 type Props = {
   bars: BarType[];
-  createBar: (
-    options?: MutationFunctionOptions
-  ) => Promise<ExecutionResult<BarPayload>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createBar: (options?: MutationFunctionOptions) => Promise<any>;
   isCreating: boolean;
   isLoadingBars: boolean;
 };

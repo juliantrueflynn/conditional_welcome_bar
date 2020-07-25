@@ -1,25 +1,35 @@
-import gql from 'graphql-tag';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloLink } from 'apollo-link';
+import {
+  gql,
+  ApolloClient,
+  HttpLink,
+  ApolloLink,
+  InMemoryCache,
+  concat,
+} from '@apollo/client';
+
+const httpLink = new HttpLink();
+
+const getCsrfToken = (): string | null => {
+  const csrfMetaTag = document.querySelector('meta[name=csrf-token]');
+  const csrfToken = csrfMetaTag && csrfMetaTag.getAttribute('content');
+
+  return csrfToken || null;
+};
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      'X-CSRF-Token': getCsrfToken(),
+    },
+  }));
+
+  return forward(operation);
+});
 
 export const apolloClient = new ApolloClient({
-  link: ApolloLink.from([
-    new ApolloLink((operation, forward) => {
-      const csrfMetaTag = document.querySelector('meta[name=csrf-token]');
-
-      operation.setContext({
-        headers: {
-          'X-CSRF-Token': csrfMetaTag && csrfMetaTag.getAttribute('content'),
-        },
-      });
-
-      return forward(operation);
-    }),
-    new HttpLink({ uri: '/graphql' }),
-  ]),
   cache: new InMemoryCache(),
+  link: concat(authMiddleware, httpLink),
 });
 
 export const GET_ALL_BARS = gql`
