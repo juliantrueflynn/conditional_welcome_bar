@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { GET_ALL_BARS, CREATE_BAR } from '../../utilities/graphql_tags';
-import { BarPayload } from '../../types/bar';
+import { BarPayload, BarType } from '../../types/bar';
 import { useQuery, useMutation } from '@apollo/client';
+import { Page, Layout, EmptyState } from '@shopify/polaris';
 import BarsList from '../bars_list';
 
 const IndexBarsView: React.FC = () => {
@@ -10,7 +11,6 @@ const IndexBarsView: React.FC = () => {
   const { search } = useLocation();
 
   const { loading: isLoadingBars, data, error } = useQuery(GET_ALL_BARS);
-  const bars = data && data.bars;
 
   const [createBar, { loading: isCreating }] = useMutation(CREATE_BAR, {
     onCompleted: (response: BarPayload): void => {
@@ -24,17 +24,35 @@ const IndexBarsView: React.FC = () => {
     ignoreResults: true,
   });
 
+  const bars: BarType[] | undefined = data && data.bars;
+  const hasBars = bars && !!bars.length;
+  const primaryAction = {
+    content: 'Create welcome bar',
+    onAction: createBar,
+    loading: isLoadingBars || isCreating,
+  };
+
   if (error) {
     return <p>Error :(</p>;
   }
 
   return (
-    <BarsList
-      bars={bars || []}
-      createBar={createBar}
-      isCreating={isCreating}
-      isLoadingBars={isLoadingBars}
-    />
+    <Page title="Home" primaryAction={primaryAction}>
+      <Layout>
+        <Layout.Section>
+          {!isLoadingBars && !hasBars && (
+            <EmptyState
+              heading="Create welcome bar to start"
+              action={primaryAction}
+              image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
+            >
+              <p>Create your first welcome bar!</p>
+            </EmptyState>
+          )}
+          {hasBars && <BarsList bars={bars || []} />}
+        </Layout.Section>
+      </Layout>
+    </Page>
   );
 };
 

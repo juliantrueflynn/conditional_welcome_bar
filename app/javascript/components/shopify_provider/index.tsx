@@ -10,17 +10,13 @@ import enTranslations from '@shopify/polaris/locales/en.json';
 import { AppConfig } from '@shopify/app-bridge';
 import { useHistory, useLocation } from 'react-router-dom';
 
-type Props = {
-  children: React.ReactNode;
-};
-
 const getShopOrigin = (): string | null => {
   const appData = document.getElementById('shopify-app-init');
 
   return appData && appData.getAttribute('data-shop-origin');
 };
 
-const ShopifyProvider: React.FC<Props> = ({ children }) => {
+const ShopifyProvider: React.FC = ({ children }) => {
   const location = useLocation();
   const history = useHistory();
 
