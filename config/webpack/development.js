@@ -10,6 +10,9 @@ environment.plugins.append(
     typescript: {
       configFile: path.resolve(__dirname, '../../tsconfig.json'),
     },
+    eslint: {
+      files: '../../app/javascript/**/*.{ts,tsx,js}',
+    },
     async: false,
   })
 );
