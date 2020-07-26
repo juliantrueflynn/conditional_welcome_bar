@@ -38,14 +38,12 @@ services:
       - 127.0.0.1:3000:3000
     depends_on:
       - db
+      - webpacker
   webpacker:
     <<: *default-service
-    command: bin/webpack-dev-server
+    command: sh -c "bundle exec rake webpacker:clobber && bin/webpack-dev-server"
     ports:
       - 127.0.0.1:3035:3035
-    environment:
-      BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
-      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
 
 volumes:
   postgres:

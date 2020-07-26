@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import isEqual from 'lodash/isEqual';
-import { UPDATE_BAR } from '../../utilities/graphql_utilities';
+import { UPDATE_BAR } from '../../utilities/graphql_tags';
 import { BarType, Bar } from '../../types/bar';
 import { BarFormProps, FieldChangeValue } from '../../types/fields';
 import { useMutation } from '@apollo/client';

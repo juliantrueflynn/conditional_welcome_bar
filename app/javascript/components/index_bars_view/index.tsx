@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { GET_ALL_BARS, CREATE_BAR } from '../../utilities/graphql_utilities';
+import { GET_ALL_BARS, CREATE_BAR } from '../../utilities/graphql_tags';
 import { BarPayload } from '../../types/bar';
 import { useQuery, useMutation } from '@apollo/client';
 import BarsList from '../bars_list';
