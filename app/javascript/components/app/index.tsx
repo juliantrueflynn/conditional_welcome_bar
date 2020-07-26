@@ -1,17 +1,17 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { apolloClient } from '../../utilities/apollo_client';
 import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '../../utilities/graphql_utilities';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import ShopifyProvider from '../shopify_provider';
+import React from 'react';
 
 const SingleBarView = React.lazy(() => import('../single_bar_view'));
 const IndexBarsView = React.lazy(() => import('../index_bars_view'));
 const MissingPageView = React.lazy(() => import('../missing_page_view'));
 
-const App: React.FC = () => {
-  return (
-    <ShopifyProvider>
-      <ApolloProvider client={apolloClient}>
+const App: React.FC = () => (
+  <ApolloProvider client={apolloClient}>
+    <BrowserRouter>
+      <ShopifyProvider>
         <Switch>
           <Route exact path="/">
             <IndexBarsView />
@@ -23,9 +23,9 @@ const App: React.FC = () => {
             <MissingPageView />
           </Route>
         </Switch>
-      </ApolloProvider>
-    </ShopifyProvider>
-  );
-};
+      </ShopifyProvider>
+    </BrowserRouter>
+  </ApolloProvider>
+);
 
 export default App;
