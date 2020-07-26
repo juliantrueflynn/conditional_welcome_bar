@@ -1,5 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import 'whatwg-fetch';
 import '@shopify/polaris/dist/styles.css';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';

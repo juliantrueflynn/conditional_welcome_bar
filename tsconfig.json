@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
+    "lib": ["es5", "es6", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
@@ -23,6 +23,5 @@
     "config/webpack",
     "vendor",
     "public"
-  ],
-  "compileOnSave": false
+  ]
 }
