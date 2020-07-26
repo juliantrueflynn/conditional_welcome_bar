@@ -6,9 +6,10 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
+    "lib": ["es5", "es6", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "strict": true,
     "sourceMap": true,
     "target": "es5",
@@ -16,6 +17,9 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
+  "include": [
+    "./app/javascript/**/*"
+  ],
   "exclude": [
     "**/*.spec.ts",
     "**/*.test.ts",
@@ -23,6 +27,5 @@
     "config/webpack",
     "vendor",
     "public"
-  ],
-  "compileOnSave": false
+  ]
 }

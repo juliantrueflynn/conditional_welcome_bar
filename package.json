@@ -4,7 +4,8 @@
   "private": true,
   "description": "Shopify app with Rails, Webpacker, and React. Utilizes Shopify Polaris",
   "scripts": {
-    "test": "jest --coverage --watchAll",
+    "test": "jest --verbose --watchAll",
+    "test:coverage": "jest --verbose --coverage",
     "lint": "eslint 'app/javascript/**/*.{ts,tsx,js}'",
     "lint:fix": "eslint 'app/javascript/**/*.{ts,tsx,js}' --fix",
     "webpack:stats": "./bin/webpack-bundle-analyzer.sh"
@@ -40,7 +41,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.7",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "whatwg-fetch": "^3.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.1",
@@ -61,33 +63,27 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "fork-ts-checker-webpack-plugin": "^5.0.11",
     "jest": "^26.1.0",
+    "jest-fetch-mock": "^3.0.3",
     "jest-watch-typeahead": "^0.6.0",
     "prettier": "^2.0.5",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-dev-server": "^3.10.3"
   },
   "jest": {
-    "verbose": true,
     "clearMocks": true,
-    "roots": [
-      "<rootDir>/app/javascript"
-    ],
-    "testMatch": [
-      "**/__tests__/**/*.+(ts|tsx|js)",
-      "**/?(*.)+test.+(ts|tsx|js)"
-    ],
     "collectCoverageFrom": [
-      "app/javascript/**/*.{ts,tsx,js}",
-      "!app/javascript/**/*.d.ts"
+      "**/*.{ts,tsx}",
+      "!**/*.d.ts",
+      "!types/*.ts",
+      "!packs/*.tsx",
+      "!coverage/**/*",
+      "!constants/*.ts"
     ],
     "moduleDirectories": [
       "node_modules",
-      "app/javascript/"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/config/webpack/test.js"
+      "<rootDir>"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -95,6 +91,18 @@
       "js",
       "json",
       "node"
+    ],
+    "rootDir": "./app/javascript/",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|tsx)",
+      "**/?(*.)+test.+(ts|tsx)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/config/webpack/test.js"
     ]
   }
 }
