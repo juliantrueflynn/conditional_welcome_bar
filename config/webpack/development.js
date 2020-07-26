@@ -11,7 +11,7 @@ environment.plugins.append(
       configFile: path.resolve(__dirname, '../../tsconfig.json'),
     },
     eslint: {
-      files: '../../app/javascript/**/*.{ts,tsx,js}',
+      files: 'app/javascript/**/*.{ts,tsx,js}',
     },
     async: false,
   })
