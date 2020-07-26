@@ -17,6 +17,9 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
+  "include": [
+    "./app/javascript/**/*"
+  ],
   "exclude": [
     "**/*.spec.ts",
     "**/*.test.ts",
