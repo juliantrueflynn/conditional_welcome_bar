@@ -1,6 +1,7 @@
 import React from 'react';
-import { Page, Layout, EmptyState } from '@shopify/polaris';
+import { Page, Layout } from '@shopify/polaris';
 import { useHistory, useLocation } from 'react-router-dom';
+import EmptyState from '../empty_state';
 
 const MissingPageView: React.FC = () => {
   const history = useHistory();
@@ -16,15 +17,9 @@ const MissingPageView: React.FC = () => {
   return (
     <Page title="No page found">
       <Layout>
-        <EmptyState
-          heading="Page missing!"
-          action={action}
-          image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
-        >
-          <p>
-            The page you&lsquo;re looking for doesn&lsquo;t exist or
-            couldn&lsquo;t be found.
-          </p>
+        <EmptyState heading="Page missing!" action={action}>
+          The page you&lsquo;re looking for doesn&lsquo;t exist or
+          couldn&lsquo;t be found.
         </EmptyState>
       </Layout>
     </Page>
