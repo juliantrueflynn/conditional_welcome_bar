@@ -1,7 +1,7 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { GET_ALL_BARS, CREATE_BAR } from '../../utilities/graphql_tags';
-import { BarPayload, BarType } from '../../types/bar';
+import { BarPayload } from '../../types/bar';
 import { useQuery, useMutation } from '@apollo/client';
 import { Page, Layout } from '@shopify/polaris';
 import BarsList from '../bars_list';
@@ -10,23 +10,17 @@ import NetworkErrorState from '../network_error_state';
 
 const IndexBarsView: React.FC = () => {
   const history = useHistory();
-  const { search } = useLocation();
 
   const { loading: isLoadingBars, data, error } = useQuery(GET_ALL_BARS);
 
   const [createBar, { loading: isCreating }] = useMutation(CREATE_BAR, {
-    onCompleted: (response: BarPayload): void => {
-      if (response.createBar.bar) {
-        history.push({
-          pathname: `/bars/${response.createBar.bar.id}`,
-          search,
-        });
-      }
-    },
+    onCompleted: (response: BarPayload) =>
+      response.createBar.bar &&
+      history.push({ pathname: `/bars/${response.createBar.bar.id}` }),
     ignoreResults: true,
   });
 
-  const bars: BarType[] | undefined = data && data.bars;
+  const bars = data && data.bars;
   const hasBars = bars && !!bars.length;
   const primaryAction = {
     content: 'Create welcome bar',
@@ -50,7 +44,7 @@ const IndexBarsView: React.FC = () => {
               Create your first welcome bar!
             </EmptyState>
           )}
-          {hasBars && <BarsList bars={bars || []} />}
+          {hasBars && <BarsList bars={bars} />}
         </Layout.Section>
       </Layout>
     </Page>
