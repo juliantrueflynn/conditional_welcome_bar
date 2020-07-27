@@ -6,6 +6,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { Page, Layout } from '@shopify/polaris';
 import BarsList from '../bars_list';
 import EmptyState from '../empty_state';
+import NetworkErrorState from '../network_error_state';
 
 const IndexBarsView: React.FC = () => {
   const history = useHistory();
@@ -34,18 +35,7 @@ const IndexBarsView: React.FC = () => {
   };
 
   if (error) {
-    return (
-      <EmptyState
-        heading="The page couldn&rsquo;t be displayed due to a network issue."
-        action={{
-          content: 'Reload this page',
-          onAction: () => window.location.reload(),
-        }}
-      >
-        We&rsquo;re either having server issues or there&rsquo;s a problem with
-        your internet connection.
-      </EmptyState>
-    );
+    return <NetworkErrorState />;
   }
 
   return (
