@@ -7,37 +7,27 @@ import { PolarisTestProvider } from '@shopify/polaris';
 import { createMemoryHistory } from 'history';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
 import { GET_SINGLE_BAR } from '../../../utilities/graphql_tags';
-import { GraphQLError } from 'graphql';
 import { Router, Route } from 'react-router';
 
 const { __typename, createdAt, updatedAt, ...singleBarMock } = mockBarFields;
-const graphqlSuccessResponseMock = {
-  request: {
-    query: GET_SINGLE_BAR,
-    variables: { id: singleBarMock.id.toString() },
-  },
-  result: {
-    data: { bar: { ...singleBarMock, id: singleBarMock.id.toString() } },
-  },
-};
-const graphqlErrorResponseMocks = {
-  request: {
-    query: GET_SINGLE_BAR,
-    variables: { id: singleBarMock.id.toString() },
-  },
-  result: {
-    data: { bar: null },
-    errors: [new GraphQLError('forced network error')],
-  },
-};
 const stubbedHistoryEntries = createMemoryHistory({
   initialEntries: [`/bars/${singleBarMock.id}`],
 });
+const mockGraphqlRequest = {
+  query: GET_SINGLE_BAR,
+  variables: { id: singleBarMock.id.toString() },
+};
 
 it('renders single bar', async () => {
   enableFetchMocks();
+  const graphqlMock = {
+    request: mockGraphqlRequest,
+    result: {
+      data: { bar: { ...singleBarMock, id: singleBarMock.id.toString() } },
+    },
+  };
   const { findByText } = render(
-    <MockedProvider mocks={[graphqlSuccessResponseMock]} addTypename={false}>
+    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
           <Route path="/bars/:barId">
@@ -55,8 +45,12 @@ it('renders single bar', async () => {
 
 it('renders error instead of entry', async () => {
   enableFetchMocks();
+  const graphqlMock = {
+    request: mockGraphqlRequest,
+    error: new Error('forced network error'),
+  };
   const { findByText } = render(
-    <MockedProvider mocks={[graphqlErrorResponseMocks]} addTypename={false}>
+    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
           <Route path="/bars/:barId">
@@ -72,4 +66,30 @@ it('renders error instead of entry', async () => {
 
   expect(await findByText(errorText)).toBeInTheDocument();
   expect(screen.queryByText(singleBarMock.title)).not.toBeInTheDocument();
+});
+
+it('renders missing state if result blank', async () => {
+  enableFetchMocks();
+  const graphqlMock = {
+    request: mockGraphqlRequest,
+    result: {
+      data: { bar: null },
+    },
+  };
+  const { findByText } = render(
+    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
+      <Router history={stubbedHistoryEntries}>
+        <PolarisTestProvider>
+          <Route path="/bars/:barId">
+            <React.Suspense fallback="Mocked for test">
+              <SingleBarView />
+            </React.Suspense>
+          </Route>
+        </PolarisTestProvider>
+      </Router>
+    </MockedProvider>
+  );
+  const missingText = 'The page you’re looking for couldn’t be found';
+
+  expect(await findByText(missingText)).toBeInTheDocument();
 });
