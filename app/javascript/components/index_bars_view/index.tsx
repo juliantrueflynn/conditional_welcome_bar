@@ -3,8 +3,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { GET_ALL_BARS, CREATE_BAR } from '../../utilities/graphql_tags';
 import { BarPayload, BarType } from '../../types/bar';
 import { useQuery, useMutation } from '@apollo/client';
-import { Page, Layout, EmptyState } from '@shopify/polaris';
+import { Page, Layout } from '@shopify/polaris';
 import BarsList from '../bars_list';
+import EmptyState from '../empty_state';
 
 const IndexBarsView: React.FC = () => {
   const history = useHistory();
@@ -44,9 +45,8 @@ const IndexBarsView: React.FC = () => {
             <EmptyState
               heading="Create welcome bar to start"
               action={primaryAction}
-              image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
             >
-              <p>Create your first welcome bar!</p>
+              Create your first welcome bar!
             </EmptyState>
           )}
           {hasBars && <BarsList bars={bars || []} />}
