@@ -7,9 +7,13 @@ import LoadingManager from '../loading_manager';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
 
+type RouterProps = {
+  barId: string;
+};
+
 const SingleBarView: React.FC = () => {
   const history = useHistory();
-  const { barId } = useParams();
+  const { barId } = useParams<RouterProps>();
   const { loading, data, error } = useQuery(GET_SINGLE_BAR, {
     variables: { id: barId },
   });
