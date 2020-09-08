@@ -4,11 +4,11 @@ import { BarType, BarErrorPayload, Bar } from '../../types/bar';
 import { FieldChangeEvent, BarFormProps } from '../../types/fields';
 import FieldGroup from '../form_fields/field_group';
 
-const ChoiceListField = React.lazy(() =>
-  import('../form_fields/choice_list_field')
+const ChoiceListField = React.lazy(
+  () => import('../form_fields/choice_list_field')
 );
-const ColorPickerField = React.lazy(() =>
-  import('../form_fields/color_picker_field')
+const ColorPickerField = React.lazy(
+  () => import('../form_fields/color_picker_field')
 );
 
 type Props = {

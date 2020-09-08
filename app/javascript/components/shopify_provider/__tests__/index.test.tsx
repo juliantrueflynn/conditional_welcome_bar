@@ -6,23 +6,15 @@ import { MemoryRouter } from 'react-router';
 const originalEnv = process.env;
 const originalLocation = window.location;
 
-const stubbedWindowLocation = (): Location => ({
-  ancestorOrigins: { length: 0 } as DOMStringList,
-  assign: jest.fn(),
-  hash: '',
-  host: 'example.myshopify.com',
-  hostname: 'example.myshopify.com',
-  href: 'https://example.myshopify.com',
-  origin: 'https://example.myshopify.com',
-  pathname: '',
-  port: '',
-  protocol: 'https:',
-  reload: jest.fn(),
-  replace: jest.fn(),
-  search: '',
-});
+const setupMockWindow = (): void => {
+  Object.defineProperty(window, 'location', {
+    value: {
+      ...originalLocation,
+      reload: jest.fn(),
+      assign: jest.fn(),
+    },
+  });
 
-const stubbedWindowMatchMedia = (): void => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation(() => ({
@@ -44,13 +36,10 @@ const setupCaseHtmlBody = (shopOrigin?: string): void => {
 
 afterEach(() => {
   process.env = originalEnv;
-  window.location = originalLocation;
 });
 
 it('renders child if apiKey and shopOrigin present', () => {
-  delete window.location;
-  stubbedWindowMatchMedia();
-  window.location = stubbedWindowLocation();
+  setupMockWindow();
   process.env.SHOPIFY_API_KEY = 'SomeShopifyAPIKey';
   setupCaseHtmlBody('SomeShopOrigin');
 
