@@ -3,7 +3,6 @@ import BarsList from '..';
 import { screen, render } from '@testing-library/react';
 import { PolarisTestProvider } from '@shopify/polaris';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
-import '@testing-library/jest-dom/extend-expect';
 
 const mockBarsData = [
   { ...mockBarFields, id: Math.random(), title: 'Bar #1' },
