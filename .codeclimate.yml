@@ -13,6 +13,12 @@ plugins:
     enabled: true
   eslint:
     enabled: true
+    config:
+      config: .eslintrc.json
+    channel: "eslint-6"
+    extensions:
+      - .ts
+      - .tsx
     exclude_patterns:
       # Excluding until it's determined how this will be minified and served.
       - "lib/assets/welcome_bar/welcome_bar.js"
@@ -28,6 +34,7 @@ exclude_patterns:
   - "**/__tests__/"
   - "**/__mocks__/"
   - "**/*.d.ts"
+  - "**/coverage/"
   - "**/node_modules/"
   - "**/spec/"
   - ".browserslintrc"
@@ -43,5 +50,6 @@ exclude_patterns:
   - "docker-compose.yml"
   - "Dockerfile"
   - "postcss.config.js"
+  - "public/"
   - "public/packs/"
   - "tsconfig.json"

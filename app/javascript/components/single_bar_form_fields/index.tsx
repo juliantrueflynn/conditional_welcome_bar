@@ -3,13 +3,8 @@ import { Layout, TextField, Checkbox } from '@shopify/polaris';
 import { BarType, BarErrorPayload, Bar } from '../../types/bar';
 import { FieldChangeEvent, BarFormProps } from '../../types/fields';
 import FieldGroup from '../form_fields/field_group';
-
-const ChoiceListField = React.lazy(
-  () => import('../form_fields/choice_list_field')
-);
-const ColorPickerField = React.lazy(
-  () => import('../form_fields/color_picker_field')
-);
+import ChoiceListField from '../form_fields/choice_list_field';
+import ColorPickerField from '../form_fields/color_picker_field';
 
 type Props = {
   updateFieldValue: FieldChangeEvent;
@@ -18,12 +13,12 @@ type Props = {
   fields: BarType;
 };
 
-const SingleBarFormFields: React.FC<Props> = ({
+const SingleBarFormFields = ({
   updateFieldValue,
   dirtyValues,
   errors,
   fields,
-}) => {
+}: Props) => {
   return (
     <Layout>
       <FieldGroup id="editor">

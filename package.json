@@ -2,7 +2,6 @@
   "name": "conditional_welcome_bar",
   "version": "0.1.0",
   "private": true,
-  "description": "Shopify app with Rails, Webpacker, and React. Utilizes Shopify Polaris",
   "scripts": {
     "test": "jest --verbose --watchAll",
     "test:coverage": "jest --verbose --coverage",
@@ -10,14 +9,6 @@
     "lint:fix": "eslint 'app/javascript/**/*.{ts,tsx,js}' --fix",
     "webpack:stats": "./bin/webpack-bundle-analyzer.sh"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/juliantrueflynn/conditional_welcome_bar.git"
-  },
-  "bugs": {
-    "url": "https://github.com/juliantrueflynn/conditional_welcome_bar/issues"
-  },
-  "homepage": "https://github.com/juliantrueflynn/conditional_welcome_bar#readme",
   "dependencies": {
     "@apollo/client": "^3.1.4",
     "@babel/preset-react": "^7.10.4",
@@ -47,7 +38,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.2",
-    "@testing-library/user-event": "^12.1.3",
+    "@testing-library/user-event": "^12.1.4",
     "@types/jest": "^26.0.13",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
@@ -55,23 +46,37 @@
     "babel-jest": "^26.3.0",
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.10.1",
-    "eslint-config-react": "^1.1.7",
-    "eslint-config-react-app": "^5.2.1",
-    "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest-dom": "^3.2.2",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
+    "eslint-plugin-testing-library": "^3.8.0",
     "fork-ts-checker-webpack-plugin": "^5.1.0",
+    "husky": "^4.3.0",
     "jest": "^26.4.2",
     "jest-fetch-mock": "^3.0.3",
     "jest-watch-typeahead": "^0.6.1",
+    "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-dev-server": "^3.10.3"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "eslint 'app/javascript/**/*.{ts,tsx,js}' --fix"
+    ]
+  },
   "jest": {
+    "roots": [
+      "./app/javascript/"
+    ],
     "clearMocks": true,
     "restoreMocks": true,
     "resetMocks": true,
@@ -94,17 +99,27 @@
       "json",
       "node"
     ],
-    "rootDir": "./app/javascript/",
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect"
     ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
     "testMatch": [
-      "**/__tests__/**/*.+(ts|tsx)",
-      "**/?(*.)+test.+(ts|tsx)"
+      "<rootDir>/**/__tests__/**/*.{ts,tsx}",
+      "<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/config/webpack/test.js"
+      "/config/webpack/"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
     ]
   }
 }

@@ -52,7 +52,7 @@ const getTimeAgo = (
   return ago;
 };
 
-const BarCreationDate: React.FC<Props> = ({ locale, createdAt }) => {
+const BarCreationDate = ({ locale, createdAt }: Props) => {
   const created = new Date(createdAt);
   const secondsAgo = Math.floor((+new Date() - +created) / 1000);
 

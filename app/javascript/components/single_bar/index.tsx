@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import isEqual from 'lodash/isEqual';
 import { UPDATE_BAR } from '../../utilities/graphql_tags';
 import { BarType, Bar } from '../../types/bar';
-import { BarFormProps, FieldChangeValue } from '../../types/fields';
+import { FieldChangeValue } from '../../types/fields';
 import { useMutation } from '@apollo/client';
 import { Page, Form } from '@shopify/polaris';
 import SingleBarFormFields from '../single_bar_form_fields';
@@ -13,12 +13,12 @@ type Props = {
   readonly bar: BarType;
 };
 
-const SingleBar: React.FC<Props> = ({ bar }) => {
-  const [hasDirtyState, setHasDirtyState] = useState<boolean>(false);
-  const [dirtyValues, setDirtyInputs] = useState<BarFormProps>(barFalseMap);
-  const [fieldsValues, setFieldsValues] = useState<BarType>(bar);
+const SingleBar = ({ bar }: Props) => {
+  const [hasDirtyState, setHasDirtyState] = useState(false);
+  const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
+  const [fieldsValues, setFieldsValues] = useState(bar);
 
-  const onFormComplete = (): void => {
+  const onFormComplete = () => {
     setHasDirtyState(false);
     setDirtyInputs(barFalseMap);
   };
@@ -27,26 +27,21 @@ const SingleBar: React.FC<Props> = ({ bar }) => {
     onCompleted: onFormComplete,
   });
 
-  const handleUpdate = (): void => {
+  const handleUpdate = () => {
     const { __typename, ...attributes } = fieldsValues;
     updateBar({ variables: { input: attributes } });
   };
 
-  const handleFieldValueChange = (value: FieldChangeValue, id: Bar): void => {
-    let nextValue = value;
-    let hasChanged = bar[id] !== value;
-
+  const handleFieldValueChange = (value: FieldChangeValue, id: Bar) => {
     if (Array.isArray(bar[id])) {
-      nextValue = value;
-      hasChanged = !isEqual(bar[id], value);
+      setHasDirtyState(!isEqual(bar[id], value));
+      setFieldsValues({ ...fieldsValues, [id]: value });
+      setDirtyInputs({ ...dirtyValues, [id]: true });
     } else if (Array.isArray(value)) {
-      nextValue = value[0];
-      hasChanged = bar[id] !== value[0];
+      setHasDirtyState(bar[id] !== value[0]);
+      setFieldsValues({ ...fieldsValues, [id]: value[0] });
+      setDirtyInputs({ ...dirtyValues, [id]: true });
     }
-
-    setHasDirtyState(hasChanged);
-    setFieldsValues({ ...fieldsValues, [id]: nextValue });
-    setDirtyInputs({ ...dirtyValues, [id]: true });
   };
 
   const primaryAction = {
@@ -59,12 +54,12 @@ const SingleBar: React.FC<Props> = ({ bar }) => {
     {
       content: 'Delete',
       destructive: true,
-      onAction: (): void => console.log('delete'),
+      onAction: () => console.log('delete'),
     },
     {
       content: 'Discard',
       disabled: !hasDirtyState,
-      onAction: (): void => console.log('discard'),
+      onAction: () => console.log('discard'),
     },
   ];
   const errors = getFieldErrorsMap(

@@ -3,13 +3,6 @@ import { ColorPicker, HSBAColor, rgbToHsb, hsbToRgb } from '@shopify/polaris';
 import { FieldChangeEvent } from '../../types/fields';
 import { Bar } from '../../types/bar';
 
-type Props = {
-  id: Bar;
-  label: string;
-  value: string;
-  updateFieldValue: FieldChangeEvent;
-};
-
 const hsbToRgbString = (hsb: HSBAColor): string => {
   const rgbMap = hsbToRgb(hsb);
 
@@ -27,15 +20,17 @@ const rgbStringToHsb = (rgb: string): HSBAColor => {
   return { ...hsb, alpha: values[3] };
 };
 
-const ColorPickerField: React.FC<Props> = ({
-  label,
-  id,
-  value,
-  updateFieldValue,
-}) => {
+type Props = {
+  id: Bar;
+  label: string;
+  value: string;
+  updateFieldValue: FieldChangeEvent;
+};
+
+const ColorPickerField = ({ label, id, value, updateFieldValue }: Props) => {
   const hsbaColor = rgbStringToHsb(value);
 
-  const handleColorPick = (colorPickerValue: HSBAColor): void => {
+  const handleColorPick = (colorPickerValue: HSBAColor) => {
     updateFieldValue(hsbToRgbString(colorPickerValue), id);
   };
 

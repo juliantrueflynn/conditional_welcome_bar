@@ -8,7 +8,7 @@ import BarsList from '../bars_list';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
 
-const IndexBarsView: React.FC = () => {
+const IndexBarsView = () => {
   const history = useHistory();
 
   const { loading: isLoadingBars, data, error } = useQuery(GET_ALL_BARS);

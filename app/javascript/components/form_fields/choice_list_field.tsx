@@ -18,13 +18,7 @@ type Props = Overwrite<
 
 // Simple wrapper for ChoiceList component to have consistent property names with
 // all the other form components.
-const ChoiceListField: React.FC<Props> = ({
-  id,
-  label,
-  value,
-  error,
-  ...props
-}) => {
+const ChoiceListField = ({ id, label, value, error, ...props }: Props) => {
   const fieldErrors = (error || undefined) as Error;
 
   return (

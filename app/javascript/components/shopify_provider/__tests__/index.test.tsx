@@ -1,12 +1,12 @@
 import React from 'react';
 import ShopifyProvider from '..';
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 const originalEnv = process.env;
 const originalLocation = window.location;
 
-const setupMockWindow = (): void => {
+const setupMockWindow = () => {
   Object.defineProperty(window, 'location', {
     value: {
       ...originalLocation,
@@ -28,7 +28,7 @@ const setupMockWindow = (): void => {
   });
 };
 
-const setupCaseHtmlBody = (shopOrigin?: string): void => {
+const setupCaseHtmlBody = (shopOrigin?: string) => {
   document.body.innerHTML = `
     <div id="shopify-app-init" data-shop-origin="${shopOrigin || ''}"></div>
   `;
@@ -43,45 +43,42 @@ it('renders child if apiKey and shopOrigin present', () => {
   process.env.SHOPIFY_API_KEY = 'SomeShopifyAPIKey';
   setupCaseHtmlBody('SomeShopOrigin');
 
-  const { queryByTestId } = render(
+  render(
     <MemoryRouter>
       <ShopifyProvider>
         <div data-testid="child" />
       </ShopifyProvider>
     </MemoryRouter>
   );
-  const child = queryByTestId('child');
 
-  expect(child).not.toBeNull();
+  expect(screen.queryByTestId('child')).not.toBeNull();
 });
 
 it('does not render child if missing shopOrigin', () => {
   setupCaseHtmlBody();
 
-  const { queryByTestId } = render(
+  render(
     <MemoryRouter>
       <ShopifyProvider>
         <div data-testid="child" />
       </ShopifyProvider>
     </MemoryRouter>
   );
-  const child = queryByTestId('child');
 
-  expect(child).toBeNull();
+  expect(screen.queryByTestId('child')).toBeNull();
 });
 
 it('does not render child if missing apiKey', () => {
   delete process.env.SHOPIFY_API_KEY;
   setupCaseHtmlBody('SomeShopOrigin');
 
-  const { queryByTestId } = render(
+  render(
     <MemoryRouter>
       <ShopifyProvider>
         <div data-testid="child" />
       </ShopifyProvider>
     </MemoryRouter>
   );
-  const child = queryByTestId('child');
 
-  expect(child).toBeNull();
+  expect(screen.queryByTestId('child')).toBeNull();
 });

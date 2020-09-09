@@ -8,7 +8,7 @@ const SingleBarView = React.lazy(() => import('../single_bar_view'));
 const IndexBarsView = React.lazy(() => import('../index_bars_view'));
 const MissingPageView = React.lazy(() => import('../missing_page_view'));
 
-const App: React.FC = () => (
+const App = () => (
   <ApolloProvider client={apolloClient}>
     <BrowserRouter>
       <ShopifyProvider>

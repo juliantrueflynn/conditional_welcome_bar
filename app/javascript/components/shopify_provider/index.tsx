@@ -16,7 +16,11 @@ const getShopOrigin = (): string | null => {
   return appData && appData.getAttribute('data-shop-origin');
 };
 
-const ShopifyProvider: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const ShopifyProvider = ({ children }: Props) => {
   const location = useLocation();
   const history = useHistory();
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import BarsListItem from '..';
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { PolarisTestProvider } from '@shopify/polaris';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
-import '@testing-library/jest-dom/extend-expect';
 
 it('renders title, date, content', () => {
   const mockSingleBar = {
@@ -11,17 +10,13 @@ it('renders title, date, content', () => {
     locale: 'en-US',
     content: 'Some content',
   };
-  const { getByText } = render(
+  render(
     <PolarisTestProvider>
       <BarsListItem {...mockSingleBar} />
     </PolarisTestProvider>
   );
 
-  const title = getByText(mockSingleBar.title);
-  const content = getByText(mockSingleBar.content);
-  const date = getByText('Just now');
-
-  expect(title).toBeInTheDocument();
-  expect(content).toBeInTheDocument();
-  expect(date).toBeInTheDocument();
+  expect(screen.getByText(mockSingleBar.title)).toBeInTheDocument();
+  expect(screen.getByText(mockSingleBar.content)).toBeInTheDocument();
+  expect(screen.getByText('Just now')).toBeInTheDocument();
 });
