@@ -13,12 +13,12 @@ type Props = {
   fields: BarType;
 };
 
-const SingleBarFormFields: React.FC<Props> = ({
+const SingleBarFormFields = ({
   updateFieldValue,
   dirtyValues,
   errors,
   fields,
-}) => {
+}: Props) => {
   return (
     <Layout>
       <FieldGroup id="editor">

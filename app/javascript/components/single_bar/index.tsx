@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import isEqual from 'lodash/isEqual';
 import { UPDATE_BAR } from '../../utilities/graphql_tags';
 import { BarType, Bar } from '../../types/bar';
-import { BarFormProps, FieldChangeValue } from '../../types/fields';
+import { FieldChangeValue } from '../../types/fields';
 import { useMutation } from '@apollo/client';
 import { Page, Form } from '@shopify/polaris';
 import SingleBarFormFields from '../single_bar_form_fields';
@@ -13,10 +13,10 @@ type Props = {
   readonly bar: BarType;
 };
 
-const SingleBar: React.FC<Props> = ({ bar }) => {
-  const [hasDirtyState, setHasDirtyState] = useState<boolean>(false);
-  const [dirtyValues, setDirtyInputs] = useState<BarFormProps>(barFalseMap);
-  const [fieldsValues, setFieldsValues] = useState<BarType>(bar);
+const SingleBar = ({ bar }: Props) => {
+  const [hasDirtyState, setHasDirtyState] = useState(false);
+  const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
+  const [fieldsValues, setFieldsValues] = useState(bar);
 
   const onFormComplete = (): void => {
     setHasDirtyState(false);

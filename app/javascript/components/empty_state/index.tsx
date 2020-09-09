@@ -9,13 +9,10 @@ export const DEFAULT_IMAGE =
 
 interface Props extends Omit<EmptyStateProps, 'image'> {
   image?: string;
+  children: React.ReactNode;
 }
 
-const EmptyState: React.FC<Props> = ({
-  children,
-  image = DEFAULT_IMAGE,
-  ...props
-}) => {
+const EmptyState = ({ children, image = DEFAULT_IMAGE, ...props }: Props) => {
   return (
     <PolarisEmptyState {...props} image={image}>
       <p>{children}</p>

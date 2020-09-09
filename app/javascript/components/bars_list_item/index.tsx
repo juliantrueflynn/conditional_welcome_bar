@@ -10,13 +10,7 @@ type Props = {
   locale: string;
 };
 
-const BarsListItem: React.FC<Props> = ({
-  id,
-  title,
-  content,
-  createdAt,
-  locale,
-}) => {
+const BarsListItem = ({ id, title, content, createdAt, locale }: Props) => {
   const accessibilityLabel = `View details for ${title}`;
 
   return (

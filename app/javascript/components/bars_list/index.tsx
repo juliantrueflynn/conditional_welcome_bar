@@ -1,8 +1,7 @@
 import React from 'react';
 import { ResourceList, Card } from '@shopify/polaris';
 import { BarType } from '../../types/bar';
-
-const BarsListItem = React.lazy(() => import('../bars_list_item'));
+import BarsListItem from '../bars_list_item';
 
 type Props = {
   bars: BarType[];
@@ -16,7 +15,7 @@ const resourceName = {
 const locale: string =
   new URLSearchParams(window.location.search).get('locale') || 'en-US';
 
-const BarsList: React.FC<Props> = ({ bars }) => {
+const BarsList = ({ bars }: Props) => {
   return (
     <Card>
       <ResourceList

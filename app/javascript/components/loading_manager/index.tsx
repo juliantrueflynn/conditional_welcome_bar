@@ -17,11 +17,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const LoadingManager: React.FC<Props> = ({
-  children,
-  isLoading,
-  loadingTo,
-}) => {
+const LoadingManager = ({ children, isLoading, loadingTo }: Props) => {
   if (!isLoading) {
     return <>{children}</>;
   }

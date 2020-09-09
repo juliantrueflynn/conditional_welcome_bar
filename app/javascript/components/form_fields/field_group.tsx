@@ -4,9 +4,10 @@ import { FORM_SECTIONS } from '../../constants/form_sections';
 
 type Props = {
   id: keyof typeof FORM_SECTIONS;
+  children: React.ReactNode;
 };
 
-const FieldGroup: React.FC<Props> = ({ id, children }) => {
+const FieldGroup = ({ id, children }: Props) => {
   const { title, description } = FORM_SECTIONS[id];
 
   return (
