@@ -1,6 +1,5 @@
 {
   "extends": [
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:testing-library/react",
     "plugin:react-hooks/recommended",
@@ -19,13 +18,13 @@
     "node": true,
     "jest": true
   },
+  "parser": "@typescript-eslint/parser",
   "settings": {
     "react": {
       "pragma": "React",
       "version": "detect"
     }
   },
-  "parser": "@typescript-eslint/parser",
   "rules": {
     "react/prop-types": 0,
     "prettier/prettier": [
@@ -40,5 +39,15 @@
         "ignoreRestSiblings": true
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
+    }
+  ]
 }
