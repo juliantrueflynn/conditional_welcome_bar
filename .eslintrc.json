@@ -1,11 +1,16 @@
 {
   "extends": [
-    "react-app",
-    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:testing-library/react",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint",
+    "prettier/react"
   ],
   "plugins": [
+    "@typescript-eslint",
+    "testing-library",
     "react",
     "prettier"
   ],
@@ -28,29 +33,12 @@
       {
         "singleQuote": true
       }
-    ]
-  },
-  "overrides": [
-    {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "plugins": [
-        "@typescript-eslint"
-      ],
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint"
-      ],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": [
-          "error",
-          {
-            "ignoreRestSiblings": true
-          }
-        ]
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true
       }
-    }
-  ]
+    ]
+  }
 }

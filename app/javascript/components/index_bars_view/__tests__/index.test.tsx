@@ -1,7 +1,7 @@
 import { enableFetchMocks } from 'jest-fetch-mock';
 import React from 'react';
 import IndexBarsView from '..';
-import { screen, render, waitFor } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { PolarisTestProvider } from '@shopify/polaris';
 import { Router } from 'react-router-dom';
@@ -38,7 +38,7 @@ it('renders entries', async () => {
     </MockedProvider>
   );
 
-  await waitFor(() => screen.getByText(mockBarsData[0].title));
+  await screen.findByText(mockBarsData[0].title);
 
   mockBarsData.forEach((welcomeBar) => {
     expect(getByText(welcomeBar.title)).toBeInTheDocument();
