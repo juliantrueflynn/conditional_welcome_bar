@@ -1,17 +1,8 @@
 {
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:testing-library/react",
-    "plugin:jest-dom/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
-    "prettier/react"
+    "plugin:prettier/recommended"
   ],
   "plugins": [
-    "@typescript-eslint",
-    "react",
     "prettier"
   ],
   "env": {
@@ -19,7 +10,6 @@
     "node": true,
     "jest": true
   },
-  "parser": "@typescript-eslint/parser",
   "settings": {
     "react": {
       "pragma": "React",
@@ -27,21 +17,43 @@
     }
   },
   "rules": {
-    "react/prop-types": 0,
     "prettier/prettier": [
       "error",
       {
         "singleQuote": true
       }
-    ],
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "ignoreRestSiblings": true
-      }
     ]
   },
+  "parser": "@typescript-eslint/parser",
   "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended",
+        "plugin:react-hooks/recommended",
+        "prettier/@typescript-eslint",
+        "prettier/react"
+      ],
+      "plugins": [
+        "@typescript-eslint",
+        "react"
+      ],
+      "rules": {
+        "react/prop-types": 0,
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "ignoreRestSiblings": true
+          }
+        ]
+      }
+    },
     {
       "files": [
         "*.tsx"
