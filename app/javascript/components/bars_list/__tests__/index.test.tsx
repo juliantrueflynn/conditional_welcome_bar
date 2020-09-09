@@ -9,7 +9,7 @@ const mockBarsData = [
   { ...mockBarFields, id: Math.random(), title: 'Bar #2' },
 ];
 
-it('renders entries', () => {
+it('renders entries', async () => {
   render(
     <PolarisTestProvider>
       <React.Suspense fallback="Mocked for test">
@@ -18,7 +18,6 @@ it('renders entries', () => {
     </PolarisTestProvider>
   );
 
-  mockBarsData.forEach(async (welcomeBar) => {
-    expect(await screen.findByText(welcomeBar.title)).toBeInTheDocument();
-  });
+  expect(screen.getByText(mockBarsData[0].title)).toBeInTheDocument();
+  expect(screen.getByText(mockBarsData[1].title)).toBeInTheDocument();
 });

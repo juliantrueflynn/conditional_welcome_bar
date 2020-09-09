@@ -12,7 +12,7 @@ it('renders title Home', () => {
     </PolarisTestProvider>
   );
 
-  expect(screen.queryByTestId('child')).toBeInTheDocument();
+  expect(screen.getByText('Home')).toBeInTheDocument();
 });
 
 it('renders child if not loading', () => {

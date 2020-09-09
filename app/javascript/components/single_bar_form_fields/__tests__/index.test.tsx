@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import {
   FORM_SECTIONS,
   FORM_SECTION_IDS,
 } from '../../../constants/form_sections';
 import SingleBarFormFields from '..';
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { PolarisTestProvider } from '@shopify/polaris';
 import { BarErrorPayload } from '../../../types/bar';
 import { barFalseMap } from '../../../utilities/single_bar_utilities';
@@ -15,24 +15,21 @@ it('renders all field groups', async () => {
   const errors: BarErrorPayload = {};
   const dirtyValues: BarFormProps = barFalseMap;
 
-  const subject = await render(
+  render(
     <PolarisTestProvider>
-      <Suspense fallback="Mocked for test">
-        <SingleBarFormFields
-          updateFieldValue={jest.fn()}
-          fields={mockBarFields}
-          errors={errors}
-          dirtyValues={dirtyValues}
-        />
-      </Suspense>
+      <SingleBarFormFields
+        updateFieldValue={jest.fn()}
+        fields={mockBarFields}
+        errors={errors}
+        dirtyValues={dirtyValues}
+      />
     </PolarisTestProvider>
   );
 
-  FORM_SECTION_IDS.forEach(async (id) => {
-    const groupTitle = subject.getByText(FORM_SECTIONS[id].title);
-    const groupDescription = subject.getByText(FORM_SECTIONS[id].description);
-
-    expect(groupTitle).not.toBeNull();
-    expect(groupDescription).not.toBeNull();
-  });
+  for (const id of FORM_SECTION_IDS) {
+    expect(
+      await screen.findByText(FORM_SECTIONS[id].title)
+    ).toBeInTheDocument();
+    expect(screen.getByText(FORM_SECTIONS[id].description)).toBeInTheDocument();
+  }
 });
