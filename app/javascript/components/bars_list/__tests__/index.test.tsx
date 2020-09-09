@@ -1,6 +1,6 @@
 import React from 'react';
 import BarsList from '..';
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { PolarisTestProvider } from '@shopify/polaris';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
 import '@testing-library/jest-dom/extend-expect';
@@ -11,7 +11,7 @@ const mockBarsData = [
 ];
 
 it('renders entries', () => {
-  const { findByText } = render(
+  render(
     <PolarisTestProvider>
       <React.Suspense fallback="Mocked for test">
         <BarsList bars={mockBarsData} />
@@ -20,6 +20,6 @@ it('renders entries', () => {
   );
 
   mockBarsData.forEach(async (welcomeBar) => {
-    expect(await findByText(welcomeBar.title)).toBeInTheDocument();
+    expect(await screen.findByText(welcomeBar.title)).toBeInTheDocument();
   });
 });

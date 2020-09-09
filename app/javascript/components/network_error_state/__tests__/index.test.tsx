@@ -19,13 +19,10 @@ it('renders', () => {
     </PolarisTestProvider>
   );
 
-  const button = screen.getByText(ACTION_BUTTON_TEXT);
-  const heading = screen.getByText(
-    'The page couldn’t be displayed due to a network issue.'
-  );
-
-  expect(button).toBeInTheDocument();
-  expect(heading).toBeInTheDocument();
+  expect(screen.getByText(ACTION_BUTTON_TEXT)).toBeInTheDocument();
+  expect(
+    screen.getByText('The page couldn’t be displayed due to a network issue.')
+  ).toBeInTheDocument();
 });
 
 it('reloads on click', () => {

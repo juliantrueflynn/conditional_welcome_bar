@@ -26,7 +26,7 @@ it('renders single bar', async () => {
       data: { bar: { ...singleBarMock, id: singleBarMock.id.toString() } },
     },
   };
-  const { findByText } = render(
+  render(
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
@@ -40,7 +40,7 @@ it('renders single bar', async () => {
     </MockedProvider>
   );
 
-  expect(await findByText(singleBarMock.title)).toBeInTheDocument();
+  expect(await screen.findByText(singleBarMock.title)).toBeInTheDocument();
 });
 
 it('renders error instead of entry', async () => {
@@ -49,7 +49,7 @@ it('renders error instead of entry', async () => {
     request: mockGraphqlRequest,
     error: new Error('forced network error'),
   };
-  const { findByText } = render(
+  render(
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
@@ -64,7 +64,7 @@ it('renders error instead of entry', async () => {
   );
   const errorText = 'Reload this page';
 
-  expect(await findByText(errorText)).toBeInTheDocument();
+  expect(await screen.findByText(errorText)).toBeInTheDocument();
   expect(screen.queryByText(singleBarMock.title)).not.toBeInTheDocument();
 });
 
@@ -76,7 +76,7 @@ it('renders missing state if result blank', async () => {
       data: { bar: null },
     },
   };
-  const { findByText } = render(
+  render(
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
@@ -91,5 +91,5 @@ it('renders missing state if result blank', async () => {
   );
   const missingText = 'The page you’re looking for couldn’t be found';
 
-  expect(await findByText(missingText)).toBeInTheDocument();
+  expect(await screen.findByText(missingText)).toBeInTheDocument();
 });

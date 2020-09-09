@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import BarCreationDate from '..';
 
 const locale = 'en-US';
@@ -11,7 +11,7 @@ const GREATER_THAN_1_DAY_IN_SECONDS = 86400 + 5;
 const GREATER_THAN_1_HOUR_IN_SECONDS = 3600 + 5;
 const GREATER_THAN_1_MIN_IN_SECONDS = 60 + 5;
 
-const mockSecondsAgo = (seconds: number): void => {
+const mockSecondsAgo = (seconds: number) => {
   jest.spyOn(global.Math, 'floor').mockReturnValueOnce(seconds);
 };
 const getMockedTimeString = () =>
@@ -25,60 +25,40 @@ const getMockedTimeString = () =>
 
 it('renders "Just now" if under a minute', () => {
   mockSecondsAgo(1);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText('Just now');
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText('Just now')).toBeInTheDocument();
 });
 
 it('renders "1 minute ago" if over a minute and under an hour', () => {
   mockSecondsAgo(GREATER_THAN_1_MIN_IN_SECONDS);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText('1 minute ago');
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText('1 minute ago')).toBeInTheDocument();
 });
 
 it('pluralizes minutes if over one', () => {
   mockSecondsAgo(GREATER_THAN_1_MIN_IN_SECONDS * 2);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText('2 minutes ago');
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText('2 minutes ago')).toBeInTheDocument();
 });
 
 it('renders AM/PM time if over 1 hour and within the day', () => {
   const time = getMockedTimeString();
   mockSecondsAgo(GREATER_THAN_1_HOUR_IN_SECONDS);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText(time);
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText(time)).toBeInTheDocument();
 });
 
 it('renders "{DayName} at {AM/PM time}" if greater current day and within week', () => {
   const time = getMockedTimeString();
   const weekday = new Date().toLocaleString(locale, { weekday: 'long' });
   mockSecondsAgo(GREATER_THAN_1_DAY_IN_SECONDS);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText(`${weekday} at ${time}`);
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText(`${weekday} at ${time}`)).toBeInTheDocument();
 });
 
 it('renders "{ShortMonthName} {DayNumber} at {AM/PM time}" if greater than week and within 1 year', () => {
@@ -88,13 +68,9 @@ it('renders "{ShortMonthName} {DayNumber} at {AM/PM time}" if greater than week 
     day: 'numeric',
   });
   mockSecondsAgo(GREATER_THAN_1_WEEK_IN_SECONDS);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText(`${date} at ${time}`);
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText(`${date} at ${time}`)).toBeInTheDocument();
 });
 
 it('renders "{ShortMonthName} {DayNumber}, {Year}" if greater than 1 year', () => {
@@ -104,11 +80,7 @@ it('renders "{ShortMonthName} {DayNumber}, {Year}" if greater than 1 year', () =
     day: 'numeric',
   });
   mockSecondsAgo(GREATER_THAN_1_YEAR_IN_SECONDS);
-  const { getByText } = render(
-    <BarCreationDate createdAt={mockCreatedAt} locale={locale} />
-  );
+  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 
-  const result = getByText(date);
-
-  expect(result).not.toBeNull();
+  expect(screen.getByText(date)).toBeInTheDocument();
 });
