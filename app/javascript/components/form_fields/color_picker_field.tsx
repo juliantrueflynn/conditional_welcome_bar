@@ -30,7 +30,7 @@ type Props = {
 const ColorPickerField = ({ label, id, value, updateFieldValue }: Props) => {
   const hsbaColor = rgbStringToHsb(value);
 
-  const handleColorPick = (colorPickerValue: HSBAColor): void => {
+  const handleColorPick = (colorPickerValue: HSBAColor) => {
     updateFieldValue(hsbToRgbString(colorPickerValue), id);
   };
 

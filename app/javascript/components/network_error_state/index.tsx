@@ -1,7 +1,7 @@
 import React from 'react';
 import EmptyState from '../empty_state';
 
-const NetworkErrorState: React.FC = () => (
+const NetworkErrorState = () => (
   <EmptyState
     heading="The page couldn&rsquo;t be displayed due to a network issue."
     action={{

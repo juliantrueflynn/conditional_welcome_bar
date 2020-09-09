@@ -18,7 +18,7 @@ const SingleBar = ({ bar }: Props) => {
   const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
 
-  const onFormComplete = (): void => {
+  const onFormComplete = () => {
     setHasDirtyState(false);
     setDirtyInputs(barFalseMap);
   };
@@ -27,26 +27,21 @@ const SingleBar = ({ bar }: Props) => {
     onCompleted: onFormComplete,
   });
 
-  const handleUpdate = (): void => {
+  const handleUpdate = () => {
     const { __typename, ...attributes } = fieldsValues;
     updateBar({ variables: { input: attributes } });
   };
 
-  const handleFieldValueChange = (value: FieldChangeValue, id: Bar): void => {
-    let nextValue = value;
-    let hasChanged = bar[id] !== value;
-
+  const handleFieldValueChange = (value: FieldChangeValue, id: Bar) => {
     if (Array.isArray(bar[id])) {
-      nextValue = value;
-      hasChanged = !isEqual(bar[id], value);
+      setHasDirtyState(!isEqual(bar[id], value));
+      setFieldsValues({ ...fieldsValues, [id]: value });
+      setDirtyInputs({ ...dirtyValues, [id]: true });
     } else if (Array.isArray(value)) {
-      nextValue = value[0];
-      hasChanged = bar[id] !== value[0];
+      setHasDirtyState(bar[id] !== value[0]);
+      setFieldsValues({ ...fieldsValues, [id]: value[0] });
+      setDirtyInputs({ ...dirtyValues, [id]: true });
     }
-
-    setHasDirtyState(hasChanged);
-    setFieldsValues({ ...fieldsValues, [id]: nextValue });
-    setDirtyInputs({ ...dirtyValues, [id]: true });
   };
 
   const primaryAction = {
@@ -59,12 +54,12 @@ const SingleBar = ({ bar }: Props) => {
     {
       content: 'Delete',
       destructive: true,
-      onAction: (): void => console.log('delete'),
+      onAction: () => console.log('delete'),
     },
     {
       content: 'Discard',
       disabled: !hasDirtyState,
-      onAction: (): void => console.log('discard'),
+      onAction: () => console.log('discard'),
     },
   ];
   const errors = getFieldErrorsMap(

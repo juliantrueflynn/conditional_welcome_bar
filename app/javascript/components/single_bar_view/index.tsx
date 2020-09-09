@@ -11,7 +11,7 @@ type RouterProps = {
   barId: string;
 };
 
-const SingleBarView: React.FC = () => {
+const SingleBarView = () => {
   const history = useHistory();
   const { barId } = useParams<RouterProps>();
   const { loading, data, error } = useQuery(GET_SINGLE_BAR, {

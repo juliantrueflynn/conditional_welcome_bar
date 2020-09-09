@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router';
 const originalEnv = process.env;
 const originalLocation = window.location;
 
-const setupMockWindow = (): void => {
+const setupMockWindow = () => {
   Object.defineProperty(window, 'location', {
     value: {
       ...originalLocation,
@@ -28,7 +28,7 @@ const setupMockWindow = (): void => {
   });
 };
 
-const setupCaseHtmlBody = (shopOrigin?: string): void => {
+const setupCaseHtmlBody = (shopOrigin?: string) => {
   document.body.innerHTML = `
     <div id="shopify-app-init" data-shop-origin="${shopOrigin || ''}"></div>
   `;
