@@ -30,9 +30,7 @@ it('renders entries', async () => {
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={history}>
         <PolarisTestProvider>
-          <React.Suspense fallback="Mocked for test">
-            <IndexBarsView />
-          </React.Suspense>
+          <IndexBarsView />
         </PolarisTestProvider>
       </Router>
     </MockedProvider>
@@ -55,9 +53,7 @@ it('renders error instead of entries', async () => {
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={history}>
         <PolarisTestProvider>
-          <React.Suspense fallback="Mocked for test">
-            <IndexBarsView />
-          </React.Suspense>
+          <IndexBarsView />
         </PolarisTestProvider>
       </Router>
     </MockedProvider>
@@ -79,9 +75,7 @@ it('renders empty list call to action if result empty', async () => {
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={history}>
         <PolarisTestProvider>
-          <React.Suspense fallback="Mocked for test">
-            <IndexBarsView />
-          </React.Suspense>
+          <IndexBarsView />
         </PolarisTestProvider>
       </Router>
     </MockedProvider>

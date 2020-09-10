@@ -5,6 +5,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import { PolarisTestProvider } from '@shopify/polaris';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
 import SingleBar from '..';
+import ToastContextProvider from '../../ToastContext';
 
 const stubWindowScroll = () => {
   Object.defineProperty(window, 'scroll', {
@@ -19,7 +20,9 @@ it('triggers destroy modal on click', async () => {
   render(
     <MockedProvider>
       <PolarisTestProvider>
-        <SingleBar bar={mockBarFields} />
+        <ToastContextProvider>
+          <SingleBar bar={mockBarFields} />
+        </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
   );

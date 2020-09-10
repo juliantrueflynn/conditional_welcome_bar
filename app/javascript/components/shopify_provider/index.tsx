@@ -9,6 +9,7 @@ import { AppProvider, Frame } from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import { AppConfig } from '@shopify/app-bridge';
 import { useHistory, useLocation } from 'react-router-dom';
+import ToastContextProvider from '../ToastContext';
 
 const getShopOrigin = (): string | null => {
   const appData = document.getElementById('shopify-app-init');
@@ -40,7 +41,9 @@ const ShopifyProvider = ({ children }: Props) => {
         <Frame>
           <ClientRouter history={history} />
           <RoutePropagator location={location} />
-          <React.Suspense fallback={<Loading />}>{children}</React.Suspense>
+          <ToastContextProvider>
+            <React.Suspense fallback={<Loading />}>{children}</React.Suspense>
+          </ToastContextProvider>
         </Frame>
       </AppProvider>
     </Provider>

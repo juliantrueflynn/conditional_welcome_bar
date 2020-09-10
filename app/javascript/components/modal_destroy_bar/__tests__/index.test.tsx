@@ -8,6 +8,7 @@ import { createMemoryHistory } from 'history';
 import { Router, Route } from 'react-router';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
 import { DESTROY_BAR } from '../../../utilities/graphql_tags';
+import ToastContextProvider from '../../ToastContext';
 import ModalDestroyBar from '..';
 
 const onClose = jest.fn();
@@ -49,7 +50,9 @@ it('goes to homepage on delete click', async () => {
       <Router history={stubbedHistoryEntries()}>
         <Route path="/bars/:barId">
           <PolarisTestProvider>
-            <ModalDestroyBar isModalOpen barId={barId} onClose={jest.fn} />
+            <ToastContextProvider>
+              <ModalDestroyBar isModalOpen barId={barId} onClose={jest.fn} />
+            </ToastContextProvider>
           </PolarisTestProvider>
         </Route>
         <Route exact path="/">
@@ -80,7 +83,9 @@ it('does not delete if error present', async () => {
       <Router history={stubbedHistoryEntries()}>
         <Route path="/bars/:barId">
           <PolarisTestProvider>
-            <ModalDestroyBar isModalOpen barId={barId} onClose={onClose} />
+            <ToastContextProvider>
+              <ModalDestroyBar isModalOpen barId={barId} onClose={onClose} />
+            </ToastContextProvider>
           </PolarisTestProvider>
         </Route>
         <Route exact path="/">
@@ -103,11 +108,13 @@ it('closes modal on cancel click', async () => {
     <MockedProvider>
       <Router history={stubbedHistoryEntries()}>
         <PolarisTestProvider>
-          <ModalDestroyBar
-            isModalOpen
-            barId={mockBarFields.id}
-            onClose={onClose}
-          />
+          <ToastContextProvider>
+            <ModalDestroyBar
+              isModalOpen
+              barId={mockBarFields.id}
+              onClose={onClose}
+            />
+          </ToastContextProvider>
         </PolarisTestProvider>
       </Router>
     </MockedProvider>
