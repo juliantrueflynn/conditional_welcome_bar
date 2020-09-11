@@ -1,33 +1,6 @@
 import React, { useReducer, createContext, useContext } from 'react';
 import { Toast } from '@shopify/polaris';
-
-type ToastState = {
-  content: string;
-};
-
-type ToastDispatch = { type: 'bar/destroy' } | { type: 'reset' };
-
-type Dispatch = (action: ToastDispatch) => void;
-
-const initialState: ToastState = Object.freeze({
-  content: '',
-});
-
-const toastReducer = (state: ToastState, action: ToastDispatch) => {
-  switch (action.type) {
-    case 'bar/destroy': {
-      return {
-        ...state,
-        content: 'Welcome bar deleted',
-      };
-    }
-    case 'reset': {
-      return initialState;
-    }
-    default:
-      return state;
-  }
-};
+import toastReducer, { Dispatch, initialState } from '../../state/toast';
 
 const ToastContextDispatch = createContext<Dispatch | undefined>(undefined);
 
