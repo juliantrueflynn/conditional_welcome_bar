@@ -22,7 +22,7 @@ export enum Bar {
 }
 
 export type BarType = {
-  [Bar.id]: number | string;
+  [Bar.id]: string;
   [Bar.title]: string;
   [Bar.content]: string;
   [Bar.isActive]: boolean;

@@ -2,13 +2,14 @@ import React from 'react';
 import BarsListItem from '..';
 import {screen, render} from '@testing-library/react';
 import {PolarisTestProvider} from '@shopify/polaris';
-import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 
 it('renders title, date, content', () => {
   const mockSingleBar = {
-    ...mockBarFields,
-    locale: 'en-US',
+    id: '1',
+    title: 'Some Title',
     content: 'Some content',
+    createdAt: new Date().toString(),
+    locale: 'en-US',
   };
   render(
     <PolarisTestProvider>

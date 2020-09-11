@@ -19,20 +19,20 @@ const SingleBarFormFields = ({updateFieldValue, errors, fields}: Props) => {
       <FieldGroup id="editor">
         <TextField
           id={Bar.title}
-          value={fields[Bar.title]}
+          value={fields.title}
           label="Title"
           placeholder="Title"
+          error={errors.title}
           onChange={updateFieldValue}
-          error={errors[Bar.title]}
         />
         <TextField
           id={Bar.content}
-          value={fields[Bar.content]}
+          value={fields.content}
           label="Content"
           placeholder="Start typing..."
-          onChange={updateFieldValue}
           multiline
-          error={errors[Bar.content]}
+          error={errors.content}
+          onChange={updateFieldValue}
         />
       </FieldGroup>
       <FieldGroup id="visibility">
@@ -40,9 +40,9 @@ const SingleBarFormFields = ({updateFieldValue, errors, fields}: Props) => {
           id={Bar.isActive}
           label="Active"
           helpText="Live for public view"
-          checked={fields[Bar.isActive]}
+          checked={fields.isActive}
+          error={errors.isActive}
           onChange={updateFieldValue}
-          error={errors[Bar.isActive]}
         />
         <ChoiceListField
           id={Bar.themeTemplates}
@@ -54,40 +54,40 @@ const SingleBarFormFields = ({updateFieldValue, errors, fields}: Props) => {
             {label: 'Collections', value: 'collection'},
             {label: 'Products', value: 'product'},
           ]}
-          value={fields[Bar.themeTemplates]}
-          onChange={updateFieldValue}
+          value={fields.themeTemplates}
           allowMultiple
-          error={errors[Bar.themeTemplates]}
+          error={errors.themeTemplates}
+          onChange={updateFieldValue}
         />
       </FieldGroup>
       <FieldGroup id="link">
         <TextField
           id={Bar.url}
           label="URL"
-          value={fields[Bar.url]}
-          onChange={updateFieldValue}
+          value={fields.url}
           type="url"
           placeholder="https://example.com"
-          error={errors[Bar.url]}
+          error={errors.url}
+          onChange={updateFieldValue}
         />
-        {fields[Bar.url] && (
-          <Checkbox
-            id={Bar.isNewTabUrl}
-            label="Open link in new tab"
-            checked={fields[Bar.isNewTabUrl]}
-            onChange={updateFieldValue}
-            error={errors[Bar.isNewTabUrl]}
-          />
-        )}
-        {fields[Bar.url] && (
-          <Checkbox
-            id={Bar.isFullWidthLink}
-            label="Is full width link?"
-            checked={fields[Bar.isFullWidthLink]}
-            onChange={updateFieldValue}
-            helpText="Entire welcome bar is clickable link"
-            error={errors[Bar.isFullWidthLink]}
-          />
+        {fields.url && (
+          <>
+            <Checkbox
+              id={Bar.isNewTabUrl}
+              label="Open link in new tab"
+              checked={fields.isNewTabUrl}
+              error={errors.isNewTabUrl}
+              onChange={updateFieldValue}
+            />
+            <Checkbox
+              id={Bar.isFullWidthLink}
+              label="Is full width link?"
+              checked={fields.isFullWidthLink}
+              helpText="Entire welcome bar is clickable link"
+              error={errors.isFullWidthLink}
+              onChange={updateFieldValue}
+            />
+          </>
         )}
       </FieldGroup>
       <FieldGroup id="displayStyles">
@@ -99,48 +99,48 @@ const SingleBarFormFields = ({updateFieldValue, errors, fields}: Props) => {
             {label: 'Bottom', value: 'bottom'},
           ]}
           value={[fields.placement]}
+          error={errors.placement}
           onChange={updateFieldValue}
-          error={errors[Bar.placement]}
         />
         <Checkbox
           id={Bar.isSticky}
           label="Is sticky bar"
           helpText="Bar sticks to top/bottom of window on scroll"
-          checked={fields[Bar.isSticky]}
+          checked={fields.isSticky}
+          error={errors.isSticky}
           onChange={updateFieldValue}
-          error={errors[Bar.isSticky]}
         />
         <TextField
           id={Bar.paddingY}
           label="Vertical padding"
-          value={fields[Bar.paddingY]}
+          value={fields.paddingY}
           helpText="Options: 'auto', 'inherit' or number px/em/%"
           placeholder="100px, 3em, or 50%"
+          error={errors.paddingY}
           onChange={updateFieldValue}
-          error={errors[Bar.paddingY]}
         />
         <TextField
           id={Bar.paddingX}
           label="Horizontal padding"
-          value={fields[Bar.paddingX]}
-          onChange={updateFieldValue}
+          value={fields.paddingX}
           helpText="Options: 'auto', 'inherit' or number px/em/%"
           placeholder="100px, 3em, or 50%"
-          error={errors[Bar.paddingX]}
+          error={errors.paddingX}
+          onChange={updateFieldValue}
         />
         <Checkbox
           id={Bar.hasCloseButton}
           label="Show close button"
-          checked={fields[Bar.hasCloseButton]}
+          checked={fields.hasCloseButton}
+          error={errors.hasCloseButton}
           onChange={updateFieldValue}
-          error={errors[Bar.hasCloseButton]}
         />
       </FieldGroup>
       <FieldGroup id="textStyles">
         <ColorPickerField
           id={Bar.textColor}
           label="Text color"
-          value={fields[Bar.textColor]}
+          value={fields.textColor}
           updateFieldValue={updateFieldValue}
         />
         <ChoiceListField
@@ -151,25 +151,25 @@ const SingleBarFormFields = ({updateFieldValue, errors, fields}: Props) => {
             {label: 'Center', value: 'center'},
             {label: 'Right', value: 'right'},
           ]}
-          value={[fields[Bar.textAlign]]}
+          value={[fields.textAlign]}
+          error={errors.textAlign}
           onChange={updateFieldValue}
-          error={errors[Bar.textAlign]}
         />
         <TextField
           id={Bar.fontSize}
-          value={fields[Bar.fontSize]}
+          value={fields.fontSize}
           label="Text size"
           helpText="Options: 'inherit' or number px/em/%"
           placeholder="14px, 1em, or 120%"
+          error={errors.fontSize}
           onChange={updateFieldValue}
-          error={errors[Bar.fontSize]}
         />
       </FieldGroup>
       <FieldGroup id="backgroundStyles">
         <ColorPickerField
           id={Bar.backgroundColor}
           label="Background color"
-          value={fields[Bar.backgroundColor]}
+          value={fields.backgroundColor}
           updateFieldValue={updateFieldValue}
         />
       </FieldGroup>

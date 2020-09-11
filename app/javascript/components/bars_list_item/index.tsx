@@ -3,7 +3,7 @@ import {ResourceItem, TextStyle, Caption} from '@shopify/polaris';
 import BarCreationDate from '../bar_creation_date';
 
 type Props = {
-  id: number;
+  id: string;
   title: string;
   content: string;
   createdAt: string;
@@ -15,7 +15,7 @@ const BarsListItem = ({id, title, content, createdAt, locale}: Props) => {
 
   return (
     <ResourceItem
-      id={id.toString()}
+      id={id}
       name={title}
       url={`/bars/${id}`}
       accessibilityLabel={accessibilityLabel}
