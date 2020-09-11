@@ -22,7 +22,7 @@ export enum Bar {
 }
 
 export type BarType = {
-  [Bar.id]: number;
+  [Bar.id]: number | string;
   [Bar.title]: string;
   [Bar.content]: string;
   [Bar.isActive]: boolean;
@@ -32,8 +32,8 @@ export type BarType = {
   [Bar.isFullWidthLink]: boolean;
   [Bar.hasCloseButton]: boolean;
   [Bar.isSticky]: boolean;
-  [Bar.updatedAt]: string;
-  [Bar.createdAt]: string;
+  [Bar.updatedAt]?: string;
+  [Bar.createdAt]?: string;
   [Bar.themeTemplates]: string[];
   [Bar.paddingY]: string;
   [Bar.paddingX]: string;
@@ -41,7 +41,7 @@ export type BarType = {
   [Bar.textColor]: string;
   [Bar.fontSize]: string;
   [Bar.backgroundColor]: string;
-  [Bar.__typename]: string;
+  [Bar.__typename]?: string;
 };
 
 export type UserError = {

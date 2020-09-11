@@ -6,6 +6,9 @@ import {PolarisTestProvider} from '@shopify/polaris';
 import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 import SingleBar from '..';
 import ToastContextProvider from '../../ToastContext';
+import {UPDATE_BAR} from '../../../utilities/graphql_tags';
+
+const {createdAt, updatedAt, ...singleBar} = mockBarFields;
 
 const stubWindowScroll = () => {
   Object.defineProperty(window, 'scroll', {
@@ -21,7 +24,7 @@ it('triggers destroy modal on click', async () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={mockBarFields} />
+          <SingleBar bar={singleBar} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -34,13 +37,13 @@ it('triggers destroy modal on click', async () => {
   expect(await screen.findByText(confirmationText)).toBeInTheDocument();
 });
 
-it('reverts to last save on discard click', async () => {
+it('reverts to last save on discard click', () => {
   stubWindowScroll();
   render(
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={mockBarFields} />
+          <SingleBar bar={singleBar} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -57,4 +60,52 @@ it('reverts to last save on discard click', async () => {
   userEvent.click(screen.getByText('Discard'));
 
   expect(titleField).toHaveValue(oldTitle);
+});
+
+it('renders field errors from API', async () => {
+  const {__typename, ...requestVariables} = singleBar;
+  const graphqlMock = {
+    request: {
+      query: UPDATE_BAR,
+      variables: {
+        input: {
+          ...requestVariables,
+          title: `${singleBar.title}some text`,
+        },
+      },
+    },
+    result: {
+      data: {
+        updateBar: {
+          bar: singleBar,
+          userErrors: [
+            {
+              field: ['title'],
+              message: 'Some field error message',
+              __typename: 'UserError',
+            },
+          ],
+          __typename: 'updateBar',
+        },
+      },
+    },
+  };
+
+  stubWindowScroll();
+  render(
+    <MockedProvider mocks={[graphqlMock]}>
+      <PolarisTestProvider>
+        <ToastContextProvider>
+          <SingleBar bar={singleBar} />
+        </ToastContextProvider>
+      </PolarisTestProvider>
+    </MockedProvider>
+  );
+
+  userEvent.type(screen.getByPlaceholderText('Title'), 'some text');
+  userEvent.click(screen.getByText('Save'));
+
+  expect(
+    await screen.findByText('Some field error message')
+  ).toBeInTheDocument();
 });
