@@ -3,12 +3,35 @@ import {screen, render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
+import {
+  FORM_SECTIONS,
+  FORM_SECTION_IDS,
+} from '../../../constants/form_sections';
 import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 import {UPDATE_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
 import SingleBar from '..';
 
 const {createdAt, updatedAt, ...singleBar} = mockBarFields;
+
+it('renders all field groups', async () => {
+  render(
+    <MockedProvider>
+      <PolarisTestProvider>
+        <ToastContextProvider>
+          <SingleBar bar={singleBar} openModal={jest.fn} />
+        </ToastContextProvider>
+      </PolarisTestProvider>
+    </MockedProvider>
+  );
+
+  for (const id of FORM_SECTION_IDS) {
+    expect(
+      await screen.findByText(FORM_SECTIONS[id].title)
+    ).toBeInTheDocument();
+    expect(screen.getByText(FORM_SECTIONS[id].description)).toBeInTheDocument();
+  }
+});
 
 it('reverts to last save on discard click', () => {
   render(
