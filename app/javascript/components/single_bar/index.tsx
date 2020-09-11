@@ -59,7 +59,7 @@ const SingleBar = ({ bar }: Props) => {
     {
       content: 'Discard',
       disabled: !hasDirtyState,
-      onAction: () => console.log('discard'),
+      onAction: () => setFieldsValues(bar),
     },
   ];
   const errors = getFieldErrorsMap(
