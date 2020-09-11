@@ -201,7 +201,7 @@ const SingleBar = ({bar, openModal}: Props) => {
                 id={Bar.textColor}
                 label="Text color"
                 value={fieldsValues.textColor}
-                updateFieldValue={handleFieldValueChange}
+                onChange={handleFieldValueChange}
               />
               <ChoiceListField
                 id={Bar.textAlign}
@@ -230,7 +230,7 @@ const SingleBar = ({bar, openModal}: Props) => {
                 id={Bar.backgroundColor}
                 label="Background color"
                 value={fieldsValues.backgroundColor}
-                updateFieldValue={handleFieldValueChange}
+                onChange={handleFieldValueChange}
               />
             </FieldGroup>
           </Layout>

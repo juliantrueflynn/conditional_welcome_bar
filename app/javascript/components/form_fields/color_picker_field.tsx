@@ -24,10 +24,15 @@ type Props = {
   id: Bar;
   label: string;
   value: string;
-  updateFieldValue: FieldChangeEvent;
+  onChange: FieldChangeEvent;
 };
 
-const ColorPickerField = ({label, id, value, updateFieldValue}: Props) => {
+const ColorPickerField = ({
+  label,
+  id,
+  value,
+  onChange: updateFieldValue,
+}: Props) => {
   const hsbaColor = rgbStringToHsb(value);
 
   const handleColorPick = (colorPickerValue: HSBAColor) => {
