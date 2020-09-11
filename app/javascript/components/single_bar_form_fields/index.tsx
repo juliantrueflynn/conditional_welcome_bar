@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout, TextField, Checkbox} from '@shopify/polaris';
-import {BarType, BarErrorPayload, Bar} from '../../types/bar';
+import {BarType, Bar, BarFieldErrors} from '../../types/bar';
 import {FieldChangeEvent, BarFormProps} from '../../types/fields';
 import FieldGroup from '../form_fields/field_group';
 import ChoiceListField from '../form_fields/choice_list_field';
@@ -9,16 +9,11 @@ import ColorPickerField from '../form_fields/color_picker_field';
 type Props = {
   updateFieldValue: FieldChangeEvent;
   dirtyValues: BarFormProps;
-  errors: BarErrorPayload;
+  errors: BarFieldErrors;
   fields: BarType;
 };
 
-const SingleBarFormFields = ({
-  updateFieldValue,
-  dirtyValues,
-  errors,
-  fields,
-}: Props) => {
+const SingleBarFormFields = ({updateFieldValue, errors, fields}: Props) => {
   return (
     <Layout>
       <FieldGroup id="editor">
@@ -28,7 +23,7 @@ const SingleBarFormFields = ({
           label="Title"
           placeholder="Title"
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.title] && errors[Bar.title]}
+          error={errors[Bar.title]}
         />
         <TextField
           id={Bar.content}
@@ -37,7 +32,7 @@ const SingleBarFormFields = ({
           placeholder="Start typing..."
           onChange={updateFieldValue}
           multiline
-          error={!dirtyValues[Bar.content] && errors[Bar.content]}
+          error={errors[Bar.content]}
         />
       </FieldGroup>
       <FieldGroup id="visibility">
@@ -47,7 +42,7 @@ const SingleBarFormFields = ({
           helpText="Live for public view"
           checked={fields[Bar.isActive]}
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.isActive] && errors[Bar.isActive]}
+          error={errors[Bar.isActive]}
         />
         <ChoiceListField
           id={Bar.themeTemplates}
@@ -62,7 +57,7 @@ const SingleBarFormFields = ({
           value={fields[Bar.themeTemplates]}
           onChange={updateFieldValue}
           allowMultiple
-          error={!dirtyValues[Bar.themeTemplates] && errors[Bar.themeTemplates]}
+          error={errors[Bar.themeTemplates]}
         />
       </FieldGroup>
       <FieldGroup id="link">
@@ -73,7 +68,7 @@ const SingleBarFormFields = ({
           onChange={updateFieldValue}
           type="url"
           placeholder="https://example.com"
-          error={!dirtyValues[Bar.url] && errors[Bar.url]}
+          error={errors[Bar.url]}
         />
         {fields[Bar.url] && (
           <Checkbox
@@ -81,7 +76,7 @@ const SingleBarFormFields = ({
             label="Open link in new tab"
             checked={fields[Bar.isNewTabUrl]}
             onChange={updateFieldValue}
-            error={!dirtyValues[Bar.isNewTabUrl] && errors[Bar.isNewTabUrl]}
+            error={errors[Bar.isNewTabUrl]}
           />
         )}
         {fields[Bar.url] && (
@@ -91,9 +86,7 @@ const SingleBarFormFields = ({
             checked={fields[Bar.isFullWidthLink]}
             onChange={updateFieldValue}
             helpText="Entire welcome bar is clickable link"
-            error={
-              !dirtyValues[Bar.isFullWidthLink] && errors[Bar.isFullWidthLink]
-            }
+            error={errors[Bar.isFullWidthLink]}
           />
         )}
       </FieldGroup>
@@ -107,7 +100,7 @@ const SingleBarFormFields = ({
           ]}
           value={[fields.placement]}
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.placement] && errors[Bar.placement]}
+          error={errors[Bar.placement]}
         />
         <Checkbox
           id={Bar.isSticky}
@@ -115,7 +108,7 @@ const SingleBarFormFields = ({
           helpText="Bar sticks to top/bottom of window on scroll"
           checked={fields[Bar.isSticky]}
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.isSticky] && errors[Bar.isSticky]}
+          error={errors[Bar.isSticky]}
         />
         <TextField
           id={Bar.paddingY}
@@ -124,7 +117,7 @@ const SingleBarFormFields = ({
           helpText="Options: 'auto', 'inherit' or number px/em/%"
           placeholder="100px, 3em, or 50%"
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.paddingY] && errors[Bar.paddingY]}
+          error={errors[Bar.paddingY]}
         />
         <TextField
           id={Bar.paddingX}
@@ -133,14 +126,14 @@ const SingleBarFormFields = ({
           onChange={updateFieldValue}
           helpText="Options: 'auto', 'inherit' or number px/em/%"
           placeholder="100px, 3em, or 50%"
-          error={!dirtyValues[Bar.paddingX] && errors[Bar.paddingX]}
+          error={errors[Bar.paddingX]}
         />
         <Checkbox
           id={Bar.hasCloseButton}
           label="Show close button"
           checked={fields[Bar.hasCloseButton]}
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.hasCloseButton] && errors[Bar.hasCloseButton]}
+          error={errors[Bar.hasCloseButton]}
         />
       </FieldGroup>
       <FieldGroup id="textStyles">
@@ -160,7 +153,7 @@ const SingleBarFormFields = ({
           ]}
           value={[fields[Bar.textAlign]]}
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.textAlign] && errors[Bar.textAlign]}
+          error={errors[Bar.textAlign]}
         />
         <TextField
           id={Bar.fontSize}
@@ -169,7 +162,7 @@ const SingleBarFormFields = ({
           helpText="Options: 'inherit' or number px/em/%"
           placeholder="14px, 1em, or 120%"
           onChange={updateFieldValue}
-          error={!dirtyValues[Bar.fontSize] && errors[Bar.fontSize]}
+          error={errors[Bar.fontSize]}
         />
       </FieldGroup>
       <FieldGroup id="backgroundStyles">

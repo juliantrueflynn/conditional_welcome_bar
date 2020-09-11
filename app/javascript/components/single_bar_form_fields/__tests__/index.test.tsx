@@ -6,14 +6,14 @@ import {
 import SingleBarFormFields from '..';
 import {screen, render} from '@testing-library/react';
 import {PolarisTestProvider} from '@shopify/polaris';
-import {BarErrorPayload} from '../../../types/bar';
+import {BarFieldErrors} from '../../../types/bar';
 import {barFalseMap} from '../../../utilities/single_bar_utilities';
 import {BarFormProps} from '../../../types/fields';
 import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 
 it('renders all field groups', async () => {
-  const errors: BarErrorPayload = {};
-  const dirtyValues: BarFormProps = barFalseMap;
+  const errors = {} as BarFieldErrors;
+  const dirtyValues = barFalseMap as BarFormProps;
 
   render(
     <PolarisTestProvider>

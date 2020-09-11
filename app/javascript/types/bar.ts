@@ -67,3 +67,7 @@ export type BarPayload = {
 export type BarErrorPayload = {
   -readonly [key in keyof typeof Bar]?: string[];
 };
+
+export type BarFieldErrors = {
+  -readonly [key in keyof typeof Bar]: boolean | string[] | undefined;
+};

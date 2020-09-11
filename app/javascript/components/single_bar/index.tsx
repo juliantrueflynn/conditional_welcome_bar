@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form} from '@shopify/polaris';
-import {BarType, Bar} from '../../types/bar';
+import {useMutation} from '@apollo/client';
+import {BarType, Bar, BarFieldErrors} from '../../types/bar';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {FieldChangeValue} from '../../types/fields';
-import {useMutation} from '@apollo/client';
-import SingleBarFormFields from '../single_bar_form_fields';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
 import ModalDestroyBar from '../modal_destroy_bar';
+import SingleBarFormFields from '../single_bar_form_fields';
 
 type Props = {
   readonly bar: BarType;
@@ -20,12 +20,23 @@ const SingleBar = ({bar}: Props) => {
   const [fieldsValues, setFieldsValues] = useState(bar);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [updateBar, {loading, data: formData}] = useMutation(UPDATE_BAR, {
+  const [updateBar, {loading, data}] = useMutation(UPDATE_BAR, {
     onCompleted: () => {
       setHasDirtyState(false);
       setDirtyInputs(barFalseMap);
     },
   });
+
+  const fieldErrors = useMemo(() => {
+    const errorMap = getFieldErrorsMap(data?.updateBar?.userErrors);
+    const fieldKeys = Object.keys(errorMap) as Array<keyof BarFieldErrors>;
+
+    return fieldKeys.reduce((acc, key) => {
+      acc[key] = !dirtyValues[key] && errorMap[key];
+
+      return acc;
+    }, {} as BarFieldErrors);
+  }, [data, dirtyValues]);
 
   const handleUpdate = () => {
     const {__typename, ...attributes} = fieldsValues;
@@ -49,40 +60,34 @@ const SingleBar = ({bar}: Props) => {
     setDirtyInputs({...dirtyValues, [id]: true});
   };
 
-  const primaryAction = {
-    content: 'Save',
-    onAction: handleUpdate,
-    disabled: !hasDirtyState,
-    loading,
-  };
-  const secondaryActions = [
-    {
-      content: 'Delete',
-      destructive: true,
-      onAction: () => setIsModalOpen(true),
-    },
-    {
-      content: 'Discard',
-      disabled: !hasDirtyState,
-      onAction: () => setFieldsValues(bar),
-    },
-  ];
-  const errors = getFieldErrorsMap(
-    formData?.updateBar && formData.updateBar.userErrors
-  );
-
   return (
     <>
       <Page
         title={bar.title}
-        primaryAction={primaryAction}
-        secondaryActions={secondaryActions}
+        primaryAction={{
+          content: 'Save',
+          onAction: handleUpdate,
+          disabled: !hasDirtyState,
+          loading,
+        }}
+        secondaryActions={[
+          {
+            content: 'Delete',
+            destructive: true,
+            onAction: () => setIsModalOpen(true),
+          },
+          {
+            content: 'Discard',
+            disabled: !hasDirtyState,
+            onAction: () => setFieldsValues(bar),
+          },
+        ]}
       >
         <Form onSubmit={handleUpdate}>
           <SingleBarFormFields
             updateFieldValue={handleFieldValueChange}
             dirtyValues={dirtyValues}
-            errors={errors}
+            errors={fieldErrors}
             fields={fieldsValues}
           />
         </Form>
