@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
-import SingleBar from '..';
-import ToastContextProvider from '../../ToastContext';
 import {UPDATE_BAR} from '../../../utilities/graphql_tags';
+import ToastContextProvider from '../../ToastContext';
+import SingleBar from '..';
 
 const {createdAt, updatedAt, ...singleBar} = mockBarFields;
 
@@ -60,6 +60,30 @@ it('reverts to last save on discard click', () => {
   userEvent.click(screen.getByText('Discard'));
 
   expect(titleField).toHaveValue(oldTitle);
+});
+
+it('disables Save button unless changes made', () => {
+  stubWindowScroll();
+  render(
+    <MockedProvider>
+      <PolarisTestProvider>
+        <ToastContextProvider>
+          <SingleBar bar={singleBar} />
+        </ToastContextProvider>
+      </PolarisTestProvider>
+    </MockedProvider>
+  );
+  const saveButton = screen.getByText('Save').closest('button');
+
+  expect(saveButton).toBeDisabled();
+
+  userEvent.type(screen.getByPlaceholderText('Title'), '1');
+
+  expect(saveButton).toBeEnabled();
+
+  userEvent.type(screen.getByPlaceholderText('Title'), '{backspace}');
+
+  expect(saveButton).toBeDisabled();
 });
 
 it('renders field errors from API', async () => {
