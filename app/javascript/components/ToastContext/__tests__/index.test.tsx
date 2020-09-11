@@ -1,7 +1,7 @@
 import React from 'react';
-import ToastContextProvider, { useToastDispatchContext } from '..';
-import { render, screen } from '@testing-library/react';
-import { PolarisTestProvider, Frame } from '@shopify/polaris';
+import ToastContextProvider, {useToastDispatchContext} from '..';
+import {render, screen} from '@testing-library/react';
+import {PolarisTestProvider, Frame} from '@shopify/polaris';
 import userEvent from '@testing-library/user-event';
 
 const MockButton = () => {
@@ -10,7 +10,7 @@ const MockButton = () => {
   return (
     <button
       data-testid="MockButton"
-      onClick={() => dispatch({ type: 'bar/destroy' })}
+      onClick={() => dispatch({type: 'bar/destroy'})}
     >
       Click
     </button>

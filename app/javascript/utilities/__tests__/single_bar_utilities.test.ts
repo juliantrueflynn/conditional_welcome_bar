@@ -1,4 +1,4 @@
-import { barFalseMap } from '../single_bar_utilities';
+import {barFalseMap} from '../single_bar_utilities';
 
 describe('barFalseMap', () => {
   it('renders all bar fields as false', () => {

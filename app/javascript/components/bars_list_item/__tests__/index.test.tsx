@@ -1,8 +1,8 @@
 import React from 'react';
 import BarsListItem from '..';
-import { screen, render } from '@testing-library/react';
-import { PolarisTestProvider } from '@shopify/polaris';
-import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
+import {screen, render} from '@testing-library/react';
+import {PolarisTestProvider} from '@shopify/polaris';
+import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 
 it('renders title, date, content', () => {
   const mockSingleBar = {

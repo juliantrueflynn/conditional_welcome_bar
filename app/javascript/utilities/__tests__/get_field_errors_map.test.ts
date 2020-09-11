@@ -1,5 +1,5 @@
-import { getFieldErrorsMap } from '../get_field_errors_map';
-import { UserError } from '../../types/bar';
+import {getFieldErrorsMap} from '../get_field_errors_map';
+import {UserError} from '../../types/bar';
 
 describe('getFieldErrorsMap', () => {
   it('returns userErrors in object merging keys and values', () => {

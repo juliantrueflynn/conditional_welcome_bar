@@ -1,6 +1,6 @@
 import React from 'react';
-import { PolarisTestProvider } from '@shopify/polaris';
-import { screen, render } from '@testing-library/react';
+import {PolarisTestProvider} from '@shopify/polaris';
+import {screen, render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NetworkErrorState from '..';
 
@@ -8,7 +8,7 @@ const ACTION_BUTTON_TEXT = 'Reload this page';
 
 const setupMockWindowReload = () => {
   Object.defineProperty(window, 'location', {
-    value: { reload: jest.fn() },
+    value: {reload: jest.fn()},
   });
 };
 

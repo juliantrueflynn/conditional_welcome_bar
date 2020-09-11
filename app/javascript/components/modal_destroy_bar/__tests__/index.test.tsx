@@ -1,13 +1,13 @@
 import React from 'react';
-import { screen, render, waitFor } from '@testing-library/react';
+import {screen, render, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { enableFetchMocks } from 'jest-fetch-mock';
-import { MockedProvider } from '@apollo/client/testing';
-import { PolarisTestProvider } from '@shopify/polaris';
-import { createMemoryHistory } from 'history';
-import { Router, Route } from 'react-router';
-import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
-import { DESTROY_BAR } from '../../../utilities/graphql_tags';
+import {enableFetchMocks} from 'jest-fetch-mock';
+import {MockedProvider} from '@apollo/client/testing';
+import {PolarisTestProvider} from '@shopify/polaris';
+import {createMemoryHistory} from 'history';
+import {Router, Route} from 'react-router';
+import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
+import {DESTROY_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
 import ModalDestroyBar from '..';
 
@@ -27,7 +27,7 @@ const stubbedHistoryEntries = () =>
 
 const mockGraphqlRequest = {
   query: DESTROY_BAR,
-  variables: { input: { id: mockBarFields.id } },
+  variables: {input: {id: mockBarFields.id}},
 };
 
 it('goes to homepage on delete click', async () => {
@@ -41,7 +41,7 @@ it('goes to homepage on delete click', async () => {
       deleteMutationCalled = true;
 
       return {
-        data: { bar: { ...mockBarFields, id: barId.toString() } },
+        data: {bar: {...mockBarFields, id: barId.toString()}},
       };
     },
   };

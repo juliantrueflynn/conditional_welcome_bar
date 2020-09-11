@@ -8,7 +8,7 @@ import {
   SkeletonDisplayText,
   SkeletonBodyText,
 } from '@shopify/polaris';
-import { FORM_SECTION_IDS } from '../../constants/form_sections';
+import {FORM_SECTION_IDS} from '../../constants/form_sections';
 import FieldGroup from '../form_fields/field_group';
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const LoadingManager = ({ children, isLoading, loadingTo }: Props) => {
+const LoadingManager = ({children, isLoading, loadingTo}: Props) => {
   if (!isLoading) {
     return <>{children}</>;
   }
@@ -38,7 +38,7 @@ const LoadingManager = ({ children, isLoading, loadingTo }: Props) => {
   if (loadingTo === 'home') {
     SkeletonChildren = (
       <Layout.Section>
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({length: 3}).map((_, index) => (
           <Card sectioned key={index}>
             <TextContainer spacing="tight">
               <SkeletonDisplayText size="small" />

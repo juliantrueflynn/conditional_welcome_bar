@@ -1,6 +1,6 @@
 import React from 'react';
-import { ResourceList, Card } from '@shopify/polaris';
-import { BarType } from '../../types/bar';
+import {ResourceList, Card} from '@shopify/polaris';
+import {BarType} from '../../types/bar';
 import BarsListItem from '../bars_list_item';
 
 type Props = {
@@ -15,7 +15,7 @@ const resourceName = {
 const locale: string =
   new URLSearchParams(window.location.search).get('locale') || 'en-US';
 
-const BarsList = ({ bars }: Props) => {
+const BarsList = ({bars}: Props) => {
   return (
     <Card>
       <ResourceList

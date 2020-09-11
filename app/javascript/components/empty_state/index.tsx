@@ -12,7 +12,7 @@ interface Props extends Omit<EmptyStateProps, 'image'> {
   children: React.ReactNode;
 }
 
-const EmptyState = ({ children, image = DEFAULT_IMAGE, ...props }: Props) => {
+const EmptyState = ({children, image = DEFAULT_IMAGE, ...props}: Props) => {
   return (
     <PolarisEmptyState {...props} image={image}>
       <p>{children}</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingManager from '..';
-import { screen, render } from '@testing-library/react';
-import { PolarisTestProvider } from '@shopify/polaris';
+import {screen, render} from '@testing-library/react';
+import {PolarisTestProvider} from '@shopify/polaris';
 
 it('renders title Home', () => {
   render(

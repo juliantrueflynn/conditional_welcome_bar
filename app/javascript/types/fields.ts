@@ -1,4 +1,4 @@
-import { Bar } from './bar';
+import {Bar} from './bar';
 
 export type FieldChangeValue = boolean | string | string[];
 

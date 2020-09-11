@@ -2,7 +2,7 @@ export type ToastState = {
   content: string;
 };
 
-export type ToastDispatch = { type: 'bar/destroy' } | { type: 'reset' };
+export type ToastDispatch = {type: 'bar/destroy'} | {type: 'reset'};
 
 export type Dispatch = (action: ToastDispatch) => void;
 

@@ -1,4 +1,4 @@
-import { BarErrorPayload, UserError } from '../types/bar';
+import {BarErrorPayload, UserError} from '../types/bar';
 
 export const getFieldErrorsMap = (
   errors: UserError[] | undefined

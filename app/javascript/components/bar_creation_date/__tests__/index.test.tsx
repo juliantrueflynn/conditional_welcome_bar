@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import {screen, render} from '@testing-library/react';
 import BarCreationDate from '..';
 
 const locale = 'en-US';
@@ -54,7 +54,7 @@ it('renders AM/PM time if over 1 hour and within the day', () => {
 
 it('renders "{DayName} at {AM/PM time}" if greater current day and within week', () => {
   const time = getMockedTimeString();
-  const weekday = new Date().toLocaleString(locale, { weekday: 'long' });
+  const weekday = new Date().toLocaleString(locale, {weekday: 'long'});
   mockSecondsAgo(GREATER_THAN_1_DAY_IN_SECONDS);
   render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
 

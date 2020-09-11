@@ -5,10 +5,10 @@ import {
   RoutePropagator,
   Loading,
 } from '@shopify/app-bridge-react';
-import { AppProvider, Frame } from '@shopify/polaris';
+import {AppProvider, Frame} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
-import { AppConfig } from '@shopify/app-bridge';
-import { useHistory, useLocation } from 'react-router-dom';
+import {AppConfig} from '@shopify/app-bridge';
+import {useHistory, useLocation} from 'react-router-dom';
 import ToastContextProvider from '../ToastContext';
 
 const getShopOrigin = (): string | null => {
@@ -21,7 +21,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const ShopifyProvider = ({ children }: Props) => {
+const ShopifyProvider = ({children}: Props) => {
   const location = useLocation();
   const history = useHistory();
 

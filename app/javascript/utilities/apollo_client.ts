@@ -16,7 +16,7 @@ const getCsrfToken = (): string | null => {
 };
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  operation.setContext(({ headers = {} }) => ({
+  operation.setContext(({headers = {}}) => ({
     headers: {
       ...headers,
       'X-CSRF-Token': getCsrfToken(),

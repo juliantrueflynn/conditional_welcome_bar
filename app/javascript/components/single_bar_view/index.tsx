@@ -1,7 +1,7 @@
 import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { GET_SINGLE_BAR } from '../../utilities/graphql_tags';
+import {useParams, useHistory} from 'react-router-dom';
+import {useQuery} from '@apollo/client';
+import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
 import SingleBar from '../single_bar';
 import LoadingManager from '../loading_manager';
 import EmptyState from '../empty_state';
@@ -13,9 +13,9 @@ type RouterProps = {
 
 const SingleBarView = () => {
   const history = useHistory();
-  const { barId } = useParams<RouterProps>();
-  const { loading, data, error } = useQuery(GET_SINGLE_BAR, {
-    variables: { id: barId },
+  const {barId} = useParams<RouterProps>();
+  const {loading, data, error} = useQuery(GET_SINGLE_BAR, {
+    variables: {id: barId},
   });
   const bar = data && data.bar;
 
@@ -29,7 +29,7 @@ const SingleBarView = () => {
         heading="The page you&rsquo;re looking for couldn&rsquo;t be found"
         action={{
           content: 'View all welcome bars',
-          onAction: () => history.push({ pathname: '/' }),
+          onAction: () => history.push({pathname: '/'}),
         }}
       >
         Check the web address to make sure you entered the right welcome bar. Or

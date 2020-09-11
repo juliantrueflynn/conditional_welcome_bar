@@ -1,6 +1,6 @@
-import { apolloClient } from '../../utilities/apollo_client';
-import { ApolloProvider } from '@apollo/client';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import {apolloClient} from '../../utilities/apollo_client';
+import {ApolloProvider} from '@apollo/client';
+import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import ShopifyProvider from '../shopify_provider';
 import React from 'react';
 

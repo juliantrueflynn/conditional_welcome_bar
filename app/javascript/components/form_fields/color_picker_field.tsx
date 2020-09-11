@@ -1,7 +1,7 @@
 import React from 'react';
-import { ColorPicker, HSBAColor, rgbToHsb, hsbToRgb } from '@shopify/polaris';
-import { FieldChangeEvent } from '../../types/fields';
-import { Bar } from '../../types/bar';
+import {ColorPicker, HSBAColor, rgbToHsb, hsbToRgb} from '@shopify/polaris';
+import {FieldChangeEvent} from '../../types/fields';
+import {Bar} from '../../types/bar';
 
 const hsbToRgbString = (hsb: HSBAColor): string => {
   const rgbMap = hsbToRgb(hsb);
@@ -17,7 +17,7 @@ const rgbStringToHsb = (rgb: string): HSBAColor => {
     blue: values[2],
   });
 
-  return { ...hsb, alpha: values[3] };
+  return {...hsb, alpha: values[3]};
 };
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
   updateFieldValue: FieldChangeEvent;
 };
 
-const ColorPickerField = ({ label, id, value, updateFieldValue }: Props) => {
+const ColorPickerField = ({label, id, value, updateFieldValue}: Props) => {
   const hsbaColor = rgbStringToHsb(value);
 
   const handleColorPick = (colorPickerValue: HSBAColor) => {
