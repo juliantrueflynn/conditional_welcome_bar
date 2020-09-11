@@ -7,18 +7,17 @@ import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {FieldChangeValue} from '../../types/fields';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
-import ModalDestroyBar from '../modal_destroy_bar';
 import SingleBarFormFields from '../single_bar_form_fields';
 
 type Props = {
-  readonly bar: BarType;
+  bar: BarType;
+  openModal: () => void;
 };
 
-const SingleBar = ({bar}: Props) => {
+const SingleBar = ({bar, openModal}: Props) => {
   const [hasDirtyState, setHasDirtyState] = useState(false);
   const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [updateBar, {loading, data}] = useMutation(UPDATE_BAR, {
     onCompleted: () => {
@@ -74,7 +73,7 @@ const SingleBar = ({bar}: Props) => {
           {
             content: 'Delete',
             destructive: true,
-            onAction: () => setIsModalOpen(true),
+            onAction: openModal,
           },
           {
             content: 'Discard',
@@ -92,11 +91,6 @@ const SingleBar = ({bar}: Props) => {
           />
         </Form>
       </Page>
-      <ModalDestroyBar
-        onClose={() => setIsModalOpen(false)}
-        isModalOpen={isModalOpen}
-        barId={bar.id}
-      />
     </>
   );
 };

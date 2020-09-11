@@ -10,40 +10,12 @@ import SingleBar from '..';
 
 const {createdAt, updatedAt, ...singleBar} = mockBarFields;
 
-const stubWindowScroll = () => {
-  Object.defineProperty(window, 'scroll', {
-    value: jest.fn(),
-  });
-};
-
-it('triggers destroy modal on click', async () => {
-  const confirmationText =
-    'This will delete the current welcome bar and cannot be undone.';
-  stubWindowScroll();
-  render(
-    <MockedProvider>
-      <PolarisTestProvider>
-        <ToastContextProvider>
-          <SingleBar bar={singleBar} />
-        </ToastContextProvider>
-      </PolarisTestProvider>
-    </MockedProvider>
-  );
-
-  expect(screen.queryByText(confirmationText)).not.toBeInTheDocument();
-
-  userEvent.click(screen.getByText('Delete'));
-
-  expect(await screen.findByText(confirmationText)).toBeInTheDocument();
-});
-
 it('reverts to last save on discard click', () => {
-  stubWindowScroll();
   render(
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} />
+          <SingleBar bar={singleBar} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -63,12 +35,11 @@ it('reverts to last save on discard click', () => {
 });
 
 it('disables Save button unless changes made', () => {
-  stubWindowScroll();
   render(
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} />
+          <SingleBar bar={singleBar} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -115,12 +86,11 @@ it('renders field errors from API', async () => {
     },
   };
 
-  stubWindowScroll();
   render(
     <MockedProvider mocks={[graphqlMock]}>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} />
+          <SingleBar bar={singleBar} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>

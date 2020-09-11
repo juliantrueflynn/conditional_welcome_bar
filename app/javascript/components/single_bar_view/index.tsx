@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
@@ -6,6 +6,7 @@ import SingleBar from '../single_bar';
 import LoadingManager from '../loading_manager';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
+import ModalDestroyBar from '../modal_destroy_bar';
 
 type RouterProps = {
   barId: string;
@@ -14,6 +15,7 @@ type RouterProps = {
 const SingleBarView = () => {
   const history = useHistory();
   const {barId} = useParams<RouterProps>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {loading, data, error} = useQuery(GET_SINGLE_BAR, {
     variables: {id: barId},
   });
@@ -40,7 +42,12 @@ const SingleBarView = () => {
 
   return (
     <LoadingManager loadingTo="single" isLoading={loading}>
-      <SingleBar bar={bar} />
+      <SingleBar bar={bar} openModal={() => setIsModalOpen(true)} />
+      <ModalDestroyBar
+        onClose={() => setIsModalOpen(false)}
+        isModalOpen={isModalOpen}
+        barId={barId}
+      />
     </LoadingManager>
   );
 };
