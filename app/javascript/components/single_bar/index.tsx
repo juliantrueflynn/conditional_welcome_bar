@@ -32,16 +32,21 @@ const SingleBar = ({bar}: Props) => {
     updateBar({variables: {input: attributes}});
   };
 
-  const handleFieldValueChange = (value: FieldChangeValue, id: Bar) => {
+  const handleFieldValueChange = (value: FieldChangeValue, id: Bar): void => {
+    let nextValue = value;
+    let hasChanged = bar[id] !== value;
+
     if (Array.isArray(bar[id])) {
-      setHasDirtyState(!isEqual(bar[id], value));
-      setFieldsValues({...fieldsValues, [id]: value});
-      setDirtyInputs({...dirtyValues, [id]: true});
+      nextValue = value;
+      hasChanged = !isEqual(bar[id], value);
     } else if (Array.isArray(value)) {
-      setHasDirtyState(bar[id] !== value[0]);
-      setFieldsValues({...fieldsValues, [id]: value[0]});
-      setDirtyInputs({...dirtyValues, [id]: true});
+      nextValue = value[0];
+      hasChanged = bar[id] !== value[0];
     }
+
+    setHasDirtyState(hasChanged);
+    setFieldsValues({...fieldsValues, [id]: nextValue});
+    setDirtyInputs({...dirtyValues, [id]: true});
   };
 
   const primaryAction = {

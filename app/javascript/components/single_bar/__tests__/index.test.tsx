@@ -33,3 +33,28 @@ it('triggers destroy modal on click', async () => {
 
   expect(await screen.findByText(confirmationText)).toBeInTheDocument();
 });
+
+it('reverts to last save on discard click', async () => {
+  stubWindowScroll();
+  render(
+    <MockedProvider>
+      <PolarisTestProvider>
+        <ToastContextProvider>
+          <SingleBar bar={mockBarFields} />
+        </ToastContextProvider>
+      </PolarisTestProvider>
+    </MockedProvider>
+  );
+  const oldTitle = mockBarFields.title;
+  const titleField = screen.getByPlaceholderText('Title');
+
+  expect(titleField).toHaveValue(oldTitle);
+
+  userEvent.type(titleField, ' Added Text');
+
+  expect(titleField).toHaveValue(`${oldTitle} Added Text`);
+
+  userEvent.click(screen.getByText('Discard'));
+
+  expect(titleField).toHaveValue(oldTitle);
+});
