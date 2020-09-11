@@ -1,6 +1,5 @@
 import { enableFetchMocks } from 'jest-fetch-mock';
 import React from 'react';
-import SingleBarView from '..';
 import { screen, render } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { PolarisTestProvider } from '@shopify/polaris';
@@ -8,6 +7,8 @@ import { createMemoryHistory } from 'history';
 import { mockBarFields } from '../../../__mocks__/single_bar_mocks';
 import { GET_SINGLE_BAR } from '../../../utilities/graphql_tags';
 import { Router, Route } from 'react-router';
+import ToastContextProvider from '../../ToastContext';
+import SingleBarView from '..';
 
 const { __typename, createdAt, updatedAt, ...singleBarMock } = mockBarFields;
 const stubbedHistoryEntries = createMemoryHistory({
@@ -30,11 +31,11 @@ it('renders single bar', async () => {
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
-          <Route path="/bars/:barId">
-            <React.Suspense fallback="Mocked for test">
+          <ToastContextProvider>
+            <Route path="/bars/:barId">
               <SingleBarView />
-            </React.Suspense>
-          </Route>
+            </Route>
+          </ToastContextProvider>
         </PolarisTestProvider>
       </Router>
     </MockedProvider>
@@ -53,11 +54,11 @@ it('renders error instead of entry', async () => {
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
-          <Route path="/bars/:barId">
-            <React.Suspense fallback="Mocked for test">
+          <ToastContextProvider>
+            <Route path="/bars/:barId">
               <SingleBarView />
-            </React.Suspense>
-          </Route>
+            </Route>
+          </ToastContextProvider>
         </PolarisTestProvider>
       </Router>
     </MockedProvider>
@@ -80,11 +81,11 @@ it('renders missing state if result blank', async () => {
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
       <Router history={stubbedHistoryEntries}>
         <PolarisTestProvider>
-          <Route path="/bars/:barId">
-            <React.Suspense fallback="Mocked for test">
+          <ToastContextProvider>
+            <Route path="/bars/:barId">
               <SingleBarView />
-            </React.Suspense>
-          </Route>
+            </Route>
+          </ToastContextProvider>
         </PolarisTestProvider>
       </Router>
     </MockedProvider>
