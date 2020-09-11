@@ -1,6 +1,6 @@
 import React from 'react';
-import { ChoiceListProps, ChoiceList, Error } from '@shopify/polaris';
-import { Bar } from '../../types/bar';
+import {ChoiceListProps, ChoiceList, Error} from '@shopify/polaris';
+import {Bar} from '../../types/bar';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
@@ -18,7 +18,7 @@ type Props = Overwrite<
 
 // Simple wrapper for ChoiceList component to have consistent property names with
 // all the other form components.
-const ChoiceListField = ({ id, label, value, error, ...props }: Props) => {
+const ChoiceListField = ({id, label, value, error, ...props}: Props) => {
   const fieldErrors = (error || undefined) as Error;
 
   return (

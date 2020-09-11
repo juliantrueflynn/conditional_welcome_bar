@@ -1,13 +1,13 @@
 import React from 'react';
-import EmptyState, { DEFAULT_IMAGE } from '..';
-import { screen, render } from '@testing-library/react';
-import { PolarisTestProvider } from '@shopify/polaris';
+import EmptyState, {DEFAULT_IMAGE} from '..';
+import {screen, render} from '@testing-library/react';
+import {PolarisTestProvider} from '@shopify/polaris';
 
 const getImageSrc = (container: HTMLElement) =>
   container.querySelector('img')?.getAttribute('src');
 
 it('renders default image', () => {
-  const { container } = render(
+  const {container} = render(
     <PolarisTestProvider>
       <EmptyState>Hello world!</EmptyState>
     </PolarisTestProvider>
@@ -19,7 +19,7 @@ it('renders default image', () => {
 
 it('renders image passed', () => {
   const subjectImageSrc = 'https://example.com/some-image.svg';
-  const { container } = render(
+  const {container} = render(
     <PolarisTestProvider>
       <EmptyState image={subjectImageSrc}>Hello world!</EmptyState>
     </PolarisTestProvider>

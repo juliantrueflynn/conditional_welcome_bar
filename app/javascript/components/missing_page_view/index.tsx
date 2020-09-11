@@ -1,15 +1,15 @@
 import React from 'react';
-import { Page, Layout } from '@shopify/polaris';
-import { useHistory, useLocation } from 'react-router-dom';
+import {Page, Layout} from '@shopify/polaris';
+import {useHistory, useLocation} from 'react-router-dom';
 import EmptyState from '../empty_state';
 
 const MissingPageView = () => {
   const history = useHistory();
-  const { search } = useLocation();
+  const {search} = useLocation();
 
   const action = {
     content: 'Return to home',
-    onAction: () => history.push({ pathname: '/', search }),
+    onAction: () => history.push({pathname: '/', search}),
   };
 
   return (

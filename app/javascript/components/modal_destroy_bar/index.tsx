@@ -1,9 +1,9 @@
 import React from 'react';
-import { Modal, TextContainer } from '@shopify/polaris';
-import { DESTROY_BAR } from '../../utilities/graphql_tags';
-import { useHistory } from 'react-router';
-import { useMutation } from '@apollo/client';
-import { useToastDispatchContext } from '../ToastContext';
+import {Modal, TextContainer} from '@shopify/polaris';
+import {DESTROY_BAR} from '../../utilities/graphql_tags';
+import {useHistory} from 'react-router';
+import {useMutation} from '@apollo/client';
+import {useToastDispatchContext} from '../ToastContext';
 
 type Props = {
   isModalOpen: boolean;
@@ -11,14 +11,14 @@ type Props = {
   onClose: () => void;
 };
 
-const ModalDestroyBar = ({ barId, isModalOpen, onClose }: Props) => {
+const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
   const history = useHistory();
   const dispatch = useToastDispatchContext();
 
-  const [destroyBar, { loading }] = useMutation(DESTROY_BAR, {
+  const [destroyBar, {loading}] = useMutation(DESTROY_BAR, {
     onCompleted: () => {
-      dispatch({ type: 'bar/destroy' });
-      history.push({ pathname: '/' });
+      dispatch({type: 'bar/destroy'});
+      history.push({pathname: '/'});
     },
     ignoreResults: true,
   });
@@ -30,7 +30,7 @@ const ModalDestroyBar = ({ barId, isModalOpen, onClose }: Props) => {
       title="Delete Welcome Bar?"
       primaryAction={{
         content: 'Delete',
-        onAction: () => destroyBar({ variables: { input: { id: barId } } }),
+        onAction: () => destroyBar({variables: {input: {id: barId}}}),
         destructive: true,
         loading,
       }}

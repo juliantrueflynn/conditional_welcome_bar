@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout, TextField, Checkbox } from '@shopify/polaris';
-import { BarType, BarErrorPayload, Bar } from '../../types/bar';
-import { FieldChangeEvent, BarFormProps } from '../../types/fields';
+import {Layout, TextField, Checkbox} from '@shopify/polaris';
+import {BarType, BarErrorPayload, Bar} from '../../types/bar';
+import {FieldChangeEvent, BarFormProps} from '../../types/fields';
 import FieldGroup from '../form_fields/field_group';
 import ChoiceListField from '../form_fields/choice_list_field';
 import ColorPickerField from '../form_fields/color_picker_field';
@@ -53,11 +53,11 @@ const SingleBarFormFields = ({
           id={Bar.themeTemplates}
           label="Page visibility"
           choices={[
-            { label: 'Global (all templates)', value: 'global' },
-            { label: 'Homepage', value: 'homepage' },
-            { label: 'Cart', value: 'cart' },
-            { label: 'Collections', value: 'collection' },
-            { label: 'Products', value: 'product' },
+            {label: 'Global (all templates)', value: 'global'},
+            {label: 'Homepage', value: 'homepage'},
+            {label: 'Cart', value: 'cart'},
+            {label: 'Collections', value: 'collection'},
+            {label: 'Products', value: 'product'},
           ]}
           value={fields[Bar.themeTemplates]}
           onChange={updateFieldValue}
@@ -102,8 +102,8 @@ const SingleBarFormFields = ({
           id={Bar.placement}
           label="Placement"
           choices={[
-            { label: 'Top', value: 'top' },
-            { label: 'Bottom', value: 'bottom' },
+            {label: 'Top', value: 'top'},
+            {label: 'Bottom', value: 'bottom'},
           ]}
           value={[fields.placement]}
           onChange={updateFieldValue}
@@ -154,9 +154,9 @@ const SingleBarFormFields = ({
           id={Bar.textAlign}
           label="Alignment"
           choices={[
-            { label: 'Left', value: 'left' },
-            { label: 'Center', value: 'center' },
-            { label: 'Right', value: 'right' },
+            {label: 'Left', value: 'left'},
+            {label: 'Center', value: 'center'},
+            {label: 'Right', value: 'right'},
           ]}
           value={[fields[Bar.textAlign]]}
           onChange={updateFieldValue}

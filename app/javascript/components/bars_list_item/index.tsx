@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResourceItem, TextStyle, Caption } from '@shopify/polaris';
+import {ResourceItem, TextStyle, Caption} from '@shopify/polaris';
 import BarCreationDate from '../bar_creation_date';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
   locale: string;
 };
 
-const BarsListItem = ({ id, title, content, createdAt, locale }: Props) => {
+const BarsListItem = ({id, title, content, createdAt, locale}: Props) => {
   const accessibilityLabel = `View details for ${title}`;
 
   return (

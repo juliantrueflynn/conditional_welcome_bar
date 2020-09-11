@@ -1,7 +1,7 @@
 import React from 'react';
 import ShopifyProvider from '..';
-import { screen, render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import {screen, render} from '@testing-library/react';
+import {MemoryRouter} from 'react-router';
 
 const originalEnv = process.env;
 const originalLocation = window.location;

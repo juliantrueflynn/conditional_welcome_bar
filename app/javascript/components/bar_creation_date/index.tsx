@@ -37,12 +37,12 @@ const getTimeAgo = (
   let ago = 'Just now';
 
   if (isLaterThan.year) {
-    ago = toLocaleDate({ year: 'numeric', month: 'short', day: 'numeric' });
+    ago = toLocaleDate({year: 'numeric', month: 'short', day: 'numeric'});
   } else if (isLaterThan.week) {
-    const week = toLocaleDate({ month: 'short', day: 'numeric' });
+    const week = toLocaleDate({month: 'short', day: 'numeric'});
     ago = `${week} at ${localeTime}`;
   } else if (isLaterThan.day) {
-    ago = `${toLocaleDate({ weekday: 'long' })} at ${localeTime}`;
+    ago = `${toLocaleDate({weekday: 'long'})} at ${localeTime}`;
   } else if (isLaterThan.hour) {
     ago = localeTime;
   } else if (isLaterThan.min) {
@@ -52,7 +52,7 @@ const getTimeAgo = (
   return ago;
 };
 
-const BarCreationDate = ({ locale, createdAt }: Props) => {
+const BarCreationDate = ({locale, createdAt}: Props) => {
   const created = new Date(createdAt);
   const secondsAgo = Math.floor((+new Date() - +created) / 1000);
 
