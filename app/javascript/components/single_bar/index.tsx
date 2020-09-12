@@ -7,9 +7,7 @@ import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {FieldChangeValue} from '../../types/fields';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
-import FieldGroup from '../form_fields/field_group';
-import ColorPickerField from '../form_fields/color_picker_field';
-import ChoiceListField from '../form_fields/choice_list_field';
+import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 
 type Props = {
   bar: BarType;
@@ -104,7 +102,7 @@ const SingleBar = ({bar, openModal}: Props) => {
                 error={fieldErrors.isActive}
                 onChange={handleFieldValueChange}
               />
-              <ChoiceListField
+              <ChoiceList
                 id={Bar.themeTemplates}
                 label="Page visibility"
                 choices={[
@@ -151,7 +149,7 @@ const SingleBar = ({bar, openModal}: Props) => {
               )}
             </FieldGroup>
             <FieldGroup id="displayStyles">
-              <ChoiceListField
+              <ChoiceList
                 id={Bar.placement}
                 label="Placement"
                 choices={[
@@ -197,13 +195,13 @@ const SingleBar = ({bar, openModal}: Props) => {
               />
             </FieldGroup>
             <FieldGroup id="textStyles">
-              <ColorPickerField
+              <ColorPicker
                 id={Bar.textColor}
                 label="Text color"
                 value={fieldsValues.textColor}
                 onChange={handleFieldValueChange}
               />
-              <ChoiceListField
+              <ChoiceList
                 id={Bar.textAlign}
                 label="Alignment"
                 choices={[
@@ -226,7 +224,7 @@ const SingleBar = ({bar, openModal}: Props) => {
               />
             </FieldGroup>
             <FieldGroup id="backgroundStyles">
-              <ColorPickerField
+              <ColorPicker
                 id={Bar.backgroundColor}
                 label="Background color"
                 value={fieldsValues.backgroundColor}

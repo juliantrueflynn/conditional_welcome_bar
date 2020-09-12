@@ -1,9 +1,14 @@
-import React from 'react';
-import {ColorPicker, HSBAColor, rgbToHsb, hsbToRgb} from '@shopify/polaris';
+import React, {useMemo} from 'react';
+import {
+  ColorPicker as PolarisColorPicker,
+  HSBAColor,
+  rgbToHsb,
+  hsbToRgb,
+} from '@shopify/polaris';
 import {FieldChangeEvent} from '../../types/fields';
 import {Bar} from '../../types/bar';
 
-const hsbToRgbString = (hsb: HSBAColor): string => {
+const hsbToRgbString = (hsb: HSBAColor) => {
   const rgbMap = hsbToRgb(hsb);
 
   return `rgba(${rgbMap.red},${rgbMap.green},${rgbMap.blue},${hsb.alpha})`;
@@ -22,31 +27,34 @@ const rgbStringToHsb = (rgb: string): HSBAColor => {
 
 type Props = {
   id: Bar;
-  label: string;
+  label?: string;
   value: string;
   onChange: FieldChangeEvent;
 };
 
+// Label element is not allowed due to htmlFor being pointed to div without aria labels allowed.
 const ColorPickerField = ({
   label,
   id,
   value,
   onChange: updateFieldValue,
 }: Props) => {
-  const hsbaColor = rgbStringToHsb(value);
-
-  const handleColorPick = (colorPickerValue: HSBAColor) => {
-    updateFieldValue(hsbToRgbString(colorPickerValue), id);
-  };
+  const hsbaColor = useMemo(() => rgbStringToHsb(value), [value]);
 
   return (
     <>
-      <label htmlFor={id}>{label}</label>
-      <ColorPicker
+      {!!label && (
+        <div>
+          <p>{label}</p>
+        </div>
+      )}
+      <PolarisColorPicker
         id={id}
         allowAlpha
         color={hsbaColor}
-        onChange={handleColorPick}
+        onChange={(colorPickerValue: HSBAColor) =>
+          updateFieldValue(hsbToRgbString(colorPickerValue), id)
+        }
       />
     </>
   );
