@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 import {BarQueryData, BarQueryVars} from './types';
 import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
-import SingleBar from '../single_bar';
+import UpdateForm from './update_form';
 import NetworkErrorState from '../network_error_state';
 import ModalDestroyBar from '../modal_destroy_bar';
 import LoadingSkeleton from './loading_skeleton';
@@ -37,7 +37,7 @@ const SingleBarView = () => {
           isModalOpen={isModalOpen}
           barId={barId}
         />
-        <SingleBar
+        <UpdateForm
           bar={query.data.bar}
           openModal={() => setIsModalOpen(true)}
           refetch={query.refetch}

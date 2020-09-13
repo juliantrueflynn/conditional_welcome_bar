@@ -10,16 +10,25 @@ import {
 import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 import {UPDATE_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
-import SingleBar from '..';
+import UpdateForm from '../update_form';
+import {ApolloQueryResult} from '@apollo/client';
+import {BarQueryData} from '../types';
+import {BarType} from '../../../types/bar';
 
 const {createdAt, updatedAt, ...singleBar} = mockBarFields;
+const refetch = jest.fn(
+  () =>
+    Promise.resolve({data: {bar: {} as BarType}}) as Promise<
+      ApolloQueryResult<BarQueryData>
+    >
+);
 
 it('renders all field groups', async () => {
   render(
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={singleBar} openModal={jest.fn} refetch={refetch} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -38,7 +47,7 @@ it('reverts to last save on discard click', () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={singleBar} openModal={jest.fn} refetch={refetch} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -62,7 +71,7 @@ it('disables Save button unless changes made', () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={singleBar} openModal={jest.fn} refetch={refetch} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -113,7 +122,7 @@ it('renders field errors from API', async () => {
     <MockedProvider mocks={[graphqlMock]}>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <SingleBar bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={singleBar} openModal={jest.fn} refetch={refetch} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
