@@ -1,6 +1,6 @@
-import {BarType} from '../types/bar';
+import {BarProps} from '../components/single_bar_view/types';
 
-export const mockBarFields: BarType = {
+export const mockBarFields: BarProps = {
   id: '1',
   title: 'Some title',
   content: 'Some content',
@@ -18,7 +18,5 @@ export const mockBarFields: BarType = {
   themeTemplates: ['cart'],
   textColor: 'rgba(45,52,54,1.0)',
   fontSize: '14px',
-  createdAt: new Date().toString(),
-  updatedAt: new Date().toString(),
   __typename: 'Bar',
 };

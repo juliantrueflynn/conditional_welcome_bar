@@ -2,19 +2,24 @@ import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
 import {useMutation} from '@apollo/client';
-import {BarType, Bar, BarMutationPayload} from '../../types/bar';
+import {BarProps, BarFields, Bar, UserError} from './types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
 import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 
 type Props = {
-  bar: BarType;
+  bar: BarProps;
   openModal: () => void;
 };
 
+type UpdateBarPayload = {
+  bar?: BarFields;
+  userErrors?: UserError[];
+};
+
 type BarFieldErrors = {
-  [key in keyof BarType]: boolean | string[] | undefined;
+  [key in keyof BarFields]: boolean | string[] | undefined;
 };
 
 const UpdateForm = ({bar, openModal}: Props) => {
@@ -23,8 +28,8 @@ const UpdateForm = ({bar, openModal}: Props) => {
   const [prevFieldsValues, setPrevFieldsValues] = useState(bar);
 
   const [updateBar, {loading, data}] = useMutation<
-    {updateBar: BarMutationPayload},
-    {input: BarType}
+    {updateBar: UpdateBarPayload},
+    {input: BarProps}
   >(UPDATE_BAR, {
     onCompleted: () => setDirtyFields(barFalseMap),
   });
@@ -46,7 +51,7 @@ const UpdateForm = ({bar, openModal}: Props) => {
     setPrevFieldsValues(fieldsValues);
   };
 
-  const handleFieldValueChange = (value: BarType[keyof BarType], id: Bar) => {
+  const handleFieldValueChange = (value: BarProps[Bar], id: Bar) => {
     if (Array.isArray(bar[id])) {
       setFieldsValues({...fieldsValues, [id]: value});
       setDirtyFields({...dirtyFields, [id]: !isEqual(bar[id], value)});

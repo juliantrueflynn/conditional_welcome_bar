@@ -6,7 +6,7 @@ import {
   TextStyle,
   Caption,
 } from '@shopify/polaris';
-import {BarEntryProps} from '../../types/bar';
+import {BarEntryProps} from './types';
 import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
 import ResourceCreationTime from './resource_creation_time';
 

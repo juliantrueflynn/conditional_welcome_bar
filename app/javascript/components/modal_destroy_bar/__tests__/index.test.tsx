@@ -20,19 +20,23 @@ const stubWindowScroll = () => {
   });
 };
 
-const stubbedHistoryEntries = () =>
+const mockHistory = () =>
   createMemoryHistory({
-    initialEntries: [`/bars/${mockBarFields.id}`],
+    initialEntries: [`/bars/${barId}`],
   });
+
+const setupWindowMocks = () => {
+  stubWindowScroll();
+  enableFetchMocks();
+};
 
 const mockGraphqlRequest = {
   query: DESTROY_BAR,
-  variables: {input: {id: mockBarFields.id}},
+  variables: {input: {id: barId}},
 };
 
 it('goes to homepage on delete click', async () => {
-  stubWindowScroll();
-  enableFetchMocks();
+  setupWindowMocks();
 
   let deleteMutationCalled = false;
   const graphqlMock = {
@@ -41,13 +45,13 @@ it('goes to homepage on delete click', async () => {
       deleteMutationCalled = true;
 
       return {
-        data: {bar: {...mockBarFields, id: barId.toString()}},
+        data: {bar: {id: barId}},
       };
     },
   };
   render(
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
-      <Router history={stubbedHistoryEntries()}>
+      <Router history={mockHistory()}>
         <Route path="/bars/:barId">
           <PolarisTestProvider>
             <ToastContextProvider>
@@ -71,8 +75,7 @@ it('goes to homepage on delete click', async () => {
 });
 
 it('does not delete if error present', async () => {
-  stubWindowScroll();
-  enableFetchMocks();
+  setupWindowMocks();
 
   const graphqlMock = {
     request: mockGraphqlRequest,
@@ -80,7 +83,7 @@ it('does not delete if error present', async () => {
   };
   render(
     <MockedProvider mocks={[graphqlMock]} addTypename={false}>
-      <Router history={stubbedHistoryEntries()}>
+      <Router history={mockHistory()}>
         <Route path="/bars/:barId">
           <PolarisTestProvider>
             <ToastContextProvider>
@@ -101,19 +104,14 @@ it('does not delete if error present', async () => {
 });
 
 it('closes modal on cancel click', async () => {
-  stubWindowScroll();
-  enableFetchMocks();
+  setupWindowMocks();
 
   render(
     <MockedProvider>
-      <Router history={stubbedHistoryEntries()}>
+      <Router history={mockHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
-            <ModalDestroyBar
-              isModalOpen
-              barId={mockBarFields.id}
-              onClose={onClose}
-            />
+            <ModalDestroyBar isModalOpen barId={barId} onClose={onClose} />
           </ToastContextProvider>
         </PolarisTestProvider>
       </Router>

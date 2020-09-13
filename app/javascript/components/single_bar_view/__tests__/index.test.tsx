@@ -18,7 +18,7 @@ jest.mock('@shopify/polaris', () => ({
   Loading: () => <div data-testid="MockLoading" />,
 }));
 
-const {__typename, createdAt, updatedAt, ...mockBar} = mockBarFields;
+const {__typename, ...mockBar} = mockBarFields;
 const mockRouterHistory = () =>
   createMemoryHistory({
     initialEntries: [`/bars/${mockBar.id}`],
