@@ -4,7 +4,6 @@ import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
 import {useMutation} from '@apollo/client';
 import {BarType, Bar, BarFieldErrors, UserError} from '../../types/bar';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
-import {FieldChangeValue} from '../../types/fields';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
 import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
@@ -48,7 +47,7 @@ const UpdateForm = ({bar, openModal}: Props) => {
     setPrevFieldsValues(fieldsValues);
   };
 
-  const handleFieldValueChange = (value: FieldChangeValue, id: Bar) => {
+  const handleFieldValueChange = (value: BarType[keyof BarType], id: Bar) => {
     if (Array.isArray(bar[id])) {
       setFieldsValues({...fieldsValues, [id]: value});
       setDirtyFields({...dirtyFields, [id]: !isEqual(bar[id], value)});
