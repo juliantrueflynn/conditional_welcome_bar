@@ -4,10 +4,11 @@ import IndexBarsView from '..';
 import {screen, render, waitFor} from '@testing-library/react';
 import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
-import {Router} from 'react-router-dom';
+import {Route, Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
-import {GET_ALL_BARS} from '../../../utilities/graphql_tags';
+import {CREATE_BAR, GET_ALL_BARS} from '../../../utilities/graphql_tags';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('@shopify/polaris', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,21 +18,29 @@ jest.mock('@shopify/polaris', () => ({
 }));
 
 const mockBarsData = [
-  {...mockBarFields, id: Math.random().toString(), title: 'Bar #1'},
-  {...mockBarFields, id: Math.random().toString(), title: 'Bar #2'},
+  {...mockBarFields, id: '1', title: 'Bar #1'},
+  {...mockBarFields, id: '2', title: 'Bar #2'},
 ];
 const mockQueryRequest = {query: GET_ALL_BARS};
+const mockBarQueryNotEmpty = {
+  request: mockQueryRequest,
+  result: {data: {bars: mockBarsData}},
+};
+const mockBarQueryEmpty = {
+  request: mockQueryRequest,
+  result: {data: {bars: []}},
+};
+const mockBarQueryError = {
+  request: mockQueryRequest,
+  error: new Error('mock error'),
+};
 
 const mockHistory = () => createMemoryHistory({initialEntries: ['/']});
 
 it('renders loading state before render entries', async (done) => {
   enableFetchMocks();
-  const graphqlMock = {
-    request: mockQueryRequest,
-    result: {data: {bars: mockBarsData}},
-  };
   render(
-    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
+    <MockedProvider mocks={[mockBarQueryNotEmpty]} addTypename={false}>
       <Router history={mockHistory()}>
         <PolarisTestProvider>
           <IndexBarsView />
@@ -53,12 +62,8 @@ it('renders loading state before render entries', async (done) => {
 
 it('renders error instead of entries', async () => {
   enableFetchMocks();
-  const graphqlMock = {
-    request: mockQueryRequest,
-    error: new Error('mock error'),
-  };
   render(
-    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
+    <MockedProvider mocks={[mockBarQueryError]} addTypename={false}>
       <Router history={mockHistory()}>
         <PolarisTestProvider>
           <IndexBarsView />
@@ -73,12 +78,8 @@ it('renders error instead of entries', async () => {
 
 it('renders empty list call to action if result empty', async () => {
   enableFetchMocks();
-  const graphqlMock = {
-    request: mockQueryRequest,
-    result: {data: {bars: []}},
-  };
   render(
-    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
+    <MockedProvider mocks={[mockBarQueryEmpty]} addTypename={false}>
       <Router history={mockHistory()}>
         <PolarisTestProvider>
           <IndexBarsView />
@@ -90,4 +91,41 @@ it('renders empty list call to action if result empty', async () => {
   expect(
     await screen.findByText('Create your first welcome bar!')
   ).toBeInTheDocument();
+});
+
+it('redirects to single bar after create', async () => {
+  enableFetchMocks();
+  const graphqlMocks = [
+    mockBarQueryNotEmpty,
+    {
+      request: {query: CREATE_BAR},
+      result: {
+        data: {
+          createBar: {
+            bar: {id: '3'},
+            __typename: 'createBar',
+          },
+        },
+      },
+    },
+  ];
+
+  render(
+    <MockedProvider mocks={graphqlMocks} addTypename={false}>
+      <Router history={mockHistory()}>
+        <Route exact path="/">
+          <PolarisTestProvider>
+            <IndexBarsView />
+          </PolarisTestProvider>
+        </Route>
+        <Route path="/bars/:barId">Mock Single Bar #3</Route>
+      </Router>
+    </MockedProvider>
+  );
+
+  await waitFor(() =>
+    expect(screen.queryByText('Mock Single Bar #3')).not.toBeInTheDocument()
+  );
+  userEvent.click(screen.getByText('Create welcome bar'));
+  expect(await screen.findByText('Mock Single Bar #3')).toBeInTheDocument();
 });

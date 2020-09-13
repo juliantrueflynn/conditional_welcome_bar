@@ -4,6 +4,7 @@ import {GET_ALL_BARS, CREATE_BAR} from '../../utilities/graphql_tags';
 import {BarEntryProps, BarMutationPayload} from '../../types/bar';
 import {useQuery, useMutation} from '@apollo/client';
 import {Page, Layout, PageProps} from '@shopify/polaris';
+import {PAGE_TITLE} from './constants';
 import BarsList from '../bars_list';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
@@ -14,7 +15,7 @@ type BarsQueryData = {
 };
 
 const PageLayout = ({primaryAction, children}: PageProps) => (
-  <Page title="Home" primaryAction={primaryAction}>
+  <Page title={PAGE_TITLE} primaryAction={primaryAction}>
     <Layout>
       <Layout.Section>{children}</Layout.Section>
     </Layout>
@@ -30,9 +31,8 @@ const IndexBarsView = () => {
     CREATE_BAR,
     {
       onCompleted: (result) =>
-        result.createBar.bar &&
+        result.createBar?.bar &&
         history.push({pathname: `/bars/${result.createBar.bar.id}`}),
-      ignoreResults: true,
     }
   );
 

@@ -8,14 +8,17 @@ import {
   SkeletonPage,
   TextContainer,
 } from '@shopify/polaris';
+import {PAGE_TITLE} from './constants';
+
+const SKELETON_BAR_COUNT = 3;
 
 const LoadingSkeleton = () => (
   <>
     <Loading />
-    <SkeletonPage primaryAction>
+    <SkeletonPage title={PAGE_TITLE} primaryAction>
       <Layout>
         <Layout.Section>
-          {Array.from({length: 3}).map((_, index) => (
+          {Array.from({length: SKELETON_BAR_COUNT}).map((_, index) => (
             <Card sectioned key={index}>
               <TextContainer spacing="tight">
                 <SkeletonDisplayText size="small" />
