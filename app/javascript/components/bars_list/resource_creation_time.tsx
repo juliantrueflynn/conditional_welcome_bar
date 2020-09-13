@@ -14,7 +14,7 @@ type DateProps = {
 
 type LocaleDateString = (options: DateProps) => string;
 
-const getMinutesAgotext = (secondsAgo: number): string => {
+const getMinutesAgotext = (secondsAgo: number) => {
   const minutes = Math.floor(secondsAgo / 60);
   const pluralized = minutes === 1 ? 'minute' : 'minutes';
 
@@ -25,7 +25,7 @@ const getTimeAgo = (
   toLocaleDate: LocaleDateString,
   localeTime: string,
   secondsAgo: number
-): string => {
+) => {
   const isLaterThan = {
     year: secondsAgo >= 31557600,
     week: secondsAgo >= 604800,
@@ -52,7 +52,7 @@ const getTimeAgo = (
   return ago;
 };
 
-const BarCreationDate = ({locale, createdAt}: Props) => {
+const ResourceCreationTime = ({locale, createdAt}: Props) => {
   const created = new Date(createdAt);
   const secondsAgo = Math.floor((+new Date() - +created) / 1000);
 
@@ -71,4 +71,4 @@ const BarCreationDate = ({locale, createdAt}: Props) => {
   return <time dateTime={createdAt}>{displayTime}</time>;
 };
 
-export default BarCreationDate;
+export default ResourceCreationTime;

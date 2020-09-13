@@ -1,27 +1,58 @@
 import React from 'react';
-import {ResourceList, Card} from '@shopify/polaris';
+import {
+  ResourceList,
+  Card,
+  ResourceItem,
+  TextStyle,
+  Caption,
+} from '@shopify/polaris';
 import {BarEntryProps} from '../../types/bar';
-import BarsListItem from '../bars_list_item';
+import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
+import ResourceCreationTime from './resource_creation_time';
+
+const DEFAULT_LOCALE = 'en-US';
 
 type Props = {
   bars: BarEntryProps[];
 };
 
-const resourceName = {
-  singular: 'Welcome bar',
-  plural: 'Welcome bars',
-};
+const locale =
+  new URLSearchParams(window.location.search).get('locale') || DEFAULT_LOCALE;
 
-const locale: string =
-  new URLSearchParams(window.location.search).get('locale') || 'en-US';
+const ListItem = ({id, title, content, createdAt}: BarEntryProps) => {
+  const accessibilityLabel = `View details for ${title}`;
+
+  return (
+    <ResourceItem
+      id={id}
+      name={title}
+      url={getSingleBarUrlPath(id)}
+      accessibilityLabel={accessibilityLabel}
+    >
+      <h3>
+        <TextStyle variation="strong">{title}</TextStyle>
+      </h3>
+      <Caption>
+        <TextStyle variation="subdued">
+          {'Created '}
+          <ResourceCreationTime createdAt={createdAt} locale={locale} />
+        </TextStyle>
+      </Caption>
+      {content}
+    </ResourceItem>
+  );
+};
 
 const BarsList = ({bars}: Props) => {
   return (
     <Card>
       <ResourceList
-        resourceName={resourceName}
+        resourceName={{
+          singular: 'Welcome bar',
+          plural: 'Welcome bars',
+        }}
         items={bars}
-        renderItem={(bar) => <BarsListItem {...bar} locale={locale} />}
+        renderItem={(bar) => <ListItem {...bar} />}
       />
     </Card>
   );

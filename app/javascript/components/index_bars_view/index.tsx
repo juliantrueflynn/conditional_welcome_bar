@@ -5,6 +5,7 @@ import {BarEntryProps, BarMutationPayload} from '../../types/bar';
 import {useQuery, useMutation} from '@apollo/client';
 import {Page, Layout, PageProps} from '@shopify/polaris';
 import {PAGE_TITLE} from './constants';
+import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
 import BarsList from '../bars_list';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
@@ -32,7 +33,7 @@ const IndexBarsView = () => {
     {
       onCompleted: (result) =>
         result.createBar?.bar &&
-        history.push({pathname: `/bars/${result.createBar.bar.id}`}),
+        history.push({pathname: getSingleBarUrlPath(result.createBar.bar.id)}),
     }
   );
 
