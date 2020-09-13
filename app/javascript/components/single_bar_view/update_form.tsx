@@ -1,9 +1,8 @@
 import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
-import {ApolloQueryResult, useMutation} from '@apollo/client';
+import {useMutation} from '@apollo/client';
 import {BarType, Bar, BarFieldErrors, UserError} from '../../types/bar';
-import {BarQueryData, BarQueryVars} from './types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {FieldChangeValue} from '../../types/fields';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
@@ -13,9 +12,6 @@ import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 type Props = {
   bar: BarType;
   openModal: () => void;
-  refetch: (
-    variables?: Partial<BarQueryVars> | undefined
-  ) => Promise<ApolloQueryResult<BarQueryData>>;
 };
 
 type BarUpdateProps = {
@@ -23,15 +19,16 @@ type BarUpdateProps = {
   userErrors?: UserError[];
 };
 
-const UpdateForm = ({bar, openModal, refetch}: Props) => {
-  const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
+const UpdateForm = ({bar, openModal}: Props) => {
+  const [dirtyFields, setDirtyFields] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
+  const [prevFieldsValues, setPrevFieldsValues] = useState(bar);
 
   const [updateBar, {loading, data}] = useMutation<
     {updateBar: BarUpdateProps},
     {input: BarType}
   >(UPDATE_BAR, {
-    onCompleted: () => setDirtyInputs(barFalseMap),
+    onCompleted: () => setDirtyFields(barFalseMap),
   });
 
   const fieldErrors = useMemo(() => {
@@ -39,36 +36,36 @@ const UpdateForm = ({bar, openModal, refetch}: Props) => {
     const fieldKeys = Object.keys(errorMap) as Array<keyof BarFieldErrors>;
 
     return fieldKeys.reduce((acc, key) => {
-      acc[key] = !dirtyValues[key] && errorMap[key];
+      acc[key] = !dirtyFields[key] && errorMap[key];
 
       return acc;
     }, {} as BarFieldErrors);
-  }, [data, dirtyValues]);
+  }, [data, dirtyFields]);
 
   const handleSubmit = async () => {
     const {__typename, ...attributes} = fieldsValues;
     await updateBar({variables: {input: attributes}});
-    refetch();
+    setPrevFieldsValues(fieldsValues);
   };
 
   const handleFieldValueChange = (value: FieldChangeValue, id: Bar) => {
     if (Array.isArray(bar[id])) {
       setFieldsValues({...fieldsValues, [id]: value});
-      setDirtyInputs({...dirtyValues, [id]: !isEqual(bar[id], value)});
+      setDirtyFields({...dirtyFields, [id]: !isEqual(bar[id], value)});
     } else if (Array.isArray(value)) {
       setFieldsValues({...fieldsValues, [id]: value[0]});
-      setDirtyInputs({...dirtyValues, [id]: bar[id] !== value[0]});
+      setDirtyFields({...dirtyFields, [id]: bar[id] !== value[0]});
     } else {
       setFieldsValues({...fieldsValues, [id]: value});
-      setDirtyInputs({...dirtyValues, [id]: bar[id] !== value});
+      setDirtyFields({...dirtyFields, [id]: bar[id] !== value});
     }
   };
 
-  const hasDirtyState = Object.values(dirtyValues).some(Boolean);
+  const hasDirtyState = Object.values(dirtyFields).some(Boolean);
 
   return (
     <Page
-      title={bar.title}
+      title={prevFieldsValues.title}
       primaryAction={{
         content: 'Save',
         onAction: handleSubmit,
@@ -80,7 +77,7 @@ const UpdateForm = ({bar, openModal, refetch}: Props) => {
         {
           content: 'Discard',
           disabled: !hasDirtyState,
-          onAction: () => setFieldsValues(bar),
+          onAction: () => setFieldsValues(prevFieldsValues),
         },
       ]}
     >
