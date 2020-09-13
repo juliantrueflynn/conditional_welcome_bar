@@ -3,14 +3,23 @@ import {useHistory} from 'react-router-dom';
 import {GET_ALL_BARS, CREATE_BAR} from '../../utilities/graphql_tags';
 import {BarEntryProps, BarMutationPayload} from '../../types/bar';
 import {useQuery, useMutation} from '@apollo/client';
-import {Page, Layout} from '@shopify/polaris';
+import {Page, Layout, PageProps} from '@shopify/polaris';
 import BarsList from '../bars_list';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
+import LoadingSkeleton from './loading_skeleton';
 
 type BarsQueryData = {
   bars: BarEntryProps[];
 };
+
+const PageLayout = ({primaryAction, children}: PageProps) => (
+  <Page title="Home" primaryAction={primaryAction}>
+    <Layout>
+      <Layout.Section>{children}</Layout.Section>
+    </Layout>
+  </Page>
+);
 
 const IndexBarsView = () => {
   const history = useHistory();
@@ -27,8 +36,6 @@ const IndexBarsView = () => {
     }
   );
 
-  const bars = query.data?.bars;
-  const hasBars = bars && !!bars.length;
   const primaryAction = {
     content: 'Create welcome bar',
     onAction: createBar,
@@ -39,22 +46,24 @@ const IndexBarsView = () => {
     return <NetworkErrorState />;
   }
 
+  if (query.loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (query.data?.bars && !!query.data.bars.length) {
+    return (
+      <PageLayout primaryAction={primaryAction}>
+        <BarsList bars={query.data.bars} />
+      </PageLayout>
+    );
+  }
+
   return (
-    <Page title="Home" primaryAction={primaryAction}>
-      <Layout>
-        <Layout.Section>
-          {!query.loading && !hasBars && (
-            <EmptyState
-              heading="Create welcome bar to start"
-              action={primaryAction}
-            >
-              Create your first welcome bar!
-            </EmptyState>
-          )}
-          {hasBars && <BarsList bars={bars as BarEntryProps[]} />}
-        </Layout.Section>
-      </Layout>
-    </Page>
+    <PageLayout primaryAction={primaryAction}>
+      <EmptyState heading="Create welcome bar to start" action={primaryAction}>
+        Create your first welcome bar!
+      </EmptyState>
+    </PageLayout>
   );
 };
 
