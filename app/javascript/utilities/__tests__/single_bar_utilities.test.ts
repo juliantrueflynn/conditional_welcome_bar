@@ -23,7 +23,6 @@ describe('barFalseMap', () => {
       textColor: false,
       fontSize: false,
       createdAt: false,
-      updatedAt: false,
       __typename: false,
     });
   });

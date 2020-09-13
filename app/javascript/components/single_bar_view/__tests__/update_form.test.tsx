@@ -12,14 +12,12 @@ import {UPDATE_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
 import UpdateForm from '../update_form';
 
-const {createdAt, updatedAt, ...singleBar} = mockBarFields;
-
 it('renders all field groups', async () => {
   render(
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -38,7 +36,7 @@ it('reverts to last save on discard click', () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -62,7 +60,7 @@ it('disables Save button unless changes made', () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -81,21 +79,21 @@ it('disables Save button unless changes made', () => {
 });
 
 it('renders field errors from API', async () => {
-  const {__typename, ...requestVariables} = singleBar;
+  const {__typename, ...requestVariables} = mockBarFields;
   const graphqlMock = {
     request: {
       query: UPDATE_BAR,
       variables: {
         input: {
           ...requestVariables,
-          title: `${singleBar.title}some text`,
+          title: `${mockBarFields.title}some text`,
         },
       },
     },
     result: {
       data: {
         updateBar: {
-          bar: singleBar,
+          bar: mockBarFields,
           userErrors: [
             {
               field: ['title'],
@@ -113,7 +111,7 @@ it('renders field errors from API', async () => {
     <MockedProvider mocks={[graphqlMock]}>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={singleBar} openModal={jest.fn} />
+          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>

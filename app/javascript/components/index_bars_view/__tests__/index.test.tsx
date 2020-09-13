@@ -6,7 +6,6 @@ import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {Route, Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
-import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 import {CREATE_BAR, GET_ALL_BARS} from '../../../utilities/graphql_tags';
 import userEvent from '@testing-library/user-event';
 
@@ -17,9 +16,10 @@ jest.mock('@shopify/polaris', () => ({
   Loading: () => <div data-testid="MockLoading" />,
 }));
 
+const createdAt = new Date().toString();
 const mockBarsData = [
-  {...mockBarFields, id: '1', title: 'Bar #1'},
-  {...mockBarFields, id: '2', title: 'Bar #2'},
+  {id: '1', title: 'Bar #1', content: 'Bar content #1', createdAt},
+  {id: '2', title: 'Bar #2', content: 'Bar content #2', createdAt},
 ];
 const mockQueryRequest = {query: GET_ALL_BARS};
 const mockBarQueryNotEmpty = {

@@ -9,7 +9,6 @@ export enum Bar {
   isFullWidthLink = 'isFullWidthLink',
   hasCloseButton = 'hasCloseButton',
   isSticky = 'isSticky',
-  updatedAt = 'updatedAt',
   createdAt = 'createdAt',
   themeTemplates = 'themeTemplates',
   paddingY = 'paddingY',

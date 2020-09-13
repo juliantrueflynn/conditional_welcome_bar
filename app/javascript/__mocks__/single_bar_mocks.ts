@@ -18,7 +18,5 @@ export const mockBarFields: BarType = {
   themeTemplates: ['cart'],
   textColor: 'rgba(45,52,54,1.0)',
   fontSize: '14px',
-  createdAt: new Date().toString(),
-  updatedAt: new Date().toString(),
   __typename: 'Bar',
 };

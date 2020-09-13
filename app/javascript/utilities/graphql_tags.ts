@@ -7,7 +7,6 @@ export const GET_ALL_BARS = gql`
       title
       content
       createdAt
-      updatedAt
     }
   }
 `;
