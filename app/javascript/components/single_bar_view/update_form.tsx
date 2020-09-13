@@ -2,7 +2,7 @@ import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
 import {ApolloQueryResult, useMutation} from '@apollo/client';
-import {BarType, Bar, BarFieldErrors} from '../../types/bar';
+import {BarType, Bar, BarFieldErrors, UserError} from '../../types/bar';
 import {BarQueryData, BarQueryVars} from './types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {FieldChangeValue} from '../../types/fields';
@@ -18,11 +18,19 @@ type Props = {
   ) => Promise<ApolloQueryResult<BarQueryData>>;
 };
 
+type BarUpdateProps = {
+  bar?: BarType;
+  userErrors?: UserError[];
+};
+
 const UpdateForm = ({bar, openModal, refetch}: Props) => {
   const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
 
-  const [updateBar, {loading, data}] = useMutation(UPDATE_BAR, {
+  const [updateBar, {loading, data}] = useMutation<
+    {updateBar: BarUpdateProps},
+    {input: BarType}
+  >(UPDATE_BAR, {
     onCompleted: () => setDirtyInputs(barFalseMap),
   });
 
