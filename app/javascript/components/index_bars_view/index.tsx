@@ -1,9 +1,9 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 import {GET_ALL_BARS, CREATE_BAR} from '../../utilities/graphql_tags';
-import {BarEntryProps, BarMutationPayload} from '../../types/bar';
 import {useQuery, useMutation} from '@apollo/client';
 import {Page, Layout, PageProps} from '@shopify/polaris';
+import {BarEntryProps, BarMutationPayload} from './types';
 import {PAGE_TITLE} from './constants';
 import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
 import BarsList from './bars_list';
