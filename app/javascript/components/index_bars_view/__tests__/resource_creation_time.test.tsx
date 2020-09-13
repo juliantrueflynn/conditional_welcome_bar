@@ -1,6 +1,6 @@
 import React from 'react';
 import {screen, render} from '@testing-library/react';
-import BarCreationDate from '..';
+import ResourceCreationTime from '../resource_creation_time';
 
 const locale = 'en-US';
 const mockCreatedAt = new Date().toString();
@@ -25,21 +25,21 @@ const getMockedTimeString = () =>
 
 it('renders "Just now" if under a minute', () => {
   mockSecondsAgo(1);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText('Just now')).toBeInTheDocument();
 });
 
 it('renders "1 minute ago" if over a minute and under an hour', () => {
   mockSecondsAgo(GREATER_THAN_1_MIN_IN_SECONDS);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText('1 minute ago')).toBeInTheDocument();
 });
 
 it('pluralizes minutes if over one', () => {
   mockSecondsAgo(GREATER_THAN_1_MIN_IN_SECONDS * 2);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText('2 minutes ago')).toBeInTheDocument();
 });
@@ -47,7 +47,7 @@ it('pluralizes minutes if over one', () => {
 it('renders AM/PM time if over 1 hour and within the day', () => {
   const time = getMockedTimeString();
   mockSecondsAgo(GREATER_THAN_1_HOUR_IN_SECONDS);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText(time)).toBeInTheDocument();
 });
@@ -56,7 +56,7 @@ it('renders "{DayName} at {AM/PM time}" if greater current day and within week',
   const time = getMockedTimeString();
   const weekday = new Date().toLocaleString(locale, {weekday: 'long'});
   mockSecondsAgo(GREATER_THAN_1_DAY_IN_SECONDS);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText(`${weekday} at ${time}`)).toBeInTheDocument();
 });
@@ -68,7 +68,7 @@ it('renders "{ShortMonthName} {DayNumber} at {AM/PM time}" if greater than week 
     day: 'numeric',
   });
   mockSecondsAgo(GREATER_THAN_1_WEEK_IN_SECONDS);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText(`${date} at ${time}`)).toBeInTheDocument();
 });
@@ -80,7 +80,7 @@ it('renders "{ShortMonthName} {DayNumber}, {Year}" if greater than 1 year', () =
     day: 'numeric',
   });
   mockSecondsAgo(GREATER_THAN_1_YEAR_IN_SECONDS);
-  render(<BarCreationDate createdAt={mockCreatedAt} locale={locale} />);
+  render(<ResourceCreationTime createdAt={mockCreatedAt} locale={locale} />);
 
   expect(screen.getByText(date)).toBeInTheDocument();
 });

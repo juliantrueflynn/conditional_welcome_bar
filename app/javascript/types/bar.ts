@@ -49,17 +49,14 @@ export type UserError = {
   readonly message: string;
 };
 
-export type BarPayload = {
-  createBar: {
-    bar: BarType | null;
-    errors: UserError[];
-  };
-  destroyBar: {
-    bar: BarType | null;
-    errors: UserError[];
-  };
-  updateBar: {
-    bar: BarType | null;
-    errors: UserError[];
-  };
+export type BarEntryProps = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+};
+
+export type BarMutationPayload = {
+  bar?: BarType;
+  userErrors?: UserError[];
 };
