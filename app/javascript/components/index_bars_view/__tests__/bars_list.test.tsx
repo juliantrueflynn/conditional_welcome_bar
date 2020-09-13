@@ -1,5 +1,5 @@
 import React from 'react';
-import BarsList from '..';
+import BarsList from '../bars_list';
 import {screen, render} from '@testing-library/react';
 import {PolarisTestProvider} from '@shopify/polaris';
 

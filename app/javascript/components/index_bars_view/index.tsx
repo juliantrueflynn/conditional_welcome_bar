@@ -6,7 +6,7 @@ import {useQuery, useMutation} from '@apollo/client';
 import {Page, Layout, PageProps} from '@shopify/polaris';
 import {PAGE_TITLE} from './constants';
 import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
-import BarsList from '../bars_list';
+import BarsList from './bars_list';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
 import LoadingSkeleton from './loading_skeleton';
