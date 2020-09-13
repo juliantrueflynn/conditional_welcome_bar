@@ -1,8 +1,9 @@
 import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
-import {useMutation} from '@apollo/client';
+import {ApolloQueryResult, useMutation} from '@apollo/client';
 import {BarType, Bar, BarFieldErrors} from '../../types/bar';
+import {BarQueryData, BarQueryVars} from '../single_bar_view/types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {FieldChangeValue} from '../../types/fields';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
@@ -12,9 +13,12 @@ import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 type Props = {
   bar: BarType;
   openModal: () => void;
+  refetch: (
+    variables?: Partial<BarQueryVars> | undefined
+  ) => Promise<ApolloQueryResult<BarQueryData>>;
 };
 
-const SingleBar = ({bar, openModal}: Props) => {
+const SingleBar = ({bar, openModal, refetch}: Props) => {
   const [dirtyValues, setDirtyInputs] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
 
@@ -33,9 +37,10 @@ const SingleBar = ({bar, openModal}: Props) => {
     }, {} as BarFieldErrors);
   }, [data, dirtyValues]);
 
-  const handleUpdate = () => {
+  const handleSubmit = async () => {
     const {__typename, ...attributes} = fieldsValues;
-    updateBar({variables: {input: attributes}});
+    await updateBar({variables: {input: attributes}});
+    refetch();
   };
 
   const handleFieldValueChange = (value: FieldChangeValue, id: Bar) => {
@@ -58,7 +63,7 @@ const SingleBar = ({bar, openModal}: Props) => {
       title={bar.title}
       primaryAction={{
         content: 'Save',
-        onAction: handleUpdate,
+        onAction: handleSubmit,
         disabled: !hasDirtyState,
         loading,
       }}
@@ -71,7 +76,7 @@ const SingleBar = ({bar, openModal}: Props) => {
         },
       ]}
     >
-      <Form onSubmit={handleUpdate}>
+      <Form onSubmit={handleSubmit}>
         <Layout>
           <FieldGroup id="editor">
             <TextField

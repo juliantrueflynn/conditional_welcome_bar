@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
+import {BarQueryData, BarQueryVars} from './types';
 import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
 import SingleBar from '../single_bar';
 import NetworkErrorState from '../network_error_state';
@@ -15,32 +16,37 @@ type RouterProps = {
 const SingleBarView = () => {
   const {barId} = useParams<RouterProps>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {loading, data, error} = useQuery(GET_SINGLE_BAR, {
+
+  const query = useQuery<BarQueryData, BarQueryVars>(GET_SINGLE_BAR, {
     variables: {id: barId},
   });
 
-  if (error) {
+  if (query.error) {
     return <NetworkErrorState />;
   }
 
-  if (loading) {
+  if (query.loading) {
     return <LoadingSkeleton />;
   }
 
-  if (!loading && !data?.bar) {
-    return <NotFound />;
+  if (query.data?.bar) {
+    return (
+      <>
+        <ModalDestroyBar
+          onClose={() => setIsModalOpen(false)}
+          isModalOpen={isModalOpen}
+          barId={barId}
+        />
+        <SingleBar
+          bar={query.data.bar}
+          openModal={() => setIsModalOpen(true)}
+          refetch={query.refetch}
+        />
+      </>
+    );
   }
 
-  return (
-    <>
-      <SingleBar bar={data.bar} openModal={() => setIsModalOpen(true)} />
-      <ModalDestroyBar
-        onClose={() => setIsModalOpen(false)}
-        isModalOpen={isModalOpen}
-        barId={barId}
-      />
-    </>
-  );
+  return <NotFound />;
 };
 
 export default SingleBarView;
