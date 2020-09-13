@@ -5,7 +5,6 @@ describe('barFalseMap', () => {
     const result = barFalseMap;
 
     expect(result).toMatchObject({
-      id: false,
       title: false,
       content: false,
       url: false,

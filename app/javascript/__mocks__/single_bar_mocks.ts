@@ -1,7 +1,6 @@
-import {BarProps} from '../components/single_bar_view/types';
+import {BarFields} from '../types';
 
-export const mockBarFields: BarProps = {
-  id: '1',
+export const mockBarFields: BarFields = {
   title: 'Some title',
   content: 'Some content',
   url: 'https://example.com',

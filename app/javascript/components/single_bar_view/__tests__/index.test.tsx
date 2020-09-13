@@ -18,13 +18,14 @@ jest.mock('@shopify/polaris', () => ({
   Loading: () => <div data-testid="MockLoading" />,
 }));
 
+const barId = '1';
 const {__typename, ...mockBar} = mockBarFields;
-const mockRouterHistory = () =>
+const mockHistory = () =>
   createMemoryHistory({
-    initialEntries: [`/bars/${mockBar.id}`],
+    initialEntries: [`/bars/${barId}`],
   });
 
-const request = {query: GET_SINGLE_BAR, variables: {id: mockBar.id}};
+const request = {query: GET_SINGLE_BAR, variables: {id: barId}};
 const mockBarSuccessQuery = {request, result: {data: {bar: mockBar}}};
 const mockBarNullQuery = {request, result: {data: {bar: null}}};
 const mockBarErrorQuery = {request, error: new Error('mock error')};
@@ -40,7 +41,7 @@ it('renders loading state and before rendering single bar', async (done) => {
   setupWindowMocks();
   render(
     <MockedProvider mocks={[mockBarSuccessQuery]} addTypename={false}>
-      <Router history={mockRouterHistory()}>
+      <Router history={mockHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
@@ -65,7 +66,7 @@ it('triggers destroy modal on click', async () => {
   setupWindowMocks();
   render(
     <MockedProvider mocks={[mockBarSuccessQuery]} addTypename={false}>
-      <Router history={mockRouterHistory()}>
+      <Router history={mockHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
@@ -90,7 +91,7 @@ it('renders network error', async () => {
   setupWindowMocks();
   render(
     <MockedProvider mocks={[mockBarErrorQuery]} addTypename={false}>
-      <Router history={mockRouterHistory()}>
+      <Router history={mockHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
@@ -109,7 +110,7 @@ it('renders missing state if result blank', async () => {
   setupWindowMocks();
   render(
     <MockedProvider mocks={[mockBarNullQuery]} addTypename={false}>
-      <Router history={mockRouterHistory()}>
+      <Router history={mockHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
