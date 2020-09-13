@@ -2,7 +2,7 @@ import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
 import {useMutation} from '@apollo/client';
-import {BarType, Bar, BarFieldErrors, UserError} from '../../types/bar';
+import {BarType, Bar, UserError} from '../../types/bar';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
@@ -19,7 +19,7 @@ type BarUpdateProps = {
 };
 
 type BarFieldErrors = {
-  -readonly [key in keyof typeof Bar]: boolean | string[] | undefined;
+  [key in keyof BarType]: boolean | string[] | undefined;
 };
 
 const UpdateForm = ({bar, openModal}: Props) => {
