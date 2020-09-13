@@ -1,4 +1,4 @@
-import {Bar} from '../types/bar';
+import {Bar} from '../types';
 
 export const barFalseMap = (Object.keys(Bar) as Bar[]).reduce(
   (nullMap, key) => {

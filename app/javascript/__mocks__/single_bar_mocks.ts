@@ -1,4 +1,4 @@
-import {BarType} from '../types/bar';
+import {BarType} from '../types';
 
 export const mockBarFields: BarType = {
   id: '1',

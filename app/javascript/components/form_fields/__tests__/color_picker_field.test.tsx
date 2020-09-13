@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
+import {Bar} from '../../../types';
 import ColorPickerField from '../color_picker_field';
-import {Bar} from '../../../types/bar';
 
 it('renders label if present', () => {
   render(

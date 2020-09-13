@@ -5,7 +5,7 @@ import {
   rgbToHsb,
   hsbToRgb,
 } from '@shopify/polaris';
-import {Bar, BarType} from '../../types/bar';
+import {Bar, BarType} from '../../types';
 
 const hsbToRgbString = (hsb: HSBAColor) => {
   const rgbMap = hsbToRgb(hsb);

@@ -31,7 +31,6 @@ export type BarType = {
   [Bar.isFullWidthLink]: boolean;
   [Bar.hasCloseButton]: boolean;
   [Bar.isSticky]: boolean;
-  [Bar.updatedAt]?: string;
   [Bar.createdAt]?: string;
   [Bar.themeTemplates]: string[];
   [Bar.paddingY]: string;

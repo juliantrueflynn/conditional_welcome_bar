@@ -1,6 +1,6 @@
 import React from 'react';
 import {ChoiceListProps, ChoiceList, Error} from '@shopify/polaris';
-import {Bar} from '../../types/bar';
+import {Bar} from '../../types';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 

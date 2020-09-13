@@ -1,4 +1,4 @@
-import {BarType, UserError} from '../types/bar';
+import {BarType, UserError} from '../types';
 
 type BarErrorPayload = {
   [key in keyof BarType]?: string[];

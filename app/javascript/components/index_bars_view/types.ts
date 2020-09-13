@@ -5,4 +5,4 @@ export type BarEntryProps = {
   createdAt: string;
 };
 
-export type {BarMutationPayload} from '../../types/bar';
+export type {BarMutationPayload} from '../../types';
