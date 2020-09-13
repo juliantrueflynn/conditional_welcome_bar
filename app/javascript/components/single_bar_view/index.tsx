@@ -46,6 +46,7 @@ const SingleBarView = () => {
           barId={barId}
         />
         <UpdateForm
+          barId={barId}
           bar={query.data.bar}
           openModal={() => setIsModalOpen(true)}
         />

@@ -6,9 +6,11 @@ import {Bar, BarFields, UserError} from '../../types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
+import {useToastDispatchContext} from '../ToastContext';
 import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 
 type Props = {
+  barId: string;
   bar: BarFields;
   openModal: () => void;
 };
@@ -22,16 +24,21 @@ type BarFieldErrors = {
   [key in keyof BarFields]: boolean | string[] | undefined;
 };
 
-const UpdateForm = ({bar, openModal}: Props) => {
+const UpdateForm = ({barId, bar, openModal}: Props) => {
+  const toastDispatch = useToastDispatchContext();
   const [dirtyFields, setDirtyFields] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
   const [prevFieldsValues, setPrevFieldsValues] = useState(bar);
 
   const [updateBar, {loading, data}] = useMutation<
     {updateBar: UpdateBarPayload},
-    {input: BarFields}
+    {input: BarFields & {id: string}}
   >(UPDATE_BAR, {
-    onCompleted: () => setDirtyFields(barFalseMap),
+    onCompleted: () => {
+      setDirtyFields(barFalseMap);
+      setPrevFieldsValues(fieldsValues);
+      toastDispatch({type: 'bar/update'});
+    },
   });
 
   const fieldErrors = useMemo(() => {
@@ -47,8 +54,7 @@ const UpdateForm = ({bar, openModal}: Props) => {
 
   const handleSubmit = async () => {
     const {__typename, ...attributes} = fieldsValues;
-    await updateBar({variables: {input: attributes}});
-    setPrevFieldsValues(fieldsValues);
+    await updateBar({variables: {input: {id: barId, ...attributes}}});
   };
 
   const handleFieldValueChange = (
