@@ -1,48 +1,59 @@
-import React from 'react';
-import {useParams, useHistory} from 'react-router-dom';
+import React, {useState} from 'react';
+import {useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
+import {BarType} from '../../types/bar';
 import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
-import SingleBar from '../single_bar';
-import LoadingManager from '../loading_manager';
-import EmptyState from '../empty_state';
+import UpdateForm from './update_form';
 import NetworkErrorState from '../network_error_state';
+import ModalDestroyBar from '../modal_destroy_bar';
+import LoadingSkeleton from './loading_skeleton';
+import NotFound from './not_found';
 
 type RouterProps = {
   barId: string;
 };
 
+type BarQueryData = {
+  bar: BarType;
+};
+
+type BarQueryVars = {
+  id: string;
+};
+
 const SingleBarView = () => {
-  const history = useHistory();
   const {barId} = useParams<RouterProps>();
-  const {loading, data, error} = useQuery(GET_SINGLE_BAR, {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const query = useQuery<BarQueryData, BarQueryVars>(GET_SINGLE_BAR, {
     variables: {id: barId},
   });
-  const bar = data && data.bar;
 
-  if (error) {
+  if (query.error) {
     return <NetworkErrorState />;
   }
 
-  if (!loading && !bar) {
+  if (query.loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (query.data?.bar) {
     return (
-      <EmptyState
-        heading="The page you&rsquo;re looking for couldn&rsquo;t be found"
-        action={{
-          content: 'View all welcome bars',
-          onAction: () => history.push({pathname: '/'}),
-        }}
-      >
-        Check the web address to make sure you entered the right welcome bar. Or
-        navigate to the page from the View All welcome bars list.
-      </EmptyState>
+      <>
+        <ModalDestroyBar
+          onClose={() => setIsModalOpen(false)}
+          isModalOpen={isModalOpen}
+          barId={barId}
+        />
+        <UpdateForm
+          bar={query.data.bar}
+          openModal={() => setIsModalOpen(true)}
+        />
+      </>
     );
   }
 
-  return (
-    <LoadingManager loadingTo="single" isLoading={loading}>
-      <SingleBar bar={bar} />
-    </LoadingManager>
-  );
+  return <NotFound />;
 };
 
 export default SingleBarView;

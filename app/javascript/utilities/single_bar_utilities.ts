@@ -1,5 +1,8 @@
 import {Bar} from '../types/bar';
-import {BarFormProps} from '../types/fields';
+
+export type BarMap = {
+  [K in Bar]: boolean;
+};
 
 export const barFalseMap = (Object.keys(Bar) as Bar[]).reduce(
   (nullMap, key) => {
@@ -7,5 +10,5 @@ export const barFalseMap = (Object.keys(Bar) as Bar[]).reduce(
 
     return nullMap;
   },
-  {} as BarFormProps
+  {} as BarMap
 );

@@ -1,6 +1,7 @@
 import {enableFetchMocks} from 'jest-fetch-mock';
 import React from 'react';
-import {screen, render} from '@testing-library/react';
+import {screen, render, waitFor} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {createMemoryHistory} from 'history';
@@ -10,26 +11,36 @@ import {Router, Route} from 'react-router';
 import ToastContextProvider from '../../ToastContext';
 import SingleBarView from '..';
 
-const {__typename, createdAt, updatedAt, ...singleBarMock} = mockBarFields;
-const stubbedHistoryEntries = createMemoryHistory({
-  initialEntries: [`/bars/${singleBarMock.id}`],
-});
-const mockGraphqlRequest = {
-  query: GET_SINGLE_BAR,
-  variables: {id: singleBarMock.id.toString()},
+jest.mock('@shopify/polaris', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...(jest.requireActual('@shopify/polaris') as any),
+  // eslint-disable-next-line react/display-name
+  Loading: () => <div data-testid="MockLoading" />,
+}));
+
+const {__typename, createdAt, updatedAt, ...mockBar} = mockBarFields;
+const mockRouterHistory = () =>
+  createMemoryHistory({
+    initialEntries: [`/bars/${mockBar.id}`],
+  });
+
+const request = {query: GET_SINGLE_BAR, variables: {id: mockBar.id}};
+const mockBarSuccessQuery = {request, result: {data: {bar: mockBar}}};
+const mockBarNullQuery = {request, result: {data: {bar: null}}};
+const mockBarErrorQuery = {request, error: new Error('mock error')};
+
+const setupWindowMocks = () => {
+  enableFetchMocks();
+  Object.defineProperty(window, 'scroll', {
+    value: jest.fn(),
+  });
 };
 
-it('renders single bar', async () => {
-  enableFetchMocks();
-  const graphqlMock = {
-    request: mockGraphqlRequest,
-    result: {
-      data: {bar: {...singleBarMock, id: singleBarMock.id.toString()}},
-    },
-  };
+it('renders loading state and before rendering single bar', async (done) => {
+  setupWindowMocks();
   render(
-    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
-      <Router history={stubbedHistoryEntries}>
+    <MockedProvider mocks={[mockBarSuccessQuery]} addTypename={false}>
+      <Router history={mockRouterHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
@@ -41,18 +52,20 @@ it('renders single bar', async () => {
     </MockedProvider>
   );
 
-  expect(await screen.findByText(singleBarMock.title)).toBeInTheDocument();
+  expect(screen.getByTestId('MockLoading')).toBeInTheDocument();
+  expect(screen.queryByText(mockBar.title)).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.queryByTestId('MockLoading')).not.toBeInTheDocument();
+  });
+  expect(screen.getByText(mockBar.title)).toBeInTheDocument();
+  done();
 });
 
-it('renders error instead of entry', async () => {
-  enableFetchMocks();
-  const graphqlMock = {
-    request: mockGraphqlRequest,
-    error: new Error('forced network error'),
-  };
+it('triggers destroy modal on click', async () => {
+  setupWindowMocks();
   render(
-    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
-      <Router history={stubbedHistoryEntries}>
+    <MockedProvider mocks={[mockBarSuccessQuery]} addTypename={false}>
+      <Router history={mockRouterHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
@@ -63,23 +76,40 @@ it('renders error instead of entry', async () => {
       </Router>
     </MockedProvider>
   );
-  const errorText = 'Reload this page';
+  const errorMessage =
+    'This will delete the current welcome bar and cannot be undone.';
 
-  expect(await screen.findByText(errorText)).toBeInTheDocument();
-  expect(screen.queryByText(singleBarMock.title)).not.toBeInTheDocument();
+  await waitFor(() =>
+    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
+  );
+  userEvent.click(screen.getByText('Delete'));
+  expect(screen.getByText(errorMessage)).toBeInTheDocument();
+});
+
+it('renders network error', async () => {
+  setupWindowMocks();
+  render(
+    <MockedProvider mocks={[mockBarErrorQuery]} addTypename={false}>
+      <Router history={mockRouterHistory()}>
+        <PolarisTestProvider>
+          <ToastContextProvider>
+            <Route path="/bars/:barId">
+              <SingleBarView />
+            </Route>
+          </ToastContextProvider>
+        </PolarisTestProvider>
+      </Router>
+    </MockedProvider>
+  );
+
+  expect(await screen.findByText('Reload this page')).toBeInTheDocument();
 });
 
 it('renders missing state if result blank', async () => {
-  enableFetchMocks();
-  const graphqlMock = {
-    request: mockGraphqlRequest,
-    result: {
-      data: {bar: null},
-    },
-  };
+  setupWindowMocks();
   render(
-    <MockedProvider mocks={[graphqlMock]} addTypename={false}>
-      <Router history={stubbedHistoryEntries}>
+    <MockedProvider mocks={[mockBarNullQuery]} addTypename={false}>
+      <Router history={mockRouterHistory()}>
         <PolarisTestProvider>
           <ToastContextProvider>
             <Route path="/bars/:barId">
@@ -90,7 +120,8 @@ it('renders missing state if result blank', async () => {
       </Router>
     </MockedProvider>
   );
-  const missingText = 'The page you’re looking for couldn’t be found';
 
-  expect(await screen.findByText(missingText)).toBeInTheDocument();
+  expect(
+    await screen.findByText('The page you’re looking for couldn’t be found')
+  ).toBeInTheDocument();
 });

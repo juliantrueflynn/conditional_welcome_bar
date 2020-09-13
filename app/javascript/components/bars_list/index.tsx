@@ -1,10 +1,16 @@
 import React from 'react';
 import {ResourceList, Card} from '@shopify/polaris';
-import {BarType} from '../../types/bar';
 import BarsListItem from '../bars_list_item';
 
+type BarEntryProps = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+};
+
 type Props = {
-  bars: BarType[];
+  bars: BarEntryProps[];
 };
 
 const resourceName = {
@@ -21,7 +27,7 @@ const BarsList = ({bars}: Props) => {
       <ResourceList
         resourceName={resourceName}
         items={bars}
-        renderItem={(bar: BarType) => <BarsListItem {...bar} locale={locale} />}
+        renderItem={(bar) => <BarsListItem {...bar} locale={locale} />}
       />
     </Card>
   );
