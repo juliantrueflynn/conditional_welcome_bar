@@ -1,6 +1,6 @@
-import {BarType} from '../types';
+import {BarProps} from '../components/single_bar_view/types';
 
-export const mockBarFields: BarType = {
+export const mockBarFields: BarProps = {
   id: '1',
   title: 'Some title',
   content: 'Some content',
