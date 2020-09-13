@@ -2,7 +2,7 @@ import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
 import {useMutation} from '@apollo/client';
-import {BarType, Bar, UserError} from '../../types/bar';
+import {BarType, Bar, BarMutationPayload} from '../../types/bar';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
@@ -11,11 +11,6 @@ import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 type Props = {
   bar: BarType;
   openModal: () => void;
-};
-
-type BarUpdateProps = {
-  bar?: BarType;
-  userErrors?: UserError[];
 };
 
 type BarFieldErrors = {
@@ -28,7 +23,7 @@ const UpdateForm = ({bar, openModal}: Props) => {
   const [prevFieldsValues, setPrevFieldsValues] = useState(bar);
 
   const [updateBar, {loading, data}] = useMutation<
-    {updateBar: BarUpdateProps},
+    {updateBar: BarMutationPayload},
     {input: BarType}
   >(UPDATE_BAR, {
     onCompleted: () => setDirtyFields(barFalseMap),

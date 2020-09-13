@@ -1,12 +1,9 @@
 import React from 'react';
 import {ResourceItem, TextStyle, Caption} from '@shopify/polaris';
+import {BarEntryProps} from '../../types/bar';
 import BarCreationDate from '../bar_creation_date';
 
-type Props = {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: string;
+type Props = BarEntryProps & {
   locale: string;
 };
 
