@@ -1,5 +1,5 @@
 import React from 'react';
-import {screen, render} from '@testing-library/react';
+import {screen, render, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
@@ -12,12 +12,15 @@ import {UPDATE_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
 import UpdateForm from '../update_form';
 
+const {__typename, ...graphqlRequestVariables} = mockBarFields;
+const updateMutationVariables = {id: '1', ...graphqlRequestVariables};
+
 it('renders all field groups', async () => {
   render(
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -36,7 +39,7 @@ it('reverts to last save on discard click', () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -60,7 +63,7 @@ it('disables Save button unless changes made', () => {
     <MockedProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>
@@ -78,14 +81,56 @@ it('disables Save button unless changes made', () => {
   expect(saveButton).toBeDisabled();
 });
 
-it('renders field errors from API', async () => {
-  const {__typename, ...requestVariables} = mockBarFields;
+it('updates on submit and sets old state to new state', async () => {
+  let hasUpdateMutationCalled = false;
   const graphqlMock = {
     request: {
       query: UPDATE_BAR,
       variables: {
         input: {
-          ...requestVariables,
+          ...updateMutationVariables,
+          title: `${mockBarFields.title}some text`,
+        },
+      },
+    },
+    result: () => {
+      hasUpdateMutationCalled = true;
+
+      return {
+        data: {
+          updateBar: {bar: mockBarFields, __typename: 'updateBar'},
+        },
+      };
+    },
+  };
+
+  render(
+    <MockedProvider mocks={[graphqlMock]}>
+      <PolarisTestProvider>
+        <ToastContextProvider>
+          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
+        </ToastContextProvider>
+      </PolarisTestProvider>
+    </MockedProvider>
+  );
+
+  userEvent.type(screen.getByPlaceholderText('Title'), 'some text');
+  userEvent.click(screen.getByText('Save'));
+
+  await waitFor(() => expect(hasUpdateMutationCalled).toBe(true));
+  expect(screen.getByText('Save').closest('button')).toBeDisabled();
+  expect(screen.getByPlaceholderText('Title')).toHaveValue(
+    `${mockBarFields.title}some text`
+  );
+});
+
+it('renders field errors from API', async () => {
+  const graphqlMock = {
+    request: {
+      query: UPDATE_BAR,
+      variables: {
+        input: {
+          ...updateMutationVariables,
           title: `${mockBarFields.title}some text`,
         },
       },
@@ -111,7 +156,7 @@ it('renders field errors from API', async () => {
     <MockedProvider mocks={[graphqlMock]}>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </MockedProvider>

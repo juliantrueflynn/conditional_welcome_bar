@@ -21,9 +21,7 @@ jest.mock('@shopify/polaris', () => ({
 const barId = '1';
 const {__typename, ...mockBar} = mockBarFields;
 const mockHistory = () =>
-  createMemoryHistory({
-    initialEntries: [`/bars/${barId}`],
-  });
+  createMemoryHistory({initialEntries: [`/bars/${barId}`]});
 
 const request = {query: GET_SINGLE_BAR, variables: {id: barId}};
 const mockBarSuccessQuery = {request, result: {data: {bar: mockBar}}};

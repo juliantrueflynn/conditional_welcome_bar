@@ -1,5 +1,11 @@
 import toastReducer, {initialState} from '../toast';
 
+it('returns welcome bar updated content', () => {
+  const result = toastReducer(initialState, {type: 'bar/update'});
+
+  expect(result).toEqual({content: 'Welcome bar updated'});
+});
+
 it('returns welcome bar delete content', () => {
   const result = toastReducer(initialState, {type: 'bar/destroy'});
 
