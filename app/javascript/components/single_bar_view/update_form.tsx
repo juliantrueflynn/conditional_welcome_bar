@@ -18,6 +18,10 @@ type BarUpdateProps = {
   userErrors?: UserError[];
 };
 
+type BarFieldErrors = {
+  -readonly [key in keyof typeof Bar]: boolean | string[] | undefined;
+};
+
 const UpdateForm = ({bar, openModal}: Props) => {
   const [dirtyFields, setDirtyFields] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);

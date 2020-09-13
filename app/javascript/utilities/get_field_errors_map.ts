@@ -1,4 +1,8 @@
-import {BarErrorPayload, UserError} from '../types/bar';
+import {Bar, UserError} from '../types/bar';
+
+type BarErrorPayload = {
+  -readonly [key in keyof typeof Bar]?: string[];
+};
 
 export const getFieldErrorsMap = (
   errors: UserError[] | undefined
