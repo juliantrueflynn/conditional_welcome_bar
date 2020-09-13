@@ -6,13 +6,12 @@ import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {createMemoryHistory} from 'history';
 import {Router, Route} from 'react-router';
-import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
 import {DESTROY_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
 import ModalDestroyBar from '..';
 
 const onClose = jest.fn();
-const barId = mockBarFields.id;
+const barId = '1';
 
 const stubWindowScroll = () => {
   Object.defineProperty(window, 'scroll', {

@@ -5,7 +5,7 @@ import {
   rgbToHsb,
   hsbToRgb,
 } from '@shopify/polaris';
-import {Bar} from '../../types';
+import {BarFields} from '../../types';
 
 const hsbToRgbString = (hsb: HSBAColor) => {
   const rgbMap = hsbToRgb(hsb);
@@ -25,10 +25,10 @@ const rgbStringToHsb = (rgb: string): HSBAColor => {
 };
 
 type Props = {
-  id: Bar;
+  id: keyof BarFields;
   label?: string;
   value: string;
-  onChange: (value: string, id: Bar) => void;
+  onChange: (value: BarFields[keyof BarFields], id: keyof BarFields) => void;
 };
 
 // Label element is not allowed due to htmlFor being pointed to div without aria labels allowed.

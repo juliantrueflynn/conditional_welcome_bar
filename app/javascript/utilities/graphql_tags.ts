@@ -14,7 +14,6 @@ export const GET_ALL_BARS = gql`
 export const GET_SINGLE_BAR = gql`
   query Bar($id: ID!) {
     bar(id: $id) {
-      id
       title
       content
       url

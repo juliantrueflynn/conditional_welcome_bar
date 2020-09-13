@@ -2,14 +2,14 @@ import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
 import {useMutation} from '@apollo/client';
-import {BarProps, BarFields, Bar, UserError} from './types';
+import {Bar, BarFields, UserError} from '../../types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
 import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 
 type Props = {
-  bar: BarProps;
+  bar: BarFields;
   openModal: () => void;
 };
 
@@ -29,14 +29,14 @@ const UpdateForm = ({bar, openModal}: Props) => {
 
   const [updateBar, {loading, data}] = useMutation<
     {updateBar: UpdateBarPayload},
-    {input: BarProps}
+    {input: BarFields}
   >(UPDATE_BAR, {
     onCompleted: () => setDirtyFields(barFalseMap),
   });
 
   const fieldErrors = useMemo(() => {
     const errorMap = getFieldErrorsMap(data?.updateBar?.userErrors);
-    const fieldKeys = Object.keys(errorMap) as Array<keyof BarFieldErrors>;
+    const fieldKeys = Object.keys(errorMap) as Array<keyof BarFields>;
 
     return fieldKeys.reduce((acc, key) => {
       acc[key] = !dirtyFields[key] && errorMap[key];
@@ -51,16 +51,22 @@ const UpdateForm = ({bar, openModal}: Props) => {
     setPrevFieldsValues(fieldsValues);
   };
 
-  const handleFieldValueChange = (value: BarProps[Bar], id: Bar) => {
-    if (Array.isArray(bar[id])) {
+  const handleFieldValueChange = (
+    value: BarFields[keyof BarFields],
+    id: keyof BarFields
+  ) => {
+    if (Array.isArray(prevFieldsValues[id])) {
       setFieldsValues({...fieldsValues, [id]: value});
-      setDirtyFields({...dirtyFields, [id]: !isEqual(bar[id], value)});
+      setDirtyFields({
+        ...dirtyFields,
+        [id]: !isEqual(prevFieldsValues[id], value),
+      });
     } else if (Array.isArray(value)) {
       setFieldsValues({...fieldsValues, [id]: value[0]});
-      setDirtyFields({...dirtyFields, [id]: bar[id] !== value[0]});
+      setDirtyFields({...dirtyFields, [id]: prevFieldsValues[id] !== value[0]});
     } else {
       setFieldsValues({...fieldsValues, [id]: value});
-      setDirtyFields({...dirtyFields, [id]: bar[id] !== value});
+      setDirtyFields({...dirtyFields, [id]: prevFieldsValues[id] !== value});
     }
   };
 

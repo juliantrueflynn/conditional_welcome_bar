@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
-import {BarFields} from './types';
+import {BarFields} from '../../types';
 import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
 import UpdateForm from './update_form';
 import NetworkErrorState from '../network_error_state';
