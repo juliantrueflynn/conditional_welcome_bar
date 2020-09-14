@@ -1,3 +1,4 @@
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const environment = require('./environment');
@@ -16,5 +17,16 @@ environment.plugins.append(
     async: false,
   })
 );
+
+if (process.env.WEBPACK_DEV_SERVER) {
+  environment.plugins.append(
+    'ReactRefreshWebpackPlugin',
+    new ReactRefreshWebpackPlugin({
+      overlay: {
+        sockPort: 3035,
+      },
+    })
+  );
+}
 
 module.exports = environment.toWebpackConfig();

@@ -8,7 +8,8 @@ RUN apk add --no-cache \
     nodejs \
     postgresql-dev \
     tzdata \
-    yarn
+    yarn \
+    libnotify-dev
 
 WORKDIR /app
 

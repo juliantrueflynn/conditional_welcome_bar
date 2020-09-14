@@ -3,7 +3,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 const environment = require('./environment');
 
 if (process.env.BUNDLE_ANALYZE) {
-  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+  const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
   environment.plugins.append(
     'BundleAnalyzer',

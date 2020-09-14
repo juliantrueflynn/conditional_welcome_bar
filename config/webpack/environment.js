@@ -1,4 +1,4 @@
-const { environment } = require('@rails/webpacker');
+const {environment} = require('@rails/webpacker');
 const dotenv = require('dotenv');
 
 const dotenvFiles = [
@@ -9,7 +9,7 @@ const dotenvFiles = [
 ];
 
 dotenvFiles.forEach((dotenvFile) => {
-  dotenv.config({ path: dotenvFile, silent: true });
+  dotenv.config({path: dotenvFile, silent: true});
 });
 
 environment.splitChunks((config) =>

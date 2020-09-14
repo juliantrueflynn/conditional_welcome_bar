@@ -9,6 +9,7 @@ x-default-service: &default-service
   env_file: .env
   environment:
     BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
+    WEBPACKER_DEV_SERVER_HOST: webpacker
     # Temporary workaround to avoid the following error from Ruby 2.7:
     # "warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call"
     RUBYOPT: -W:no-deprecated
