@@ -32,8 +32,4 @@ class Bar < ApplicationRecord
   validates(*BOOLEAN_COLUMN_ALIASES.values, inclusion: [true, false])
 
   scope :with_active, -> { where(active: true) }
-
-  def self.with_shopify_domain(shopify_domain)
-    where shop_id: Shop.find_by(shopify_domain: shopify_domain)
-  end
 end
