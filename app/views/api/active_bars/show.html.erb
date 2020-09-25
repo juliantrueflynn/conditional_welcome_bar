@@ -1,0 +1,46 @@
+<%= stylesheet_link_tag "welcome_bar" %>
+
+<%=
+  tag.div(
+    id: "cw_bar_#{@bar.id}",
+    class: [
+      "cw-bar",
+      (@bar.sticky? ? "cw-bar__sticky" : nil),
+      (@bar.placement == "top" ? "cw-bar__top" : "cw-bar__bottom"),
+      (@bar.sticky? && @bar.placement == "top" ? "cw-bar__sticky--top" : "cw-bar__sticky--bottom"),
+      (@bar.url ? "cw-bar__linkable" : nil),
+      (@bar.full_width_link? ? "cw-bar__full-width-link" : nil)
+    ].compact
+  ) do
+%>
+  <div class="cw-bar__row">
+    <% if @bar.url %>
+      <%=
+        link_to(
+          @bar.content,
+          @bar.url,
+          class: "cw-bar__content cw-bar__content--linkable",
+          target: @bar.new_tab_url ? :_blank : nil,
+          rel: @bar.new_tab_url ? "noopener noreferrer" : nil
+        )
+      %>
+    <% else %>
+      <%= tag.div @bar.content, class: "cw-bar__content" %>
+    <% end %>
+
+    <div class="cw-bar__close">
+      <%=
+        button_tag(
+          "\u00D7",
+          id: "cw_bar_button",
+          type: "button",
+          aria: { label: "Close" },
+          data: {
+            bar_id: @bar.id,
+            remove_body_margin: @bar.sticky && @bar.placement == "top",
+          }
+        )
+      %>
+    </div>
+  </div>
+<% end %>

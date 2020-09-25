@@ -2,10 +2,23 @@
 
 module Api
   class ActiveBarsController < ApplicationController
-    def show
-      @active_bars = Shop.find_by(shopify_domain: params[:shop]).bars.with_active
+    before_action :set_bar
 
-      render json: { data: @active_bars }
+    def show
+      render json: json_data
+    end
+
+    private
+
+    def json_data
+      {
+        render_html: render_to_string(:show, layout: false),
+        scripts_paths: [helpers.asset_url("welcome_bar/listeners.js")],
+      }.transform_keys { |key| key.to_s.camelize(:lower) }
+    end
+
+    def set_bar
+      @bar = Shop.find_by(shopify_domain: params[:shop]).bars.with_active.take
     end
   end
 end
