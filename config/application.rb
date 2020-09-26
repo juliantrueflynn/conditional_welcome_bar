@@ -25,11 +25,16 @@ module ConditionalWelcomeBar
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.x.app_host = ENV.fetch("APP_HOST")
 
-    config.x.app_host = ENV.fetch("APP_HOST", "https://conditionalwelcomebar.ngrok.io")
-    config.x.cors_origins = ENV.fetch("CORS_ORIGINS", "https://conditionalwelcomebar.ngrok.io").split(",").map(&:strip)
+    config.x.cors_origins = ENV.fetch("CORS_ORIGINS", config.x.app_host).split(",").map(&:strip)
 
     config.x.shopify = ActiveSupport::OrderedOptions.new.tap do |option|
+      option.api_key = ENV.fetch("SHOPIFY_API_KEY")
+      option.secret = ENV.fetch("SHOPIFY_API_SECRET")
+      option.application_name = ENV.fetch("SHOPIFY_APPLICATION_NAME")
+      option.scope = ENV.fetch("SHOPIFY_API_SCOPE")
+      option.api_version = ENV.fetch("SHOPIFY_API_VERSION", "2020-04")
       option.force_redirect = ENV.fetch("SHOPIFY_FORCE_REDIRECT", "true") == "true"
       option.debug_mode = ENV.fetch("SHOPIFY_DEBUG_MODE", "false") == "true"
     end
