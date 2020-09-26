@@ -15,24 +15,26 @@ window.ConditionalWelcomeBar = (function () {
   return {
     _mount: function () {
       const xhr = new XMLHttpRequest();
+
       xhr.open(
         'GET',
-        `${API_URL}/api/shops/${window.Shopify.shop}/active_bar?origin_pathname=${window.location.pathname}`
+        `${API_URL}/api/shops/${window.Shopify.shop}/active_bar?origin_pathname=${window.location.pathname}`,
+        true
       );
-      xhr.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.LOADING) {
-          document.body.classList.add('cw-bar-html--loading');
-        }
 
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-          const response = JSON.parse(this.responseText);
-          document.body.insertAdjacentHTML('afterbegin', response.renderHtml);
-          enqueueScripts(response.scriptsPaths);
-          document.body.classList.remove('cw-bar-html--loading');
-          document.body.classList.add('cw-bar-html--loaded');
-        }
+      xhr.onloadstart = function () {
+        document.body.classList.add('cw-bar-html--loading');
       };
-      xhr.send();
+
+      xhr.onload = function () {
+        const response = JSON.parse(this.responseText);
+        document.head.insertAdjacentHTML('afterbegin', response.stylesHtml);
+        document.body.insertAdjacentHTML('afterbegin', response.renderHtml);
+        enqueueScripts(response.scriptsPaths);
+        document.body.classList.remove('cw-bar-html--loading');
+      };
+
+      xhr.send(null);
     },
   };
 })();
