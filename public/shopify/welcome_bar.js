@@ -1,9 +1,42 @@
 'use strict';
 
 window.ConditionalWelcomeBar = (function () {
-  var API_HOSTNAME = 'conditionalwelcomebar.ngrok.io';
-  var API_URL = `https://${API_HOSTNAME}`;
   var LOADING_CLASS_NAME = 'cw-bar-html--loading';
+
+  var getCurrentScript = function () {
+    if (document['currentScript']) {
+      return document['currentScript'];
+    }
+
+    return document.querySelector('[src*="cwb_api_host"]')
+  };
+
+  var getCurrentScriptSrc = function () {
+    var script = getCurrentScript();
+
+    if (script) {
+      return script.getAttribute('src');
+    }
+  };
+
+  var getApiHost = function () {
+    var src = getCurrentScriptSrc();
+
+    if (src) {
+      var matches = RegExp('cwb_api_host=(.*?)&').exec(src);
+
+      return matches ? matches[1] : undefined;
+    }
+  };
+
+  var getApiUrl = function () {
+    var apiHost = getApiHost();
+    var shop = window.Shopify.shop;
+
+    if (apiHost && shop) {
+      return apiHost + '/api/shops/' + shop + '/active_bar?origin_pathname=' + window.location.pathname;
+    }
+  };
 
   var enqueueScripts = function (scriptsPaths) {
     scriptsPaths.forEach(function (path) {
@@ -16,12 +49,11 @@ window.ConditionalWelcomeBar = (function () {
   return {
     _mount: function () {
       var xhr = new XMLHttpRequest();
+      var apiUrl = getApiUrl();
 
-      xhr.open(
-        'GET',
-        `${API_URL}/api/shops/${window.Shopify.shop}/active_bar?origin_pathname=${window.location.pathname}`,
-        true
-      );
+      if (!apiUrl || document.getElementById('cw_bar')) return;
+
+      xhr.open('GET', apiUrl, true);
 
       xhr.onloadstart = function () {
         document.body.classList.add(LOADING_CLASS_NAME);
@@ -30,7 +62,7 @@ window.ConditionalWelcomeBar = (function () {
       xhr.onload = function () {
         var response = JSON.parse(this.responseText);
 
-        if (response && response.data) {
+        if (response && response.data && !document.getElementById('cw_bar')) {
           document.head.insertAdjacentHTML('afterbegin', response.data.htmlStyles);
           document.body.insertAdjacentHTML('afterbegin', response.data.htmlWelcomeBar);
           enqueueScripts(response.data.scriptsPaths);

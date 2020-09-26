@@ -5,16 +5,20 @@ module Api
     before_action :set_bar
 
     def show
-      render json: json_data
+      render json: {
+        data: json_data
+      }
     end
 
     private
 
     def json_data
+      return if @bar.blank?
+
       {
-        render_html: render_to_string(:show, layout: false),
-        styles_html: render_to_string(partial: "api/active_bars/styles", locals: { bar: @bar }),
-        scripts_paths: [helpers.asset_url("welcome_bar/listeners.js")],
+        html_welcome_bar: render_to_string(:show, layout: false),
+        html_styles: render_to_string(partial: "api/active_bars/styles", locals: { bar: @bar }),
+        scripts_paths: [helpers.asset_url("welcome_bar/listeners.js")]
       }.transform_keys { |key| key.to_s.camelize(:lower) }
     end
 
