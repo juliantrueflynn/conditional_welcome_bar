@@ -32,4 +32,11 @@ class Bar < ApplicationRecord
   validates(*BOOLEAN_COLUMN_ALIASES.values, inclusion: [true, false])
 
   scope :with_active, -> { where(active: true) }
+
+  def padding
+    [
+      padding_y.presence || "0",
+      padding_x.presence || "0"
+    ].join(" ")
+  end
 end
