@@ -20,8 +20,10 @@ tmp/*
 
 coverage
 
-/public/*
-!/public/favicon.ico
+/public/assets
+/public/packs
+/public/packs-test
+
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
@@ -33,12 +35,9 @@ config/master.key
 .env.local
 .env.production
 !.env.development
-api/public/uploads
 
 .DS_Store
 
-/public/packs
-/public/packs-test
 node_modules
 yarn-error.log
 yarn-debug.log*

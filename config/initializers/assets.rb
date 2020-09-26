@@ -14,8 +14,6 @@ Rails.application.config.assets.version = "1.0"
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 
-Rails.application.config.assets.precompile += %w(
-  welcome_bar.js
-  welcome_bar.css
+Rails.application.config.assets.precompile += %w[
   welcome_bar/listeners.js
-)
+]
