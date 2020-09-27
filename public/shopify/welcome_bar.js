@@ -1,8 +1,7 @@
-'use strict';
-
 window.ConditionalWelcomeBar = (function () {
+  'use strict';
+
   var LOADING_CLASS_NAME = 'cw-bar-html--loading';
-  var LOCAL_STORAGE_KEY = 'cw_bar_view';
 
   var getCurrentScript = function () {
     if (document['currentScript']) {
@@ -48,35 +47,32 @@ window.ConditionalWelcomeBar = (function () {
   };
 
   return {
-    localStorageKey: LOCAL_STORAGE_KEY,
+    localStorageKey: 'cw_bar_view',
+    onLoadStart: function () {
+      document.body.classList.add(LOADING_CLASS_NAME);
+    },
+    onLoad: function(response) {
+      var response = JSON.parse(this.responseText);
+
+      if (response && response.data && !document.getElementById('cw_bar')) {
+        document.head.insertAdjacentHTML('afterbegin', response.data.htmlStyles);
+        document.body.insertAdjacentHTML('afterbegin', response.data.htmlWelcomeBar);
+        enqueueScripts(response.data.scriptsPaths);
+        document.body.classList.remove(LOADING_CLASS_NAME);
+      } else {
+        document.body.classList.remove(LOADING_CLASS_NAME);
+      }
+    },
     _mount: function () {
       var xhr = new XMLHttpRequest();
       var apiUrl = getApiUrl();
 
-      if (!apiUrl || document.getElementById('cw_bar') || window.localStorage.getItem(LOCAL_STORAGE_KEY)) {
-        return;
+      if (apiUrl && !document.getElementById('cw_bar') && !window.localStorage.getItem(this.localStorageKey)) {
+        xhr.open('GET', apiUrl, true);
+        xhr.onloadstart = this.onLoadStart;
+        xhr.onload = this.onLoad;
+        xhr.send(null);
       }
-
-      xhr.open('GET', apiUrl, true);
-
-      xhr.onloadstart = function () {
-        document.body.classList.add(LOADING_CLASS_NAME);
-      };
-
-      xhr.onload = function () {
-        var response = JSON.parse(this.responseText);
-
-        if (response && response.data && !document.getElementById('cw_bar')) {
-          document.head.insertAdjacentHTML('afterbegin', response.data.htmlStyles);
-          document.body.insertAdjacentHTML('afterbegin', response.data.htmlWelcomeBar);
-          enqueueScripts(response.data.scriptsPaths);
-          document.body.classList.remove(LOADING_CLASS_NAME);
-        } else {
-          document.body.classList.remove(LOADING_CLASS_NAME);
-        }
-      };
-
-      xhr.send(null);
     },
   };
 })();

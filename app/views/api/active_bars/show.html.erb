@@ -8,8 +8,7 @@
       (@bar.sticky? && "cw-bar__sticky--#{@bar.placement}"),
       (@bar.url ? "cw-bar__linkable" : nil),
       (@bar.full_width_link? ? "cw-bar__full-width-link" : nil)
-    ].compact,
-    data: { bar_id: @bar.id }
+    ].compact
   ) do
 %>
   <div class="cw-bar__row">

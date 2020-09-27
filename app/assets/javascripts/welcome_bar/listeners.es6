@@ -1,7 +1,7 @@
-'use strict';
-
 // eslint-disable-next-line prettier/prettier
 ;(function() {
+  'use strict';
+
   const container = document.getElementById('cw_bar');
   const button = document.getElementById('cw_bar_button');
 
