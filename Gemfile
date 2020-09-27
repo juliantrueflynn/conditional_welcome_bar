@@ -11,6 +11,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 6.0.3.3"
 
+gem "babel-transpiler"
 gem "bootsnap", require: false
 gem "dotenv-rails", require: "dotenv/rails-now"
 gem "graphql"

@@ -16,6 +16,4 @@ Rails.application.config.middleware.use(OmniAuth::Builder) do
   )
 end
 
-unless Rails.env.test?
-  OmniAuth.config.logger = Rails.logger
-end
+OmniAuth.config.logger = Rails.logger unless Rails.env.test?

@@ -33,7 +33,10 @@ class Bar < ApplicationRecord
 
   scope :with_active, -> { where(active: true) }
 
-  def self.with_shopify_domain(shopify_domain)
-    where shop_id: Shop.find_by(shopify_domain: shopify_domain)
+  def padding
+    [
+      padding_y.presence || "0",
+      padding_x.presence || "0"
+    ].join(" ")
   end
 end

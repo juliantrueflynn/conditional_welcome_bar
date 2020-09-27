@@ -26,21 +26,6 @@ RSpec.describe Bar, type: :model do
   it { is_expected.to validate_inclusion_of(:placement).in_array(Bar::PLACEMENT) }
   it { is_expected.to validate_inclusion_of(:text_align).in_array(Bar::ALIGN) }
 
-  describe ".with_shopify_domain" do
-    it "returns bar relation" do
-      shop = create(:shop_with_bars)
-      result = described_class.with_shopify_domain(shop.shopify_domain)
-
-      expect(result).to match_array(shop.bars)
-    end
-
-    it "returns empty relation if no shop" do
-      result = described_class.with_shopify_domain(nil)
-
-      expect(result).to be_empty
-    end
-  end
-
   describe "validate #url" do
     it "not valid if containing space" do
       expect(build(:bar, url: "url space.com")).to_not be_valid
@@ -48,6 +33,32 @@ RSpec.describe Bar, type: :model do
 
     it "not valid if containing no tld" do
       expect(build(:bar, url: "no dot com")).to_not be_valid
+    end
+  end
+
+  describe "#padding" do
+    it "returns string y x format" do
+      instance = build(:bar, padding_y: "2px", padding_x: "4px")
+
+      expect(instance.padding).to eq("2px 4px")
+    end
+
+    it "returns 0 for y-axis" do
+      instance = build(:bar, padding_y: nil, padding_x: "99px")
+
+      expect(instance.padding).to eq("0 99px")
+    end
+
+    it "returns 0 for x-axis" do
+      instance = build(:bar, padding_y: "99px", padding_x: nil)
+
+      expect(instance.padding).to eq("99px 0")
+    end
+
+    it "returns 0 for both axis" do
+      instance = build(:bar, padding_y: nil, padding_x: nil)
+
+      expect(instance.padding).to eq("0 0")
     end
   end
 end

@@ -5,6 +5,14 @@ AllCops:
     - node_modules/**/*
     - db/schema.rb
 
+Rails/ApplicationController:
+  Exclude:
+    - spec/**/*.rb
+
+Rails/OutputSafety:
+  Exclude:
+    - spec/**/*.rb
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
   ConsistentQuotesInMultiline: false

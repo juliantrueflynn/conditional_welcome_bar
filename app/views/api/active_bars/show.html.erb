@@ -1,0 +1,50 @@
+<%=
+  tag.div(
+    id: "cw_bar",
+    class: [
+      "cw-bar",
+      "cw-bar__#{@bar.placement}",
+      (@bar.sticky? ? "cw-bar__sticky" : nil),
+      (@bar.sticky? && "cw-bar__sticky--#{@bar.placement}"),
+      (@bar.url ? "cw-bar__linkable" : nil),
+      (@bar.full_width_link? ? "cw-bar__full-width-link" : nil)
+    ].compact,
+    data: { bar_id: @bar.id }
+  ) do
+%>
+  <div class="cw-bar__row">
+    <% if @bar.url %>
+      <%=
+        link_to(
+          @bar.content,
+          @bar.url,
+          id: "cw_bar_content",
+          class: "cw-bar__content cw-bar__content--linkable",
+          target: @bar.new_tab_url ? :_blank : nil,
+          rel: @bar.new_tab_url ? "noopener noreferrer" : nil,
+          data: { bar_id: @bar.id }
+        )
+      %>
+    <% else %>
+      <%= tag.div @bar.content, id: "cw_bar_content", class: "cw-bar__content" %>
+    <% end %>
+
+    <% if @bar.close_button? %>
+      <div class="cw-bar__close">
+        <%=
+          button_tag(
+            "\u00D7",
+            id: "cw_bar_button",
+            class: "cw-bar__close-btn",
+            type: "button",
+            aria: { label: "Close" },
+            data: {
+              bar_id: @bar.id,
+              remove_body_margin: @bar.sticky && @bar.placement == "top",
+            }
+          )
+        %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
