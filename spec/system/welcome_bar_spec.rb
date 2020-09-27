@@ -35,7 +35,7 @@ RSpec.describe "welcome bar script", type: :system, js: true do
   end
 
   def create_active_welcome_bar(attributes = {})
-    create :bar, :active, content: Faker::Lorem.sentence, **attributes
+    create :bar, :active, close_button: true, content: Faker::Lorem.sentence, **attributes
   end
 
   class MockWelcomeBarController < ActionController::Base
