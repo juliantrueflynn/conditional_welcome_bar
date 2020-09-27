@@ -11,7 +11,6 @@
 
   function handleCloseClick(event) {
     const target = event.currentTarget;
-    const barId = target.getAttribute('data-bar-id');
     container.style.display = 'none';
 
     if (target.getAttribute('data-remove-body-margin') === 'true') {

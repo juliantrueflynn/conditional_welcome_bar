@@ -7,26 +7,33 @@
     <%= bar.text_align && "text-align: #{bar.text_align};" %>
     <%= bar.background_color && "background-color: #{bar.background_color};" %>
   }
+  .cw-bar__row {position: relative;}
+  <% if bar.sticky? %>
   .cw-bar__fixed {
     position: fixed;
     right: 0;
     left: 0;
   }
-  .cw-bar__fixed.cw-bar__top {top: 0;}
-  .cw-bar__fixed.cw-bar__bottom {bottom: 0;}
-  .cw-bar__row {position: relative;}
+  <%= bar.placement == "top" && ".cw-bar__fixed.cw-bar__top {top: 0;}" %>
+  <%= bar.placement == "bottom" && ".cw-bar__fixed.cw-bar__bottom {bottom: 0;}" %>
+  <% end %>
+  <% if bar.url %>
   .cw-bar__content--linkable {
     color: inherit;
     display: block;
   }
   .cw-bar__full-width-link .cw-bar__content {width: 100%;}
+  <% end %>
+  .cw-bar__content {padding: <%= bar.padding %>;}
+  <% if bar.close_button? %>
   .cw-bar__close {
     position: absolute;
     top: 0;
     right: 12px;
     bottom: 0;
+    margin-right: <%= bar.padding_x %>;
   }
-  .cw-bar__close > button {
+  .cw-bar__close-btn {
     outline: 0;
     background-color: transparent;
     border: 0;
@@ -37,8 +44,5 @@
     line-height: 0;
     height: 100%;
   }
-  .cw-bar__content {padding: <%= bar.padding %>;}
-  <% if bar.close_button? %>
-  .cw-bar__close {margin-right: <%= bar.padding_x %>;}
   <% end %>
 </style>
