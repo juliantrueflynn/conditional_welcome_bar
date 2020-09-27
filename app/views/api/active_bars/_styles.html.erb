@@ -8,14 +8,19 @@
     <%= bar.background_color && "background-color: #{bar.background_color};" %>
   }
   .cw-bar__row {position: relative;}
+  .cw-bar__content {padding: <%= bar.padding %>;}
   <% if bar.sticky? %>
   .cw-bar__fixed {
     position: fixed;
     right: 0;
     left: 0;
   }
-  <%= bar.placement == "top" && ".cw-bar__fixed.cw-bar__top {top: 0;}" %>
-  <%= bar.placement == "bottom" && ".cw-bar__fixed.cw-bar__bottom {bottom: 0;}" %>
+  <% end %>
+  <% if bar.sticky? && bar.placement == "top" %>
+  .cw-bar__fixed.cw-bar__top {top: 0;}
+  <% end %>
+  <% if bar.sticky? && bar.placement == "bottom" %>
+  .cw-bar__fixed.cw-bar__bottom {bottom: 0;}
   <% end %>
   <% if bar.url %>
   .cw-bar__content--linkable {
@@ -24,7 +29,6 @@
   }
   .cw-bar__full-width-link .cw-bar__content {width: 100%;}
   <% end %>
-  .cw-bar__content {padding: <%= bar.padding %>;}
   <% if bar.close_button? %>
   .cw-bar__close {
     position: absolute;
