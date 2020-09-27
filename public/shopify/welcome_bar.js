@@ -2,6 +2,7 @@
 
 window.ConditionalWelcomeBar = (function () {
   var LOADING_CLASS_NAME = 'cw-bar-html--loading';
+  var LOCAL_STORAGE_KEY = 'cw_bar_view';
 
   var getCurrentScript = function () {
     if (document['currentScript']) {
@@ -23,7 +24,7 @@ window.ConditionalWelcomeBar = (function () {
     var src = getCurrentScriptSrc();
 
     if (src) {
-      var matches = RegExp('cwb_api_host=(.*?)&').exec(src);
+      var matches = RegExp('cwb_api_host=(.*?)(?=&|$)').exec(src);
 
       return matches ? matches[1] : undefined;
     }
@@ -47,11 +48,14 @@ window.ConditionalWelcomeBar = (function () {
   };
 
   return {
+    localStorageKey: LOCAL_STORAGE_KEY,
     _mount: function () {
       var xhr = new XMLHttpRequest();
       var apiUrl = getApiUrl();
 
-      if (!apiUrl || document.getElementById('cw_bar')) return;
+      if (!apiUrl || document.getElementById('cw_bar') || window.localStorage.getItem(LOCAL_STORAGE_KEY)) {
+        return;
+      }
 
       xhr.open('GET', apiUrl, true);
 

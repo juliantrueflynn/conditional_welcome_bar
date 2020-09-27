@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :bar do
     title { Faker::Company.name }
-    content { [Faker::Lorem.sentence, nil].sample }
+    content { Faker::Lorem.sentence }
     active { false }
     sticky { Faker::Boolean.boolean }
     placement { Bar::PLACEMENT.sample }
@@ -17,5 +17,9 @@ FactoryBot.define do
     font_size { ["inherit", nil].sample }
     background_color { ["rgba(45,52,54,1.0)", nil].sample }
     shop
+
+    trait :active do
+      active { true }
+    end
   end
 end

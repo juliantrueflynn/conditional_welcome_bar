@@ -2,10 +2,12 @@
 
 // eslint-disable-next-line prettier/prettier
 ;(function() {
-  const container = document.querySelector('.cwb-bar');
+  const container = document.getElementById('cw_bar');
   const button = document.getElementById('cw_bar_button');
 
-  button && button.addEventListener('click', handleCloseClick);
+  if (container && button) {
+    button.addEventListener('click', handleCloseClick);
+  }
 
   function handleCloseClick(event) {
     const target = event.currentTarget;
@@ -16,7 +18,11 @@
       document.body.style.marginTop = '0';
     }
 
-    window.localStorage.setItem(`cw_bar_hide_${barId}`, 'true');
+    window.localStorage.setItem(
+      window.ConditionalWelcomeBar.localStorageKey,
+      'true'
+    );
+
     button.removeEventListener('click', handleCloseClick);
   }
 })();
