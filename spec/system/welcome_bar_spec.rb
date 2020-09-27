@@ -51,7 +51,7 @@ RSpec.describe "welcome bar script", type: :system, js: true do
       )
     end
 
-    def with_localstorage
+    def with_localstorage # rubocop:disable Metrics/MethodLength
       render html: helpers.raw(
         <<~HTML
           <head>
