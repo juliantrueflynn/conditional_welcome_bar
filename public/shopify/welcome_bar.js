@@ -3,7 +3,7 @@ window.ConditionalWelcomeBar = (function () {
 
   var LOADING_CLASS_NAME = 'cw-bar-html--loading';
 
-  var getCurrentScript = function () {
+  var _getCurrentScript = function () {
     if (document['currentScript']) {
       return document['currentScript'];
     }
@@ -11,16 +11,16 @@ window.ConditionalWelcomeBar = (function () {
     return document.querySelector('[src*="cwb_api_host"]')
   };
 
-  var getCurrentScriptSrc = function () {
-    var script = getCurrentScript();
+  var _getCurrentScriptSrc = function () {
+    var script = _getCurrentScript();
 
     if (script) {
       return script.getAttribute('src');
     }
   };
 
-  var getApiHost = function () {
-    var src = getCurrentScriptSrc();
+  var _getApiHost = function () {
+    var src = _getCurrentScriptSrc();
 
     if (src) {
       var matches = RegExp('cwb_api_host=(.*?)(?=&|$)').exec(src);
@@ -29,8 +29,8 @@ window.ConditionalWelcomeBar = (function () {
     }
   };
 
-  var getApiUrl = function () {
-    var apiHost = getApiHost();
+  var _getApiUrl = function () {
+    var apiHost = _getApiHost();
     var shop = window.Shopify.shop;
 
     if (apiHost && shop) {
@@ -38,7 +38,7 @@ window.ConditionalWelcomeBar = (function () {
     }
   };
 
-  var enqueueScripts = function (scriptsPaths) {
+  var _enqueueScripts = function (scriptsPaths) {
     scriptsPaths.forEach(function (path) {
       var script = document.createElement('script');
       script.setAttribute('src', path);
@@ -57,7 +57,7 @@ window.ConditionalWelcomeBar = (function () {
       if (response && response.data && !document.getElementById('cw_bar')) {
         document.head.insertAdjacentHTML('afterbegin', response.data.htmlStyles);
         document.body.insertAdjacentHTML('afterbegin', response.data.htmlWelcomeBar);
-        enqueueScripts(response.data.scriptsPaths);
+        _enqueueScripts(response.data.scriptsPaths);
         document.body.classList.remove(LOADING_CLASS_NAME);
       } else {
         document.body.classList.remove(LOADING_CLASS_NAME);
@@ -65,7 +65,7 @@ window.ConditionalWelcomeBar = (function () {
     },
     _mount: function () {
       var xhr = new XMLHttpRequest();
-      var apiUrl = getApiUrl();
+      var apiUrl = _getApiUrl();
 
       if (apiUrl && !document.getElementById('cw_bar') && !window.localStorage.getItem(this.localStorageKey)) {
         xhr.open('GET', apiUrl, true);

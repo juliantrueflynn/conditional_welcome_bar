@@ -2,26 +2,34 @@
 ;(function() {
   'use strict';
 
-  const container = document.getElementById('cw_bar');
-  const button = document.getElementById('cw_bar_button');
+  const closeButton = document.getElementById('cw_bar_button');
 
-  if (container && button) {
-    button.addEventListener('click', handleCloseClick);
+  if (window.ConditionalWelcomeBar.onCloseClick === undefined) {
+    window.ConditionalWelcomeBar.onCloseClick = (event) => {
+      const container = document.getElementById('cw_bar');
+      const target = event.currentTarget;
+      container.style.display = 'none';
+
+      if (target.getAttribute('data-remove-body-margin') === 'true') {
+        document.body.style.marginTop = '0';
+      }
+
+      window.localStorage.setItem(
+        window.ConditionalWelcomeBar.localStorageKey,
+        'true'
+      );
+
+      target.removeEventListener(
+        'click',
+        window.ConditionalWelcomeBar.onCloseClick
+      );
+    };
   }
 
-  function handleCloseClick(event) {
-    const target = event.currentTarget;
-    container.style.display = 'none';
-
-    if (target.getAttribute('data-remove-body-margin') === 'true') {
-      document.body.style.marginTop = '0';
-    }
-
-    window.localStorage.setItem(
-      window.ConditionalWelcomeBar.localStorageKey,
-      'true'
+  if (closeButton) {
+    closeButton.addEventListener(
+      'click',
+      window.ConditionalWelcomeBar.onCloseClick
     );
-
-    button.removeEventListener('click', handleCloseClick);
   }
 })();
