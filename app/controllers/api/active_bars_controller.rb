@@ -23,7 +23,11 @@ module Api
     end
 
     def set_bar
-      @bar = Shop.find_by(shopify_domain: params[:shop]).bars.with_active.take
+      @bar = shop.bars.with_active.take if shop
+    end
+
+    def shop
+      @_shop ||= Shop.find_by(shopify_domain: params[:shop])
     end
   end
 end
