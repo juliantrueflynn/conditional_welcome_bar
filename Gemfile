@@ -8,8 +8,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.0.3.3"
+gem "rails", "~> 6.0.3", ">= 6.0.3.3"
 
 gem "babel-transpiler"
 gem "bootsnap", require: false
@@ -32,10 +31,8 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotate"
-  gem "binding_of_caller"
   gem "graphiql-rails"
-  gem "listen", ">= 3.0.5", "< 3.2"
+  gem "listen", "~> 3.2"
   gem "pry-rails"
   gem "rubocop", "~> 0.83.0", require: false
   gem "rubocop-rails", require: false
@@ -51,6 +48,3 @@ group :test do
   gem "simplecov", require: false
   gem "webmock"
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]

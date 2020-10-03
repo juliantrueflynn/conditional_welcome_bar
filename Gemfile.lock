@@ -66,17 +66,12 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    annotate (3.1.1)
-      activerecord (>= 3.2, < 7.0)
-      rake (>= 10.4, < 14.0)
     ast (2.4.1)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
     bindex (0.8.1)
-    binding_of_caller (0.8.0)
-      debug_inspector (>= 0.0.1)
     bootsnap (1.4.8)
       msgpack (~> 1.0)
     browser_sniffer (1.2.2)
@@ -91,13 +86,11 @@ GEM
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
     childprocess (3.0.0)
-    coderay (1.1.2)
+    coderay (1.1.3)
     concurrent-ruby (1.1.7)
-    crack (0.4.3)
-      safe_yaml (~> 1.0.0)
+    crack (0.4.4)
     crass (1.0.6)
-    debug_inspector (0.0.3)
-    diff-lcs (1.3)
+    diff-lcs (1.4.4)
     docile (1.3.2)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
@@ -110,17 +103,17 @@ GEM
     factory_bot_rails (6.1.0)
       factory_bot (~> 6.1.0)
       railties (>= 5.0.0)
-    faker (2.13.0)
+    faker (2.14.0)
       i18n (>= 1.6, < 2)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
-    ffi (1.12.2)
+    ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     graphiql-rails (1.7.0)
       railties
       sprockets-rails
-    graphql (1.11.4)
+    graphql (1.11.5)
     graphql-client (0.16.0)
       activesupport (>= 3.0)
       graphql (~> 1.8)
@@ -129,10 +122,9 @@ GEM
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     jwt (2.2.2)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
+    listen (3.2.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     lograge (0.11.2)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -154,7 +146,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
-    nio4r (2.5.3)
+    nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.4)
@@ -169,11 +161,11 @@ GEM
     omniauth-oauth2 (1.5.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
-    omniauth-shopify-oauth2 (2.2.2)
+    omniauth-shopify-oauth2 (2.2.3)
       activesupport
       omniauth-oauth2 (~> 1.5.0)
     parallel (1.19.2)
-    parser (2.7.1.4)
+    parser (2.7.1.5)
       ast (~> 2.4.1)
     pg (1.2.3)
     pry (0.13.1)
@@ -182,7 +174,7 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (4.0.6)
-    puma (4.3.6)
+    puma (5.0.2)
       nio4r (~> 2.0)
     rack (2.2.3)
     rack-cors (1.1.1)
@@ -224,11 +216,11 @@ GEM
       ffi (~> 1.0)
     redirect_safely (1.0.0)
       activemodel
-    regexp_parser (1.7.1)
+    regexp_parser (1.8.1)
     request_store (1.5.0)
       rack (>= 1.4)
     rexml (3.2.4)
-    rspec-core (3.9.2)
+    rspec-core (3.9.3)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -257,9 +249,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 0.82.0)
     ruby-progressbar (1.10.1)
-    ruby_dep (1.5.0)
     rubyzip (2.3.0)
-    safe_yaml (1.0.5)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -268,7 +258,7 @@ GEM
       activeresource (>= 4.1.0, < 6.0.0)
       graphql-client
       rack
-    shopify_app (14.4.0)
+    shopify_app (14.4.4)
       browser_sniffer (~> 1.2.2)
       jwt (~> 2.2.1)
       omniauth-shopify-oauth2 (~> 2.2.2)
@@ -280,8 +270,8 @@ GEM
     simplecov (0.19.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
-    simplecov-html (0.12.2)
-    spring (2.1.0)
+    simplecov-html (0.12.3)
+    spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
@@ -302,12 +292,12 @@ GEM
     valid_url (0.0.4)
       addressable
       rails
-    web-console (4.0.2)
+    web-console (4.0.4)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webmock (3.9.0)
+    webmock (3.9.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -327,9 +317,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  annotate
   babel-transpiler
-  binding_of_caller
   bootsnap
   byebug
   capybara
@@ -338,13 +326,13 @@ DEPENDENCIES
   faker
   graphiql-rails
   graphql
-  listen (>= 3.0.5, < 3.2)
+  listen (~> 3.2)
   lograge
   pg
   pry-rails
   puma
   rack-cors
-  rails (~> 6.0.3.3)
+  rails (~> 6.0.3, >= 6.0.3.3)
   rspec-rails
   rubocop (~> 0.83.0)
   rubocop-rails
@@ -354,7 +342,6 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
-  tzinfo-data
   uglifier
   valid_url
   web-console (>= 3.3.0)
