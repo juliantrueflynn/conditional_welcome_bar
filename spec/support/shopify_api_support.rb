@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "shopify_app/test_helpers/all"
+
 module ShopifyApiSupport
   def authorize_shopify!(shop)
     mock_shopify_omniauth shop: shop
@@ -30,4 +32,9 @@ module ShopifyApiSupport
   end
 
   alias execute_graphql_mutation execute_graphql_query
+end
+
+RSpec.configure do |config|
+  config.include ShopifyApiSupport, type: :request
+  config.include ShopifyApiSupport, type: :system
 end

@@ -61,7 +61,6 @@ development:
     port: 3035
     public: 0.0.0.0:3035
     hmr: true
-    hot: true
     # Inline should be set to true if using HMR
     inline: true
     overlay: true

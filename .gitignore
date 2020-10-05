@@ -5,40 +5,43 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-.bundle
+/.bundle
 
 # Ignore all logfiles and tempfiles.
-config/secrets.yml
-log/*
-tmp/*
-!log/.keep
-!tmp/.keep
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
 
-# Ignore uploaded files in development
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
 
-coverage
-
 /public/assets
-/public/packs
-/public/packs-test
-
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
-config/master.key
+/config/master.key
 
-.vscode
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore RSpec generated file
+spec/examples.txt
+
+coverage
 
 .env
-.env.local
-.env.production
+.env.*
 !.env.development
 
 .DS_Store
-
-node_modules
-yarn-error.log
-yarn-debug.log*
-.yarn-integrity

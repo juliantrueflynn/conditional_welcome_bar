@@ -39,6 +39,7 @@ module ConditionalWelcomeBar
       option.debug_mode = ENV.fetch("SHOPIFY_DEBUG_MODE", "false") == "true"
     end
 
+    config.x.capybara_max_wait_time = ENV.fetch("CAPYBARA_MAX_WAIT_TIME", 10)
     config.x.selenium_host = ENV.fetch("SELENIUM_HOST", "selenium")
     config.x.selenium_port = ENV.fetch("SELENIUM_PORT", "4444")
     config.x.selenium_server_host = ENV.fetch("SELENIUM_SERVER_HOST", "web")
