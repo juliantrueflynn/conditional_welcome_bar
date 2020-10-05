@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require "capybara/rspec"
+require "selenium/webdriver"
+
+app_config = Rails.configuration.x
+
 Capybara.register_driver :remote_chrome do |app|
   Capybara::Selenium::Driver.new(
     app,
@@ -16,26 +21,25 @@ Capybara.register_driver :remote_chrome do |app|
         w3c: false
       }
     },
-    url: "http://#{Rails.configuration.x.selenium_host}:#{Rails.configuration.x.selenium_port}/wd/hub"
+    url: "http://#{app_config.selenium_host}:#{app_config.selenium_port}/wd/hub"
   )
 end
 
 Capybara.configure do |config|
   config.server = :puma, { Silent: true }
-  config.default_max_wait_time = 10
+  config.default_max_wait_time = app_config.capybara_max_wait_time
   config.javascript_driver = :remote_chrome
-  config.server_host = Rails.configuration.x.selenium_server_host
+  config.server_host = app_config.selenium_server_host
   config.server_port = 21_001
 end
 
-# Rails System test configuration.
 RSpec.configure do |config|
   config.before(:each, type: :system) do
     driven_by :rack_test
     Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
   end
 
-  config.before(:each, type: :system, js: true) do |_example|
+  config.before(:each, type: :system, js: true) do
     driven_by Capybara.javascript_driver
   end
 end

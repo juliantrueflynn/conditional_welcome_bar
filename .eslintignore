@@ -2,4 +2,5 @@ build/*
 public/*
 coverage/*
 babel.config.js
+jest.config.js
 postcss.config.js
