@@ -7,7 +7,7 @@ import {
   FORM_SECTIONS,
   FORM_SECTION_IDS,
 } from '../../../constants/form_sections';
-import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
+import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
 import {UPDATE_BAR} from '../../../utilities/graphql_tags';
 import ToastContextProvider from '../../ToastContext';
 import UpdateForm from '../update_form';

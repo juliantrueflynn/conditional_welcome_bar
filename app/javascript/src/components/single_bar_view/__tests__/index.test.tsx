@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {MockedProvider} from '@apollo/client/testing';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {createMemoryHistory} from 'history';
-import {mockBarFields} from '../../../__mocks__/single_bar_mocks';
+import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
 import {GET_SINGLE_BAR} from '../../../utilities/graphql_tags';
 import {Router, Route} from 'react-router';
 import ToastContextProvider from '../../ToastContext';
