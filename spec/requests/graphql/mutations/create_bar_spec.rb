@@ -22,7 +22,7 @@ RSpec.describe "Mutations::CreateBar", type: :request do
 
   it "returns unauthorized error if created bar invalid" do
     shop = create(:shop)
-    network_error = example_network_error("message" => "There was an issue creating your welcome bar")
+    network_error = build_network_error("message" => "There was an issue creating your welcome bar")
     invalid_bar = build(:bar, close_button: nil)
     allow(BarCreatorService).to receive(:call).with(shop).and_return(invalid_bar)
 
@@ -33,7 +33,10 @@ RSpec.describe "Mutations::CreateBar", type: :request do
   end
 
   it "returns unauthorized error if shop missing" do
-    network_error = example_network_error("message" => "Not authorized")
+    network_error = build_network_error(
+      "message" => "Not authorized",
+      "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_UNAUTHENTICATED }
+    )
 
     result = execute_graphql_mutation(graphql_query)
     errors = result.dig("errors")
@@ -56,7 +59,7 @@ RSpec.describe "Mutations::CreateBar", type: :request do
     expect(data).to be_nil
   end
 
-  def example_network_error(options = {})
+  def build_network_error(options = {})
     options.reverse_merge(
       "locations" => [{ "column" => 3, "line" => 2 }],
       "path" => ["createBar"]

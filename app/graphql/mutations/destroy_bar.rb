@@ -11,7 +11,7 @@ module Mutations
     def resolve(id:)
       bar = context[:current_shop].bars.find_by(id: id)
 
-      raise GraphQL::ExecutionError, "Welcome bar does not exist" if bar.blank?
+      raise GraphqlErrorHelper.record_not_found("Welcome bar does not exist") if bar.blank?
 
       { bar: bar.destroy }
     end

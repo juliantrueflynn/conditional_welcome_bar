@@ -21,13 +21,12 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
 
     result = execute_graphql_query(graphql_query, current_shop: shop, variables: variables)
     errors = result.dig("errors")
-    unauthorized_error = {
-      "locations" => [{ "column" => 3, "line" => 2 }],
+    network_error = build_network_error(
       "message" => "Welcome bar does not exist",
-      "path" => ["updateBar"]
-    }
+      "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_RECORD_NOT_FOUND }
+    )
 
-    expect(errors).to include(unauthorized_error)
+    expect(errors).to include(network_error)
   end
 
   it "response contains new attributes" do
@@ -61,13 +60,12 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
 
     result = execute_graphql_query(graphql_query, operation_name: "updateBar", variables: variables)
     errors = result.dig("errors")
-    unauthorized_error = {
-      "locations" => [{ "column" => 3, "line" => 2 }],
+    network_error = build_network_error(
       "message" => "Not authorized",
-      "path" => ["updateBar"]
-    }
+      "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_UNAUTHENTICATED }
+    )
 
-    expect(errors).to include(unauthorized_error)
+    expect(errors).to include(network_error)
   end
 
   it "returns no data if unauthorized error" do
@@ -122,5 +120,12 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
     variables["input"]["id"] ||= bar.id.to_s
 
     execute_graphql_query graphql_query, current_shop: bar.shop, operation_name: "updateBar", variables: variables
+  end
+
+  def build_network_error(options = {})
+    options.reverse_merge(
+      "locations" => [{ "column" => 3, "line" => 2 }],
+      "path" => ["updateBar"]
+    )
   end
 end
