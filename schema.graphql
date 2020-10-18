@@ -72,7 +72,6 @@ type Mutation {
 }
 
 type Query {
-  activeBars(shopifyDomain: String!): [Bar!]
   bar(id: ID!): Bar
   bars: [Bar!]
 }
