@@ -12,23 +12,6 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
     expect(bar.reload).to have_attributes(title: new_title, active: false)
   end
 
-  it "raises network error if bar not child of shop session" do
-    bar = create(:bar)
-    shop = create(:shop)
-    variables = {
-      "input" => { "id" => bar.id.to_s, title: "Some valid value" }
-    }
-
-    result = execute_graphql_query(graphql_query, current_shop: shop, variables: variables)
-    errors = result.dig("errors")
-    network_error = build_network_error(
-      "message" => "Welcome bar does not exist",
-      "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_RECORD_NOT_FOUND }
-    )
-
-    expect(errors).to include(network_error)
-  end
-
   it "response contains new attributes" do
     bar = create(:bar, close_button: true)
     new_attributes = {
@@ -38,18 +21,50 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
     }
 
     result = execute_mutation(bar, new_attributes)
-    result_data = result.dig("data", "updateBar", "bar")
 
-    expect(result_data).to match(hash_including(new_attributes))
+    expect(result).to match("data" => {
+                              "updateBar" => {
+                                "bar" => hash_including(new_attributes),
+                                "userErrors" => []
+                              }
+                            })
   end
 
-  it "returns empty userErrors for successful response" do
-    bar = create(:bar, close_button: true)
+  it "response contains user errors if invalid record" do
+    bar = create(:bar)
+    variables = {
+      "input" => { "id" => bar.id.to_s, title: nil }
+    }
 
-    result = execute_mutation(bar, "hasCloseButton" => false)
-    result_user_errors = result.dig("data", "updateBar", "userErrors")
+    result = execute_graphql_query(graphql_query, current_shop: bar.shop, variables: variables)
 
-    expect(result_user_errors).to be_empty
+    expect(result).to match(
+      "data" => {
+        "updateBar" => {
+          "bar" => nil,
+          "userErrors" => [{ "field" => ["title"], "message" => "can't be blank" }]
+        }
+      }
+    )
+  end
+
+  it "raises network error if bar not child of shop session" do
+    bar = create(:bar)
+    variables = {
+      "input" => { "id" => bar.id.to_s, title: "Some valid value" }
+    }
+
+    result = execute_graphql_query(graphql_query, current_shop: create(:shop), variables: variables)
+
+    expect(result).to match(
+      "data" => { "updateBar" => nil },
+      "errors" => [
+        build_network_error(
+          "message" => "Welcome bar does not exist",
+          "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_RECORD_NOT_FOUND }
+        )
+      ]
+    )
   end
 
   it "returns unauthorized error if shop missing" do
@@ -59,25 +74,16 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
     }
 
     result = execute_graphql_query(graphql_query, operation_name: "updateBar", variables: variables)
-    errors = result.dig("errors")
-    network_error = build_network_error(
-      "message" => "Not authorized",
-      "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_UNAUTHENTICATED }
+
+    expect(result).to match(
+      "data" => { "updateBar" => nil },
+      "errors" => [
+        build_network_error(
+          "message" => "Not authorized",
+          "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_UNAUTHENTICATED }
+        )
+      ]
     )
-
-    expect(errors).to include(network_error)
-  end
-
-  it "returns no data if unauthorized error" do
-    bar = create(:bar)
-    variables = {
-      "input" => { "id" => bar.id.to_s, title: "Some valid value" }
-    }
-
-    result = execute_graphql_query(graphql_query, operation_name: "updateBar", variables: variables)
-    data = result.dig("data", "updateBar")
-
-    expect(data).to be_nil
   end
 
   def graphql_query
@@ -101,13 +107,11 @@ RSpec.describe "Mutations::UpdateBar", type: :request do
             textColor
             fontSize
             backgroundColor
-            __typename
           }
           userErrors {
             field
             message
           }
-          __typename
         }
       }
     GRAPHQL
