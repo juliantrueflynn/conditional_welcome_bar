@@ -25,7 +25,7 @@ module.exports = {
     'node'
   ],
   setupFilesAfterEnv: [
-    '@testing-library/jest-dom/extend-expect'
+    './app/javascript/src/setup_tests.ts'
   ],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest'
