@@ -7,46 +7,34 @@ import {
 } from '@shopify/app-bridge-react';
 import {AppProvider, Frame} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
-import {AppConfig} from '@shopify/app-bridge';
 import {useHistory, useLocation} from 'react-router-dom';
+import {AppConfig} from '@shopify/app-bridge';
 import ToastContextProvider from '../ToastContext';
-
-const getShopOrigin = (): string | null => {
-  const appData = document.getElementById('shopify-app-init');
-
-  return appData && appData.getAttribute('data-shop-origin');
-};
+import ApolloProvider from '../apollo_provider';
 
 type Props = {
+  config: AppConfig;
   children: React.ReactNode;
 };
 
-const ShopifyProvider = ({children}: Props) => {
-  const location = useLocation();
+const ShopifyProvider = ({config, children}: Props) => {
   const history = useHistory();
-
-  const config = {
-    apiKey: process.env.SHOPIFY_API_KEY,
-    shopOrigin: getShopOrigin(),
-    forceRedirect: true,
-  } as AppConfig;
-
-  if (!config.apiKey || !config.shopOrigin) {
-    return null;
-  }
+  const location = useLocation();
 
   return (
-    <Provider config={config}>
-      <AppProvider i18n={enTranslations}>
-        <Frame>
-          <ClientRouter history={history} />
+    <AppProvider i18n={enTranslations}>
+      <Provider config={config}>
+        <ApolloProvider>
           <RoutePropagator location={location} />
-          <ToastContextProvider>
-            <React.Suspense fallback={<Loading />}>{children}</React.Suspense>
-          </ToastContextProvider>
-        </Frame>
-      </AppProvider>
-    </Provider>
+          <ClientRouter history={history} />
+          <Frame>
+            <ToastContextProvider>
+              <React.Suspense fallback={<Loading />}>{children}</React.Suspense>
+            </ToastContextProvider>
+          </Frame>
+        </ApolloProvider>
+      </Provider>
+    </AppProvider>
   );
 };
 
