@@ -34,7 +34,7 @@ module ConditionalWelcomeBar
       option.secret = ENV.fetch("SHOPIFY_API_SECRET")
       option.application_name = ENV.fetch("SHOPIFY_APPLICATION_NAME")
       option.scope = ENV.fetch("SHOPIFY_SCOPE")
-      option.api_version = ENV.fetch("SHOPIFY_API_VERSION", "2020-04")
+      option.api_version = ENV.fetch("SHOPIFY_API_VERSION", "2020-10")
       option.force_redirect = ENV.fetch("SHOPIFY_FORCE_REDIRECT", "true") == "true"
       option.debug_mode = ENV.fetch("SHOPIFY_DEBUG_MODE", "false") == "true"
     end
