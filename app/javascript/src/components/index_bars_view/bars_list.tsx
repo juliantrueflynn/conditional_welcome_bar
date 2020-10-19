@@ -19,30 +19,6 @@ type Props = {
 const locale =
   new URLSearchParams(window.location.search).get('locale') || DEFAULT_LOCALE;
 
-const ListItem = ({id, title, content, createdAt}: BarEntryProps) => {
-  const accessibilityLabel = `View details for ${title}`;
-
-  return (
-    <ResourceItem
-      id={id}
-      name={title}
-      url={getSingleBarUrlPath(id)}
-      accessibilityLabel={accessibilityLabel}
-    >
-      <h3>
-        <TextStyle variation="strong">{title}</TextStyle>
-      </h3>
-      <Caption>
-        <TextStyle variation="subdued">
-          {'Created '}
-          <ResourceCreationTime createdAt={createdAt} locale={locale} />
-        </TextStyle>
-      </Caption>
-      {content}
-    </ResourceItem>
-  );
-};
-
 const BarsList = ({bars}: Props) => {
   return (
     <Card>
@@ -52,7 +28,32 @@ const BarsList = ({bars}: Props) => {
           plural: 'Welcome bars',
         }}
         items={bars}
-        renderItem={(bar) => <ListItem {...bar} />}
+        renderItem={(bar) => {
+          const accessibilityLabel = `View details for ${bar.title}`;
+
+          return (
+            <ResourceItem
+              id={bar.id}
+              name={bar.title}
+              url={getSingleBarUrlPath(bar.id)}
+              accessibilityLabel={accessibilityLabel}
+            >
+              <h3>
+                <TextStyle variation="strong">{bar.title}</TextStyle>
+              </h3>
+              <Caption>
+                <TextStyle variation="subdued">
+                  {'Created '}
+                  <ResourceCreationTime
+                    createdAt={bar.createdAt}
+                    locale={locale}
+                  />
+                </TextStyle>
+              </Caption>
+              {bar.content}
+            </ResourceItem>
+          );
+        }}
       />
     </Card>
   );

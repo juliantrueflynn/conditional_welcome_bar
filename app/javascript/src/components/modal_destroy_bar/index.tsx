@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal, TextContainer} from '@shopify/polaris';
 import {DESTROY_BAR} from '../../utilities/graphql_tags';
-import {useHistory} from 'react-router';
+import {useHistory, useLocation} from 'react-router';
 import {useMutation} from '@apollo/client';
 import {useToastDispatchContext} from '../ToastContext';
 
@@ -13,12 +13,13 @@ type Props = {
 
 const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useToastDispatchContext();
 
   const [destroyBar, {loading}] = useMutation(DESTROY_BAR, {
     onCompleted: () => {
       dispatch({type: 'bar/destroy'});
-      history.push({pathname: '/'});
+      history.push({pathname: '/', search: location.search});
     },
     ignoreResults: true,
   });
