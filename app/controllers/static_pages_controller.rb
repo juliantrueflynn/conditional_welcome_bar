@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class StaticPagesController < AuthenticatedController
-  layout "embedded_app"
+class StaticPagesController < ApplicationController
+  include ShopifyApp::EmbeddedApp
+  include ShopifyApp::RequireKnownShop
 
   def show
-    response.headers.except!("X-Frame-Options")
+    @shop_origin = current_shopify_domain
   end
 end

@@ -15,33 +15,27 @@ RSpec.describe "Mutations::CreateBar", type: :request do
     shop = create(:shop)
 
     result = execute_graphql_mutation(graphql_query, current_shop: shop)
-    result_data = result.dig("data", "createBar", "bar")
 
-    expect(result_data).to match(hash_including("id" => shop.bars.last.id.to_s))
+    expect(result).to match(
+      "data" => {
+        "createBar" => { "bar" => { "id" => shop.bars.last.id.to_s } }
+      }
+    )
   end
 
   it "returns unauthorized error if created bar invalid" do
     shop = create(:shop)
-    network_error = build_network_error("message" => "There was an issue creating your welcome bar")
-    invalid_bar = build(:bar, close_button: nil)
-    allow(BarCreatorService).to receive(:call).with(shop).and_return(invalid_bar)
+    bar = build_stubbed(:bar, active: "invalid value", title: nil)
+    allow(BarCreatorService).to receive(:call).and_return(bar)
 
     result = execute_graphql_mutation(graphql_query, current_shop: shop)
-    errors = result.dig("errors")
 
-    expect(errors).to include(network_error)
-  end
-
-  it "returns unauthorized error if shop missing" do
-    network_error = build_network_error(
-      "message" => "Not authorized",
-      "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_UNAUTHENTICATED }
+    expect(result).to match(
+      "data" => { "createBar" => nil },
+      "errors" => [
+        build_network_error("message" => "There was an issue creating your welcome bar")
+      ]
     )
-
-    result = execute_graphql_mutation(graphql_query)
-    errors = result.dig("errors")
-
-    expect(errors).to include(network_error)
   end
 
   it "does not create bar" do
@@ -54,9 +48,16 @@ RSpec.describe "Mutations::CreateBar", type: :request do
 
   it "returns no data if unauthorized error" do
     result = execute_graphql_mutation(graphql_query)
-    data = result.dig("data", "createBar")
 
-    expect(data).to be_nil
+    expect(result).to match(
+      "data" => { "createBar" => nil },
+      "errors" => [
+        build_network_error(
+          "message" => "Not authorized",
+          "extensions" => { "code" => GraphqlErrorHelper::EXTENSION_CODE_UNAUTHENTICATED }
+        )
+      ]
+    )
   end
 
   def build_network_error(options = {})

@@ -4,13 +4,14 @@
 #
 # Takes logic from ShopifyApp::LoginProtection concern to be used as service.
 # This allows for easier GraphQL use where there's custom authentication outside of controllers.
-class ShopSessionFinderService
-  def initialize(session_params)
-    @session_params = session_params
+class ShopSessionFinder
+  def self.call(request_env: nil, session: nil)
+    new(request_env: request_env, session: session).call
   end
 
-  def self.call(session_params)
-    new(session_params).call
+  def initialize(request_env:, session:)
+    @request_env = request_env || {}
+    @session = session || {}
   end
 
   def call
@@ -44,9 +45,19 @@ class ShopSessionFinderService
 
   def current_shopify_session
     @_current_shopify_session ||= begin
-      return if @session_params[:shop_id].blank? || @session_params[:shop_id].blank?
-
-      ShopifyApp::SessionRepository.retrieve_shop_session @session_params[:shop_id]
+      if shopify_domain.present?
+        ShopifyApp::SessionRepository.retrieve_shop_session_by_shopify_domain(shopify_domain)
+      elsif shop_id.present?
+        ShopifyApp::SessionRepository.retrieve_shop_session(shop_id)
+      end
     end
+  end
+
+  def shop_id
+    @session["shop_id"]
+  end
+
+  def shopify_domain
+    @request_env["jwt.shopify_domain"].presence || @session["shopify_domain"]
   end
 end

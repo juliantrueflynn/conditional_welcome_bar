@@ -16,6 +16,7 @@
     "@rails/webpacker": "5.2.1",
     "@shopify/app-bridge": "^1.27.2",
     "@shopify/app-bridge-react": "^1.27.2",
+    "@shopify/app-bridge-utils": "^1.27.2",
     "@shopify/polaris": "^5.6.1",
     "@types/graphql": "^14.5.0",
     "@types/lodash": "^4.14.161",

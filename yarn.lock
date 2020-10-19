@@ -1318,6 +1318,13 @@
   dependencies:
     "@shopify/app-bridge" "^1.27.2"
 
+"@shopify/app-bridge-utils@^1.27.2":
+  version "1.27.2"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-utils/-/app-bridge-utils-1.27.2.tgz#822bac75d2630c06e5c048efce1f1ea205bee92c"
+  integrity sha512-1GGLAA8+VnQEVii5mCfJh98OJ8PrZazpiDYVm7rpHiddAaCEGHVAxd4OY5JfqFYCZL7MtvR79wVGBv0Ru09Clw==
+  dependencies:
+    "@shopify/app-bridge" "^1.27.2"
+
 "@shopify/app-bridge@^1.27.2":
   version "1.27.2"
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.27.2.tgz#334d5edfb7c12fa13218416e2fbffedefef83732"

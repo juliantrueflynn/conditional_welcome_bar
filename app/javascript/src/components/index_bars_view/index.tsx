@@ -30,35 +30,36 @@ const PageLayout = ({primaryAction, children}: PageProps) => (
 const IndexBarsView = () => {
   const history = useHistory();
 
-  const query = useQuery<BarsQueryData>(GET_ALL_BARS);
+  const barsQuery = useQuery<BarsQueryData>(GET_ALL_BARS);
 
-  const [createBar, mutation] = useMutation<{createBar: CreateBarPayload}>(
-    CREATE_BAR,
-    {
-      onCompleted: (result) =>
-        result.createBar?.bar &&
-        history.push({pathname: getSingleBarUrlPath(result.createBar.bar.id)}),
-    }
-  );
+  const [createBar, createBarQuery] = useMutation<{
+    createBar: CreateBarPayload;
+  }>(CREATE_BAR, {
+    onCompleted: (result) => {
+      if (result.createBar?.bar) {
+        history.push({pathname: getSingleBarUrlPath(result.createBar.bar.id)});
+      }
+    },
+  });
 
   const primaryAction = {
     content: 'Create welcome bar',
     onAction: createBar,
-    loading: query.loading || mutation.loading,
+    loading: barsQuery.loading || createBarQuery.loading,
   };
 
-  if (query.error) {
+  if (barsQuery.error) {
     return <NetworkErrorState />;
   }
 
-  if (query.loading) {
+  if (barsQuery.loading) {
     return <LoadingSkeleton />;
   }
 
-  if (query.data?.bars && !!query.data.bars.length) {
+  if (barsQuery.data?.bars && !!barsQuery.data.bars.length) {
     return (
       <PageLayout primaryAction={primaryAction}>
-        <BarsList bars={query.data.bars} />
+        <BarsList bars={barsQuery.data.bars} />
       </PageLayout>
     );
   }
