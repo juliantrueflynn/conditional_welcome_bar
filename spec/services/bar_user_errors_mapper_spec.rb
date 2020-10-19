@@ -7,8 +7,8 @@ RSpec.describe BarUserErrorsMapper do
     bar = build(:bar, active: nil, title: nil)
     bar.valid? # Triggers error messages.
     expected_result = [
-      UserError.new(field: ["isActive"], message: bar.errors[:active].first),
-      UserError.new(field: ["title"], message: bar.errors[:title].first)
+      have_attributes(field: ["title"], message: bar.errors[:title].first),
+      have_attributes(field: ["isActive"], message: bar.errors[:active].first)
     ]
 
     result = described_class.call(bar)

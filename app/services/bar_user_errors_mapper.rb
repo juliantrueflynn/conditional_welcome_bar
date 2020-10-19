@@ -15,7 +15,9 @@ class BarUserErrorsMapper
     return [] if @bar.blank? || @bar.valid?
 
     @bar.errors.map do |attribute, message|
-      field_name = Bar::BOOLEAN_COLUMN_ALIASES[attribute].presence || attribute
+      field_name = Bar::BOOLEAN_COLUMN_ALIASES[attribute.to_sym].presence ||
+                   Bar::BOOLEAN_COLUMN_ALIASES.invert[attribute.to_sym].presence ||
+                   attribute
 
       UserError.new(
         # This is the GraphQL argument which corresponds to the validation error.

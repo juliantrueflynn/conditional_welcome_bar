@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
-  before_action :set_current_shop
-
   def execute
     result = ConditionalWelcomeBarSchema.execute(params[:query], execute_query)
     render json: result
@@ -19,13 +17,16 @@ class GraphqlController < ApplicationController
       variables: ensure_hash(params[:variables]),
       operation_name: params[:operationName],
       context: {
-        current_shop: @current_shop
+        current_shop: current_shop
       }
     }
   end
 
-  def set_current_shop
-    @current_shop = ShopSessionFinderService.call(shop_id: session[:shop_id])
+  def current_shop
+    @_current_shop ||= ShopSessionFinder.call(
+      session: session.to_h,
+      request_env: request.env
+    )
   end
 
   def hash_from_ambiguous(ambiguous_param)
