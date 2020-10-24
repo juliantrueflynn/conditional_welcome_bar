@@ -2,7 +2,7 @@ import React from 'react';
 import {Modal, TextContainer} from '@shopify/polaris';
 import {DESTROY_BAR} from '../../utilities/graphql_tags';
 import {useHistory, useLocation} from 'react-router';
-import {useMutation} from '@apollo/client';
+import {useMutation, ApolloError} from '@apollo/client';
 import {useToastDispatchContext} from '../ToastContext';
 
 type Props = {
@@ -11,18 +11,30 @@ type Props = {
   onClose: () => void;
 };
 
+const hasRecordMissingError = ({graphQLErrors}: ApolloError) =>
+  graphQLErrors &&
+  graphQLErrors.some((error) => error.extensions?.code === 'RECORD_NOT_FOUND');
+
 const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useToastDispatchContext();
 
-  const [destroyBar, {loading}] = useMutation(DESTROY_BAR, {
+  const [destroyBar, destroyBarQuery] = useMutation(DESTROY_BAR, {
     onCompleted: () => {
       dispatch({type: 'bar/destroy'});
-      history.push({pathname: '/', search: location.search});
+      navigateToHomepage();
+    },
+    onError: (error) => {
+      if (hasRecordMissingError(error)) {
+        navigateToHomepage();
+      }
     },
     ignoreResults: true,
   });
+
+  const navigateToHomepage = () =>
+    history.push({pathname: '/', search: location.search});
 
   return (
     <Modal
@@ -33,7 +45,8 @@ const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
         content: 'Delete',
         onAction: () => destroyBar({variables: {input: {id: barId}}}),
         destructive: true,
-        loading,
+        loading: destroyBarQuery.loading,
+        disabled: destroyBarQuery.called && !destroyBarQuery.error,
       }}
       secondaryActions={[
         {
