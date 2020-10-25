@@ -1,43 +1,14 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import {useQuery, useMutation, gql} from '@apollo/client';
+import {useQuery, useMutation} from '@apollo/client';
 import {Page, Layout, PageProps} from '@shopify/polaris';
-import {BarEntryProps} from './types';
+import {Bars, CreateBar, CREATE_BAR, GET_ALL_BARS} from './graphql';
 import {PAGE_TITLE} from './constants';
 import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
 import BarsList from './bars_list';
 import EmptyState from '../empty_state';
 import NetworkErrorState from '../network_error_state';
 import LoadingSkeleton from './loading_skeleton';
-
-type BarsQueryData = {
-  bars: BarEntryProps[];
-};
-
-type CreateBarPayload = {
-  bar?: {id: string};
-};
-
-const CREATE_BAR = gql`
-  mutation CreateBar {
-    createBar(input: {}) {
-      bar {
-        id
-      }
-    }
-  }
-`;
-
-const GET_ALL_BARS = gql`
-  query Bars {
-    bars {
-      id
-      title
-      content
-      createdAt
-    }
-  }
-`;
 
 const PageLayout = ({primaryAction, children}: PageProps) => (
   <Page title={PAGE_TITLE} primaryAction={primaryAction}>
@@ -50,11 +21,9 @@ const PageLayout = ({primaryAction, children}: PageProps) => (
 const IndexBarsView = () => {
   const history = useHistory();
 
-  const barsQuery = useQuery<BarsQueryData>(GET_ALL_BARS);
+  const barsQuery = useQuery<Bars>(GET_ALL_BARS);
 
-  const [createBar, createBarQuery] = useMutation<{
-    createBar: CreateBarPayload;
-  }>(CREATE_BAR, {
+  const [createBar, createBarQuery] = useMutation<CreateBar>(CREATE_BAR, {
     onCompleted: (result) => {
       if (result.createBar?.bar) {
         history.push({pathname: getSingleBarUrlPath(result.createBar.bar.id)});

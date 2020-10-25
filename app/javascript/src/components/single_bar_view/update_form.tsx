@@ -1,59 +1,44 @@
 import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
-import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
-import {gql, useMutation} from '@apollo/client';
-import {Bar, BarFields, UserError} from '../../types';
-import {barFalseMap} from '../../utilities/single_bar_utilities';
-import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
+import {Page, Form, Layout, Checkbox} from '@shopify/polaris';
+import {useMutation} from '@apollo/client';
+import {UPDATE_BAR, UpdateBar, UpdateBarVariables, Bar_bar, UpdateBar_updateBar_bar} from './graphql';
+import {getFieldErrorsMap} from './get_field_errors_map';
 import {useToastDispatchContext} from '../toast_context';
-import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
+import {TextField, FieldGroup, ColorPicker, ChoiceList} from './form_fields';
 
 type Props = {
   barId: string;
-  bar: BarFields;
+  bar: Bar_bar;
   openModal: () => void;
 };
 
-type UpdateBarPayload = {
-  bar?: BarFields;
-  userErrors?: UserError[];
-};
+type FieldsWithoutTypename = Omit<UpdateBar_updateBar_bar, '__typename'>;
 
 type BarFieldErrors = {
-  [key in keyof BarFields]: boolean | string[] | undefined;
+  [key in keyof FieldsWithoutTypename]?: boolean | string[] | undefined;
 };
 
-const UPDATE_BAR = gql`
-  mutation UpdateBar($input: UpdateBarInput!) {
-    updateBar(input: $input) {
-      bar {
-        title
-        content
-        url
-        placement
-        isActive
-        isSticky
-        isFullWidthLink
-        isNewTabUrl
-        themeTemplates
-        hasCloseButton
-        paddingY
-        paddingX
-        textAlign
-        textColor
-        fontSize
-        backgroundColor
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
-`;
+const barFalseMap: {[key in keyof FieldsWithoutTypename]: boolean} = {
+  title: false,
+  content: false,
+  url: false,
+  backgroundColor: false,
+  placement: false,
+  textAlign: false,
+  isActive: false,
+  isSticky: false,
+  isFullWidthLink: false,
+  hasCloseButton: false,
+  isNewTabUrl: false,
+  paddingY: false,
+  paddingX: false,
+  themeTemplates: false,
+  textColor: false,
+  fontSize: false,
+};
 
-const useUpdateBarMutation = () =>
-  useMutation<{updateBar: UpdateBarPayload}, {input: BarFields & {id: string}}>(UPDATE_BAR);
+const useUpdateBarMutation = () => useMutation<UpdateBar, UpdateBarVariables>(UPDATE_BAR);
 
 const UpdateForm = ({barId, bar, openModal}: Props) => {
   const toastDispatch = useToastDispatchContext();
@@ -64,7 +49,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
 
   const fieldErrors = useMemo(() => {
     const errorMap = getFieldErrorsMap(updateBarQuery.data?.updateBar?.userErrors);
-    const fieldKeys = Object.keys(errorMap) as Array<keyof BarFields>;
+    const fieldKeys = Object.keys(errorMap) as Array<keyof FieldsWithoutTypename>;
 
     return fieldKeys.reduce((acc, key) => {
       acc[key] = !dirtyFields[key] && errorMap[key];
@@ -81,13 +66,13 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
 
     setDirtyFields(barFalseMap);
 
-    if (formResults.data && !formResults.data.updateBar.userErrors?.length) {
+    if (formResults.data && !formResults.data.updateBar?.userErrors?.length) {
       setPrevFieldsValues(fieldsValues);
       toastDispatch({type: 'bar/update'});
     }
   };
 
-  const handleFieldValueChange = (value: BarFields[keyof BarFields], id: keyof BarFields) => {
+  const handleFieldValueChange = (value: Bar_bar[keyof Bar_bar], id: keyof Bar_bar) => {
     if (Array.isArray(prevFieldsValues[id])) {
       setFieldsValues({...fieldsValues, [id]: value});
       setDirtyFields({
@@ -127,15 +112,14 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
         <Layout>
           <FieldGroup id="editor">
             <TextField
-              id={Bar.title}
+              id="title"
               value={fieldsValues.title}
               label="Title"
-              placeholder="Title"
               error={fieldErrors.title}
               onChange={handleFieldValueChange}
             />
             <TextField
-              id={Bar.content}
+              id="content"
               value={fieldsValues.content}
               label="Content"
               placeholder="Start typing..."
@@ -146,7 +130,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
           </FieldGroup>
           <FieldGroup id="visibility">
             <Checkbox
-              id={Bar.isActive}
+              id="isActive"
               label="Active"
               helpText="Live for public view"
               checked={fieldsValues.isActive}
@@ -154,7 +138,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
               onChange={handleFieldValueChange}
             />
             <ChoiceList
-              id={Bar.themeTemplates}
+              id="themeTemplates"
               label="Page visibility"
               choices={[
                 {label: 'Global (all templates)', value: 'global'},
@@ -171,9 +155,9 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
           </FieldGroup>
           <FieldGroup id="link">
             <TextField
-              id={Bar.url}
+              id="url"
               label="URL"
-              value={fieldsValues.url}
+              value={fieldsValues.url || undefined}
               type="url"
               placeholder="https://example.com"
               error={fieldErrors.url}
@@ -182,14 +166,14 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
             {fieldsValues.url && (
               <>
                 <Checkbox
-                  id={Bar.isNewTabUrl}
+                  id="isNewTabUrl"
                   label="Open link in new tab"
                   checked={fieldsValues.isNewTabUrl}
                   error={fieldErrors.isNewTabUrl}
                   onChange={handleFieldValueChange}
                 />
                 <Checkbox
-                  id={Bar.isFullWidthLink}
+                  id="isFullWidthLink"
                   label="Is full width link?"
                   checked={fieldsValues.isFullWidthLink}
                   helpText="Entire welcome bar is clickable link"
@@ -201,18 +185,18 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
           </FieldGroup>
           <FieldGroup id="displayStyles">
             <ChoiceList
-              id={Bar.placement}
+              id="placement"
               label="Placement"
               choices={[
                 {label: 'Top', value: 'top'},
                 {label: 'Bottom', value: 'bottom'},
               ]}
-              value={[fieldsValues.placement]}
+              value={fieldsValues.placement ? [fieldsValues.placement] : []}
               error={fieldErrors.placement}
               onChange={handleFieldValueChange}
             />
             <Checkbox
-              id={Bar.isSticky}
+              id="isSticky"
               label="Is sticky bar"
               helpText="Bar sticks to top/bottom of window on scroll"
               checked={fieldsValues.isSticky}
@@ -220,7 +204,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
               onChange={handleFieldValueChange}
             />
             <TextField
-              id={Bar.paddingY}
+              id="paddingY"
               label="Vertical padding"
               value={fieldsValues.paddingY}
               helpText="Options: 'auto', 'inherit' or number px/em/%"
@@ -229,7 +213,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
               onChange={handleFieldValueChange}
             />
             <TextField
-              id={Bar.paddingX}
+              id="paddingX"
               label="Horizontal padding"
               value={fieldsValues.paddingX}
               helpText="Options: 'auto', 'inherit' or number px/em/%"
@@ -238,7 +222,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
               onChange={handleFieldValueChange}
             />
             <Checkbox
-              id={Bar.hasCloseButton}
+              id="hasCloseButton"
               label="Show close button"
               checked={fieldsValues.hasCloseButton}
               error={fieldErrors.hasCloseButton}
@@ -247,25 +231,25 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
           </FieldGroup>
           <FieldGroup id="textStyles">
             <ColorPicker
-              id={Bar.textColor}
+              id="textColor"
               label="Text color"
               value={fieldsValues.textColor}
               onChange={handleFieldValueChange}
             />
             <ChoiceList
-              id={Bar.textAlign}
+              id="textAlign"
               label="Alignment"
               choices={[
                 {label: 'Left', value: 'left'},
                 {label: 'Center', value: 'center'},
                 {label: 'Right', value: 'right'},
               ]}
-              value={[fieldsValues.textAlign]}
+              value={fieldsValues.textAlign ? [fieldsValues.textAlign] : []}
               error={fieldErrors.textAlign}
               onChange={handleFieldValueChange}
             />
             <TextField
-              id={Bar.fontSize}
+              id="fontSize"
               value={fieldsValues.fontSize}
               label="Text size"
               helpText="Options: 'inherit' or number px/em/%"
@@ -276,7 +260,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
           </FieldGroup>
           <FieldGroup id="backgroundStyles">
             <ColorPicker
-              id={Bar.backgroundColor}
+              id="backgroundColor"
               label="Background color"
               value={fieldsValues.backgroundColor}
               onChange={handleFieldValueChange}

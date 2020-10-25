@@ -2,18 +2,21 @@ import React from 'react';
 import {screen, render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {PolarisTestProvider} from '@shopify/polaris';
-import {FORM_SECTIONS, FORM_SECTION_IDS} from '../../../constants/form_sections';
+import {FORM_SECTIONS, FORM_SECTION_IDS} from '../constants';
+import {Bar_bar} from '../graphql';
 import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
 import ToastContextProvider from '../../toast_context';
 import UpdateForm from '../update_form';
 import ApolloProvider from '../../apollo_provider';
+
+const bar = {...mockBarFields, __typename: 'Bar'} as Bar_bar;
 
 test('renders all field groups', async () => {
   render(
     <ApolloProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={bar} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </ApolloProvider>
@@ -30,7 +33,7 @@ test('reverts to last save on discard click', () => {
     <ApolloProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={bar} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </ApolloProvider>
@@ -50,7 +53,7 @@ test('disables Save button unless changes made', () => {
     <ApolloProvider>
       <PolarisTestProvider>
         <ToastContextProvider>
-          <UpdateForm barId="1" bar={mockBarFields} openModal={jest.fn} />
+          <UpdateForm barId="1" bar={bar} openModal={jest.fn} />
         </ToastContextProvider>
       </PolarisTestProvider>
     </ApolloProvider>

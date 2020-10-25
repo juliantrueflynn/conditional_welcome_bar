@@ -1,20 +1,13 @@
 import React from 'react';
 import {ChoiceListProps, ChoiceList, Error} from '@shopify/polaris';
-import {Bar} from '../../types';
+import {UpdateBar_updateBar_bar} from '../graphql';
 
-type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
-
-type PickedChoiceListProps = Omit<ChoiceListProps, 'selected' | 'title'>;
-
-type Props = Overwrite<
-  PickedChoiceListProps,
-  {
-    id: Bar;
-    label: string;
-    value: string[];
-    error?: Error | boolean;
-  }
->;
+type Props = Omit<ChoiceListProps, 'selected' | 'title' | 'error'> & {
+  id: keyof UpdateBar_updateBar_bar;
+  label: string;
+  value: string[];
+  error?: Error | boolean;
+};
 
 // Simple wrapper for ChoiceList component to have consistent property names with
 // all the other form components.

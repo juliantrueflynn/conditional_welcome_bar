@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout, FormLayout, Card} from '@shopify/polaris';
-import {FORM_SECTIONS} from '../../constants/form_sections';
+import {FORM_SECTIONS} from '../constants';
 
 type Props = {
   id: keyof typeof FORM_SECTIONS;

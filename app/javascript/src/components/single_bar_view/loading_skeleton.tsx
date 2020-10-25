@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout, Loading, SkeletonBodyText, SkeletonPage, TextContainer} from '@shopify/polaris';
-import {FORM_SECTION_IDS} from '../../constants/form_sections';
-import {FieldGroup} from '../form_fields';
+import {FORM_SECTION_IDS} from './constants';
+import {FieldGroup} from './form_fields';
 
 const LoadingSkeleton = () => (
   <>

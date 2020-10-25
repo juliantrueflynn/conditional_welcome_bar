@@ -1,10 +1,10 @@
 import React from 'react';
-import {FORM_SECTIONS, FORM_SECTION_IDS} from '../../../constants/form_sections';
+import {FORM_SECTIONS, FORM_SECTION_IDS} from '../constants';
 import {screen, render} from '@testing-library/react';
 import {PolarisTestProvider} from '@shopify/polaris';
 import LoadingSkeleton from '../loading_skeleton';
 
-it('renders field groups', () => {
+test('renders field groups', () => {
   render(
     <PolarisTestProvider>
       <LoadingSkeleton />

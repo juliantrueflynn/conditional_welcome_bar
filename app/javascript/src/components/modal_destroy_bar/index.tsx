@@ -1,24 +1,15 @@
 import React from 'react';
 import {Modal, TextContainer} from '@shopify/polaris';
 import {useHistory, useLocation} from 'react-router';
-import {useMutation, ApolloError, gql} from '@apollo/client';
+import {useMutation, ApolloError} from '@apollo/client';
+import {DestroyBar, DestroyBarVariables, DESTROY_BAR} from './graphql';
 import {useToastDispatchContext} from '../toast_context';
 
 type Props = {
   isModalOpen: boolean;
-  barId: string | number;
+  barId: string;
   onClose: () => void;
 };
-
-const DESTROY_BAR = gql`
-  mutation DestroyBar($input: DestroyBarInput!) {
-    destroyBar(input: $input) {
-      bar {
-        id
-      }
-    }
-  }
-`;
 
 const hasRecordMissingError = ({graphQLErrors}: ApolloError) =>
   graphQLErrors && graphQLErrors.some((error) => error.extensions?.code === 'RECORD_NOT_FOUND');
@@ -28,7 +19,7 @@ const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
   const location = useLocation();
   const dispatch = useToastDispatchContext();
 
-  const [destroyBar, destroyBarQuery] = useMutation(DESTROY_BAR, {
+  const [destroyBar, destroyBarQuery] = useMutation<DestroyBar, DestroyBarVariables>(DESTROY_BAR, {
     onCompleted: () => {
       dispatch({type: 'bar/destroy'});
       navigateToHomepage();
