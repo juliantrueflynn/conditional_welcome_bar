@@ -6,7 +6,7 @@ import {Bar, BarFields, UserError} from '../../types';
 import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
-import {useToastDispatchContext} from '../ToastContext';
+import {useToastDispatchContext} from '../toast_context';
 import {FieldGroup, ColorPicker, ChoiceList} from '../form_fields';
 
 type Props = {
