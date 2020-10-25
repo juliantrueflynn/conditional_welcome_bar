@@ -1,8 +1,7 @@
 import React from 'react';
 import {Modal, TextContainer} from '@shopify/polaris';
-import {DESTROY_BAR} from '../../utilities/graphql_tags';
 import {useHistory, useLocation} from 'react-router';
-import {useMutation, ApolloError} from '@apollo/client';
+import {useMutation, ApolloError, gql} from '@apollo/client';
 import {useToastDispatchContext} from '../toast_context';
 
 type Props = {
@@ -10,6 +9,16 @@ type Props = {
   barId: string | number;
   onClose: () => void;
 };
+
+const DESTROY_BAR = gql`
+  mutation DestroyBar($input: DestroyBarInput!) {
+    destroyBar(input: $input) {
+      bar {
+        id
+      }
+    }
+  }
+`;
 
 const hasRecordMissingError = ({graphQLErrors}: ApolloError) =>
   graphQLErrors && graphQLErrors.some((error) => error.extensions?.code === 'RECORD_NOT_FOUND');

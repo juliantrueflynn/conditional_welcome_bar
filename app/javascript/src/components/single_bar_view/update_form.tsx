@@ -1,9 +1,8 @@
 import React, {useState, useMemo} from 'react';
 import isEqual from 'lodash/isEqual';
 import {Page, Form, TextField, Layout, Checkbox} from '@shopify/polaris';
-import {useMutation} from '@apollo/client';
+import {gql, useMutation} from '@apollo/client';
 import {Bar, BarFields, UserError} from '../../types';
-import {UPDATE_BAR} from '../../utilities/graphql_tags';
 import {barFalseMap} from '../../utilities/single_bar_utilities';
 import {getFieldErrorsMap} from '../../utilities/get_field_errors_map';
 import {useToastDispatchContext} from '../toast_context';
@@ -23,6 +22,35 @@ type UpdateBarPayload = {
 type BarFieldErrors = {
   [key in keyof BarFields]: boolean | string[] | undefined;
 };
+
+const UPDATE_BAR = gql`
+  mutation UpdateBar($input: UpdateBarInput!) {
+    updateBar(input: $input) {
+      bar {
+        title
+        content
+        url
+        placement
+        isActive
+        isSticky
+        isFullWidthLink
+        isNewTabUrl
+        themeTemplates
+        hasCloseButton
+        paddingY
+        paddingX
+        textAlign
+        textColor
+        fontSize
+        backgroundColor
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
 
 const useUpdateBarMutation = () =>
   useMutation<{updateBar: UpdateBarPayload}, {input: BarFields & {id: string}}>(UPDATE_BAR);

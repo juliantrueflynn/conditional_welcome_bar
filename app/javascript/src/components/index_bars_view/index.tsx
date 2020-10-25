@@ -1,7 +1,6 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import {GET_ALL_BARS, CREATE_BAR} from '../../utilities/graphql_tags';
-import {useQuery, useMutation} from '@apollo/client';
+import {useQuery, useMutation, gql} from '@apollo/client';
 import {Page, Layout, PageProps} from '@shopify/polaris';
 import {BarEntryProps} from './types';
 import {PAGE_TITLE} from './constants';
@@ -18,6 +17,27 @@ type BarsQueryData = {
 type CreateBarPayload = {
   bar?: {id: string};
 };
+
+const CREATE_BAR = gql`
+  mutation CreateBar {
+    createBar(input: {}) {
+      bar {
+        id
+      }
+    }
+  }
+`;
+
+const GET_ALL_BARS = gql`
+  query Bars {
+    bars {
+      id
+      title
+      content
+      createdAt
+    }
+  }
+`;
 
 const PageLayout = ({primaryAction, children}: PageProps) => (
   <Page title={PAGE_TITLE} primaryAction={primaryAction}>

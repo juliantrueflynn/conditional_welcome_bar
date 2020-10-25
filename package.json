@@ -44,6 +44,7 @@
     "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
+    "apollo": "^2.31.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^26.5.2",
     "eslint": "^7.11.0",
