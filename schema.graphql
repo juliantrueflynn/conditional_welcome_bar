@@ -1,22 +1,22 @@
 type Bar {
   backgroundColor: String
   content: String!
-  createdAt: String
+  createdAt: String!
   fontSize: String
-  hasCloseButton: Boolean
+  hasCloseButton: Boolean!
   id: ID!
-  isActive: Boolean
-  isFullWidthLink: Boolean
-  isNewTabUrl: Boolean
-  isSticky: Boolean
+  isActive: Boolean!
+  isFullWidthLink: Boolean!
+  isNewTabUrl: Boolean!
+  isSticky: Boolean!
   paddingX: String
   paddingY: String
   placement: String
   textAlign: String
   textColor: String
   themeTemplates: [String!]!
-  title: String
-  updatedAt: String
+  title: String!
+  updatedAt: String!
   url: String
 }
 
@@ -124,7 +124,7 @@ type UserError {
   """
   Which input value this error came from
   """
-  field: [String!]
+  field: [String!]!
 
   """
   A description of the error

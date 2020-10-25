@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
-import {BarFields} from '../../types';
-import {GET_SINGLE_BAR} from '../../utilities/graphql_tags';
+import {Bar, BarVariables, GET_SINGLE_BAR} from './graphql';
 import UpdateForm from './update_form';
 import NetworkErrorState from '../network_error_state';
 import ModalDestroyBar from '../modal_destroy_bar';
@@ -13,19 +12,11 @@ type RouterProps = {
   barId: string;
 };
 
-type BarQueryData = {
-  bar: BarFields;
-};
-
-type BarQueryVars = {
-  id: string;
-};
-
 const SingleBarView = () => {
   const {barId} = useParams<RouterProps>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const query = useQuery<BarQueryData, BarQueryVars>(GET_SINGLE_BAR, {
+  const query = useQuery<Bar, BarVariables>(GET_SINGLE_BAR, {
     variables: {id: barId},
   });
 

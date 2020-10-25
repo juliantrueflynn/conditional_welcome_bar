@@ -1,15 +1,7 @@
 import {gql} from '@apollo/client';
 
-export const GET_ALL_BARS = gql`
-  query Bars {
-    bars {
-      id
-      title
-      content
-      createdAt
-    }
-  }
-`;
+export * from './types/Bar';
+export * from './types/UpdateBar';
 
 export const GET_SINGLE_BAR = gql`
   query Bar($id: ID!) {
@@ -30,16 +22,6 @@ export const GET_SINGLE_BAR = gql`
       textColor
       fontSize
       backgroundColor
-    }
-  }
-`;
-
-export const CREATE_BAR = gql`
-  mutation CreateBar {
-    createBar(input: {}) {
-      bar {
-        id
-      }
     }
   }
 `;
@@ -68,16 +50,6 @@ export const UPDATE_BAR = gql`
       userErrors {
         field
         message
-      }
-    }
-  }
-`;
-
-export const DESTROY_BAR = gql`
-  mutation DestroyBar($input: DestroyBarInput!) {
-    destroyBar(input: $input) {
-      bar {
-        id
       }
     }
   }

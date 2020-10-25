@@ -1,6 +1,4 @@
-import {BarFields} from '../types';
-
-export const mockBarFields: BarFields = {
+export const mockBarFields = {
   title: 'Some title',
   content: 'Some content',
   url: 'https://example.com',
