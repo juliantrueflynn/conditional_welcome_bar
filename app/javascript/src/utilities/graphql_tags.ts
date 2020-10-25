@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const GET_ALL_BARS = gql`
-  {
+  query Bars {
     bars {
       id
       title

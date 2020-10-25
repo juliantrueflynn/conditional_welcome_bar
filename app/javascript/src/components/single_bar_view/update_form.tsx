@@ -30,16 +30,10 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
   const [fieldsValues, setFieldsValues] = useState(bar);
   const [prevFieldsValues, setPrevFieldsValues] = useState(bar);
 
-  const [updateBar, {loading, data}] = useMutation<
+  const [updateBar, {loading, data, error}] = useMutation<
     {updateBar: UpdateBarPayload},
     {input: BarFields & {id: string}}
-  >(UPDATE_BAR, {
-    onCompleted: () => {
-      setDirtyFields(barFalseMap);
-      setPrevFieldsValues(fieldsValues);
-      toastDispatch({type: 'bar/update'});
-    },
-  });
+  >(UPDATE_BAR);
 
   const fieldErrors = useMemo(() => {
     const errorMap = getFieldErrorsMap(data?.updateBar?.userErrors);
@@ -54,7 +48,16 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
 
   const handleSubmit = async () => {
     const {__typename, ...attributes} = fieldsValues;
-    await updateBar({variables: {input: {id: barId, ...attributes}}});
+    const formResults = await updateBar({
+      variables: {input: {id: barId, ...attributes}},
+    });
+
+    setDirtyFields(barFalseMap);
+    setPrevFieldsValues(fieldsValues);
+
+    if (!error && !formResults.data?.updateBar?.userErrors) {
+      toastDispatch({type: 'bar/update'});
+    }
   };
 
   const handleFieldValueChange = (
