@@ -7,7 +7,8 @@
     "test:coverage": "jest --verbose --coverage",
     "lint": "eslint 'app/javascript/**/*.{ts,tsx,js}'",
     "lint:fix": "eslint 'app/javascript/**/*.{ts,tsx,js}' --fix",
-    "webpack:stats": "./bin/webpack-bundle-analyzer.sh"
+    "webpack:stats": "./bin/webpack-bundle-analyzer.sh",
+    "generateTypes": "yarn apollo codegen:generate --localSchemaFile=schema.json --target=typescript --includes='app/javascript/src/**/*.ts*' --tagName=gql --globalTypesFile=app/javascript/src/types/graphqlGlobals.ts types"
   },
   "dependencies": {
     "@apollo/client": "^3.2.4",
