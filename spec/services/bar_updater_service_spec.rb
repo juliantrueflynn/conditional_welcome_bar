@@ -32,10 +32,20 @@ RSpec.describe BarUpdaterService do
     expect(bar).to have_attributes(title: new_title)
   end
 
-  it "inserts new theme_templates and destroys non matching" do
+  it "returns true for inserting new theme_templates and destroys non matching" do
     bar = create(:bar)
-    new_names = %w[new_name_one new_name_two]
     old_theme_templates = create_list(:theme_template, 3, bar: bar)
+    new_names = %w[new_name_one new_name_two]
+
+    expect(bar.theme_templates).to match_array(old_theme_templates)
+    described_class.call bar, theme_templates: new_names
+    expect(bar.theme_templates.pluck(:name)).to match_array(new_names)
+  end
+
+  it "returns true for upserting new theme_templates and destroys non matching" do
+    bar = create(:bar)
+    old_theme_templates = create_list(:theme_template, 2, bar: bar)
+    new_names = %w[new_name_one new_name_two].concat([old_theme_templates.first.name])
 
     expect(bar.theme_templates).to match_array(old_theme_templates)
     described_class.call bar, theme_templates: new_names

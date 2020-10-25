@@ -20,20 +20,19 @@ class BarUpdaterService
   private
 
   def theme_templates_attributes
-    theme_templates_to_create.merge(theme_templates_marked_for_destruction)
+    theme_templates_input_map.merge(theme_templates_persisted)
   end
 
-  def theme_templates_to_create
-    @theme_templates.index_with do |name|
-      { name: name }
+  def theme_templates_persisted
+    @bar.theme_templates.each_with_object({}) do |template, persisted_templates|
+      persisted_templates[template.name] = { id: template.id, name: template.name }
+      persisted_templates[template.name][:_destroy] = "1" if theme_templates_input_map[template.name].blank?
     end
   end
 
-  def theme_templates_marked_for_destruction
-    unchanged_theme_templates = @bar.theme_templates.where.not(name: @theme_templates)
-
-    unchanged_theme_templates.each_with_object({}) do |template, destroy_templates|
-      destroy_templates[template.name] = { id: template.id, _destroy: "1" }
+  def theme_templates_input_map
+    @_theme_templates_input_map ||= @theme_templates.index_with do |name|
+      { name: name }
     end
   end
 end
