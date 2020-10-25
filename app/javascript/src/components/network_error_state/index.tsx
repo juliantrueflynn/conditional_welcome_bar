@@ -9,8 +9,7 @@ const NetworkErrorState = () => (
       onAction: () => window.location.reload(),
     }}
   >
-    We&rsquo;re either having server issues or there&rsquo;s a problem with your
-    internet connection.
+    We&rsquo;re either having server issues or there&rsquo;s a problem with your internet connection.
   </EmptyState>
 );
 

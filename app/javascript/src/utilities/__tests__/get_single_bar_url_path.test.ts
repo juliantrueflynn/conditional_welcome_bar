@@ -18,9 +18,7 @@ test('returns url path using given ID and appends location search', () => {
 });
 
 test('returns url path using given ID and adds shop param from DOM', () => {
-  jest
-    .spyOn(shopifyHelpers, 'getShopOrigin')
-    .mockReturnValue('ex2.myshopify.com');
+  jest.spyOn(shopifyHelpers, 'getShopOrigin').mockReturnValue('ex2.myshopify.com');
   Object.defineProperty(window, 'location', {
     value: {...window.location, search: ''},
     writable: true,

@@ -21,15 +21,7 @@ type Props = Overwrite<
 const ChoiceListField = ({id, label, value, error, ...props}: Props) => {
   const fieldErrors = (error || undefined) as Error;
 
-  return (
-    <ChoiceList
-      name={id}
-      title={label}
-      selected={value}
-      error={fieldErrors}
-      {...props}
-    />
-  );
+  return <ChoiceList name={id} title={label} selected={value} error={fieldErrors} {...props} />;
 };
 
 export default ChoiceListField;

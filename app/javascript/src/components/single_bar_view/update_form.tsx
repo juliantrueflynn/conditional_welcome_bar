@@ -24,19 +24,18 @@ type BarFieldErrors = {
   [key in keyof BarFields]: boolean | string[] | undefined;
 };
 
+const useUpdateBarMutation = () =>
+  useMutation<{updateBar: UpdateBarPayload}, {input: BarFields & {id: string}}>(UPDATE_BAR);
+
 const UpdateForm = ({barId, bar, openModal}: Props) => {
   const toastDispatch = useToastDispatchContext();
+  const [updateBar, updateBarQuery] = useUpdateBarMutation();
   const [dirtyFields, setDirtyFields] = useState(barFalseMap);
   const [fieldsValues, setFieldsValues] = useState(bar);
   const [prevFieldsValues, setPrevFieldsValues] = useState(bar);
 
-  const [updateBar, {loading, data, error}] = useMutation<
-    {updateBar: UpdateBarPayload},
-    {input: BarFields & {id: string}}
-  >(UPDATE_BAR);
-
   const fieldErrors = useMemo(() => {
-    const errorMap = getFieldErrorsMap(data?.updateBar?.userErrors);
+    const errorMap = getFieldErrorsMap(updateBarQuery.data?.updateBar?.userErrors);
     const fieldKeys = Object.keys(errorMap) as Array<keyof BarFields>;
 
     return fieldKeys.reduce((acc, key) => {
@@ -44,7 +43,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
 
       return acc;
     }, {} as BarFieldErrors);
-  }, [data, dirtyFields]);
+  }, [updateBarQuery.data, dirtyFields]);
 
   const handleSubmit = async () => {
     const {__typename, ...attributes} = fieldsValues;
@@ -53,17 +52,14 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
     });
 
     setDirtyFields(barFalseMap);
-    setPrevFieldsValues(fieldsValues);
 
-    if (!error && !formResults.data?.updateBar?.userErrors) {
+    if (formResults.data && !formResults.data.updateBar.userErrors?.length) {
+      setPrevFieldsValues(fieldsValues);
       toastDispatch({type: 'bar/update'});
     }
   };
 
-  const handleFieldValueChange = (
-    value: BarFields[keyof BarFields],
-    id: keyof BarFields
-  ) => {
+  const handleFieldValueChange = (value: BarFields[keyof BarFields], id: keyof BarFields) => {
     if (Array.isArray(prevFieldsValues[id])) {
       setFieldsValues({...fieldsValues, [id]: value});
       setDirtyFields({
@@ -88,7 +84,7 @@ const UpdateForm = ({barId, bar, openModal}: Props) => {
         content: 'Save',
         onAction: handleSubmit,
         disabled: !hasDirtyState,
-        loading,
+        loading: updateBarQuery.loading,
       }}
       secondaryActions={[
         {content: 'Delete', onAction: openModal},

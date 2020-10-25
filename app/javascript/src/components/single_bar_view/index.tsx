@@ -40,16 +40,8 @@ const SingleBarView = () => {
   if (query.data?.bar) {
     return (
       <>
-        <ModalDestroyBar
-          onClose={() => setIsModalOpen(false)}
-          isModalOpen={isModalOpen}
-          barId={barId}
-        />
-        <UpdateForm
-          barId={barId}
-          bar={query.data.bar}
-          openModal={() => setIsModalOpen(true)}
-        />
+        <ModalDestroyBar onClose={() => setIsModalOpen(false)} isModalOpen={isModalOpen} barId={barId} />
+        <UpdateForm barId={barId} bar={query.data.bar} openModal={() => setIsModalOpen(true)} />
       </>
     );
   }

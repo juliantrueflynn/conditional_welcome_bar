@@ -1,18 +1,18 @@
-import toastReducer, {initialState} from '../toast';
+import toastReducer, {initialState} from '../reducer';
 
-it('returns welcome bar updated content', () => {
+test('returns welcome bar updated content', () => {
   const result = toastReducer(initialState, {type: 'bar/update'});
 
   expect(result).toEqual({content: 'Welcome bar updated'});
 });
 
-it('returns welcome bar delete content', () => {
+test('returns welcome bar delete content', () => {
   const result = toastReducer(initialState, {type: 'bar/destroy'});
 
   expect(result).toEqual({content: 'Welcome bar deleted'});
 });
 
-it('resets state to initial state', () => {
+test('resets state to initial state', () => {
   const prevState = {content: 'Welcome bar deleted'};
 
   const result = toastReducer(prevState, {type: 'reset'});

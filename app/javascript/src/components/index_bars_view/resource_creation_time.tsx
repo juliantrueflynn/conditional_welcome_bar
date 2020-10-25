@@ -21,11 +21,7 @@ const getMinutesAgotext = (secondsAgo: number) => {
   return `${minutes} ${pluralized} ago`;
 };
 
-const getTimeAgo = (
-  toLocaleDate: LocaleDateString,
-  localeTime: string,
-  secondsAgo: number
-) => {
+const getTimeAgo = (toLocaleDate: LocaleDateString, localeTime: string, secondsAgo: number) => {
   const isLaterThan = {
     year: secondsAgo >= 31557600,
     week: secondsAgo >= 604800,
@@ -56,8 +52,7 @@ const ResourceCreationTime = ({locale, createdAt}: Props) => {
   const created = new Date(createdAt);
   const secondsAgo = Math.floor((+new Date() - +created) / 1000);
 
-  const toLocaleDate: LocaleDateString = (options) =>
-    created.toLocaleDateString(locale, options);
+  const toLocaleDate: LocaleDateString = (options) => created.toLocaleDateString(locale, options);
 
   const localeTime = created
     .toLocaleString(locale, {

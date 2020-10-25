@@ -12,8 +12,7 @@ type Props = {
 };
 
 const hasRecordMissingError = ({graphQLErrors}: ApolloError) =>
-  graphQLErrors &&
-  graphQLErrors.some((error) => error.extensions?.code === 'RECORD_NOT_FOUND');
+  graphQLErrors && graphQLErrors.some((error) => error.extensions?.code === 'RECORD_NOT_FOUND');
 
 const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
   const history = useHistory();
@@ -33,8 +32,7 @@ const ModalDestroyBar = ({barId, isModalOpen, onClose}: Props) => {
     ignoreResults: true,
   });
 
-  const navigateToHomepage = () =>
-    history.push({pathname: '/', search: location.search});
+  const navigateToHomepage = () => history.push({pathname: '/', search: location.search});
 
   return (
     <Modal

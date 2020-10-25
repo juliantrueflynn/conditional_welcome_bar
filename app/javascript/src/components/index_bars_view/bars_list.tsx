@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  ResourceList,
-  Card,
-  ResourceItem,
-  TextStyle,
-  Caption,
-} from '@shopify/polaris';
+import {ResourceList, Card, ResourceItem, TextStyle, Caption} from '@shopify/polaris';
 import {BarEntryProps} from './types';
 import {getSingleBarUrlPath} from '../../utilities/get_single_bar_url_path';
 import ResourceCreationTime from './resource_creation_time';
@@ -16,8 +10,7 @@ type Props = {
   bars: BarEntryProps[];
 };
 
-const locale =
-  new URLSearchParams(window.location.search).get('locale') || DEFAULT_LOCALE;
+const locale = new URLSearchParams(window.location.search).get('locale') || DEFAULT_LOCALE;
 
 const BarsList = ({bars}: Props) => {
   return (
@@ -44,10 +37,7 @@ const BarsList = ({bars}: Props) => {
               <Caption>
                 <TextStyle variation="subdued">
                   {'Created '}
-                  <ResourceCreationTime
-                    createdAt={bar.createdAt}
-                    locale={locale}
-                  />
+                  <ResourceCreationTime createdAt={bar.createdAt} locale={locale} />
                 </TextStyle>
               </Caption>
               {bar.content}

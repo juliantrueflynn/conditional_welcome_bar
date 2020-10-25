@@ -16,8 +16,7 @@ const MissingPageView = () => {
     <Page title="No page found">
       <Layout>
         <EmptyState heading="Page missing!" action={action}>
-          The page you&lsquo;re looking for doesn&lsquo;t exist or
-          couldn&lsquo;t be found.
+          The page you&lsquo;re looking for doesn&lsquo;t exist or couldn&lsquo;t be found.
         </EmptyState>
       </Layout>
     </Page>

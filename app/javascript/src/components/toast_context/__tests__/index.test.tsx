@@ -8,10 +8,7 @@ const MockButton = () => {
   const dispatch = useToastDispatchContext();
 
   return (
-    <button
-      data-testid="MockButton"
-      onClick={() => dispatch({type: 'bar/destroy'})}
-    >
+    <button data-testid="MockButton" onClick={() => dispatch({type: 'bar/destroy'})}>
       Click
     </button>
   );

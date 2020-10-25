@@ -2,10 +2,7 @@ import React from 'react';
 import {screen, render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {PolarisTestProvider} from '@shopify/polaris';
-import {
-  FORM_SECTIONS,
-  FORM_SECTION_IDS,
-} from '../../../constants/form_sections';
+import {FORM_SECTIONS, FORM_SECTION_IDS} from '../../../constants/form_sections';
 import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
 import ToastContextProvider from '../../toast_context';
 import UpdateForm from '../update_form';
@@ -23,9 +20,7 @@ test('renders all field groups', async () => {
   );
 
   for (const id of FORM_SECTION_IDS) {
-    expect(
-      await screen.findByText(FORM_SECTIONS[id].title)
-    ).toBeInTheDocument();
+    expect(await screen.findByText(FORM_SECTIONS[id].title)).toBeInTheDocument();
     expect(screen.getByText(FORM_SECTIONS[id].description)).toBeInTheDocument();
   }
 });

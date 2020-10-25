@@ -5,10 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {MemoryRouter as Router, Route} from 'react-router-dom';
 import ApolloProvider from '../../apollo_provider';
-import {
-  graphql,
-  setupGraphqlServer,
-} from '../../../test_utilities/mock_service_worker';
+import {graphql, setupGraphqlServer} from '../../../test_utilities/mock_service_worker';
 
 const graphqlServer = setupGraphqlServer();
 
@@ -51,28 +48,20 @@ const renderComponent = () =>
   );
 
 test('renders loading state before render entries', async (done) => {
-  graphqlServer.use(
-    graphql.query('Bars', (_req, res, ctx) =>
-      res(ctx.data({bars: mockBarsData}))
-    )
-  );
+  graphqlServer.use(graphql.query('Bars', (_req, res, ctx) => res(ctx.data({bars: mockBarsData}))));
   renderComponent();
 
   expect(screen.getByTestId('MockLoading')).toBeInTheDocument();
   expect(screen.queryByText(mockBarsData[0].title)).not.toBeInTheDocument();
   expect(screen.queryByText(mockBarsData[1].title)).not.toBeInTheDocument();
-  await waitFor(() =>
-    expect(screen.queryByTestId('MockLoading')).not.toBeInTheDocument()
-  );
+  await waitFor(() => expect(screen.queryByTestId('MockLoading')).not.toBeInTheDocument());
   expect(screen.getByText(mockBarsData[0].title)).toBeInTheDocument();
   expect(screen.getByText(mockBarsData[1].title)).toBeInTheDocument();
   done();
 });
 
 test('renders error instead of entries', async () => {
-  graphqlServer.use(
-    graphql.query('Bars', (_req, res) => res.networkError('Some network error'))
-  );
+  graphqlServer.use(graphql.query('Bars', (_req, res) => res.networkError('Some network error')));
   renderComponent();
 
   expect(await screen.findByText('Reload this page')).toBeInTheDocument();
@@ -80,20 +69,14 @@ test('renders error instead of entries', async () => {
 });
 
 test('renders empty list call to action if result empty', async () => {
-  graphqlServer.use(
-    graphql.query('Bars', (_req, res, ctx) => res(ctx.data({bars: []})))
-  );
+  graphqlServer.use(graphql.query('Bars', (_req, res, ctx) => res(ctx.data({bars: []}))));
   renderComponent();
 
-  expect(
-    await screen.findByText('Create your first welcome bar!')
-  ).toBeInTheDocument();
+  expect(await screen.findByText('Create your first welcome bar!')).toBeInTheDocument();
 });
 
 test('redirects to single bar after create', async () => {
-  graphqlServer.use(
-    graphql.query('Bars', (_req, res, ctx) => res(ctx.data({bars: []})))
-  );
+  graphqlServer.use(graphql.query('Bars', (_req, res, ctx) => res(ctx.data({bars: []}))));
   renderComponent();
 
   expect(screen.getByTestId('MockLoading')).toBeInTheDocument();
