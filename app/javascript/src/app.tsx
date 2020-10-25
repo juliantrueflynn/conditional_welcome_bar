@@ -1,7 +1,6 @@
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
-import ShopifyProvider from './components/shopify_provider';
+import {ShopifyProvider, getShopifyAppConfig} from './shopify';
 import React from 'react';
-import {getShopifyAppConfig} from '../shopify_app';
 
 const SingleBarView = React.lazy(() => import('./components/single_bar_view'));
 const IndexBarsView = React.lazy(() => import('./components/index_bars_view'));

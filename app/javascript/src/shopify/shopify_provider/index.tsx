@@ -4,8 +4,8 @@ import {AppProvider, Frame} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import {useHistory, useLocation} from 'react-router-dom';
 import {AppConfig} from '@shopify/app-bridge';
-import ToastContextProvider from '../toast_context';
-import ApolloProvider from '../apollo_provider';
+import ToastContextProvider from '../../components/toast_context';
+import ApolloProvider from '../../components/apollo_provider';
 
 type Props = {
   config: AppConfig;

@@ -7,7 +7,7 @@ import {
   InMemoryCache,
   concat,
 } from '@apollo/client';
-import {authenticatedFetch, createShopifyAppBridge} from '../../../shopify_app';
+import {authenticatedFetch, createShopifyAppBridge} from '../../shopify';
 
 const appBridge = createShopifyAppBridge();
 
