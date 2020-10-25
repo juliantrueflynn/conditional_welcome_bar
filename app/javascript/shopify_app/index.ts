@@ -15,7 +15,7 @@ export const getShopifyAppConfig = (): AppConfig | null => {
     return null;
   }
 
-  return {apiKey, shopOrigin};
+  return {apiKey, shopOrigin, forceRedirect: true};
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
