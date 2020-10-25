@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  EmptyState as PolarisEmptyState,
-  EmptyStateProps,
-} from '@shopify/polaris';
+import {EmptyState as PolarisEmptyState, EmptyStateProps} from '@shopify/polaris';
 
-export const DEFAULT_IMAGE =
-  'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
+export const DEFAULT_IMAGE = 'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
 
 interface Props extends Omit<EmptyStateProps, 'image'> {
   image?: string;

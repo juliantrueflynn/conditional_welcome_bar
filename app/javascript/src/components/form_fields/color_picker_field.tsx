@@ -1,10 +1,5 @@
 import React, {useMemo} from 'react';
-import {
-  ColorPicker as PolarisColorPicker,
-  HSBAColor,
-  rgbToHsb,
-  hsbToRgb,
-} from '@shopify/polaris';
+import {ColorPicker as PolarisColorPicker, HSBAColor, rgbToHsb, hsbToRgb} from '@shopify/polaris';
 import {BarFields} from '../../types';
 
 const hsbToRgbString = (hsb: HSBAColor) => {
@@ -32,12 +27,7 @@ type Props = {
 };
 
 // Label element is not allowed due to htmlFor being pointed to div without aria labels allowed.
-const ColorPickerField = ({
-  label,
-  id,
-  value,
-  onChange: updateFieldValue,
-}: Props) => {
+const ColorPickerField = ({label, id, value, onChange: updateFieldValue}: Props) => {
   const hsbaColor = useMemo(() => rgbStringToHsb(value), [value]);
 
   return (
@@ -51,9 +41,7 @@ const ColorPickerField = ({
         id={id}
         allowAlpha
         color={hsbaColor}
-        onChange={(colorPickerValue: HSBAColor) =>
-          updateFieldValue(hsbToRgbString(colorPickerValue), id)
-        }
+        onChange={(colorPickerValue: HSBAColor) => updateFieldValue(hsbToRgbString(colorPickerValue), id)}
       />
     </>
   );

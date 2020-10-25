@@ -5,9 +5,7 @@ import {getShopifyAppConfig} from '../shopify_app';
 
 const SingleBarView = React.lazy(() => import('./components/single_bar_view'));
 const IndexBarsView = React.lazy(() => import('./components/index_bars_view'));
-const MissingPageView = React.lazy(
-  () => import('./components/missing_page_view')
-);
+const MissingPageView = React.lazy(() => import('./components/missing_page_view'));
 
 const App = () => {
   const shopifyAppConfig = getShopifyAppConfig();

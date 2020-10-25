@@ -4,10 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {MemoryRouter as Router, Route} from 'react-router';
 import ApolloProvider from '../../apollo_provider';
-import {
-  graphql,
-  setupGraphqlServer,
-} from '../../../test_utilities/mock_service_worker';
+import {graphql, setupGraphqlServer} from '../../../test_utilities/mock_service_worker';
 import ToastContextProvider from '../../toast_context';
 import ModalDestroyBar from '..';
 

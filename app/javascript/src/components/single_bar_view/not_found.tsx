@@ -14,8 +14,8 @@ const NotFound = () => {
         onAction: () => history.push({pathname: '/', search: location.search}),
       }}
     >
-      Check the web address to make sure you entered the right welcome bar. Or
-      navigate to the page from the View All welcome bars list.
+      Check the web address to make sure you entered the right welcome bar. Or navigate to the page from the View All
+      welcome bars list.
     </EmptyState>
   );
 };

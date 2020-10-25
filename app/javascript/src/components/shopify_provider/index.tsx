@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Provider,
-  ClientRouter,
-  RoutePropagator,
-  Loading,
-} from '@shopify/app-bridge-react';
+import {Provider, ClientRouter, RoutePropagator, Loading} from '@shopify/app-bridge-react';
 import {AppProvider, Frame} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import {useHistory, useLocation} from 'react-router-dom';

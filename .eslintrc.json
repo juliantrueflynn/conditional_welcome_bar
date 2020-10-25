@@ -21,7 +21,15 @@
       "error",
       {
         "singleQuote": true,
-        "bracketSpacing": false
+        "bracketSpacing": false,
+        "printWidth": 120
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreUrls": true
       }
     ]
   },

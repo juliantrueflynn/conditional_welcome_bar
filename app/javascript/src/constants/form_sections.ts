@@ -5,8 +5,7 @@ export const FORM_SECTIONS = {
   },
   visibility: {
     title: 'Visibility',
-    description:
-      'Set visibility status and which templates welcomebar displays.',
+    description: 'Set visibility status and which templates welcomebar displays.',
   },
   link: {
     title: 'Link',
@@ -26,6 +25,4 @@ export const FORM_SECTIONS = {
   },
 };
 
-export const FORM_SECTION_IDS = Object.keys(FORM_SECTIONS) as Array<
-  keyof typeof FORM_SECTIONS
->;
+export const FORM_SECTION_IDS = Object.keys(FORM_SECTIONS) as Array<keyof typeof FORM_SECTIONS>;

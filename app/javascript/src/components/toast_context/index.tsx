@@ -1,6 +1,6 @@
 import React, {useReducer, createContext, useContext} from 'react';
 import {Toast} from '@shopify/polaris';
-import toastReducer, {Dispatch, initialState} from '../../state/toast';
+import toastReducer, {Dispatch, initialState} from './reducer';
 
 const ToastContextDispatch = createContext<Dispatch | undefined>(undefined);
 
@@ -24,12 +24,7 @@ export const ToastContextProvider = ({children}: Props) => {
   return (
     <ToastContextDispatch.Provider value={dispatch}>
       {children}
-      {!!state.content && (
-        <Toast
-          content={state.content}
-          onDismiss={() => dispatch({type: 'reset'})}
-        />
-      )}
+      {!!state.content && <Toast content={state.content} onDismiss={() => dispatch({type: 'reset'})} />}
     </ToastContextDispatch.Provider>
   );
 };

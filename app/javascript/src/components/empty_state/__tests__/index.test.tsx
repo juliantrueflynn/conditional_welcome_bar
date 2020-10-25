@@ -3,8 +3,7 @@ import EmptyState, {DEFAULT_IMAGE} from '..';
 import {screen, render} from '@testing-library/react';
 import {PolarisTestProvider} from '@shopify/polaris';
 
-const getImageSrc = (container: HTMLElement) =>
-  container.querySelector('img')?.getAttribute('src');
+const getImageSrc = (container: HTMLElement) => container.querySelector('img')?.getAttribute('src');
 
 it('renders default image', () => {
   const {container} = render(

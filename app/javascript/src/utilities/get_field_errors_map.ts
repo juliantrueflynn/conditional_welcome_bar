@@ -4,9 +4,7 @@ type BarErrorPayload = {
   -readonly [key in keyof typeof Bar]?: string[];
 };
 
-export const getFieldErrorsMap = (
-  errors: UserError[] | undefined
-): BarErrorPayload => {
+export const getFieldErrorsMap = (errors: UserError[] | undefined): BarErrorPayload => {
   const userErrors = errors || [];
 
   return userErrors.reduce((mappedErrors, userError) => {

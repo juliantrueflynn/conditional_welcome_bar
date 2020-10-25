@@ -6,10 +6,7 @@ import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
 import {MemoryRouter as Router, Route} from 'react-router';
 import ToastContextProvider from '../../toast_context';
 import SingleBarView from '..';
-import {
-  graphql,
-  setupGraphqlServer,
-} from '../../../test_utilities/mock_service_worker';
+import {graphql, setupGraphqlServer} from '../../../test_utilities/mock_service_worker';
 import ApolloProvider from '../../apollo_provider';
 
 const graphqlServer = setupGraphqlServer();
@@ -20,15 +17,12 @@ jest.mock('@shopify/polaris', () => ({
   // eslint-disable-next-line react/display-name
   Loading: () => <div data-testid="MockLoading" />,
   // eslint-disable-next-line react/display-name
-  Toast: (props: {content?: string}) => (
-    <div data-testid="MockToast">{props.content}</div>
-  ),
+  Toast: (props: {content?: string}) => <div data-testid="MockToast">{props.content}</div>,
 }));
 
 const homepageText = 'Mocked Homepage';
 const barId = '1';
-const destroyModalMessage =
-  'This will delete the current welcome bar and cannot be undone.';
+const destroyModalMessage = 'This will delete the current welcome bar and cannot be undone.';
 const {__typename, ...mockBar} = mockBarFields;
 
 const renderComponent = () => {
@@ -66,9 +60,7 @@ test('renders loading state and before rendering single bar', async () => {
 test('triggers destroy modal on click', async () => {
   renderComponent();
 
-  await waitFor(() =>
-    expect(screen.queryByText(destroyModalMessage)).not.toBeInTheDocument()
-  );
+  await waitFor(() => expect(screen.queryByText(destroyModalMessage)).not.toBeInTheDocument());
   userEvent.click(await screen.findByRole('button', {name: 'Delete'}));
   expect(screen.getByText(destroyModalMessage)).toBeInTheDocument();
   userEvent.click(screen.getAllByRole('button', {name: 'Delete'})[1]);
@@ -78,21 +70,15 @@ test('triggers destroy modal on click', async () => {
 test('toggles modal visibility', async () => {
   renderComponent();
 
-  await waitFor(() =>
-    expect(screen.queryByText(destroyModalMessage)).not.toBeInTheDocument()
-  );
+  await waitFor(() => expect(screen.queryByText(destroyModalMessage)).not.toBeInTheDocument());
   userEvent.click(await screen.findByRole('button', {name: 'Delete'}));
   expect(screen.getByText(destroyModalMessage)).toBeInTheDocument();
   userEvent.click(screen.getByRole('button', {name: 'Cancel'}));
-  await waitFor(() =>
-    expect(screen.queryByText(destroyModalMessage)).not.toBeInTheDocument()
-  );
+  await waitFor(() => expect(screen.queryByText(destroyModalMessage)).not.toBeInTheDocument());
 });
 
 test('renders network error', async () => {
-  graphqlServer.use(
-    graphql.query('Bar', (_req, res) => res.networkError('Some network error'))
-  );
+  graphqlServer.use(graphql.query('Bar', (_req, res) => res.networkError('Some network error')));
   renderComponent();
 
   expect(screen.getByTestId('MockLoading')).toBeInTheDocument();
@@ -100,15 +86,11 @@ test('renders network error', async () => {
 });
 
 test('renders missing state if result blank', async () => {
-  graphqlServer.use(
-    graphql.query('Bar', (_req, res, ctx) => res(ctx.data({bar: null})))
-  );
+  graphqlServer.use(graphql.query('Bar', (_req, res, ctx) => res(ctx.data({bar: null}))));
   renderComponent();
 
   expect(screen.getByTestId('MockLoading')).toBeInTheDocument();
-  expect(
-    await screen.findByText('The page you’re looking for couldn’t be found')
-  ).toBeInTheDocument();
+  expect(await screen.findByText('The page you’re looking for couldn’t be found')).toBeInTheDocument();
 });
 
 test('updates on submit and sets old state to new state', async () => {
@@ -119,7 +101,34 @@ test('updates on submit and sets old state to new state', async () => {
   userEvent.click(screen.getByText('Save'));
   expect(await screen.findByText('Welcome bar updated')).toBeInTheDocument();
   expect(screen.getByText('Save').closest('button')).toBeDisabled();
-  expect(screen.getByPlaceholderText('Title')).toHaveValue(
-    `${mockBarFields.title}some text`
+  expect(screen.getByPlaceholderText('Title')).toHaveValue(`${mockBarFields.title}some text`);
+});
+
+test('renders field errors from API', async () => {
+  const userErrorText = 'Some field error message';
+  graphqlServer.use(
+    graphql.mutation('UpdateBar', (_req, res, ctx) =>
+      res(
+        ctx.data({
+          updateBar: {
+            bar: mockBarFields,
+            userErrors: [
+              {
+                field: ['title'],
+                message: userErrorText,
+                __typename: 'UserError',
+              },
+            ],
+            __typename: 'UpdateBarPayload',
+          },
+        })
+      )
+    )
   );
+  renderComponent();
+
+  userEvent.type(await screen.findByPlaceholderText('Title'), 'some text');
+  userEvent.click(screen.getByText('Save'));
+
+  expect(await screen.findByText(userErrorText)).toBeInTheDocument();
 });

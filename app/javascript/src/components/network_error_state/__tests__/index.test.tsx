@@ -20,9 +20,7 @@ it('renders', () => {
   );
 
   expect(screen.getByText(ACTION_BUTTON_TEXT)).toBeInTheDocument();
-  expect(
-    screen.getByText('The page couldn’t be displayed due to a network issue.')
-  ).toBeInTheDocument();
+  expect(screen.getByText('The page couldn’t be displayed due to a network issue.')).toBeInTheDocument();
 });
 
 it('reloads on click', () => {
