@@ -3,7 +3,7 @@ import {Modal, TextContainer} from '@shopify/polaris';
 import {DESTROY_BAR} from '../../utilities/graphql_tags';
 import {useHistory, useLocation} from 'react-router';
 import {useMutation, ApolloError} from '@apollo/client';
-import {useToastDispatchContext} from '../ToastContext';
+import {useToastDispatchContext} from '../toast_context';
 
 type Props = {
   isModalOpen: boolean;

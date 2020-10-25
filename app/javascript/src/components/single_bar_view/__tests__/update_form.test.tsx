@@ -7,7 +7,7 @@ import {
   FORM_SECTION_IDS,
 } from '../../../constants/form_sections';
 import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
-import ToastContextProvider from '../../ToastContext';
+import ToastContextProvider from '../../toast_context';
 import UpdateForm from '../update_form';
 import ApolloProvider from '../../apollo_provider';
 

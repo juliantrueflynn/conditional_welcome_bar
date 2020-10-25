@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {PolarisTestProvider} from '@shopify/polaris';
 import {mockBarFields} from '../../../test_utilities/single_bar_mocks';
 import {MemoryRouter as Router, Route} from 'react-router';
-import ToastContextProvider from '../../ToastContext';
+import ToastContextProvider from '../../toast_context';
 import SingleBarView from '..';
 import {
   graphql,

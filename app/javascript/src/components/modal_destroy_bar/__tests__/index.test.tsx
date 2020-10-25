@@ -8,7 +8,7 @@ import {
   graphql,
   setupGraphqlServer,
 } from '../../../test_utilities/mock_service_worker';
-import ToastContextProvider from '../../ToastContext';
+import ToastContextProvider from '../../toast_context';
 import ModalDestroyBar from '..';
 
 const graphqlServer = setupGraphqlServer();
