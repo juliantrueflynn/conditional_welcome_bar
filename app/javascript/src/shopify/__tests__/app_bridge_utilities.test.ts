@@ -1,4 +1,4 @@
-import {getShopifyAppConfig} from '..';
+import {getShopifyAppConfig} from '../app_bridge_utilities';
 
 const originalEnv = process.env;
 

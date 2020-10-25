@@ -1,7 +1,11 @@
 import {getSingleBarUrlPath} from '../get_single_bar_url_path';
-import * as shopifyHelpers from '../../../shopify_app';
+import * as shopifyHelpers from '../../shopify';
 
 const oldWindowLocation = window.location;
+
+jest.mock('../../shopify', () => ({
+  getShopOrigin: jest.fn(),
+}));
 
 beforeEach(() => {
   window.location = oldWindowLocation;

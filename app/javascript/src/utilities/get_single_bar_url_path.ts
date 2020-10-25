@@ -1,4 +1,4 @@
-import {getShopOrigin} from '../../shopify_app';
+import {getShopOrigin} from '../shopify';
 
 export const getSingleBarUrlPath = (id: string): string => {
   const search = window.location.search;
