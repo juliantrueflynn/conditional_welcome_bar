@@ -2,31 +2,25 @@
 
 require "rails_helper"
 
-RSpec.describe ShopifyScripttagsService do
+RSpec.describe ShopifyScripttagSrc do
   it "contains javascript url without domain param" do
     host = mock_app_host
     base_url = host + described_class::BASE_PATH
-    src_object = {
-      event: "onload",
-      src: "#{base_url}.js?cwb_api_host=https%3A%2F%2Fexample.com"
-    }
+    src = "#{base_url}.js?cwb_api_host=https%3A%2F%2Fexample.com"
 
     result = described_class.call
 
-    expect(result).to match([src_object])
+    expect(result).to match(src)
   end
 
   it "contains javascript url with domain param" do
     host = mock_app_host
     base_url = host + described_class::BASE_PATH
-    src_object = {
-      event: "onload",
-      src: "#{base_url}.js?cwb_api_host=https%3A%2F%2Fexample.com&domain=ex.myshopify.com"
-    }
+    src = "#{base_url}.js?cwb_api_host=https%3A%2F%2Fexample.com&domain=ex.myshopify.com"
 
     result = described_class.call("ex.myshopify.com")
 
-    expect(result).to match([src_object])
+    expect(result).to match(src)
   end
 
   def mock_app_host
