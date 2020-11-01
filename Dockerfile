@@ -40,7 +40,7 @@ RUN bundle clean --force \
  && find /usr/local/bundle/gems/ -name "*.c" -delete \
  && find /usr/local/bundle/gems/ -name "*.o" -delete
 
-RUN apk del nodejs yarn \
+RUN apk del yarn \
  && rm -rf app/assets node_modules tmp/cache vendor/bundle spec
 
 COPY --from=base /usr/local/bundle/ /usr/local/bundle/

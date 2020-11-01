@@ -1,0 +1,52 @@
+version: "3.7"
+
+x-default-service: &default-service
+  build:
+    context: .
+    target: base
+  tty: true
+  stdin_open: true
+  env_file: .env
+  environment:
+    BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
+    WEBPACKER_DEV_SERVER_HOST: webpacker
+    # Temporary workaround to avoid the following error from Ruby 2.7:
+    # "warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call"
+    RUBYOPT: -W:no-deprecated
+  volumes:
+    - .:/app:cached
+    - cache:/app/tmp/cache
+    - bundle:/usr/local/bundle
+  tmpfs:
+    - /tmp
+
+services:
+  db:
+    image: postgres:12.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres:/var/lib/postgresql/data:delegated
+  selenium:
+    image: selenium/standalone-chrome:3.141.59-20200525
+    logging:
+      driver: none
+  web:
+    <<: *default-service
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - 127.0.0.1:3000:3000
+    depends_on:
+      - db
+      - webpacker
+  webpacker:
+    <<: *default-service
+    command: sh -c "bundle exec rake webpacker:clobber && bin/webpack-dev-server"
+    ports:
+      - 127.0.0.1:3035:3035
+
+volumes:
+  postgres:
+  cache:
+  bundle:
