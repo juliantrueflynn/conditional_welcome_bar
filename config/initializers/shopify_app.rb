@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shopify_scripttags_service"
+require "shopify_scripttag_src"
 
 ShopifyApp.configure do |config|
   config.application_name = Rails.configuration.x.shopify.application_name
@@ -13,5 +13,10 @@ ShopifyApp.configure do |config|
   config.shop_session_repository = "Shop"
   config.allow_jwt_authentication = true
   config.enable_same_site_none = Rails.env.production?
-  config.scripttags = ShopifyScripttagsService.call
+  config.scripttags = [
+    {
+      event: "onload",
+      src: ShopifyScripttagSrc
+    }
+  ]
 end

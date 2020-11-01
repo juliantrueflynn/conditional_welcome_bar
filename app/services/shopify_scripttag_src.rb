@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ShopifyScripttagsService
+class ShopifyScripttagSrc
   BASE_PATH = "/shopify/welcome_bar"
 
   def initialize(domain)
@@ -12,12 +12,7 @@ class ShopifyScripttagsService
   end
 
   def call
-    [
-      {
-        event: "onload",
-        src: ActionController::Base.helpers.javascript_url("#{BASE_PATH}?#{query_string}", host: host)
-      }
-    ]
+    ActionController::Base.helpers.javascript_url("#{BASE_PATH}?#{query_string}", host: host)
   end
 
   private
