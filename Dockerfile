@@ -25,11 +25,7 @@ COPY . /app
 FROM base as build
 
 ENV RAILS_SERVE_STATIC_FILES=true \
-    RAILS_LOG_TO_STDOUT=true \
-    EXECJS_RUNTIME=Disabled
-
-RUN apk del nodejs yarn \
- && rm -rf app/assets node_modules tmp/cache vendor/bundle spec
+    RAILS_LOG_TO_STDOUT=true
 
 WORKDIR /app
 
@@ -43,6 +39,9 @@ RUN bundle clean --force \
  && rm -rf /usr/local/bundle/cache/*.gem \
  && find /usr/local/bundle/gems/ -name "*.c" -delete \
  && find /usr/local/bundle/gems/ -name "*.o" -delete
+
+RUN apk del nodejs yarn \
+ && rm -rf app/assets node_modules tmp/cache vendor/bundle spec
 
 COPY --from=base /usr/local/bundle/ /usr/local/bundle/
 COPY --from=base . .
